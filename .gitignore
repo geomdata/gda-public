@@ -1,0 +1,17 @@
+pytest-out.xml
+downloads
+.ipynb_checkpoints
+.cache
+.idea
+__pycache__
+*.pyd
+*.pyc
+*.swp
+*.so
+*~
+homology/dim0.c
+homology/dim1.c
+timeseries/fast_algorithms.c
+timeseries/curve_geometry.c
+multidim/fast_algorithms.c
+docs/build
