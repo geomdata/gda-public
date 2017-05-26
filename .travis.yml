@@ -18,16 +18,13 @@ install:
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
   - conda info -a
-  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
-      conda create -y --quiet --name gda_env --file requirements.txt python=2
-    else
-      conda create -y --quiet --name gda_env --file requirements.txt python=3
-    fi
+  - conda create -y --quiet --name gda_env --file requirements.txt python=${TRAVIS_PYTHON_VERSION}
   - source activate gda_env
   - git clone https://github.com/scipy/scipy-sphinx-theme
   - cd doc_src
   - ln -sf ../scipy-sphinx-theme/_theme ./
   - cd -
+  - ls -lahrt doc_src/_theme/
 
 script:
   - python setup.py build_ext --inplace
