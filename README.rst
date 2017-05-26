@@ -1,6 +1,8 @@
 README for GDA-Public
 =====================
 
+See the thorough documentation at https://geomdata.github.io/gda-public/
+
 This contains several fundamental tools by Geometric Data Analytics Inc. [http://www.geomdata.com]
 See `LICENSE` for copyright information.
 
@@ -24,7 +26,7 @@ Here are minimal instructions with no detail.  First, unpack or clone the code t
 
 .. code::
 
-    bash$ conda create --name gda_env --file /path/to/gda-public/requirements.txt
+    bash$ conda create --name gda_env --file /path/to/gda-public/requirements.txt python=3
     bash$ source activate gda_env
     (gda_env) bash$ pip install file:///path/to/gda-public
     (gda_env) bash$ jupyter notebook --notebook-dir /path/to/gda-public/examples
