@@ -4,6 +4,8 @@ downloads
 .cache
 .idea
 __pycache__
+build
+dist
 *.pyd
 *.pyc
 *.swp
@@ -14,4 +16,5 @@ homology/dim1.c
 timeseries/fast_algorithms.c
 timeseries/curve_geometry.c
 multidim/fast_algorithms.c
-docs/build
+doc_build
+doc_src/_theme

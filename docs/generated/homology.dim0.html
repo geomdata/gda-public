@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>homology.dim0 &mdash; GDA Toolbox v1.0 Manual</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="GDA Toolbox v1.0 Manual" href="../index.html" >
+    <link rel="up" title="All Modules, Classes, and Methods" href="../all_methods.html" >
+    <link rel="next" title="homology.dim0.all_roots" href="homology.dim0.all_roots.html" >
+    <link rel="prev" title="homology" href="homology.html" > 
+  </head>
+  <body>
+
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">GDA Toolbox v1.0 Manual</a></li>
+	
+          <li class="active"><a href="../all_methods.html" accesskey="U">All Modules, Classes, and Methods</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="homology.dim0.all_roots.html" title="homology.dim0.all_roots"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="homology.html" title="homology"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="module-homology.dim0">
+<span id="homology-dim0"></span><h1>homology.dim0<a class="headerlink" href="#module-homology.dim0" title="Permalink to this headline">¶</a></h1>
+<p>This Cython module contains the core algorithms for 0-dimension topological
+algorithms. In particular, MergeTree for 0-dimensional persistence.</p>
+<p>If a function requires its own explicit iterator in a loop, probably it should
+go here.  Anything that is just a vectorized operation in NumPy or Pandas can
+go in plain python elsewhere.</p>
+<p>See <a class="reference external" href="http://docs.cython.org/src/tutorial/np.html">http://docs.cython.org/src/tutorial/np.html</a> for ideas on writing efficient
+code in Cython.</p>
+<dl class="docutils">
+<dt>This module is compiled by either of these commands</dt>
+<dd><ul class="first last simple">
+<li><code class="code docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code>  (as called by <code class="code docutils literal"><span class="pre">pip</span></code> for standard installation and use)</li>
+<li><code class="code docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">build_ext</span> <span class="pre">--inplace</span></code> (as run by developers for code testing)</li>
+</ul>
+</dd>
+</dl>
+<div class="section" id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h2>
+<p>Automatically-generated online documentation will never see the C-only functions that
+are defined with <code class="code docutils literal"><span class="pre">cdef</span></code> in Cython, as shown in 
+<a class="reference external" href="http://cython.readthedocs.io/en/latest/src/reference/extension_types.html">http://cython.readthedocs.io/en/latest/src/reference/extension_types.html</a>
+Because of the limitations of Sphinx, you&#8217;ll have to simply view the sourcecode
+for further information. For this module, these C-only functions include</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="xref py py-func docutils literal"><span class="pre">homology.dim0.root()</span></code></li>
+<li><code class="xref py py-func docutils literal"><span class="pre">homology.dim0.connected()</span></code></li>
+<li><code class="xref py py-func docutils literal"><span class="pre">homology.dim0.merge()</span></code></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="copyright">
+<h2>Copyright<a class="headerlink" href="#copyright" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>This file is part of <a class="reference external" href="https://github.com/geomdata/gda-public/">https://github.com/geomdata/gda-public/</a></li>
+<li>2015, 2016, 2017 by Geometric Data Analytics, Inc. (<a class="reference external" href="http://geomdata.com">http://geomdata.com</a>)</li>
+<li>AGPL license. See <em class="xref py py-obj">LICENSE</em> or <a class="reference external" href="https://github.com/geomdata/gda-public/blob/master/LICENSE">https://github.com/geomdata/gda-public/blob/master/LICENSE</a></li>
+</ul>
+<p class="rubric">Functions</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="homology.dim0.all_roots.html#homology.dim0.all_roots" title="homology.dim0.all_roots"><code class="xref py py-obj docutils literal"><span class="pre">all_roots</span></code></a></td>
+<td>Reference each vertex directly to its representative root, from MergeTree.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="homology.dim0.mkforestDBL.html#homology.dim0.mkforestDBL" title="homology.dim0.mkforestDBL"><code class="xref py py-obj docutils literal"><span class="pre">mkforestDBL</span></code></a></td>
+<td>Make inclusion tree and parentage linked lists by walking across This method is for <code class="xref py py-class docutils literal"><span class="pre">np.float64</span></code> arrays (for indexing speed).</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="homology.dim0.unionfind.html#homology.dim0.unionfind" title="homology.dim0.unionfind"><code class="xref py py-obj docutils literal"><span class="pre">unionfind</span></code></a></td>
+<td>Apply the UnionFind algorithm to compute zero-dimensional persistence diagram.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">homology.dim0</a><ul>
+<li><a class="reference internal" href="#notes">Notes</a></li>
+<li><a class="reference internal" href="#copyright">Copyright</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="homology.html"
+                        title="previous chapter">homology</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="homology.dim0.all_roots.html"
+                        title="next chapter">homology.dim0.all_roots</a></p>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
+      </li>
+      <li>
+      Last updated on May 25, 2017.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

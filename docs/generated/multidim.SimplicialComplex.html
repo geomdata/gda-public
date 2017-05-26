@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>multidim.SimplicialComplex &mdash; GDA Toolbox v1.0 Manual</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="GDA Toolbox v1.0 Manual" href="../index.html" >
+    <link rel="up" title="Multidimensional Data" href="../multidimensional_data.html" >
+    <link rel="next" title="multidim.SimplicialComplex.cells" href="multidim.SimplicialComplex.cells.html" >
+    <link rel="prev" title="multidim.covertree.CoverTree.sparse_complex" href="multidim.covertree.CoverTree.sparse_complex.html" > 
+  </head>
+  <body>
+
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">GDA Toolbox v1.0 Manual</a></li>
+	
+          <li class="active"><a href="../multidimensional_data.html" accesskey="U">Multidimensional Data</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="multidim.SimplicialComplex.cells.html" title="multidim.SimplicialComplex.cells"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="multidim.covertree.CoverTree.sparse_complex.html" title="multidim.covertree.CoverTree.sparse_complex"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="multidim-simplicialcomplex">
+<h1>multidim.SimplicialComplex<a class="headerlink" href="#multidim-simplicialcomplex" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="multidim.SimplicialComplex">
+<em class="property">class </em><code class="descclassname">multidim.</code><code class="descname">SimplicialComplex</code><span class="sig-paren">(</span><em>stratum=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/multidim.html#SimplicialComplex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multidim.SimplicialComplex" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class for abstract <em>weighted</em> simplicial complexes.  
+A SimplicialComplex is built from 0-cells (vertices), 1-cells (edges), 
+2-cells (faces), and so on.</p>
+<p>Each cell knows its boundary.  A 0-cell has no boundary. A 1-cell has two 
+0-cells as its boundary.  A 2-cell has three 1-cells as its boundary, and 
+so on.</p>
+<p>Each cell has a weight value, called <em class="xref py py-obj">val</em>.  These weights are used in 
+several topological algorithms.</p>
+<p>A SimplicialComplex has no notion of coordinates or embedding.  For that, use the
+<a class="reference internal" href="multidim.PointCloud.html#multidim.PointCloud" title="multidim.PointCloud"><code class="xref py py-class docutils literal"><span class="pre">PointCloud</span></code></a> class, which inherits all methods from SimplicialComplex but 
+also adds coordinate-dependent methods.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>stratum</strong> : dict</p>
+<blockquote class="last">
+<div><p>Dictionary of <a class="reference external" href="http://pandas-docs.github.io/pandas-docs-travis/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.21.0.dev+90.ge81f3cc.dirty)"><code class="xref py py-class docutils literal"><span class="pre">pandas.DataFrame</span></code></a> objects holding vertices, 
+edges, faces, and so on.  See examples below.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>One can refernce the <a class="reference internal" href="multidim.Simplex.html#multidim.Simplex" title="multidim.Simplex"><code class="xref py py-class docutils literal"><span class="pre">Simplex</span></code></a> objects that are separated by dimension
+into <a class="reference internal" href="multidim.SimplexStratum.html#multidim.SimplexStratum" title="multidim.SimplexStratum"><code class="xref py py-class docutils literal"><span class="pre">SimplexStratum</span></code></a> objects.
+Each <a class="reference internal" href="multidim.Simplex.html#multidim.Simplex" title="multidim.Simplex"><code class="xref py py-class docutils literal"><span class="pre">Simplex</span></code></a> object has a value, so these are <em>weighted</em> simplicial
+complexes.</p>
+<p>The <strong>rep</strong> and <strong>pos</strong> attributes are used when computing various homologies,
+such as the Rips or Cech complexes.</p>
+<p>Whenever possible, computations are done on <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> arrays 
+in compiled code, so they are usually quite fast.</p>
+<p class="rubric">Examples</p>
+<p>For example, a formal triangle could be built this way:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vertices</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;val&#39;</span><span class="p">:[</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+<span class="gp">... </span>                         <span class="s1">&#39;pos&#39;</span><span class="p">:</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span>
+<span class="gp">... </span>                         <span class="s1">&#39;rep&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">edges</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;val&#39;</span><span class="p">:[</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+<span class="gp">... </span>                      <span class="s1">&#39;pos&#39;</span><span class="p">:</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span>
+<span class="gp">... </span>                      <span class="s1">&#39;rep&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+<span class="gp">... </span>                      <span class="s1">&#39;bdy0&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+<span class="gp">... </span>                      <span class="s1">&#39;bdy1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">faces</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;val&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">],</span>
+<span class="gp">... </span>                      <span class="s1">&#39;pos&#39;</span><span class="p">:</span> <span class="p">[</span><span class="kc">True</span><span class="p">],</span>
+<span class="gp">... </span>                      <span class="s1">&#39;rep&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>                      <span class="s1">&#39;bdy0&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>                      <span class="s1">&#39;bdy1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>                      <span class="s1">&#39;bdy2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">]})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">T</span> <span class="o">=</span> <span class="n">SimplicialComplex</span><span class="p">(</span><span class="n">stratum</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">vertices</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="n">edges</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="n">faces</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+<span class="go">A SimplicialComplex with 3 points, 3 edges, and 1 faces.</span>
+</pre></div>
+</div>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="multidim.SimplicialComplex.cells.html#multidim.SimplicialComplex.cells" title="multidim.SimplicialComplex.cells"><code class="xref py py-obj docutils literal"><span class="pre">SimplicialComplex.cells</span></code></a>(dim)</td>
+<td>iterate over all <a class="reference internal" href="multidim.Simplex.html#multidim.Simplex" title="multidim.Simplex"><code class="xref py py-class docutils literal"><span class="pre">Simplex</span></code></a> objects of dimension dim.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="multidim.SimplicialComplex.check.html#multidim.SimplicialComplex.check" title="multidim.SimplicialComplex.check"><code class="xref py py-obj docutils literal"><span class="pre">SimplicialComplex.check</span></code></a>()</td>
+<td>Run consistency checks on all simplices in all dimensions.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.SimplicialComplex.from_distances.html#multidim.SimplicialComplex.from_distances" title="multidim.SimplicialComplex.from_distances"><code class="xref py py-obj docutils literal"><span class="pre">SimplicialComplex.from_distances</span></code></a>(dists[,&nbsp;...])</td>
+<td>Construct a <a class="reference internal" href="#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-obj docutils literal"><span class="pre">SimplicialComplex</span></code></a> from a symmetric matrix of distances.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="multidim.SimplicialComplex.make_pers0.html#multidim.SimplicialComplex.make_pers0" title="multidim.SimplicialComplex.make_pers0"><code class="xref py py-obj docutils literal"><span class="pre">SimplicialComplex.make_pers0</span></code></a>([cutoff])</td>
+<td>Run the UnionFind algorithm to mark connected components of the SimplicialComplex.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.SimplicialComplex.make_pers1_rca1.html#multidim.SimplicialComplex.make_pers1_rca1" title="multidim.SimplicialComplex.make_pers1_rca1"><code class="xref py py-obj docutils literal"><span class="pre">SimplicialComplex.make_pers1_rca1</span></code></a>([cutoff])</td>
+<td>Run RCA1 and make a 1-dimensional <a class="reference internal" href="homology.PersDiag.html#homology.PersDiag" title="homology.PersDiag"><code class="xref py py-obj docutils literal"><span class="pre">homology.PersDiag</span></code></a> for the  edge-pairings for cycle generators.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="multidim.SimplicialComplex.reset.html#multidim.SimplicialComplex.reset" title="multidim.SimplicialComplex.reset"><code class="xref py py-obj docutils literal"><span class="pre">SimplicialComplex.reset</span></code></a>()</td>
+<td>delete persistence diagrams, and forget all representative and</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="multidim.covertree.CoverTree.sparse_complex.html"
+                        title="previous chapter">multidim.covertree.CoverTree.sparse_complex</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="multidim.SimplicialComplex.cells.html"
+                        title="next chapter">multidim.SimplicialComplex.cells</a></p>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
+      </li>
+      <li>
+      Last updated on May 25, 2017.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

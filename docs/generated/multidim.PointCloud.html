@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>multidim.PointCloud &mdash; GDA Toolbox v1.0 Manual</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="GDA Toolbox v1.0 Manual" href="../index.html" >
+    <link rel="up" title="Multidimensional Data" href="../multidimensional_data.html" >
+    <link rel="next" title="multidim.PointCloud.cache_usage" href="multidim.PointCloud.cache_usage.html" >
+    <link rel="prev" title="Multidimensional Data" href="../multidimensional_data.html" > 
+  </head>
+  <body>
+
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">GDA Toolbox v1.0 Manual</a></li>
+	
+          <li class="active"><a href="../multidimensional_data.html" accesskey="U">Multidimensional Data</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="multidim.PointCloud.cache_usage.html" title="multidim.PointCloud.cache_usage"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="../multidimensional_data.html" title="Multidimensional Data"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="multidim-pointcloud">
+<h1>multidim.PointCloud<a class="headerlink" href="#multidim-pointcloud" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="multidim.PointCloud">
+<em class="property">class </em><code class="descclassname">multidim.</code><code class="descname">PointCloud</code><span class="sig-paren">(</span><em>data_array</em>, <em>max_length=0.0</em>, <em>weights=None</em>, <em>dist='euclidean'</em>, <em>idx0=None</em>, <em>cache_type=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/multidim.html#PointCloud"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multidim.PointCloud" title="Permalink to this definition">¶</a></dt>
+<dd><p>PointCloud is a class for <em>embedded</em>, weighted simplicial complexes.  
+This is a subclass of <a class="reference internal" href="multidim.SimplicialComplex.html#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-class docutils literal"><span class="pre">SimplicialComplex</span></code></a>, with the additional property
+that every 0-cell (vertex) is actually a point in <span class="math">\(\mathbb{R}^k.\)</span></p>
+<p>The most basic and most common example of a PointCloud is a set of
+<span class="math">\(N\)</span> points in <span class="math">\(\mathbb{R}^k\)</span> with weights assigned as an
+arbitrary index label.</p>
+<p>Typically, a user starts with 0-cells only.  Then, any 1-cells, 2-cells,
+..., are created later via some topological construction.</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.cache_usage.html#multidim.PointCloud.cache_usage" title="multidim.PointCloud.cache_usage"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.cache_usage</span></code></a>()</td>
+<td>Compute the size of the distance cache.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="multidim.PointCloud.cells.html#multidim.PointCloud.cells" title="multidim.PointCloud.cells"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.cells</span></code></a>(dim)</td>
+<td>iterate over all <a class="reference internal" href="multidim.Simplex.html#multidim.Simplex" title="multidim.Simplex"><code class="xref py py-class docutils literal"><span class="pre">Simplex</span></code></a> objects of dimension dim.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.check.html#multidim.PointCloud.check" title="multidim.PointCloud.check"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.check</span></code></a>()</td>
+<td>Run consistency checks on all simplices in all dimensions.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="multidim.PointCloud.cover_ball.html#multidim.PointCloud.cover_ball" title="multidim.PointCloud.cover_ball"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.cover_ball</span></code></a>([point_index])</td>
+<td>Find a ball that covers the entire PointCloud.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.dists.html#multidim.PointCloud.dists" title="multidim.PointCloud.dists"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.dists</span></code></a>(indices0,&nbsp;indices1)</td>
+<td>Compute distances points indices0 and indices1.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="multidim.PointCloud.from_distances.html#multidim.PointCloud.from_distances" title="multidim.PointCloud.from_distances"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.from_distances</span></code></a>(dists[,&nbsp;...])</td>
+<td>Construct a <a class="reference internal" href="multidim.SimplicialComplex.html#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-obj docutils literal"><span class="pre">SimplicialComplex</span></code></a> from a symmetric matrix of distances.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.from_multisample_multilabel.html#multidim.PointCloud.from_multisample_multilabel" title="multidim.PointCloud.from_multisample_multilabel"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.from_multisample_multilabel</span></code></a>(...)</td>
+<td>Produce a single labeled and weighted pointcloud from a list of samples and labels of those samples.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="multidim.PointCloud.gaussian_fit.html#multidim.PointCloud.gaussian_fit" title="multidim.PointCloud.gaussian_fit"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.gaussian_fit</span></code></a>([center])</td>
+<td>Fit a normalized Gaussian to this cloud (using SVD).</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.make_pers0.html#multidim.PointCloud.make_pers0" title="multidim.PointCloud.make_pers0"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.make_pers0</span></code></a>([cutoff])</td>
+<td>Run the UnionFind algorithm to mark connected components of the SimplicialComplex.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="multidim.PointCloud.make_pers1_rca1.html#multidim.PointCloud.make_pers1_rca1" title="multidim.PointCloud.make_pers1_rca1"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.make_pers1_rca1</span></code></a>([cutoff])</td>
+<td>Run RCA1 and make a 1-dimensional <a class="reference internal" href="homology.PersDiag.html#homology.PersDiag" title="homology.PersDiag"><code class="xref py py-obj docutils literal"><span class="pre">homology.PersDiag</span></code></a> for the  edge-pairings for cycle generators.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.nearest_neighbors.html#multidim.PointCloud.nearest_neighbors" title="multidim.PointCloud.nearest_neighbors"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.nearest_neighbors</span></code></a>(k)</td>
+<td>Compute k nearest-neighbors of the PointCloud.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="multidim.PointCloud.plot.html#multidim.PointCloud.plot" title="multidim.PointCloud.plot"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.plot</span></code></a>(canvas[,&nbsp;cutoff,&nbsp;color,&nbsp;...])</td>
+<td>Plot a PointCloud, decorated by various proeprties.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.reset.html#multidim.PointCloud.reset" title="multidim.PointCloud.reset"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.reset</span></code></a>()</td>
+<td>delete persistence diagrams, and forget all representative and</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="multidim.PointCloud.sever.html#multidim.PointCloud.sever" title="multidim.PointCloud.sever"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.sever</span></code></a>()</td>
+<td>Subdivide PointCloud into several smaller PointClouds, using the known 0-dimensional persistence diagram.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.unique_with_multiplicity.html#multidim.PointCloud.unique_with_multiplicity" title="multidim.PointCloud.unique_with_multiplicity"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.unique_with_multiplicity</span></code></a>()</td>
+<td>Look for duplicate points, and mark their multiplicity.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="multidim.PointCloud.witnessed_barycenters.html#multidim.PointCloud.witnessed_barycenters" title="multidim.PointCloud.witnessed_barycenters"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.witnessed_barycenters</span></code></a>(k)</td>
+<td>Build the PointCloud of k-witnessed barycenters, weighted by  distance-to-measure.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../multidimensional_data.html"
+                        title="previous chapter">Multidimensional Data</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="multidim.PointCloud.cache_usage.html"
+                        title="next chapter">multidim.PointCloud.cache_usage</a></p>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
+      </li>
+      <li>
+      Last updated on May 25, 2017.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

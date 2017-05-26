@@ -1,0 +1,31 @@
+image: geomdata/builder
+
+stages:
+ - build
+ - test
+ - deploy
+
+
+python2_cythonize_pytest_sphinx:
+ stage: test
+ script:
+ - git clone https://github.com/scipy/scipy-sphinx-theme
+ - ln -sf scipy-sphinx-theme/_theme doc_src/_theme
+ - ls -lahrt doc_src/_theme/
+ - source activate gda_env2
+ - python setup.py build_ext --inplace
+ - py.test 
+ - python setup.py build_doc_html -EW
+ - source deactivate
+
+python3_cythonize_pytest_sphinx:
+ stage: test
+ script:
+ - git clone https://github.com/scipy/scipy-sphinx-theme
+ - ln -sf scipy-sphinx-theme/_theme doc_src/_theme
+ - ls -lahrt doc_src/_theme/
+ - source activate gda_env
+ - python setup.py build_ext --inplace
+ - py.test 
+ - python setup.py build_doc_html -EW
+ - source deactivate

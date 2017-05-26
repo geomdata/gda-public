@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>README for GDA Open &mdash; GDA Toolbox v1.0 Manual</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="GDA Toolbox v1.0 Manual" href="index.html" >
+    <link rel="next" title="Example Worksheets" href="examples_README.html" >
+    <link rel="prev" title="GDA Toolbox (public version)" href="index.html" > 
+  </head>
+  <body>
+
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="index.html">GDA Toolbox v1.0 Manual</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="examples_README.html" title="Example Worksheets"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="index.html" title="GDA Toolbox (public version)"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="readme-for-gda-open">
+<h1>README for GDA Open<a class="headerlink" href="#readme-for-gda-open" title="Permalink to this headline">¶</a></h1>
+<p>This contains several fundamental tools by Geometric Data Analytics Inc. [<a class="reference external" href="http://www.geomdata.com">http://www.geomdata.com</a>]
+See <em class="xref py py-obj">LICENSE</em> for copyright information.</p>
+<p>The code is written in Python and Cython.  It is written for Python 3.5, but it
+should work in Python 2.7 (albeit with some performance penalty).  For
+stability and consistency, Anaconda is preferred.</p>
+<p>See <code class="docutils literal"><span class="pre">requirements.txt</span></code> for requirements.</p>
+<p>If you want to work in an air-gapped system, you can pre-download all of the
+required packages from <a class="reference external" href="http://repo.continuum.io/pkgs/">http://repo.continuum.io/pkgs/</a> This is automated in
+<code class="docutils literal"><span class="pre">download.py</span></code> and <code class="docutils literal"><span class="pre">download-viz.py</span></code>, and is described below.</p>
+<p>Please submit any <strong>BUGS</strong> to <a class="reference external" href="https://github.com/geomdata/gda-public/issues">https://github.com/geomdata/gda-public/issues</a></p>
+<div class="section" id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<p>Here are minimal instructions with no detail.  First, unpack or clone the code to <code class="docutils literal"><span class="pre">/path/to/gda-public</span></code>.  Then</p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span>bash$ conda create --name gda_env --file /path/to/gda-public/requirements.txt
+bash$ source activate gda_env
+(gda_env) bash$ pip install file:///path/to/gda-public
+(gda_env) bash$ jupyter notebook --notebook-dir /path/to/gda-public/examples
+</pre></div>
+</div>
+<p>In a worksheet, try</p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">multidim</span><span class="o">,</span> <span class="nn">homology</span><span class="o">,</span> <span class="nn">timeseries</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="building-documentation">
+<h2>Building Documentation<a class="headerlink" href="#building-documentation" title="Permalink to this headline">¶</a></h2>
+<p>The package comes with thorough documentation in docstrings, accessible from
+within python via the <code class="docutils literal"><span class="pre">help(</span> <span class="pre">)</span></code> command:</p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span>(gda_env) bash$ python
+&gt;&gt;&gt; import timeseries
+&gt;&gt;&gt; help(timeseries)
+&gt;&gt;&gt; s = timeseries.Signal([1,2,3,4,5])
+&gt;&gt;&gt; help(s)
+</pre></div>
+</div>
+<p>You can build a nice HTML guide:</p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span>(gda_env) bash$ cd /path/to/gda-public
+(gda_env) bash$ python setup.py build_doc_html
+</pre></div>
+</div>
+<p>which can be viewed in a web browser at <a class="reference external" href="file:////path/to/gda-public/docs/build/html/index.html">file:////path/to/gda-public/docs/build/html/index.html</a></p>
+<p>You can also produce a static PDF documentation with</p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span>(gda_env) bash$ python setup.py build_doc_latex
+(gda_env) bash$ cd /path/to/gda-public/doc_build/latex/latex
+(gda_env) bash$ make
+</pre></div>
+</div>
+<p>Or, just build the .tex file using your favorite TeX suite.</p>
+</div>
+<div class="section" id="running-and-using">
+<h2>Running and Using<a class="headerlink" href="#running-and-using" title="Permalink to this headline">¶</a></h2>
+<p>This will be filled in later versions, with suggestions.</p>
+<p>Take a look at <em class="xref py py-obj">examples_README</em> and the jupyter notebooks in <code class="docutils literal"><span class="pre">examples/</span></code></p>
+<p>The docstrings, accessible via <code class="docutils literal"><span class="pre">help(</span> <span class="pre">)</span></code>, are always a good reference for
+low-level operations.</p>
+<p>Note!  The code contains a lot of &#8220;assert&#8221; statements, so you can speed it up
+by using <code class="docutils literal"><span class="pre">python</span> <span class="pre">-O</span></code>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">README for GDA Open</a><ul>
+<li><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li><a class="reference internal" href="#building-documentation">Building Documentation</a></li>
+<li><a class="reference internal" href="#running-and-using">Running and Using</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">GDA Toolbox (public version)</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="examples_README.html"
+                        title="next chapter">Example Worksheets</a></p>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
+      </li>
+      <li>
+      Last updated on May 25, 2017.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

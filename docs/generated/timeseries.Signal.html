@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>timeseries.Signal &mdash; GDA Toolbox v1.0 Manual</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="GDA Toolbox v1.0 Manual" href="../index.html" >
+    <link rel="up" title="Time-Series Data" href="../timeseries_data.html" >
+    <link rel="next" title="timeseries.Signal.feature" href="timeseries.Signal.feature.html" >
+    <link rel="prev" title="timeseries" href="timeseries.html" > 
+  </head>
+  <body>
+
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">GDA Toolbox v1.0 Manual</a></li>
+	
+          <li class="active"><a href="../timeseries_data.html" accesskey="U">Time-Series Data</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="timeseries.Signal.feature.html" title="timeseries.Signal.feature"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="timeseries.html" title="timeseries"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="timeseries-signal">
+<h1>timeseries.Signal<a class="headerlink" href="#timeseries-signal" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="timeseries.Signal">
+<em class="property">class </em><code class="descclassname">timeseries.</code><code class="descname">Signal</code><span class="sig-paren">(</span><em>values</em>, <em>times=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/timeseries.html#Signal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#timeseries.Signal" title="Permalink to this definition">¶</a></dt>
+<dd><table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="timeseries.Signal.feature.html#timeseries.Signal.feature" title="timeseries.Signal.feature"><code class="xref py py-obj docutils literal"><span class="pre">Signal.feature</span></code></a>([index])</td>
+<td>return the region of a feature, with vertical displacement threshold tau.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="timeseries.Signal.feature_match.html#timeseries.Signal.feature_match" title="timeseries.Signal.feature_match"><code class="xref py py-obj docutils literal"><span class="pre">Signal.feature_match</span></code></a>(other[,&nbsp;sigma,&nbsp;num_samples])</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="timeseries.Signal.from_pointcloud.html#timeseries.Signal.from_pointcloud" title="timeseries.Signal.from_pointcloud"><code class="xref py py-obj docutils literal"><span class="pre">Signal.from_pointcloud</span></code></a>(points,&nbsp;direction,&nbsp;norm)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="timeseries.Signal.gap.html#timeseries.Signal.gap" title="timeseries.Signal.gap"><code class="xref py py-obj docutils literal"><span class="pre">Signal.gap</span></code></a>()</td>
+<td>Return the largest homology.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="timeseries.Signal.height_measure.html#timeseries.Signal.height_measure" title="timeseries.Signal.height_measure"><code class="xref py py-obj docutils literal"><span class="pre">Signal.height_measure</span></code></a>([sigma,&nbsp;num_samples,&nbsp;...])</td>
+<td>Use a simulation to estimate the height-measure of an interval.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="timeseries.Signal.interval_height.html#timeseries.Signal.interval_height" title="timeseries.Signal.interval_height"><code class="xref py py-obj docutils literal"><span class="pre">Signal.interval_height</span></code></a>(interval)</td>
+<td>the indicator-persistence function for intervals,</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="timeseries.Signal.iter_features.html#timeseries.Signal.iter_features" title="timeseries.Signal.iter_features"><code class="xref py py-obj docutils literal"><span class="pre">Signal.iter_features</span></code></a>([min_pers,&nbsp;depth_first])</td>
+<td>walk the feature tree.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="timeseries.Signal.iter_intervals.html#timeseries.Signal.iter_intervals" title="timeseries.Signal.iter_intervals"><code class="xref py py-obj docutils literal"><span class="pre">Signal.iter_intervals</span></code></a>()</td>
+<td>return the itertools combinations iterator over all sub-intervals.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="timeseries.Signal.iter_windows_by_index.html#timeseries.Signal.iter_windows_by_index" title="timeseries.Signal.iter_windows_by_index"><code class="xref py py-obj docutils literal"><span class="pre">Signal.iter_windows_by_index</span></code></a>(window[,&nbsp;step,&nbsp;...])</td>
+<td>Produce equal-length Signals using a sliding-window on self.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="timeseries.Signal.jagged.html#timeseries.Signal.jagged" title="timeseries.Signal.jagged"><code class="xref py py-obj docutils literal"><span class="pre">Signal.jagged</span></code></a>([beta])</td>
+<td>call <a class="reference internal" href="timeseries.jagged.html#timeseries.jagged" title="timeseries.jagged"><code class="xref py py-func docutils literal"><span class="pre">timeseries.jagged()</span></code></a> on this <a class="reference internal" href="#timeseries.Signal" title="timeseries.Signal"><code class="xref py py-class docutils literal"><span class="pre">Signal</span></code></a>&#8216;s</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="timeseries.Signal.make_pers.html#timeseries.Signal.make_pers" title="timeseries.Signal.make_pers"><code class="xref py py-obj docutils literal"><span class="pre">Signal.make_pers</span></code></a>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="timeseries.Signal.normalize.html#timeseries.Signal.normalize" title="timeseries.Signal.normalize"><code class="xref py py-obj docutils literal"><span class="pre">Signal.normalize</span></code></a>()</td>
+<td>change this Signal object to have mean = 0 and max-min = 1</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="timeseries.Signal.plot.html#timeseries.Signal.plot" title="timeseries.Signal.plot"><code class="xref py py-obj docutils literal"><span class="pre">Signal.plot</span></code></a>(canvas[,&nbsp;title])</td>
+<td>Plot the Signal.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="timeseries.Signal.profile.html#timeseries.Signal.profile" title="timeseries.Signal.profile"><code class="xref py py-obj docutils literal"><span class="pre">Signal.profile</span></code></a>(arch[,&nbsp;normalize,&nbsp;norm])</td>
+<td>produce profile by dragging an archetype across self,</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="timeseries.Signal.sample_near.html#timeseries.Signal.sample_near" title="timeseries.Signal.sample_near"><code class="xref py py-obj docutils literal"><span class="pre">Signal.sample_near</span></code></a>([sigma])</td>
+<td>return a Signal object that is L2-near self in the normal</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="timeseries.Signal.self_similarity.html#timeseries.Signal.self_similarity" title="timeseries.Signal.self_similarity"><code class="xref py py-obj docutils literal"><span class="pre">Signal.self_similarity</span></code></a>(window[,&nbsp;step,&nbsp;...])</td>
+<td>Compare sliding windows of this Signal using a distance function.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="timeseries.html"
+                        title="previous chapter">timeseries</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="timeseries.Signal.feature.html"
+                        title="next chapter">timeseries.Signal.feature</a></p>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
+      </li>
+      <li>
+      Last updated on May 25, 2017.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>timeseries.SpaceCurve.accel &mdash; GDA Toolbox v1.0 Manual</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="GDA Toolbox v1.0 Manual" href="../index.html" >
+    <link rel="up" title="timeseries.SpaceCurve" href="timeseries.SpaceCurve.html" >
+    <link rel="next" title="timeseries.SpaceCurve.arclength_param" href="timeseries.SpaceCurve.arclength_param.html" >
+    <link rel="prev" title="timeseries.SpaceCurve" href="timeseries.SpaceCurve.html" > 
+  </head>
+  <body>
+
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">GDA Toolbox v1.0 Manual</a></li>
+	
+          <li class="active"><a href="../timeseries_data.html" >Time-Series Data</a></li>
+          <li class="active"><a href="timeseries.SpaceCurve.html" accesskey="U">timeseries.SpaceCurve</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="timeseries.SpaceCurve.arclength_param.html" title="timeseries.SpaceCurve.arclength_param"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="timeseries.SpaceCurve.html" title="timeseries.SpaceCurve"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="timeseries-spacecurve-accel">
+<h1>timeseries.SpaceCurve.accel<a class="headerlink" href="#timeseries-spacecurve-accel" title="Permalink to this headline">¶</a></h1>
+<dl class="method">
+<dt id="timeseries.SpaceCurve.accel">
+<code class="descclassname">SpaceCurve.</code><code class="descname">accel</code><span class="sig-paren">(</span><em>rate</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/timeseries.html#SpaceCurve.accel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#timeseries.SpaceCurve.accel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change time parametrization, to represent a constant tangential 
+acceleration (or deceleration).  Locations, initial time, and
+arc-length are preserved.</p>
+<p>The first timestep is changed to have (1-rate) times the speed of the
+original&#8217;s first timestep.  The last timestep is changed to have
+(1+rate) times the speed of the original&#8217;s last timestep.  
+That is, if S is a <a class="reference internal" href="timeseries.SpaceCurve.html#timeseries.SpaceCurve" title="timeseries.SpaceCurve"><code class="xref py py-obj docutils literal"><span class="pre">SpaceCurve</span></code></a> of constant speed, then S.accel(-0.1)
+will start 10% faster and end 10% slower than S.</p>
+<p>If speed[i] changes to speed[i]*q[i], then delta_t[i] changes to 
+delta_t[i]*p[i], where p[i] = 1 / q[i]</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="o">*</span><span class="mf">1e9</span><span class="p">,</span> <span class="mf">1e9</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">SpaceCurve</span><span class="p">(</span><span class="n">tn</span><span class="o">=</span><span class="n">tn</span><span class="p">,</span> <span class="n">px</span><span class="o">=</span><span class="mf">10.0</span><span class="o">*</span><span class="n">tn</span><span class="o">/</span><span class="mf">1e9</span><span class="p">)</span> <span class="c1"># drive straight at 10m/s</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span>
+<span class="go">SpaceCurve with 5 entries and duration 4.000000000</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">data</span>
+<span class="go">            time  pos_x  pos_y  pos_z  quality</span>
+<span class="go">0            0.0    0.0    0.0    0.0       -1</span>
+<span class="go">1000000000   1.0   10.0    0.0    0.0       -1</span>
+<span class="go">2000000000   2.0   20.0    0.0    0.0       -1</span>
+<span class="go">3000000000   3.0   30.0    0.0    0.0       -1</span>
+<span class="go">4000000000   4.0   40.0    0.0    0.0       -1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;speed&#39;</span><span class="p">]</span>
+<span class="go">0             10.0</span>
+<span class="go">1000000000    10.0</span>
+<span class="go">2000000000    10.0</span>
+<span class="go">3000000000    10.0</span>
+<span class="go">4000000000    10.0</span>
+<span class="go">Name: speed, dtype: float64</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">accel</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">SpaceCurve with 5 entries and duration 4.147319347</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;speed&#39;</span><span class="p">]</span>
+<span class="go">0              7.500000</span>
+<span class="go">1333333333     8.250000</span>
+<span class="go">2424242424     9.930556</span>
+<span class="go">3347319347    11.607143</span>
+<span class="go">4147319347    12.500000</span>
+<span class="go">Name: speed, dtype: float64</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">data</span>
+<span class="go">                time  pos_x  pos_y  pos_z  quality</span>
+<span class="go">0           0.000000    0.0    0.0    0.0       -1</span>
+<span class="go">1333333333  1.333333   10.0    0.0    0.0       -1</span>
+<span class="go">2424242424  2.424242   20.0    0.0    0.0       -1</span>
+<span class="go">3347319347  3.347319   30.0    0.0    0.0       -1</span>
+<span class="go">4147319347  4.147319   40.0    0.0    0.0       -1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">accel</span><span class="p">(</span><span class="o">-</span><span class="mf">0.25</span><span class="p">)</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span>
+<span class="go">SpaceCurve with 5 entries and duration 4.147319347</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;speed&#39;</span><span class="p">]</span>
+<span class="go">0             12.500000</span>
+<span class="go">800000000     11.607143</span>
+<span class="go">1723076923     9.930556</span>
+<span class="go">2813986013     8.250000</span>
+<span class="go">4147319347     7.500000</span>
+<span class="go">Name: speed, dtype: float64</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">data</span>
+<span class="go">                time  pos_x  pos_y  pos_z  quality</span>
+<span class="go">0           0.000000    0.0    0.0    0.0       -1</span>
+<span class="go">800000000   0.800000   10.0    0.0    0.0       -1</span>
+<span class="go">1723076923  1.723077   20.0    0.0    0.0       -1</span>
+<span class="go">2813986013  2.813986   30.0    0.0    0.0       -1</span>
+<span class="go">4147319347  4.147319   40.0    0.0    0.0       -1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="timeseries.SpaceCurve.html"
+                        title="previous chapter">timeseries.SpaceCurve</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="timeseries.SpaceCurve.arclength_param.html"
+                        title="next chapter">timeseries.SpaceCurve.arclength_param</a></p>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
+      </li>
+      <li>
+      Last updated on May 25, 2017.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

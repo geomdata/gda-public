@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>homology &mdash; GDA Toolbox v1.0 Manual</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="GDA Toolbox v1.0 Manual" href="../index.html" >
+    <link rel="up" title="Module code" href="index.html" > 
+  </head>
+  <body>
+
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">GDA Toolbox v1.0 Manual</a></li>
+	
+          <li class="active"><a href="index.html" accesskey="U">Module code</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <h1>Source code for homology</h1><div class="highlight"><pre>
+<span></span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">This module defines the the basic objects for persistence diagrams:</span>
+<span class="sd">    </span>
+<span class="sd">    - :class:`PersDiag`</span>
+
+<span class="sd">Copyright</span>
+<span class="sd">---------</span>
+<span class="sd">- This file is part of https://github.com/geomdata/gda-public/ </span>
+<span class="sd">- 2015, 2016, 2017 by Geometric Data Analytics, Inc. (http://geomdata.com)</span>
+<span class="sd">- AGPL license. See `LICENSE` or https://github.com/geomdata/gda-public/blob/master/LICENSE</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">dim0</span>
+
+<div class="viewcode-block" id="PersDiag"><a class="viewcode-back" href="../generated/homology.PersDiag.html#homology.PersDiag">[docs]</a><span class="k">class</span> <span class="nc">PersDiag</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Persistence Diagrams and related merge-tree information.  Sometimes</span>
+<span class="sd">    known as barcodes.</span>
+<span class="sd">    </span>
+<span class="sd">    A :class:`PersDiag` consists of a :class:`pandas.DataFrame` of birth and</span>
+<span class="sd">    death values (sorted by length), along with the tree and forest for range and domain inclusion.  </span>
+<span class="sd">    </span>
+<span class="sd">    You should not call this directly --- instead use the constructor on your</span>
+<span class="sd">    `homology.SimplicialComplex` or &#39;timeseries.Signal` object.</span>
+<span class="sd">    </span>
+<span class="sd">    The input parameters are of the form that comes from </span>
+<span class="sd">    `persistence.dim0.unionfind` or similar</span>
+<span class="sd">    </span>
+<span class="sd">    Notes</span>
+<span class="sd">    ------</span>
+<span class="sd">    Users should never call this directly --- instead use the constructor on your</span>
+<span class="sd">    :class:`homology.SimplicialComplex` or :class:`timeseries.Signal` object.</span>
+<span class="sd"> </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    birth_index : list_like</span>
+<span class="sd">    death_index : list_like</span>
+<span class="sd">    birth_value : list_like</span>
+<span class="sd">    death_value : list_like</span>
+<span class="sd">    mergetree : dict</span>
+<span class="sd">    </span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    diagram : :class:`pandas.DataFrame`</span>
+<span class="sd">        A DataFrame showing all of the birth/death information.</span>
+<span class="sd">        It has columns :code:`birth_index`, :code:`death_index`, :code:`birth`,</span>
+<span class="sd">        :code:`death`, and :code:`pers`</span>
+
+<span class="sd">    lefts : :class:`pandas.Series`</span>
+<span class="sd">    rights : :class:`pandas.Series`</span>
+<span class="sd">    domains : dict</span>
+<span class="sd">    bartree : dict</span>
+<span class="sd">    bartree_parents : dict</span>
+<span class="sd">    forest : dict</span>
+<span class="sd">    forest_parents : dict</span>
+<span class="sd">    mergetree : dict</span>
+
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :func:`homology.dim0.unionfind`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">birth_index</span><span class="p">,</span> <span class="n">death_index</span><span class="p">,</span> <span class="n">birth_value</span><span class="p">,</span> <span class="n">death_value</span><span class="p">,</span> <span class="n">mergetree</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">diagram</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="p">{</span><span class="s1">&#39;birth_index&#39;</span><span class="p">:</span> <span class="n">birth_index</span><span class="p">,</span> <span class="s1">&#39;death_index&#39;</span><span class="p">:</span> <span class="n">death_index</span><span class="p">,</span> <span class="s1">&#39;birth&#39;</span><span class="p">:</span> <span class="n">birth_value</span><span class="p">,</span> <span class="s1">&#39;death&#39;</span><span class="p">:</span> <span class="n">death_value</span><span class="p">},</span>
+            <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;birth_index&#39;</span><span class="p">,</span> <span class="s1">&#39;death_index&#39;</span><span class="p">,</span> <span class="s1">&#39;birth&#39;</span><span class="p">,</span> <span class="s1">&#39;death&#39;</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">diagram</span><span class="p">[</span><span class="s1">&#39;pers&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diagram</span><span class="p">[</span><span class="s1">&#39;death&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">diagram</span><span class="p">[</span><span class="s1">&#39;birth&#39;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">diagram</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diagram</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;pers&#39;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">lefts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diagram</span><span class="p">[[</span><span class="s1">&#39;birth_index&#39;</span><span class="p">,</span> <span class="s1">&#39;death_index&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diagram</span><span class="p">[[</span><span class="s1">&#39;birth_index&#39;</span><span class="p">,</span> <span class="s1">&#39;death_index&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">domains</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([((</span><span class="bp">self</span><span class="o">.</span><span class="n">lefts</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">rights</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lefts</span><span class="o">.</span><span class="n">index</span><span class="p">])</span>
+         
+        <span class="bp">self</span><span class="o">.</span><span class="n">bartree</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bartree_parents</span> <span class="o">=</span> <span class="n">dim0</span><span class="o">.</span><span class="n">mkforestDBL</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">diagram</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">diagram</span><span class="p">[</span><span class="s1">&#39;birth&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">diagram</span><span class="p">[</span><span class="s1">&#39;death&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">forest</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">forest_parents</span> <span class="o">=</span> <span class="n">dim0</span><span class="o">.</span><span class="n">mkforestDBL</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lefts</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lefts</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rights</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mergetree</span> <span class="o">=</span> <span class="n">mergetree</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_clip</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+<div class="viewcode-block" id="PersDiag.grab"><a class="viewcode-back" href="../generated/homology.PersDiag.grab.html#homology.PersDiag.grab">[docs]</a>    <span class="k">def</span> <span class="nf">grab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; clip the barcode, using only the top n entries. </span>
+<span class="sd">        this is &quot;sort-and-grab&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diagram</span><span class="p">):</span>
+            <span class="n">beta</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">beta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diagram</span><span class="p">[</span><span class="s1">&#39;pers&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="PersDiag.clip"><a class="viewcode-back" href="../generated/homology.PersDiag.clip.html#homology.PersDiag.clip">[docs]</a>    <span class="k">def</span> <span class="nf">clip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; clip the barcode below beta. &quot;&quot;&quot;</span>
+
+        <span class="c1"># simple cache</span>
+        <span class="k">if</span> <span class="n">beta</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clip</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clip</span><span class="p">[</span><span class="n">beta</span><span class="p">]</span>
+
+        <span class="n">bc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diagram</span>
+        <span class="n">killbc</span> <span class="o">=</span> <span class="n">bc</span><span class="p">[</span><span class="n">bc</span><span class="p">[</span><span class="s1">&#39;pers&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">beta</span><span class="p">]</span>  <span class="c1"># boolean selector</span>
+       
+        <span class="n">keepbc</span> <span class="o">=</span> <span class="n">bc</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">bc</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">killbc</span><span class="o">.</span><span class="n">index</span><span class="p">)]</span>
+     
+        <span class="c1"># trim the tree to find the roots of those we will kill. </span>
+        <span class="c1"># Not sure if this is really faster?</span>
+        <span class="n">ignore</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">killbc</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;bool&#39;</span><span class="p">)</span>
+        <span class="n">ignore</span><span class="p">[::]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forest</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">killbc</span><span class="o">.</span><span class="n">index</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>  <span class="c1"># from long to short.</span>
+            <span class="k">for</span> <span class="n">child_idx</span> <span class="ow">in</span> <span class="n">tree</span><span class="p">[</span><span class="n">idx</span><span class="p">]:</span>
+                <span class="n">ignore</span><span class="p">[</span><span class="n">child_idx</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">ignorebc</span> <span class="o">=</span> <span class="n">killbc</span><span class="p">[</span><span class="n">ignore</span><span class="p">]</span>
+        <span class="n">killbc</span> <span class="o">=</span> <span class="n">killbc</span><span class="p">[</span><span class="o">~</span><span class="n">ignore</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_clip</span><span class="p">[</span><span class="n">beta</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;killcode&#39;</span><span class="p">:</span> <span class="n">killbc</span><span class="p">,</span>
+                            <span class="s1">&#39;keepcode&#39;</span><span class="p">:</span> <span class="n">keepbc</span><span class="p">,</span>
+                            <span class="s1">&#39;ignorecode&#39;</span><span class="p">:</span> <span class="n">ignorebc</span><span class="p">,</span>
+                            <span class="s1">&#39;beta&#39;</span><span class="p">:</span> <span class="n">beta</span><span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clip</span><span class="p">[</span><span class="n">beta</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="PersDiag.bin_len"><a class="viewcode-back" href="../generated/homology.PersDiag.bin_len.html#homology.PersDiag.bin_len">[docs]</a>    <span class="k">def</span> <span class="nf">bin_len</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">underflow</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">overflow</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">bin_count</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bin</span><span class="p">(</span><span class="n">width</span><span class="p">,</span>
+                                   <span class="n">underflow</span><span class="o">=</span><span class="n">underflow</span><span class="p">,</span>
+                                   <span class="n">overflow</span><span class="o">=</span><span class="n">overflow</span><span class="p">,</span>
+                                   <span class="n">transform</span><span class="o">=</span><span class="s2">&quot;project&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">bin_count</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">bins</span></div>
+
+<div class="viewcode-block" id="PersDiag.bin_bot"><a class="viewcode-back" href="../generated/homology.PersDiag.bin_bot.html#homology.PersDiag.bin_bot">[docs]</a>    <span class="k">def</span> <span class="nf">bin_bot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">underflow</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">overflow</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">bin_count</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bin</span><span class="p">(</span><span class="n">width</span><span class="p">,</span>
+                                   <span class="n">underflow</span><span class="o">=</span><span class="n">underflow</span><span class="p">,</span>
+                                   <span class="n">overflow</span><span class="o">=</span><span class="n">overflow</span><span class="p">,</span>
+                                   <span class="n">transform</span><span class="o">=</span><span class="s2">&quot;project&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">bin_count</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">bins</span></div>
+
+<div class="viewcode-block" id="PersDiag.bin_top"><a class="viewcode-back" href="../generated/homology.PersDiag.bin_top.html#homology.PersDiag.bin_top">[docs]</a>    <span class="k">def</span> <span class="nf">bin_top</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">underflow</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">overflow</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">bin_count</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bin</span><span class="p">(</span><span class="n">width</span><span class="p">,</span>
+                                   <span class="n">underflow</span><span class="o">=</span><span class="n">underflow</span><span class="p">,</span>
+                                   <span class="n">overflow</span><span class="o">=</span><span class="n">overflow</span><span class="p">,</span>
+                                   <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">bin_count</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">bins</span></div>
+
+<div class="viewcode-block" id="PersDiag.bin_diag"><a class="viewcode-back" href="../generated/homology.PersDiag.bin_diag.html#homology.PersDiag.bin_diag">[docs]</a>    <span class="k">def</span> <span class="nf">bin_diag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">underflow</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">overflow</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">bin_count</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bin</span><span class="p">(</span><span class="n">width</span><span class="p">,</span>
+                                   <span class="n">underflow</span><span class="o">=</span><span class="n">underflow</span><span class="p">,</span>
+                                   <span class="n">overflow</span><span class="o">=</span><span class="n">overflow</span><span class="p">,</span>
+                                   <span class="n">transform</span><span class="o">=</span><span class="s2">&quot;rotate&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">bin_count</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">bins</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="PersDiag.transform"><a class="viewcode-back" href="../generated/homology.PersDiag.transform.html#homology.PersDiag.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Produce an array of points, obtained by transforming the persistence</span>
+<span class="sd">        diagram.</span>
+
+<span class="sd">        </span>
+
+<span class="sd">        If transform==None [default], then we leave the diagram alone.</span>
+<span class="sd">        (birth, death)</span>
+<span class="sd">        If transform==&quot;project&quot;, then we project the diagram so that</span>
+<span class="sd">        (birth, death) --&gt; (birth, death-birth) = (birth, pers)</span>
+<span class="sd">        If transform==&quot;rotate&quot;, then we rotate-and-rescale so that</span>
+<span class="sd">        (birth, death) --&gt; ( (death+birth)/2, (death-birth)/2 ) </span>
+<span class="sd">        If transform is a 2x2 array, apply it.</span>
+
+<span class="sd">        If provided with an array &quot;points&quot;, transform that instead of the</span>
+<span class="sd">        diagram.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">points</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">points</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diagram</span><span class="p">[[</span><span class="s1">&#39;birth&#39;</span><span class="p">,</span> <span class="s1">&#39;death&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+
+        <span class="k">if</span> <span class="n">transform</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">rectified</span> <span class="o">=</span> <span class="n">points</span>
+        <span class="k">elif</span> <span class="n">transform</span> <span class="o">==</span> <span class="s2">&quot;rotate&quot;</span><span class="p">:</span>
+            <span class="n">lintrans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]])</span>
+            <span class="n">rectified</span> <span class="o">=</span> <span class="p">(</span><span class="n">lintrans</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">T</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">elif</span> <span class="n">transform</span> <span class="o">==</span> <span class="s2">&quot;project&quot;</span><span class="p">:</span>
+            <span class="n">lintrans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+            <span class="n">rectified</span> <span class="o">=</span> <span class="p">(</span><span class="n">lintrans</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">T</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">transform</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">lintrans</span> <span class="o">=</span> <span class="n">transform</span>
+            <span class="n">rectified</span> <span class="o">=</span> <span class="p">(</span><span class="n">lintrans</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">T</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;transform must be a string or a 2x2 array.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rectified</span></div>
+
+<div class="viewcode-block" id="PersDiag.bin"><a class="viewcode-back" href="../generated/homology.PersDiag.bin.html#homology.PersDiag.bin">[docs]</a>    <span class="k">def</span> <span class="nf">bin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">underflow</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">overflow</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="s2">&quot;project&quot;</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Count bins on the transformed persistence diagram.</span>
+<span class="sd">        Bins are added for (-inf, underflow] and (overflow,inf).</span>
+<span class="sd">        If underflow and overflow are not provided, they are set to min/max.</span>
+
+<span class="sd">        NOTE!  The bin_count numbers look &quot;upside-down and backwards&quot; versus</span>
+<span class="sd">        the projected persistence diagram.  This is because indexing of a</span>
+<span class="sd">        matrix is from the top, whereas we read pictures from the bottom. </span>
+
+<span class="sd">        return:</span>
+<span class="sd">            bin_count (2-dim np array of bin counts),</span>
+<span class="sd">            bin_boundaries</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">underflow</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">underflow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diagram</span><span class="p">[</span><span class="s1">&#39;birth&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">overflow</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">overflow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diagram</span><span class="p">[</span><span class="s1">&#39;death&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        
+        <span class="n">finite_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">underflow</span><span class="p">,</span> <span class="n">overflow</span><span class="o">+</span><span class="n">width</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span>
+        <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">finite_bins</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">2</span><span class="p">,))</span>
+        <span class="n">bins</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="s1">&#39;-inf&#39;</span><span class="p">)</span>
+        <span class="n">bins</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
+        <span class="n">bins</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">finite_bins</span><span class="p">[:]</span>
+
+        <span class="n">rectified</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span>
+
+        <span class="n">bin_count</span><span class="p">,</span> <span class="n">x_bins</span><span class="p">,</span> <span class="n">y_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram2d</span><span class="p">(</span><span class="n">rectified</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+                                                   <span class="n">rectified</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+                                                   <span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">bins</span><span class="p">))</span>
+        <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">x_bins</span> <span class="o">==</span> <span class="n">bins</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">y_bins</span> <span class="o">==</span> <span class="n">bins</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">bin_count</span><span class="p">,</span> <span class="n">bins</span></div>
+
+<div class="viewcode-block" id="PersDiag.syzygy"><a class="viewcode-back" href="../generated/homology.PersDiag.syzygy.html#homology.PersDiag.syzygy">[docs]</a>    <span class="k">def</span> <span class="nf">syzygy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">powers</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; compute the syzygy coordinate of my barcode. </span>
+<span class="sd">        len*min**(powers[0])*max**powers[1]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diagram</span>
+        <span class="k">return</span> <span class="n">bc</span><span class="p">[</span><span class="s1">&#39;pers&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">bc</span><span class="p">[</span><span class="s1">&#39;birth&#39;</span><span class="p">]</span><span class="o">**</span><span class="n">powers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">bc</span><span class="p">[</span><span class="s1">&#39;death&#39;</span><span class="p">]</span><span class="o">**</span><span class="n">powers</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="PersDiag.plot"><a class="viewcode-back" href="../generated/homology.PersDiag.plot.html#homology.PersDiag.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Pers Diag&quot;</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Plot the persistence diagram using `matplotlib` or `bokeh`.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        canvas      An instance of :class:`bokeh.plotting.figure.Figure`</span>
+<span class="sd">                    invoked as `canvas = bokeh.plotting.figure()`, or a </span>
+<span class="sd">                    an instance of :class:`matplotlib.axes._subplots.AxesSubplot`</span>
+<span class="sd">                    invoked as `fig,canvas = matplotlib.pyplot.subplots()` or</span>
+<span class="sd">                    similar.</span>
+
+<span class="sd">        </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        You have to save or show the canvas after running this call.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">==</span> <span class="s1">&#39;bokeh.plotting.figure&#39;</span><span class="p">:</span>
+            <span class="n">canvas_type</span> <span class="o">=</span> <span class="s2">&quot;bokeh&quot;</span>
+            <span class="kn">import</span> <span class="nn">bokeh.plotting</span>
+            <span class="kn">from</span> <span class="nn">bokeh.models</span> <span class="k">import</span> <span class="n">Span</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">==</span> <span class="s1">&#39;matplotlib.axes._subplots&#39;</span><span class="p">:</span>
+            <span class="n">canvas_type</span> <span class="o">=</span> <span class="s2">&quot;pyplot&quot;</span>
+            <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;canvas must be a bokeh.plotting.figure() or a matplotlib.pyplot.subplots()[1].</span>
+<span class="s2">        You gave me </span><span class="si">{}</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">))</span>
+                <span class="p">)</span> 
+
+        <span class="k">if</span> <span class="n">canvas_type</span> <span class="o">==</span> <span class="s2">&quot;bokeh&quot;</span><span class="p">:</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+        <span class="k">elif</span> <span class="n">canvas_type</span> <span class="o">==</span> <span class="s2">&quot;pyplot&quot;</span><span class="p">:</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">bins</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">canvas_type</span> <span class="o">==</span> <span class="s2">&quot;bokeh&quot;</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">bins</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">edge</span><span class="p">):</span>
+                        <span class="n">canvas</span><span class="o">.</span><span class="n">renderers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Span</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">edge</span><span class="p">,</span>
+                                                     <span class="n">dimension</span><span class="o">=</span><span class="s1">&#39;height&#39;</span><span class="p">,</span>
+                                                     <span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;purple&#39;</span><span class="p">,</span>
+                                                     <span class="n">line_alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">))</span>
+                        <span class="n">canvas</span><span class="o">.</span><span class="n">renderers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Span</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">edge</span><span class="p">,</span>
+                                                     <span class="n">dimension</span><span class="o">=</span><span class="s1">&#39;width&#39;</span><span class="p">,</span>
+                                                     <span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;purple&#39;</span><span class="p">,</span>
+                                                     <span class="n">line_alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">canvas_type</span> <span class="o">==</span> <span class="s2">&quot;pyplot&quot;</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">bins</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">edge</span><span class="p">):</span>
+                        <span class="n">canvas</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">edge</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;purple&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+                        <span class="n">canvas</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">edge</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;purple&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+
+        <span class="n">absmin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diagram</span><span class="p">[</span><span class="s1">&#39;birth&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+        <span class="n">absmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diagram</span><span class="p">[</span><span class="s1">&#39;death&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="n">boundary</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">absmin</span><span class="p">,</span> <span class="n">absmin</span><span class="p">],</span>
+                             <span class="p">[</span><span class="n">absmin</span><span class="p">,</span> <span class="n">absmax</span><span class="p">],</span>
+                             <span class="p">[</span><span class="n">absmax</span><span class="p">,</span> <span class="n">absmax</span><span class="p">]])</span>
+        <span class="n">boundary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">boundary</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">canvas_type</span> <span class="o">==</span> <span class="s2">&quot;bokeh&quot;</span><span class="p">:</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">boundary</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">boundary</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">canvas_type</span> <span class="o">==</span> <span class="s2">&quot;pyplot&quot;</span><span class="p">:</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">boundary</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">boundary</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+
+        <span class="n">diagonal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">absmin</span><span class="p">,</span> <span class="n">absmin</span><span class="p">],</span>
+                             <span class="p">[</span><span class="n">absmax</span><span class="p">,</span> <span class="n">absmax</span><span class="p">]])</span>
+        <span class="n">diagonal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">diagonal</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">canvas_type</span> <span class="o">==</span> <span class="s2">&quot;bokeh&quot;</span><span class="p">:</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">diagonal</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">diagonal</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">canvas_type</span> <span class="o">==</span> <span class="s2">&quot;pyplot&quot;</span><span class="p">:</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">diagonal</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">diagonal</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+         
+        <span class="n">rectified</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">canvas_type</span> <span class="o">==</span> <span class="s2">&quot;bokeh&quot;</span><span class="p">:</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">rectified</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">rectified</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span>
+                          <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">canvas_type</span> <span class="o">==</span> <span class="s2">&quot;pyplot&quot;</span><span class="p">:</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">rectified</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">rectified</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="k">pass</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
+      </li>
+      <li>
+      Last updated on May 25, 2017.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>multidim.models &mdash; GDA Toolbox v1.0 Manual</title>
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" >
+    <link rel="search" title="Search" href="../../search.html" >
+    <link rel="top" title="GDA Toolbox v1.0 Manual" href="../../index.html" >
+    <link rel="up" title="multidim" href="../multidim.html" > 
+  </head>
+  <body>
+
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../../index.html">GDA Toolbox v1.0 Manual</a></li>
+	
+          <li class="active"><a href="../index.html" >Module code</a></li>
+          <li class="active"><a href="../multidim.html" accesskey="U">multidim</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <h1>Source code for multidim.models</h1><div class="highlight"><pre>
+<span></span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;This module contains classifiers based on the SciKitLearn framework.</span>
+
+<span class="sd">    - :class:`CDER`</span>
+<span class="sd">    - :class:`GaussianMixtureClassifier`</span>
+
+<span class="sd">We use these for modelling marked-point processes and labelled pointclouds.</span>
+
+<span class="sd">Copyright</span>
+<span class="sd">---------</span>
+<span class="sd">- This file is part of https://github.com/geomdata/gda-public/ </span>
+<span class="sd">- 2015, 2016, 2017 by Geometric Data Analytics, Inc. (http://geomdata.com)</span>
+<span class="sd">- AGPL license. See `LICENSE` or https://github.com/geomdata/gda-public/blob/master/LICENSE</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">sklearn</span>
+<span class="kn">import</span> <span class="nn">multidim</span>
+<span class="kn">import</span> <span class="nn">multidim.covertree</span> 
+<span class="kn">from</span> <span class="nn">.fast_algorithms</span> <span class="k">import</span> <span class="n">gaussian</span><span class="p">,</span> <span class="n">gaussian_fit</span><span class="p">,</span> <span class="n">entropy</span><span class="p">,</span> <span class="n">distance_cache_None</span>
+
+
+<div class="viewcode-block" id="GaussianMixtureClassifier"><a class="viewcode-back" href="../../generated/multidim.models.GaussianMixtureClassifier.html#multidim.models.GaussianMixtureClassifier">[docs]</a><span class="k">class</span> <span class="nc">GaussianMixtureClassifier</span><span class="p">(</span><span class="n">sklearn</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">ClassifierMixin</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot; A scikit-learn classification estimator, for any sort of Gaussian</span>
+<span class="sd">    mixture model.</span>
+
+<span class="sd">    A Gaussian mixture module is a collection of labelled Gaussian functions </span>
+
+<span class="sd">    This is provided mainly to provide a parent class for `CDER`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span> 
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stop_level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stop_level</span> <span class="o">=</span> <span class="n">stop_level</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_labels</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">covertree</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gaussians</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="GaussianMixtureClassifier.get_params"><a class="viewcode-back" href="../../generated/multidim.models.GaussianMixtureClassifier.get_params.html#multidim.models.GaussianMixtureClassifier.get_params">[docs]</a>    <span class="k">def</span> <span class="nf">get_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deep</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Pass original kwargs internally.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span></div>
+
+<div class="viewcode-block" id="GaussianMixtureClassifier.gausscoords"><a class="viewcode-back" href="../../generated/multidim.models.GaussianMixtureClassifier.gausscoords.html#multidim.models.GaussianMixtureClassifier.gausscoords">[docs]</a>    <span class="k">def</span> <span class="nf">gausscoords</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; This is the method to overwrite for specific models! &quot;&quot;&quot;</span>
+        <span class="n">gaussians</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># mean point as numpy 1d</span>
+                      <span class="s1">&#39;std&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>   <span class="c1"># signal diagonals as numpy 1d</span>
+                      <span class="s1">&#39;rotation&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># rotation as numpy 2d</span>
+                      <span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># weight as calculated by fit</span>
+                      <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># best label from labels_train</span>
+                      <span class="s1">&#39;adult&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># adult coordinates</span>
+                      <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># adult index</span>
+                      <span class="s1">&#39;radius&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># radius of region</span>
+                      <span class="p">}]</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># some sort of object for re-use.  It should hava a pointcloud attribute of PointCloud type.</span>
+        <span class="k">return</span> <span class="n">tree</span><span class="p">,</span> <span class="n">gaussians</span></div>
+
+<div class="viewcode-block" id="GaussianMixtureClassifier.fit"><a class="viewcode-back" href="../../generated/multidim.models.GaussianMixtureClassifier.fit.html#multidim.models.GaussianMixtureClassifier.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">training</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Fit this estimator to training data.  This is the step that runs</span>
+<span class="sd">        the actual predictor.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        *training </span>
+<span class="sd">           Can be any of the following: </span>
+
+<span class="sd">            - a pair of list-like objects: pointclouds_train and labels_train</span>
+<span class="sd">            - a single labelled and weighted :class:`multidim.PointCloud`</span>
+<span class="sd">            - a single :class:`multidim.covertree.CoverTree` obtained from a</span>
+<span class="sd">              labelled and weighted :class:`multidim.PointCloud`</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">training</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">training</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="n">multidim</span><span class="o">.</span><span class="n">covertree</span><span class="o">.</span><span class="n">CoverTree</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">covertree</span> <span class="o">=</span> <span class="n">training</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">covertree</span><span class="o">.</span><span class="n">pointcloud</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">all_labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">label_info</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">training</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">training</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="n">multidim</span><span class="o">.</span><span class="n">PointCloud</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span> <span class="o">=</span> <span class="n">training</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">all_labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">label_info</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">covertree</span> <span class="o">=</span> <span class="n">multidim</span><span class="o">.</span><span class="n">covertree</span><span class="o">.</span><span class="n">CoverTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">training</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">pointclouds_train</span> <span class="o">=</span> <span class="n">training</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">labels_train</span> <span class="o">=</span> <span class="n">training</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span> <span class="o">=</span> <span class="n">multidim</span><span class="o">.</span><span class="n">PointCloud</span><span class="o">.</span><span class="n">from_multisample_multilabel</span><span class="p">(</span><span class="n">pointclouds_train</span><span class="p">,</span> <span class="n">labels_train</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">all_labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">label_info</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">covertree</span> <span class="o">=</span> <span class="n">multidim</span><span class="o">.</span><span class="n">covertree</span><span class="o">.</span><span class="n">CoverTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;bad input to fit()&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Do something here to make gaussians and tree.  May use self.kwargs.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gaussians</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gausscoords</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="GaussianMixtureClassifier.evaluate"><a class="viewcode-back" href="../../generated/multidim.models.GaussianMixtureClassifier.evaluate.html#multidim.models.GaussianMixtureClassifier.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Evaluate all gaussians against a pointcloud </span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : :class:`numpy.ndarray`</span>
+<span class="sd">            An array, giving a pointcloud.  Each row is a point.</span>
+<span class="sd">       </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        functions : :class:`numpy.ndarray`</span>
+<span class="sd">            the integral of each gaussian over these points.</span>
+<span class="sd">        labels : :class:`numpy.ndarray`</span>
+<span class="sd">            the labels of the gaussians, for reference.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">run_gauss</span><span class="p">(</span><span class="n">g</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">gaussian</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">g</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">],</span> <span class="n">g</span><span class="p">[</span><span class="s1">&#39;std&#39;</span><span class="p">],</span> <span class="n">g</span><span class="p">[</span><span class="s1">&#39;rotation&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">*</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span>
+        
+        <span class="n">functions</span> <span class="o">=</span> <span class="p">[</span><span class="n">run_gauss</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaussians</span><span class="p">]</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaussians</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">functions</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GaussianMixtureClassifier.plot"><a class="viewcode-back" href="../../generated/multidim.models.GaussianMixtureClassifier.plot.html#multidim.models.GaussianMixtureClassifier.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;covertree&quot;</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Plot a CDER model, using matplotlib or bokeh</span>
+
+<span class="sd">        There are several options to help visualize various aspects of the</span>
+<span class="sd">        model.  Typically, one wants to overlay this with the plots from the</span>
+<span class="sd">        underlying :class:`multidim.PointCloud` and </span>
+<span class="sd">        :class:`multidim.covertree.CoverTree` objects.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        canvas : object</span>
+<span class="sd">            An instance of </span>
+<span class="sd">            `bokeh.plotting.figure.Figure` as in</span>
+<span class="sd">            :code:`canvas = bokeh.plotting.figure()`</span>
+<span class="sd">            or an instance of :class:`matplotlib.axes._subplots.AxesSubplot` as </span>
+<span class="sd">            in :code:`axes,canvas = matplotlib.pyplot.subplots()`</span>
+
+<span class="sd">        style : str</span>
+<span class="sd">            options are &quot;gaussians&quot;, &quot;covertree&quot;, &quot;heatmap&quot;, &quot;hulls&quot;, </span>
+<span class="sd">            &quot;expatriots&quot;, and &quot;predictions&quot;.  Colors are generally obtained</span>
+<span class="sd">            from the label names.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        :func:`multidim.PointCloud.plot`</span>
+<span class="sd">        :func:`multidim.covertree.CoverTree.plot`</span>
+
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">covertree</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaussians</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;You must &#39;fit&#39; first, before plotting.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># fix the aspect ratio!</span>
+        <span class="n">all_xs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">covertree</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">all_ys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">covertree</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">xmid</span> <span class="o">=</span> <span class="p">(</span><span class="n">all_xs</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="n">all_xs</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="o">/</span><span class="mf">2.0</span>
+        <span class="n">ymid</span> <span class="o">=</span> <span class="p">(</span><span class="n">all_ys</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="n">all_ys</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="o">/</span><span class="mf">2.0</span>
+        <span class="n">span</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">all_xs</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">xmid</span><span class="p">,</span>
+                    <span class="n">xmid</span> <span class="o">-</span> <span class="n">all_xs</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+                    <span class="n">all_ys</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">ymid</span><span class="p">,</span>
+                    <span class="n">ymid</span> <span class="o">-</span> <span class="n">all_ys</span><span class="o">.</span><span class="n">min</span><span class="p">()])</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">==</span> <span class="s1">&#39;bokeh.plotting.figure&#39;</span><span class="p">:</span>
+            <span class="n">canvas_type</span> <span class="o">=</span> <span class="s2">&quot;bokeh&quot;</span>
+            <span class="kn">import</span> <span class="nn">bokeh.plotting</span>
+            <span class="kn">from</span> <span class="nn">bokeh.models</span> <span class="k">import</span> <span class="n">ColumnDataSource</span><span class="p">,</span> <span class="n">Range1d</span>
+            
+            <span class="c1"># fix the aspect ratio!</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="n">x_range</span> <span class="o">=</span> <span class="n">Range1d</span><span class="p">(</span><span class="n">xmid</span><span class="o">-</span><span class="n">span</span><span class="p">,</span> <span class="n">xmid</span><span class="o">+</span><span class="n">span</span><span class="p">)</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="n">y_range</span> <span class="o">=</span> <span class="n">Range1d</span><span class="p">(</span><span class="n">ymid</span><span class="o">-</span><span class="n">span</span><span class="p">,</span> <span class="n">ymid</span><span class="o">+</span><span class="n">span</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">==</span> <span class="s1">&#39;matplotlib.axes._subplots&#39;</span><span class="p">:</span>
+            <span class="n">canvas_type</span> <span class="o">=</span> <span class="s2">&quot;pyplot&quot;</span>
+            <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+            <span class="kn">from</span> <span class="nn">matplotlib.collections</span> <span class="k">import</span> <span class="n">PolyCollection</span><span class="p">,</span> <span class="n">PatchCollection</span>
+            <span class="kn">from</span> <span class="nn">matplotlib.patches</span> <span class="k">import</span> <span class="n">Circle</span><span class="p">,</span> <span class="n">Ellipse</span><span class="p">,</span> <span class="n">Polygon</span>
+            <span class="kn">import</span> <span class="nn">matplotlib.colors</span> <span class="k">as</span> <span class="nn">colors</span>
+             
+            <span class="c1"># fix the aspect ratio!</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">xmid</span><span class="o">-</span><span class="n">span</span><span class="p">,</span> <span class="n">xmid</span><span class="o">+</span><span class="n">span</span><span class="p">])</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="n">ymid</span><span class="o">-</span><span class="n">span</span><span class="p">,</span> <span class="n">ymid</span><span class="o">+</span><span class="n">span</span><span class="p">])</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                    <span class="s2">&quot;canvas must be a bokeh.plotting.figure() or a matplotlib.pyplot.subplots()[1].  You gave me </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">))</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s2">&quot;gaussians&quot;</span><span class="p">:</span>
+            <span class="n">Xms</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">Yms</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">R1s</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">R2s</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">As</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">Cs</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">Ws</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaussians</span><span class="p">:</span>
+                <span class="n">Xms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>                                                        
+                <span class="n">Yms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>                                                        
+                <span class="n">R1s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;std&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="o">/</span><span class="mf">0.75</span><span class="p">)</span>  <span class="c1"># 0.75 bokeh oval distortion</span>
+                <span class="n">R2s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;std&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>                                                      
+                <span class="n">As</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;rotation&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">g</span><span class="p">[</span><span class="s1">&#39;rotation&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]))</span>
+                <span class="n">Cs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
+                <span class="n">Ws</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">])</span>
+            <span class="n">Ws</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Ws</span><span class="p">)</span>
+            <span class="c1"># Ws = np.log2(numpy.array(Ws)+1)</span>
+            <span class="n">Wmax</span> <span class="o">=</span> <span class="n">Ws</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">canvas_type</span> <span class="o">==</span> <span class="s2">&quot;bokeh&quot;</span><span class="p">:</span>
+                <span class="n">canvas</span><span class="o">.</span><span class="n">oval</span><span class="p">(</span><span class="n">Xms</span><span class="p">,</span> <span class="n">Yms</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="n">As</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">R1s</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">R2s</span><span class="p">,</span>                    
+                            <span class="n">alpha</span><span class="o">=</span><span class="n">Ws</span><span class="o">/</span><span class="n">Wmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">Cs</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>                    
+                            <span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span> 
+
+            <span class="k">elif</span> <span class="n">canvas_type</span> <span class="o">==</span> <span class="s2">&quot;pyplot&quot;</span><span class="p">:</span>
+                <span class="n">patches</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">rgbas</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">CC</span> <span class="o">=</span> <span class="n">colors</span><span class="o">.</span><span class="n">ColorConverter</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Xms</span><span class="p">)):</span>
+                    <span class="n">patches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Ellipse</span><span class="p">(</span><span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">Xms</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Yms</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span>
+                                           <span class="n">width</span><span class="o">=</span><span class="n">R1s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="mf">0.75</span><span class="p">,</span> 
+                                           <span class="n">height</span><span class="o">=</span><span class="n">R2s</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                                           <span class="n">angle</span><span class="o">=</span><span class="n">As</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="mi">180</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span>
+                    <span class="c1"># have to manually set the alpha value</span>
+                    <span class="n">rgba</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">CC</span><span class="o">.</span><span class="n">to_rgba</span><span class="p">(</span><span class="n">Cs</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+                    <span class="n">rgba</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">Ws</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="n">Wmax</span>
+                    <span class="n">rgbas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">rgba</span><span class="p">))</span>
+
+                <span class="n">p</span> <span class="o">=</span> <span class="n">PatchCollection</span><span class="p">(</span><span class="n">patches</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">set_facecolors</span><span class="p">(</span><span class="n">rgbas</span><span class="p">)</span>
+                <span class="n">canvas</span><span class="o">.</span><span class="n">add_collection</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+            <span class="k">pass</span>
+
+        <span class="k">elif</span> <span class="n">style</span> <span class="o">==</span> <span class="s2">&quot;heatmap&quot;</span><span class="p">:</span>
+            <span class="c1"># This could probably use self.runit instead.</span>
+            <span class="n">xy</span> <span class="o">=</span> <span class="p">[]</span>
+                
+            <span class="n">min_x</span> <span class="o">=</span> <span class="n">xmid</span> <span class="o">-</span> <span class="n">span</span>
+            <span class="n">max_x</span> <span class="o">=</span> <span class="n">xmid</span> <span class="o">+</span> <span class="n">span</span>
+            <span class="n">min_y</span> <span class="o">=</span> <span class="n">ymid</span> <span class="o">-</span> <span class="n">span</span>
+            <span class="n">max_y</span> <span class="o">=</span> <span class="n">ymid</span> <span class="o">+</span> <span class="n">span</span>
+
+            <span class="n">dx</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_x</span> <span class="o">-</span> <span class="n">min_x</span><span class="p">)</span><span class="o">/</span><span class="mf">64.</span>
+            <span class="n">dy</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_y</span> <span class="o">-</span> <span class="n">min_y</span><span class="p">)</span><span class="o">/</span><span class="mf">64.</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">dx</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">min_y</span><span class="p">,</span> <span class="n">max_y</span><span class="p">,</span> <span class="n">dy</span><span class="p">):</span>
+                    <span class="n">xy</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">x</span> <span class="o">+</span> <span class="n">dx</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">dy</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+            <span class="n">xy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xy</span><span class="p">)</span>
+            
+            <span class="n">z_by_label</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">xy</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">point</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">xy</span><span class="p">):</span>
+                <span class="n">integrals</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">xy</span><span class="p">[[</span><span class="n">i</span><span class="p">],</span> <span class="p">:])</span>
+                <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">all_labels</span><span class="p">):</span>
+                    <span class="n">z_by_label</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">integrals</span><span class="p">[</span><span class="n">labels</span> <span class="o">==</span> <span class="n">label</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># z_by_label = np.log2(z_by_label + 1)</span>
+            <span class="c1"># z_by_label = z_by_label - z_by_label.min()</span>
+            <span class="n">z_by_label</span> <span class="o">=</span> <span class="n">z_by_label</span><span class="o">/</span><span class="n">z_by_label</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+            <span class="c1"># z_by_label = z_by_label**0.5</span>
+
+            <span class="k">if</span> <span class="n">canvas_type</span> <span class="o">==</span> <span class="s2">&quot;bokeh&quot;</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">all_labels</span><span class="p">):</span>
+                    <span class="n">canvas</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">xy</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">dx</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">xy</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">dy</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">dx</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">dy</span><span class="p">,</span>
+                                <span class="n">color</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">z_by_label</span><span class="p">[:,</span> <span class="n">j</span><span class="p">])</span>
+                
+            <span class="k">elif</span> <span class="n">canvas_type</span> <span class="o">==</span> <span class="s2">&quot;pyplot&quot;</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">labels</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">xy</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+                <span class="n">patches</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">rgbas</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">CC</span> <span class="o">=</span> <span class="n">colors</span><span class="o">.</span><span class="n">ColorConverter</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">all_labels</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">xy</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                        <span class="n">corners</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">xy</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">dx</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">xy</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">dx</span><span class="o">/</span><span class="mi">2</span><span class="p">],</span>
+                                            <span class="p">[</span><span class="n">xy</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">dx</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">xy</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">dx</span><span class="o">/</span><span class="mi">2</span><span class="p">],</span>
+                                            <span class="p">[</span><span class="n">xy</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">dx</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">xy</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">dy</span><span class="o">/</span><span class="mi">2</span><span class="p">],</span>
+                                            <span class="p">[</span><span class="n">xy</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">dx</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">xy</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">dy</span><span class="o">/</span><span class="mi">2</span><span class="p">]])</span>
+                        <span class="n">patches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Polygon</span><span class="p">(</span><span class="n">corners</span><span class="p">))</span>
+                        <span class="c1"># have to manually set the alpha value</span>
+                        <span class="n">rgba</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">CC</span><span class="o">.</span><span class="n">to_rgba</span><span class="p">(</span><span class="n">label</span><span class="p">))</span>
+                        <span class="n">rgba</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">z_by_label</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+                        <span class="n">rgbas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">rgba</span><span class="p">))</span>
+
+                <span class="n">p</span> <span class="o">=</span> <span class="n">PatchCollection</span><span class="p">(</span><span class="n">patches</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">set_facecolors</span><span class="p">(</span><span class="n">rgbas</span><span class="p">)</span>
+                <span class="n">canvas</span><span class="o">.</span><span class="n">add_collection</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+ 
+            <span class="k">pass</span>
+
+        <span class="k">elif</span> <span class="n">style</span> <span class="o">==</span> <span class="s2">&quot;hulls&quot;</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="k">import</span> <span class="n">ConvexHull</span>
+            <span class="k">if</span> <span class="n">canvas_type</span> <span class="o">==</span> <span class="s2">&quot;bokeh&quot;</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;No hulls in Bokeh yet. Use pyplot.&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">canvas_type</span> <span class="o">==</span> <span class="s2">&quot;pyplot&quot;</span><span class="p">:</span>
+                <span class="n">maxwt</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaussians</span><span class="p">])</span>
+                <span class="n">patches</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">rgbas</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">cc</span> <span class="o">=</span> <span class="n">colors</span><span class="o">.</span><span class="n">ColorConverter</span><span class="p">()</span>
+ 
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gaussians</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">g</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+                        <span class="n">a</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">]</span>
+                        <span class="n">l</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="s1">&#39;level&#39;</span><span class="p">]</span>
+                        <span class="n">cl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">covertree</span><span class="p">[</span><span class="n">l</span><span class="p">]</span>
+                        <span class="n">label</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span>
+                        <span class="n">children</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">covertree</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">cl</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">a</span><span class="p">],</span> <span class="p">:]</span>
+                        <span class="n">hull</span> <span class="o">=</span> <span class="n">ConvexHull</span><span class="p">(</span><span class="n">children</span><span class="p">)</span><span class="o">.</span><span class="n">vertices</span>
+                        <span class="n">poly_data</span> <span class="o">=</span> <span class="n">children</span><span class="p">[</span><span class="n">hull</span><span class="p">,</span> <span class="p">:]</span>
+                        <span class="n">patches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Polygon</span><span class="p">(</span><span class="n">poly_data</span><span class="p">))</span>
+                        <span class="c1"># have to manually set the alpha value</span>
+                        <span class="n">rgba</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cc</span><span class="o">.</span><span class="n">to_rgba</span><span class="p">(</span><span class="n">label</span><span class="p">))</span>
+                        <span class="n">rgba</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span><span class="o">*</span><span class="mf">1.0</span><span class="o">/</span><span class="n">maxwt</span>
+                        <span class="n">rgbas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">rgba</span><span class="p">))</span>
+
+                <span class="n">p</span> <span class="o">=</span> <span class="n">PatchCollection</span><span class="p">(</span><span class="n">patches</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">set_facecolors</span><span class="p">(</span><span class="n">rgbas</span><span class="p">)</span>
+                <span class="n">canvas</span><span class="o">.</span><span class="n">add_collection</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                <span class="k">pass</span>
+
+        <span class="k">elif</span> <span class="n">style</span> <span class="o">==</span> <span class="s2">&quot;entropy&quot;</span><span class="p">:</span>
+            <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">covertree</span><span class="p">)</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">N</span><span class="p">,))</span>
+            <span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">N</span><span class="p">,))</span>
+            <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaussians</span><span class="p">:</span>
+                <span class="n">C</span><span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;level&#39;</span><span class="p">]:]</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;level&#39;</span><span class="p">]:]</span> <span class="o">+</span> <span class="mf">1.0</span>
+                <span class="n">Q</span><span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;level&#39;</span><span class="p">]:]</span> <span class="o">=</span> <span class="n">Q</span><span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;level&#39;</span><span class="p">]:]</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">g</span><span class="p">[</span><span class="s1">&#39;entropy&#39;</span><span class="p">])</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">C</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="s2">&quot;coords&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">C</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">Q</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="s2">&quot;bits&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">Q</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="s2">&quot;top_left&quot;</span>
+            <span class="k">pass</span> 
+
+        <span class="k">elif</span> <span class="n">style</span> <span class="o">==</span> <span class="s2">&quot;expatriots&quot;</span><span class="p">:</span>
+            <span class="n">Xms</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">Yms</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">R1s</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">R2s</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">As</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">Cs</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">Ws</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaussians</span><span class="p">:</span>
+                <span class="n">Xms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>                                                        
+                <span class="n">Yms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>                                                        
+                <span class="n">R1s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;std&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="o">/</span><span class="mf">0.75</span><span class="p">)</span>  <span class="c1"># 0.75 bokeh oval distortion</span>
+                <span class="n">R2s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;std&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>                                                      
+                <span class="n">As</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;rotation&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">g</span><span class="p">[</span><span class="s1">&#39;rotation&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]))</span>
+                <span class="n">Cs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
+                <span class="n">Ws</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">])</span>
+            <span class="n">Ws</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Ws</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">Wmax</span> <span class="o">=</span> <span class="n">Ws</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">canvas_type</span> <span class="o">==</span> <span class="s2">&quot;bokeh&quot;</span><span class="p">:</span>
+                <span class="n">canvas</span><span class="o">.</span><span class="n">oval</span><span class="p">(</span><span class="n">Xms</span><span class="p">,</span> <span class="n">Yms</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="n">As</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">R1s</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">R2s</span><span class="p">,</span>                    
+                            <span class="n">alpha</span><span class="o">=</span><span class="n">Ws</span><span class="o">/</span><span class="n">Wmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">Cs</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>                    
+                            <span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span> 
+
+            <span class="k">elif</span> <span class="n">canvas_type</span> <span class="o">==</span> <span class="s2">&quot;pyplot&quot;</span><span class="p">:</span>
+                <span class="n">patches</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">rgbas</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">CC</span> <span class="o">=</span> <span class="n">colors</span><span class="o">.</span><span class="n">ColorConverter</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Xms</span><span class="p">)):</span>
+                    <span class="n">patches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Ellipse</span><span class="p">(</span><span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">Xms</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Yms</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span>
+                                           <span class="n">width</span><span class="o">=</span><span class="n">R1s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="mf">0.75</span><span class="p">,</span> 
+                                           <span class="n">height</span><span class="o">=</span><span class="n">R2s</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                                           <span class="n">angle</span><span class="o">=</span><span class="n">As</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="mi">180</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span>
+                    <span class="c1"># have to manually set the alpha value</span>
+                    <span class="n">rgba</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">CC</span><span class="o">.</span><span class="n">to_rgba</span><span class="p">(</span><span class="n">Cs</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+                    <span class="n">rgba</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">Ws</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="n">Wmax</span>
+                    <span class="n">rgbas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">rgba</span><span class="p">))</span>
+
+                <span class="n">p</span> <span class="o">=</span> <span class="n">PatchCollection</span><span class="p">(</span><span class="n">patches</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">set_facecolors</span><span class="p">(</span><span class="n">rgbas</span><span class="p">)</span>
+                <span class="n">canvas</span><span class="o">.</span><span class="n">add_collection</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+            <span class="k">pass</span>
+
+        <span class="k">elif</span> <span class="n">style</span> <span class="o">==</span> <span class="s2">&quot;predictions&quot;</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">elif</span> <span class="n">style</span> <span class="o">==</span> <span class="s2">&quot;covertree&quot;</span><span class="p">:</span>
+            <span class="n">Xs</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">Ys</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">Rs</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">Cs</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">Ws</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaussians</span><span class="p">:</span>
+                <span class="n">Xs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;adult&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>                                                        
+                <span class="n">Ys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;adult&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>                                                        
+                <span class="n">Rs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;radius&#39;</span><span class="p">])</span>                                                      
+                <span class="n">Cs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
+                <span class="n">Ws</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">g</span><span class="p">[</span><span class="s1">&#39;entropy&#39;</span><span class="p">])</span>
+            <span class="n">Ws</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Ws</span><span class="p">)</span>
+            <span class="c1"># Ws = np.log2(np.array(Ws)+1)</span>
+            <span class="n">Wmax</span> <span class="o">=</span> <span class="n">Ws</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">canvas_type</span> <span class="o">==</span> <span class="s2">&quot;bokeh&quot;</span><span class="p">:</span>
+                <span class="n">canvas</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">Xs</span><span class="p">,</span> <span class="n">Ys</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">Rs</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">Ws</span><span class="o">/</span><span class="n">Wmax</span><span class="p">,</span>                   
+                              <span class="n">color</span><span class="o">=</span><span class="n">Cs</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>                    
+                              <span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span> 
+            <span class="k">elif</span> <span class="n">canvas_type</span> <span class="o">==</span> <span class="s2">&quot;pyplot&quot;</span><span class="p">:</span>
+                <span class="n">patches</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">rgbas</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">cc</span> <span class="o">=</span> <span class="n">colors</span><span class="o">.</span><span class="n">ColorConverter</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Xs</span><span class="p">)):</span>
+                    <span class="n">patches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Circle</span><span class="p">(</span><span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">Xs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Ys</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">radius</span><span class="o">=</span><span class="n">Rs</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+                    <span class="c1"># have to manually set the alpha value</span>
+                    <span class="n">rgba</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cc</span><span class="o">.</span><span class="n">to_rgba</span><span class="p">(</span><span class="n">Cs</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+                    <span class="n">rgba</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">Ws</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="n">Wmax</span>
+                    <span class="n">rgbas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">rgba</span><span class="p">))</span>
+
+                <span class="n">p</span> <span class="o">=</span> <span class="n">PatchCollection</span><span class="p">(</span><span class="n">patches</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">set_facecolors</span><span class="p">(</span><span class="n">rgbas</span><span class="p">)</span>
+                <span class="n">canvas</span><span class="o">.</span><span class="n">add_collection</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+            <span class="k">pass</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Wrong plot style.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GaussianMixtureClassifier.predict"><a class="viewcode-back" href="../../generated/multidim.models.GaussianMixtureClassifier.predict.html#multidim.models.GaussianMixtureClassifier.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pointclouds</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        Predict labels of given pointclouds, based on previous training data </span>
+<span class="sd">        fed to :func:`fit`.</span>
+
+<span class="sd">        This is just a call to :func:`runit`</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pointclouds : list-like</span>
+<span class="sd">            A list of arrays.  Each array is a pointcloud.  Each row of that</span>
+<span class="sd">            array is a point.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        array of labels, one for each pointcloud in the input list.</span>
+<span class="sd">       </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">runit</span><span class="p">(</span><span class="n">pointclouds</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="GaussianMixtureClassifier.score"><a class="viewcode-back" href="../../generated/multidim.models.GaussianMixtureClassifier.score.html#multidim.models.GaussianMixtureClassifier.score">[docs]</a>    <span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pointclouds</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Score predicted labels against known labels.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pointclouds : list-like</span>
+<span class="sd">            A list of arrays.  Each array is a pointcloud.  Each row of that</span>
+<span class="sd">            array is a point.</span>
+
+<span class="sd">        labels : list-like</span>
+<span class="sd">            A corresponding list of labels.</span>
+<span class="sd">            </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        an array of booleans.  True means the labels match.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        :func:`score`</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">pointclouds</span><span class="p">)</span> <span class="o">==</span> <span class="n">labels</span></div>
+
+<div class="viewcode-block" id="GaussianMixtureClassifier.runit"><a class="viewcode-back" href="../../generated/multidim.models.GaussianMixtureClassifier.runit.html#multidim.models.GaussianMixtureClassifier.runit">[docs]</a>    <span class="k">def</span> <span class="nf">runit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pointclouds</span><span class="p">):</span>
+
+        <span class="n">num_tests</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pointclouds</span><span class="p">)</span>
+
+        <span class="n">evaluations</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">num_tests</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gaussians</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="n">norm_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">num_tests</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">all_labels</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="n">best_match</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">num_tests</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">all_labels</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+        <span class="c1"># evaluate each pointcloud against each Gaussian</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">X</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pointclouds</span><span class="p">):</span>
+            <span class="n">v</span><span class="p">,</span> <span class="n">l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+            <span class="n">evaluations</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">score_label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">all_labels</span><span class="p">):</span>
+                <span class="n">indicator</span> <span class="o">=</span> <span class="p">(</span><span class="n">l</span> <span class="o">==</span> <span class="n">score_label</span><span class="p">)</span>
+                <span class="n">norm_scores</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">v</span><span class="o">*</span><span class="n">indicator</span><span class="p">)</span>
+            <span class="n">best_label_index</span> <span class="o">=</span> <span class="n">norm_scores</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
+            <span class="n">best_match</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_labels</span><span class="p">[</span><span class="n">best_label_index</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">evaluations</span><span class="p">,</span> <span class="n">norm_scores</span><span class="p">,</span> <span class="n">best_match</span>  </div></div>
+
+
+<div class="viewcode-block" id="CDER"><a class="viewcode-back" href="../../generated/multidim.models.CDER.html#multidim.models.CDER">[docs]</a><span class="k">class</span> <span class="nc">CDER</span><span class="p">(</span><span class="n">GaussianMixtureClassifier</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;The CDER (Cover-Tree Differencing for Entropy Reduction) algorithm for</span>
+<span class="sd">    supervised machine-learning of labelled cloud collections.  This uses the</span>
+<span class="sd">    &quot;Cover Tree with Friends&quot; algorithm along with an entropy computation to</span>
+<span class="sd">    build a regional classifer for labelled pointclouds.  It relies on the</span>
+<span class="sd">    :class:`multidim.covertree.CoverTree` and </span>
+<span class="sd">    :class:`multidim.covertree.CoverLevel` data structures.</span>
+
+<span class="sd">    See the paper [CDER1]_ and the talk [CDER2]_.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    parsimonious : bool</span>
+<span class="sd">        Whether to use the parsimonious version of CDER, where a region is</span>
+<span class="sd">        ignored once entropy reached a local minimum.  For most datasets,</span>
+<span class="sd">        :code:`parsimonious=False` provides a better classifier, but they are more</span>
+<span class="sd">        expensive to evaluate.  In many cases, :code:`parsimonious=False` is </span>
+<span class="sd">        good enough, and is significantly faster.</span>
+<span class="sd">        Default: :code:`True`</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    </span>
+<span class="sd">    We&#39;ll make a simple dataset with one &quot;green&quot; pointcloud sampled from </span>
+<span class="sd">    a uniform distribution on the 1x1 square centered at (-1,0),</span>
+<span class="sd">    and one &quot;magenta&quot; pointcloud sampled from a uniform distribution on the </span>
+<span class="sd">    1x1 square centered at (1, 0).</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; import multidim</span>
+<span class="sd">    &gt;&gt;&gt; train_dataL = np.random.rand(100,2) - np.array([-1.5, -0.5])  # for green</span>
+<span class="sd">    &gt;&gt;&gt; # dataL.mean(axis=0)  # should be near (-1, 0)</span>
+<span class="sd">    &gt;&gt;&gt; train_dataR = np.random.rand(200,2) - np.array([0.5, -0.5])  # for magenta</span>
+<span class="sd">    &gt;&gt;&gt; # dataR.mean(axis=0)  # should be near (+1, 0)</span>
+<span class="sd">    &gt;&gt;&gt; cder = CDER(parsimonious=True)  # prepare a classifier</span>
+<span class="sd">    &gt;&gt;&gt; cder.fit([train_dataL, train_dataR], [&quot;green&quot;, &quot;magenta&quot;])  # this runs CoverTree</span>
+<span class="sd">    &gt;&gt;&gt; for g in cder.gaussians:</span>
+<span class="sd">    ...     print(list(g.keys()))</span>
+<span class="sd">    ...     break</span>
+<span class="sd">    [&#39;label&#39;, &#39;mean&#39;, &#39;std&#39;, &#39;rotation&#39;, &#39;index&#39;, &#39;adult&#39;, &#39;level&#39;, &#39;radius&#39;, &#39;entropy&#39;, &#39;weight&#39;, &#39;count&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; test_dataL = np.random.rand(50,2) - np.array([-1.5, -0.5])  # should be green</span>
+<span class="sd">    &gt;&gt;&gt; test_dataR = np.random.rand(50,2) - np.array([0.5, -0.5])  # should be magenta</span>
+<span class="sd">    &gt;&gt;&gt; cder.predict([test_dataL, test_dataR])  # Guess the labels</span>
+<span class="sd">    array([&#39;green&#39;, &#39;magenta&#39;], dtype=object)</span>
+<span class="sd">    &gt;&gt;&gt; cder.score([test_dataL, test_dataR], [&quot;green&quot;, &quot;magenta&quot;])  # Correct?</span>
+<span class="sd">    array([ True,  True], dtype=bool)</span>
+<span class="sd">    </span>
+
+<span class="sd">    A more thorough example is at http://nbviewer.jupyter.org/github/geomdata/gda-public/blob/master/examples/example-cder.ipynb</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :class:`multidim.covertree.CoverTree`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CDER.build_gaussian"><a class="viewcode-back" href="../../generated/multidim.models.CDER.build_gaussian.html#multidim.models.CDER.build_gaussian">[docs]</a>    <span class="k">def</span> <span class="nf">build_gaussian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coverlevel</span><span class="p">,</span> <span class="n">adult</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">dominant_index</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build a Gaussian from the children of this adult in a cover-tree</span>
+<span class="sd">        (using only a particular label).</span>
+
+<span class="sd">        Generally, a user will never call this.  It is called when</span>
+<span class="sd">        :func:`gausscoords` decides that a CoverTree ball is work modelling.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        coverlevel : `multidim.covertree.CoverLevel`</span>
+<span class="sd">        adult : int</span>
+<span class="sd">        label : int</span>
+<span class="sd">        dominant_index : int</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        :func:`gausscoords`</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ct</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">covertree</span>
+        <span class="n">pc</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointcloud</span>
+        <span class="n">label_index</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">label_info</span><span class="p">[</span><span class="s1">&#39;int_index&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">label</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="n">label</span> <span class="o">==</span> <span class="n">pc</span><span class="o">.</span><span class="n">label_info</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">label_index</span><span class="p">]</span>
+        <span class="n">winning_children</span> <span class="o">=</span> <span class="n">coverlevel</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">adult</span><span class="p">]</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">pc</span><span class="o">.</span><span class="n">labels</span> <span class="o">==</span> <span class="n">label_index</span> <span class="p">)</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">winning_children</span><span class="p">)</span>
+        <span class="n">sample</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">winning_children</span><span class="p">,:]</span>
+        <span class="n">entropy</span> <span class="o">=</span> <span class="n">coverlevel</span><span class="o">.</span><span class="n">entropy</span><span class="p">[</span><span class="n">adult</span><span class="p">]</span>
+        <span class="n">ambient_dim</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">weight</span> <span class="o">=</span> <span class="n">coverlevel</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="n">adult</span><span class="p">][</span><span class="n">label_index</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">count</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Too few points </span><span class="si">{}</span><span class="s2"> at </span><span class="si">{}</span><span class="s2">.  Lost </span><span class="si">{}</span><span class="s2">*</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">adult</span><span class="p">,</span> <span class="mi">1</span><span class="o">-</span><span class="n">entropy</span><span class="p">,</span> <span class="n">weight</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">m</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">v</span> <span class="o">=</span> <span class="n">gaussian_fit</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">s</span> <span class="o">&lt;=</span> <span class="mf">0.</span><span class="p">):</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Bad Gaussian </span><span class="si">{}</span><span class="s2"> at </span><span class="si">{}</span><span class="s2">.  Lost </span><span class="si">{}</span><span class="s2">*</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">adult</span><span class="p">,</span> <span class="mi">1</span><span class="o">-</span><span class="n">entropy</span><span class="p">,</span> <span class="n">weight</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span>
+                <span class="s2">&quot;mean&quot;</span><span class="p">:</span> <span class="n">m</span><span class="p">,</span>
+                <span class="s2">&quot;std&quot;</span><span class="p">:</span> <span class="n">s</span><span class="p">,</span>
+                <span class="s2">&quot;rotation&quot;</span><span class="p">:</span> <span class="n">v</span><span class="p">,</span>
+                <span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="n">adult</span><span class="p">,</span>
+                <span class="s2">&quot;adult&quot;</span><span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">adult</span><span class="p">,:],</span>
+                <span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="n">coverlevel</span><span class="o">.</span><span class="n">exponent</span><span class="p">,</span>
+                <span class="s2">&quot;radius&quot;</span><span class="p">:</span> <span class="n">coverlevel</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span>
+                <span class="s2">&quot;entropy&quot;</span><span class="p">:</span> <span class="n">entropy</span><span class="p">,</span>
+                <span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="n">coverlevel</span><span class="o">.</span><span class="n">radius</span><span class="o">**</span><span class="n">ambient_dim</span><span class="o">*</span><span class="n">weight</span><span class="o">*</span><span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">entropy</span> <span class="p">),</span>
+                <span class="s2">&quot;count&quot;</span><span class="p">:</span>  <span class="n">count</span><span class="p">,</span>
+                <span class="p">}</span></div>
+   
+
+<div class="viewcode-block" id="CDER.gausscoords"><a class="viewcode-back" href="../../generated/multidim.models.CDER.gausscoords.html#multidim.models.CDER.gausscoords">[docs]</a>    <span class="k">def</span> <span class="nf">gausscoords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parsimonious</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; This is the Gaussian-building heart of the CDER algorithm. </span>
+<span class="sd">        Look to elders, and look to successor.  How does entropy change?   If</span>
+<span class="sd">        the entropy is a local minimum, then build a Gaussian coordinate with</span>
+<span class="sd">        the dominant label.</span>
+<span class="sd">        This populates :code:`self.gaussians` for a :class:`CDER` object.</span>
+
+<span class="sd">        Generally, a user will never call this.  It is called by</span>
+<span class="sd">        :func:`fit`</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        parsimonious:  bool</span>
+<span class="sd">            If True, then ignore unlikely regions quickly, to minimize the number of</span>
+<span class="sd">            Gaussian coordinates.  If False, then check all levels of the</span>
+<span class="sd">            CoverTree.  (default: True)</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        :func:`build_gaussians` :func:`fit`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    
+        <span class="n">gaussians</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">next_level</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">covertree</span><span class="p">:</span>
+            <span class="c1"># next_level is *not* the level we are actually studying!</span>
+            <span class="c1"># but, we need to pre-compute to see if it is worth proceeding.</span>
+            <span class="k">if</span> <span class="n">next_level</span><span class="o">.</span><span class="n">exponent</span> <span class="o">&gt;</span> <span class="mi">16</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">elif</span> <span class="n">next_level</span><span class="o">.</span><span class="n">exponent</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span> 
+                <span class="n">next_level</span><span class="o">.</span><span class="n">adults_to_check</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">next_level</span><span class="o">.</span><span class="n">adults_to_check</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">next_level</span><span class="o">.</span><span class="n">adults</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">adult</span> <span class="ow">in</span> <span class="n">next_level</span><span class="o">.</span><span class="n">adults_to_check</span><span class="p">:</span>
+                    <span class="n">next_level</span><span class="o">.</span><span class="n">find_entropy</span><span class="p">(</span><span class="n">adult</span><span class="p">)</span>
+                <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">l_plus_1</span> <span class="o">=</span> <span class="n">next_level</span><span class="o">.</span><span class="n">exponent</span>
+                <span class="n">prev_level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">covertree</span><span class="o">.</span><span class="n">_levels</span><span class="p">[</span><span class="n">l_plus_1</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">this_level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">covertree</span><span class="o">.</span><span class="n">_levels</span><span class="p">[</span><span class="n">l_plus_1</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">this_level</span><span class="o">.</span><span class="n">adults_to_check</span><span class="p">:</span> 
+                    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Done at </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">this_level</span><span class="o">.</span><span class="n">exponent</span><span class="p">))</span>
+                    <span class="k">break</span> <span class="c1"># done with covertree!</span>
+                
+                <span class="n">next_level</span><span class="o">.</span><span class="n">adults_to_check</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Gaussians so far: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">gaussians</span><span class="p">)))</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">this_level</span><span class="p">)</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Checking </span><span class="si">{}</span><span class="s2"> adults&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">this_level</span><span class="o">.</span><span class="n">adults_to_check</span><span class="p">)))</span>
+                <span class="k">for</span> <span class="n">adult</span> <span class="ow">in</span> <span class="n">this_level</span><span class="o">.</span><span class="n">adults_to_check</span><span class="p">:</span>
+                    
+                    <span class="c1"># TODO -- make this more efficient with special ratio.</span>
+                    <span class="c1"># get union of entropy of elders</span>
+                    <span class="n">adult_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">adult</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+                    <span class="n">pre_elders</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">prev_level</span><span class="o">.</span><span class="n">friends1</span><span class="p">[</span><span class="n">this_level</span><span class="o">.</span><span class="n">predecessor</span><span class="p">[</span><span class="n">adult</span><span class="p">]])</span>
+                    <span class="n">pre_eldersR</span> <span class="o">=</span> <span class="n">distance_cache_None</span><span class="p">(</span>
+                        <span class="n">adult_a</span><span class="p">,</span> <span class="n">pre_elders</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">covertree</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+                    <span class="n">my_elders</span> <span class="o">=</span> <span class="n">pre_elders</span><span class="p">[</span><span class="n">pre_eldersR</span> <span class="o">&lt;=</span> <span class="n">prev_level</span><span class="o">.</span><span class="n">radius</span><span class="p">]</span>
+                    <span class="n">prev_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span> <span class="n">prev_level</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">my_elders</span> <span class="p">])</span>
+                    
+                    <span class="n">prev_entropy</span> <span class="o">=</span> <span class="n">entropy</span><span class="p">(</span><span class="n">prev_weights</span><span class="o">/</span><span class="n">prev_weights</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+                    <span class="c1"># union entropy of elders of adult at prev_level</span>
+                    <span class="n">this_entropy</span> <span class="o">=</span> <span class="n">this_level</span><span class="o">.</span><span class="n">find_entropy</span><span class="p">(</span><span class="n">adult</span><span class="p">)</span>
+                    <span class="c1"># entropy of this_level children of adult</span>
+                    <span class="n">next_entropy</span> <span class="o">=</span> <span class="n">next_level</span><span class="o">.</span><span class="n">find_entropy</span><span class="p">(</span><span class="n">adult</span><span class="p">)</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">:&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">adult</span><span class="p">,</span> <span class="n">next_entropy</span><span class="p">,</span> <span class="n">this_entropy</span><span class="p">,</span> <span class="n">prev_entropy</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;: &quot;</span><span class="p">)</span>
+                    <span class="c1"># entropy of next_level children of adult</span>
+                    <span class="c1"># We consider all orderings of these three quantities</span>
+                    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">next_level</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">adult</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="n">this_level</span><span class="o">.</span><span class="n">covertree</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">multiplicity</span><span class="p">[</span><span class="n">adult</span><span class="p">]:</span>
+                        <span class="k">pass</span>
+                    <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">this_level</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">adult</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="n">this_level</span><span class="o">.</span><span class="n">covertree</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">multiplicity</span><span class="p">[</span><span class="n">adult</span><span class="p">]:</span>
+                        <span class="k">pass</span>
+                    <span class="k">elif</span>  <span class="mf">1.0</span> <span class="o">&gt;</span> <span class="n">prev_entropy</span> <span class="o">&gt;=</span> <span class="n">this_entropy</span> <span class="o">&gt;=</span> <span class="n">next_entropy</span><span class="p">:</span>
+                        <span class="c1"># use it!</span>
+                        <span class="n">my_weights</span> <span class="o">=</span> <span class="n">this_level</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="n">adult</span><span class="p">]</span>
+                        <span class="n">totweight</span> <span class="o">=</span> <span class="n">my_weights</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                        <span class="n">numlabels</span> <span class="o">=</span> <span class="n">my_weights</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        
+                        <span class="c1"># find the labels that dominate the low-entropy</span>
+                        <span class="c1"># sort from biggest to least, and make a coord for each.</span>
+                        <span class="n">dominant_index</span> <span class="o">=</span> <span class="p">(</span><span class="n">my_weights</span> <span class="o">&gt;</span> <span class="n">totweight</span><span class="o">/</span><span class="n">numlabels</span><span class="p">)</span>
+                        <span class="n">dominant_labels</span> <span class="o">=</span> <span class="n">this_level</span><span class="o">.</span><span class="n">covertree</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">label_info</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">dominant_index</span><span class="p">]</span>
+                        <span class="n">label_ordering</span> <span class="o">=</span> <span class="n">my_weights</span><span class="p">[</span><span class="n">dominant_index</span><span class="p">]</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">dominant_labels</span><span class="p">[</span><span class="n">label_ordering</span><span class="p">]:</span>
+                                <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_gaussian</span><span class="p">(</span><span class="n">this_level</span><span class="p">,</span> <span class="n">adult</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">dominant_index</span><span class="p">)</span>
+                                <span class="k">if</span> <span class="n">g</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                                    <span class="n">gaussians</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">parsimonious</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+                            <span class="n">to_check</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">this_level</span><span class="o">.</span><span class="n">successors</span><span class="p">[</span><span class="n">adult</span><span class="p">])</span>
+                            <span class="n">next_level</span><span class="o">.</span><span class="n">adults_to_check</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">to_check</span><span class="p">)</span>
+                    
+                    <span class="k">elif</span> <span class="mf">1.0</span> <span class="o">&gt;</span> <span class="n">this_entropy</span> <span class="o">&gt;=</span> <span class="n">prev_entropy</span> <span class="o">&gt;=</span> <span class="n">next_entropy</span><span class="p">:</span>
+                        <span class="c1"># re-check adult at the next level.</span>
+                        <span class="k">if</span> <span class="n">parsimonious</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+                            <span class="n">to_check</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">this_level</span><span class="o">.</span><span class="n">successors</span><span class="p">[</span><span class="n">adult</span><span class="p">])</span>
+                            <span class="n">next_level</span><span class="o">.</span><span class="n">adults_to_check</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">to_check</span><span class="p">)</span>
+                        <span class="k">elif</span> <span class="n">parsimonious</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                            <span class="c1"># only the center is likely to be useful</span>
+                            <span class="n">next_level</span><span class="o">.</span><span class="n">adults_to_check</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">adult</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;parsimonious flag must be True or False.&quot;</span><span class="p">)</span>
+                    
+                    <span class="k">elif</span> <span class="mf">1.0</span> <span class="o">&gt;</span> <span class="n">prev_entropy</span> <span class="o">&gt;=</span> <span class="n">next_entropy</span> <span class="o">&gt;=</span> <span class="n">this_entropy</span><span class="p">:</span>
+                        <span class="n">to_check</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">this_level</span><span class="o">.</span><span class="n">successors</span><span class="p">[</span><span class="n">adult</span><span class="p">])</span>
+                        <span class="k">if</span> <span class="n">parsimonious</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                            <span class="c1"># center is unlikely to be useful.</span>
+                            <span class="n">to_check</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">adult</span><span class="p">)</span>
+                        <span class="n">next_level</span><span class="o">.</span><span class="n">adults_to_check</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">to_check</span><span class="p">)</span>
+    
+                    <span class="k">elif</span> <span class="mf">1.0</span> <span class="o">&gt;</span> <span class="n">next_entropy</span> <span class="o">&gt;=</span> <span class="n">prev_entropy</span> <span class="o">&gt;=</span> <span class="n">this_entropy</span><span class="p">:</span>
+                        <span class="n">to_check</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">this_level</span><span class="o">.</span><span class="n">successors</span><span class="p">[</span><span class="n">adult</span><span class="p">])</span>
+                        <span class="k">if</span> <span class="n">parsimonious</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                            <span class="c1"># center is unlikely to be useful.</span>
+                            <span class="n">to_check</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">adult</span><span class="p">)</span>
+                        <span class="n">next_level</span><span class="o">.</span><span class="n">adults_to_check</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">to_check</span><span class="p">)</span>
+    
+                    <span class="k">elif</span> <span class="mf">1.0</span> <span class="o">&gt;</span> <span class="n">this_entropy</span> <span class="o">&gt;=</span> <span class="n">next_entropy</span> <span class="o">&gt;=</span> <span class="n">prev_entropy</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">parsimonious</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+                            <span class="n">to_check</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">this_level</span><span class="o">.</span><span class="n">successors</span><span class="p">[</span><span class="n">adult</span><span class="p">])</span>
+                            <span class="n">next_level</span><span class="o">.</span><span class="n">adults_to_check</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">to_check</span><span class="p">)</span>
+                        <span class="k">pass</span> <span class="c1"># do nothing with this subtree.  That is, STOP.</span>
+                    
+                    <span class="k">elif</span> <span class="mf">1.0</span> <span class="o">&gt;</span> <span class="n">next_entropy</span> <span class="o">&gt;=</span> <span class="n">this_entropy</span> <span class="o">&gt;=</span> <span class="n">prev_entropy</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">parsimonious</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+                            <span class="n">to_check</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">this_level</span><span class="o">.</span><span class="n">successors</span><span class="p">[</span><span class="n">adult</span><span class="p">])</span>
+                            <span class="n">next_level</span><span class="o">.</span><span class="n">adults_to_check</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">to_check</span><span class="p">)</span>
+                        <span class="k">pass</span> <span class="c1"># do nothing with this subtree.  That is, STOP.</span>
+                    
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">assert</span> <span class="nb">max</span><span class="p">([</span><span class="n">prev_entropy</span><span class="p">,</span> <span class="n">this_entropy</span><span class="p">,</span> <span class="n">next_entropy</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mf">1.0</span>
+                        <span class="n">to_check</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">this_level</span><span class="o">.</span><span class="n">successors</span><span class="p">[</span><span class="n">adult</span><span class="p">])</span>
+                        <span class="n">next_level</span><span class="o">.</span><span class="n">adults_to_check</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">to_check</span><span class="p">)</span>
+    
+        <span class="k">return</span> <span class="n">gaussians</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
+      </li>
+      <li>
+      Last updated on May 25, 2017.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

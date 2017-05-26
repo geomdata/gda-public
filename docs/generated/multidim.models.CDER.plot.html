@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>multidim.models.CDER.plot &mdash; GDA Toolbox v1.0 Manual</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="GDA Toolbox v1.0 Manual" href="../index.html" >
+    <link rel="up" title="multidim.models.CDER" href="multidim.models.CDER.html" >
+    <link rel="next" title="multidim.models.CDER.predict" href="multidim.models.CDER.predict.html" >
+    <link rel="prev" title="multidim.models.CDER.get_params" href="multidim.models.CDER.get_params.html" > 
+  </head>
+  <body>
+
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">GDA Toolbox v1.0 Manual</a></li>
+	
+          <li class="active"><a href="../all_methods.html" >All Modules, Classes, and Methods</a></li>
+          <li class="active"><a href="multidim.models.CDER.html" accesskey="U">multidim.models.CDER</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="multidim.models.CDER.predict.html" title="multidim.models.CDER.predict"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="multidim.models.CDER.get_params.html" title="multidim.models.CDER.get_params"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="multidim-models-cder-plot">
+<h1>multidim.models.CDER.plot<a class="headerlink" href="#multidim-models-cder-plot" title="Permalink to this headline">¶</a></h1>
+<dl class="method">
+<dt id="multidim.models.CDER.plot">
+<code class="descclassname">CDER.</code><code class="descname">plot</code><span class="sig-paren">(</span><em>canvas</em>, <em>style='covertree'</em><span class="sig-paren">)</span><a class="headerlink" href="#multidim.models.CDER.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot a CDER model, using matplotlib or bokeh</p>
+<p>There are several options to help visualize various aspects of the
+model.  Typically, one wants to overlay this with the plots from the
+underlying <a class="reference internal" href="multidim.PointCloud.html#multidim.PointCloud" title="multidim.PointCloud"><code class="xref py py-class docutils literal"><span class="pre">multidim.PointCloud</span></code></a> and 
+<a class="reference internal" href="multidim.covertree.CoverTree.html#multidim.covertree.CoverTree" title="multidim.covertree.CoverTree"><code class="xref py py-class docutils literal"><span class="pre">multidim.covertree.CoverTree</span></code></a> objects.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>canvas</strong> : object</p>
+<blockquote>
+<div><p>An instance of 
+<code class="xref py py-obj docutils literal"><span class="pre">bokeh.plotting.figure.Figure</span></code> as in
+<code class="code docutils literal"><span class="pre">canvas</span> <span class="pre">=</span> <span class="pre">bokeh.plotting.figure()</span></code>
+or an instance of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.axes._subplots.AxesSubplot</span></code> as 
+in <code class="code docutils literal"><span class="pre">axes,canvas</span> <span class="pre">=</span> <span class="pre">matplotlib.pyplot.subplots()</span></code></p>
+</div></blockquote>
+<p><strong>style</strong> : str</p>
+<blockquote class="last">
+<div><p>options are &#8220;gaussians&#8221;, &#8220;covertree&#8221;, &#8220;heatmap&#8221;, &#8220;hulls&#8221;, 
+&#8220;expatriots&#8221;, and &#8220;predictions&#8221;.  Colors are generally obtained
+from the label names.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="multidim.PointCloud.plot.html#multidim.PointCloud.plot" title="multidim.PointCloud.plot"><code class="xref py py-func docutils literal"><span class="pre">multidim.PointCloud.plot()</span></code></a>, <a class="reference internal" href="multidim.covertree.CoverTree.plot.html#multidim.covertree.CoverTree.plot" title="multidim.covertree.CoverTree.plot"><code class="xref py py-func docutils literal"><span class="pre">multidim.covertree.CoverTree.plot()</span></code></a></p>
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="multidim.models.CDER.get_params.html"
+                        title="previous chapter">multidim.models.CDER.get_params</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="multidim.models.CDER.predict.html"
+                        title="next chapter">multidim.models.CDER.predict</a></p>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
+      </li>
+      <li>
+      Last updated on May 25, 2017.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

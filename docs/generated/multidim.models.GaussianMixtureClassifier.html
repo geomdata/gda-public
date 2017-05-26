@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>multidim.models.GaussianMixtureClassifier &mdash; GDA Toolbox v1.0 Manual</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="GDA Toolbox v1.0 Manual" href="../index.html" >
+    <link rel="up" title="All Modules, Classes, and Methods" href="../all_methods.html" >
+    <link rel="next" title="multidim.models.GaussianMixtureClassifier.evaluate" href="multidim.models.GaussianMixtureClassifier.evaluate.html" >
+    <link rel="prev" title="multidim.models.CDER.set_params" href="multidim.models.CDER.set_params.html" > 
+  </head>
+  <body>
+
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">GDA Toolbox v1.0 Manual</a></li>
+	
+          <li class="active"><a href="../all_methods.html" accesskey="U">All Modules, Classes, and Methods</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="multidim.models.GaussianMixtureClassifier.evaluate.html" title="multidim.models.GaussianMixtureClassifier.evaluate"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="multidim.models.CDER.set_params.html" title="multidim.models.CDER.set_params"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="multidim-models-gaussianmixtureclassifier">
+<h1>multidim.models.GaussianMixtureClassifier<a class="headerlink" href="#multidim-models-gaussianmixtureclassifier" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="multidim.models.GaussianMixtureClassifier">
+<em class="property">class </em><code class="descclassname">multidim.models.</code><code class="descname">GaussianMixtureClassifier</code><span class="sig-paren">(</span><em>stop_level=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/multidim/models.html#GaussianMixtureClassifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multidim.models.GaussianMixtureClassifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>A scikit-learn classification estimator, for any sort of Gaussian
+mixture model.</p>
+<p>A Gaussian mixture module is a collection of labelled Gaussian functions</p>
+<p>This is provided mainly to provide a parent class for <a class="reference internal" href="multidim.models.CDER.html#multidim.models.CDER" title="multidim.models.CDER"><code class="xref py py-obj docutils literal"><span class="pre">CDER</span></code></a>.</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.evaluate.html#multidim.models.GaussianMixtureClassifier.evaluate" title="multidim.models.GaussianMixtureClassifier.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">GaussianMixtureClassifier.evaluate</span></code></a>(x)</td>
+<td>Evaluate all gaussians against a pointcloud</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.fit.html#multidim.models.GaussianMixtureClassifier.fit" title="multidim.models.GaussianMixtureClassifier.fit"><code class="xref py py-obj docutils literal"><span class="pre">GaussianMixtureClassifier.fit</span></code></a>(\*training)</td>
+<td>Fit this estimator to training data.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.gausscoords.html#multidim.models.GaussianMixtureClassifier.gausscoords" title="multidim.models.GaussianMixtureClassifier.gausscoords"><code class="xref py py-obj docutils literal"><span class="pre">GaussianMixtureClassifier.gausscoords</span></code></a>()</td>
+<td>This is the method to overwrite for specific models!</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.get_params.html#multidim.models.GaussianMixtureClassifier.get_params" title="multidim.models.GaussianMixtureClassifier.get_params"><code class="xref py py-obj docutils literal"><span class="pre">GaussianMixtureClassifier.get_params</span></code></a>([deep])</td>
+<td>Pass original kwargs internally.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.plot.html#multidim.models.GaussianMixtureClassifier.plot" title="multidim.models.GaussianMixtureClassifier.plot"><code class="xref py py-obj docutils literal"><span class="pre">GaussianMixtureClassifier.plot</span></code></a>(canvas[,&nbsp;style])</td>
+<td>Plot a CDER model, using matplotlib or bokeh</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.predict.html#multidim.models.GaussianMixtureClassifier.predict" title="multidim.models.GaussianMixtureClassifier.predict"><code class="xref py py-obj docutils literal"><span class="pre">GaussianMixtureClassifier.predict</span></code></a>(pointclouds)</td>
+<td>Predict labels of given pointclouds, based on previous training data  fed to <a class="reference internal" href="multidim.models.GaussianMixtureClassifier.fit.html#multidim.models.GaussianMixtureClassifier.fit" title="multidim.models.GaussianMixtureClassifier.fit"><code class="xref py py-func docutils literal"><span class="pre">fit()</span></code></a>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.runit.html#multidim.models.GaussianMixtureClassifier.runit" title="multidim.models.GaussianMixtureClassifier.runit"><code class="xref py py-obj docutils literal"><span class="pre">GaussianMixtureClassifier.runit</span></code></a>(pointclouds)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.score.html#multidim.models.GaussianMixtureClassifier.score" title="multidim.models.GaussianMixtureClassifier.score"><code class="xref py py-obj docutils literal"><span class="pre">GaussianMixtureClassifier.score</span></code></a>(pointclouds,&nbsp;...)</td>
+<td>Score predicted labels against known labels.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.set_params.html#multidim.models.GaussianMixtureClassifier.set_params" title="multidim.models.GaussianMixtureClassifier.set_params"><code class="xref py py-obj docutils literal"><span class="pre">GaussianMixtureClassifier.set_params</span></code></a>(\*\*params)</td>
+<td>Set the parameters of this estimator.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="multidim.models.CDER.set_params.html"
+                        title="previous chapter">multidim.models.CDER.set_params</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="multidim.models.GaussianMixtureClassifier.evaluate.html"
+                        title="next chapter">multidim.models.GaussianMixtureClassifier.evaluate</a></p>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
+      </li>
+      <li>
+      Last updated on May 25, 2017.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

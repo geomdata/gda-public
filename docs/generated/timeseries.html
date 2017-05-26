@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>timeseries &mdash; GDA Toolbox v1.0 Manual</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="GDA Toolbox v1.0 Manual" href="../index.html" >
+    <link rel="up" title="Time-Series Data" href="../timeseries_data.html" >
+    <link rel="next" title="timeseries.Signal" href="timeseries.Signal.html" >
+    <link rel="prev" title="Time-Series Data" href="../timeseries_data.html" > 
+  </head>
+  <body>
+
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">GDA Toolbox v1.0 Manual</a></li>
+	
+          <li class="active"><a href="../timeseries_data.html" accesskey="U">Time-Series Data</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="timeseries.Signal.html" title="timeseries.Signal"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="../timeseries_data.html" title="Time-Series Data"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="module-timeseries">
+<span id="timeseries"></span><h1>timeseries<a class="headerlink" href="#module-timeseries" title="Permalink to this headline">¶</a></h1>
+<p>This module defines tools for geometric analysis of one-dimensional
+(time-series) data sets.  The main classes are</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="timeseries.Signal.html#timeseries.Signal" title="timeseries.Signal"><code class="xref py py-class docutils literal"><span class="pre">Signal</span></code></a></li>
+<li><a class="reference internal" href="timeseries.SpaceCurve.html#timeseries.SpaceCurve" title="timeseries.SpaceCurve"><code class="xref py py-class docutils literal"><span class="pre">SpaceCurve</span></code></a></li>
+</ul>
+</div></blockquote>
+<p>See <em class="xref py py-obj">timeseries-data</em> for a more general outline.</p>
+<div class="section" id="copyright">
+<h2>Copyright<a class="headerlink" href="#copyright" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>This file is part of <a class="reference external" href="https://github.com/geomdata/gda-public/">https://github.com/geomdata/gda-public/</a></li>
+<li>2015, 2016, 2017 by Geometric Data Analytics, Inc. (<a class="reference external" href="http://geomdata.com">http://geomdata.com</a>)</li>
+<li>AGPL license. See <em class="xref py py-obj">LICENSE</em> or <a class="reference external" href="https://github.com/geomdata/gda-public/blob/master/LICENSE">https://github.com/geomdata/gda-public/blob/master/LICENSE</a></li>
+</ul>
+</div>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">el</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.9</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">make_pers</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">pers</span><span class="o">.</span><span class="n">diagram</span>
+<span class="go">   birth_index  death_index  birth  death  pers</span>
+<span class="go">0            0            1    2.0    3.0   1.0</span>
+<span class="go">1            4            3    2.5    5.0   2.5</span>
+<span class="go">2            2            3    0.0    5.0   5.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bin_counts</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">pers</span><span class="o">.</span><span class="n">bin</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span>
+<span class="go">[-inf   0.   1.   2.   3.   4.   5.  inf]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">bin_counts</span><span class="p">)</span>
+<span class="go">[[ 0.  0.  0.  0.  0.  0.  0.]</span>
+<span class="go"> [ 0.  0.  0.  0.  0.  0.  1.]</span>
+<span class="go"> [ 0.  0.  0.  0.  0.  0.  0.]</span>
+<span class="go"> [ 0.  0.  1.  1.  0.  0.  0.]</span>
+<span class="go"> [ 0.  0.  0.  0.  0.  0.  0.]</span>
+<span class="go"> [ 0.  0.  0.  0.  0.  0.  0.]</span>
+<span class="go"> [ 0.  0.  0.  0.  0.  0.  0.]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">pers</span><span class="o">.</span><span class="n">domains</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+<span class="go">[(0, 1), (2, 3), (3, 4)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">interval</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">iter_intervals</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;h_A( </span><span class="si">{}</span><span class="s2"> ) == </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">interval</span><span class="p">,</span><span class="n">el</span><span class="o">.</span><span class="n">interval_height</span><span class="p">(</span><span class="n">interval</span><span class="p">)))</span>
+<span class="go">h_A( (0, 1) ) == 1.0</span>
+<span class="go">h_A( (0, 2) ) == 0.0</span>
+<span class="go">h_A( (0, 3) ) == 0.0</span>
+<span class="go">h_A( (0, 4) ) == 0.0</span>
+<span class="go">h_A( (0, 5) ) == 0.0</span>
+<span class="go">h_A( (1, 2) ) == 0.0</span>
+<span class="go">h_A( (1, 3) ) == 0.0</span>
+<span class="go">h_A( (1, 4) ) == 0.0</span>
+<span class="go">h_A( (1, 5) ) == 0.0</span>
+<span class="go">h_A( (2, 3) ) == 5.0</span>
+<span class="go">h_A( (2, 4) ) == 0.0</span>
+<span class="go">h_A( (2, 5) ) == 0.0</span>
+<span class="go">h_A( (3, 4) ) == 2.5</span>
+<span class="go">h_A( (3, 5) ) == 0.0</span>
+<span class="go">h_A( (4, 5) ) == 0.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">pers</span><span class="o">.</span><span class="n">forest</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="go">[None]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">pers</span><span class="o">.</span><span class="n">forest</span><span class="p">[</span><span class="kc">None</span><span class="p">]))</span>
+<span class="go">[0, 1, 2]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">jagged</span><span class="p">(</span><span class="mf">6.0</span><span class="p">)</span>
+<span class="go">0    0.0</span>
+<span class="go">1    0.0</span>
+<span class="go">2    0.0</span>
+<span class="go">3    0.0</span>
+<span class="go">4    0.0</span>
+<span class="go">5    0.0</span>
+<span class="go">dtype: float64</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">([</span><span class="mf">6.5</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">make_pers</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">pers</span><span class="o">.</span><span class="n">diagram</span>
+<span class="go">   birth_index  death_index  birth  death  pers</span>
+<span class="go">0            1            0    0.0    6.5   6.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">pers</span><span class="o">.</span><span class="n">forest</span><span class="p">[</span><span class="kc">None</span><span class="p">])</span>
+<span class="go">[0]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">vertices</span>
+<span class="go">   time  value</span>
+<span class="go">0   0.0    6.5</span>
+<span class="go">1   1.0    0.0</span>
+<span class="go">2   2.0    2.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">jagged</span><span class="p">()</span> <span class="c1">#el.pers.diagram,el.vertices.index,el.vertices.dtype)</span>
+<span class="go">0    6.5</span>
+<span class="go">1    0.0</span>
+<span class="go">2    0.0</span>
+<span class="go">dtype: float64</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">elN</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">sample_near</span><span class="p">(</span><span class="n">sigma</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">elN</span><span class="o">.</span><span class="n">make_pers</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">elN</span><span class="o">.</span><span class="n">pers</span><span class="o">.</span><span class="n">domains</span> <span class="o">==</span> <span class="n">el</span><span class="o">.</span><span class="n">pers</span><span class="o">.</span><span class="n">domains</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">([</span><span class="mf">6.5</span><span class="p">,</span><span class="mf">7.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">4.5</span><span class="p">,</span><span class="mf">3.9</span><span class="p">,</span><span class="mf">9.0</span><span class="p">,</span><span class="mf">8.3</span><span class="p">,</span><span class="mf">8.7</span><span class="p">,</span><span class="mf">5.5</span><span class="p">,</span><span class="mf">9.9</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">vertices</span>
+<span class="go">   time  value</span>
+<span class="go">0   0.0    6.5</span>
+<span class="go">1   1.0    7.0</span>
+<span class="go">2   2.0    2.0</span>
+<span class="go">3   3.0    4.5</span>
+<span class="go">4   4.0    3.9</span>
+<span class="go">5   5.0    9.0</span>
+<span class="go">6   6.0    8.3</span>
+<span class="go">7   7.0    8.7</span>
+<span class="go">8   8.0    5.5</span>
+<span class="go">9   9.0    9.9</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">edges</span>
+<span class="go">   src  dst  max  val</span>
+<span class="go">2    2    3    3  4.5</span>
+<span class="go">3    3    4    3  4.5</span>
+<span class="go">0    0    1    1  7.0</span>
+<span class="go">1    1    2    1  7.0</span>
+<span class="go">6    6    7    7  8.7</span>
+<span class="go">7    7    8    7  8.7</span>
+<span class="go">4    4    5    5  9.0</span>
+<span class="go">5    5    6    5  9.0</span>
+<span class="go">8    8    9    9  9.9</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">make_pers</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">pers</span><span class="o">.</span><span class="n">diagram</span>
+<span class="go">   birth_index  death_index  birth  death  pers</span>
+<span class="go">2            6            7    8.3    8.7   0.4</span>
+<span class="go">1            0            1    6.5    7.0   0.5</span>
+<span class="go">0            4            3    3.9    4.5   0.6</span>
+<span class="go">3            8            5    5.5    9.0   3.5</span>
+<span class="go">4            2            9    2.0    9.9   7.9</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">feature</span><span class="p">()</span>
+<span class="go">   time  value</span>
+<span class="go">2   2.0    2.0</span>
+<span class="go">3   3.0    4.5</span>
+<span class="go">4   4.0    3.9</span>
+<span class="go">5   5.0    9.0</span>
+<span class="go">6   6.0    8.3</span>
+<span class="go">7   7.0    8.7</span>
+<span class="go">8   8.0    5.5</span>
+<span class="go">9   9.0    9.9</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">pers</span><span class="o">.</span><span class="n">syzygy</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+<span class="go">2    0.4</span>
+<span class="go">1    0.5</span>
+<span class="go">0    0.6</span>
+<span class="go">3    3.5</span>
+<span class="go">4    7.9</span>
+<span class="go">dtype: float64</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">pers</span><span class="o">.</span><span class="n">syzygy</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="go">2     251.2908</span>
+<span class="go">1     159.2500</span>
+<span class="go">0      47.3850</span>
+<span class="go">3    1559.2500</span>
+<span class="go">4    1548.5580</span>
+<span class="go">dtype: float64</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">pers</span><span class="o">.</span><span class="n">forest_parents</span> <span class="o">==</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span>
+<span class="go">6.5299999999999994</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el2</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el2</span><span class="o">.</span><span class="n">make_pers</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">all</span><span class="p">(</span><span class="n">el2</span><span class="o">.</span><span class="n">pers</span><span class="o">.</span><span class="n">diagram</span> <span class="o">==</span> <span class="n">el</span><span class="o">.</span><span class="n">pers</span><span class="o">.</span><span class="n">diagram</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">3.0</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="mf">2.2</span><span class="p">,</span><span class="mf">0.001</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">make_pers</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">vertices</span>
+<span class="go">   time  value</span>
+<span class="go">0   0.0  0.000</span>
+<span class="go">1   1.0  3.000</span>
+<span class="go">2   2.0  1.500</span>
+<span class="go">3   3.0  2.200</span>
+<span class="go">4   4.0  0.001</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">edges</span>
+<span class="go">   src  dst  max  val</span>
+<span class="go">2    2    3    3  2.2</span>
+<span class="go">3    3    4    3  2.2</span>
+<span class="go">0    0    1    1  3.0</span>
+<span class="go">1    1    2    1  3.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">pers</span><span class="o">.</span><span class="n">diagram</span>
+<span class="go">   birth_index  death_index  birth  death   pers</span>
+<span class="go">0            2            3  1.500    2.2  0.700</span>
+<span class="go">1            4            1  0.001    3.0  2.999</span>
+<span class="go">2            0            1  0.000    3.0  3.000</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">0.45</span><span class="p">,</span><span class="mf">0.55</span><span class="p">,</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+<span class="gp">... </span>            <span class="n">times</span><span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">vertices</span>
+<span class="go">   time  value</span>
+<span class="go">0  0.10   0.00</span>
+<span class="go">1  0.20   0.70</span>
+<span class="go">2  0.30   0.45</span>
+<span class="go">3  0.60   0.55</span>
+<span class="go">4  0.80   0.30</span>
+<span class="go">5  0.85   1.00</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">edges</span>
+<span class="go">   src  dst  max   val</span>
+<span class="go">2    2    3    3  0.55</span>
+<span class="go">3    3    4    3  0.55</span>
+<span class="go">0    0    1    1  0.70</span>
+<span class="go">1    1    2    1  0.70</span>
+<span class="go">4    4    5    5  1.00</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">make_pers</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">pers</span><span class="o">.</span><span class="n">diagram</span>
+<span class="go">   birth_index  death_index  birth  death  pers</span>
+<span class="go">0            2            3   0.45   0.55   0.1</span>
+<span class="go">1            4            1   0.30   0.70   0.4</span>
+<span class="go">2            0            5   0.00   1.00   1.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">1.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">make_pers</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">pers</span><span class="o">.</span><span class="n">diagram</span>
+<span class="go">   birth_index  death_index  birth  death  pers</span>
+<span class="go">0            2            1    0.4    0.5   0.1</span>
+<span class="go">1            4            3    0.1    0.9   0.8</span>
+<span class="go">2            0            5    0.0    1.0   1.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">F</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">iter_features</span><span class="p">(</span><span class="n">min_pers</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span> <span class="nb">print</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>
+<span class="go">   time  value</span>
+<span class="go">0   0.0    0.0</span>
+<span class="go">1   1.0    0.5</span>
+<span class="go">2   2.0    0.4</span>
+<span class="go">3   3.0    0.9</span>
+<span class="go">4   4.0    0.1</span>
+<span class="go">5   5.0    1.0</span>
+<span class="go">   time  value</span>
+<span class="go">3   3.0    0.9</span>
+<span class="go">4   4.0    0.1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">8</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span><span class="mf">0.1</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">make_pers</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">el</span><span class="o">.</span><span class="n">pers</span><span class="o">.</span><span class="n">domains</span> <span class="o">==</span> <span class="p">{(</span><span class="mi">110</span><span class="p">,</span> <span class="mi">204</span><span class="p">):</span> <span class="mi">4</span><span class="p">,</span> <span class="p">(</span><span class="mi">204</span><span class="p">,</span> <span class="mi">236</span><span class="p">):</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">16</span><span class="p">):</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">47</span><span class="p">,</span> <span class="mi">79</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="mi">141</span><span class="p">,</span> <span class="mi">173</span><span class="p">):</span> <span class="mi">1</span><span class="p">}</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">([</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">120.0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">135</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">make_pers</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">pers</span><span class="o">.</span><span class="n">diagram</span>
+<span class="go">   birth_index  death_index  birth  death   pers</span>
+<span class="go">0            2            1  100.0  120.0   20.0</span>
+<span class="go">1            6            4  135.0  200.0   65.0</span>
+<span class="go">2            0            4   50.0  200.0  150.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">pers</span><span class="o">.</span><span class="n">mergetree</span>
+<span class="go">{1: (0, 2), 4: (1, 6)}</span>
+</pre></div>
+</div>
+<p class="rubric">Functions</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="timeseries.jagged.html#timeseries.jagged" title="timeseries.jagged"><code class="xref py py-obj docutils literal"><span class="pre">jagged</span></code></a>(persdiag,&nbsp;index)</td>
+<td>Produce a piecewise-linear function that matches the given persistence diagram.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Classes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="timeseries.Signal.html#timeseries.Signal" title="timeseries.Signal"><code class="xref py py-obj docutils literal"><span class="pre">Signal</span></code></a>(values[,&nbsp;times])</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="timeseries.SpaceCurve.html#timeseries.SpaceCurve" title="timeseries.SpaceCurve"><code class="xref py py-obj docutils literal"><span class="pre">SpaceCurve</span></code></a>(tn[,&nbsp;px,&nbsp;py,&nbsp;pz,&nbsp;vx,&nbsp;vy,&nbsp;vz,&nbsp;...])</td>
+<td>SpaceCurve is a Python class for studying curves in  <span class="math">\(\mathbb{R}^2\)</span> or <span class="math">\(\mathbb{R}^3\)</span>.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">timeseries</a><ul>
+<li><a class="reference internal" href="#copyright">Copyright</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../timeseries_data.html"
+                        title="previous chapter">Time-Series Data</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="timeseries.Signal.html"
+                        title="next chapter">timeseries.Signal</a></p>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
+      </li>
+      <li>
+      Last updated on May 25, 2017.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>
