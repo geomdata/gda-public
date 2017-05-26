@@ -264,8 +264,6 @@ class GaussianMixtureClassifier(sklearn.base.BaseEstimator, sklearn.base.Classif
                                 color=label, alpha=z_by_label[:, j])
                 
             elif canvas_type == "pyplot":
-                print(labels.shape)
-                print(xy.shape)
                 patches = []
                 rgbas = []
                 CC = colors.ColorConverter()
