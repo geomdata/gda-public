@@ -1,5 +1,5 @@
-README for GDA Open
-===================
+README for GDA-Public
+=====================
 
 This contains several fundamental tools by Geometric Data Analytics Inc. [http://www.geomdata.com]
 See `LICENSE` for copyright information.
