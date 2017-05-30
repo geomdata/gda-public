@@ -77,7 +77,7 @@
           <div class="body" id="spc-section-body">
             
   <h1>Source code for multidim.models</h1><div class="highlight"><pre>
-<span></span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;This module contains classifiers based on the SciKitLearn framework.</span>
+<span></span><span class="sd">r&quot;&quot;&quot;This module contains classifiers based on the SciKitLearn framework.</span>
 
 <span class="sd">    - :class:`CDER`</span>
 <span class="sd">    - :class:`GaussianMixtureClassifier`</span>
@@ -102,7 +102,7 @@
 
 
 <div class="viewcode-block" id="GaussianMixtureClassifier"><a class="viewcode-back" href="../../generated/multidim.models.GaussianMixtureClassifier.html#multidim.models.GaussianMixtureClassifier">[docs]</a><span class="k">class</span> <span class="nc">GaussianMixtureClassifier</span><span class="p">(</span><span class="n">sklearn</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">ClassifierMixin</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot; A scikit-learn classification estimator, for any sort of Gaussian</span>
+    <span class="sd">r&quot;&quot;&quot; A scikit-learn classification estimator, for any sort of Gaussian</span>
 <span class="sd">    mixture model.</span>
 
 <span class="sd">    A Gaussian mixture module is a collection of labelled Gaussian functions </span>
@@ -120,7 +120,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">gaussians</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="GaussianMixtureClassifier.get_params"><a class="viewcode-back" href="../../generated/multidim.models.GaussianMixtureClassifier.get_params.html#multidim.models.GaussianMixtureClassifier.get_params">[docs]</a>    <span class="k">def</span> <span class="nf">get_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deep</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Pass original kwargs internally.&quot;&quot;&quot;</span>
+        <span class="sd">r&quot;&quot;&quot; Pass original kwargs internally.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span></div>
 
 <div class="viewcode-block" id="GaussianMixtureClassifier.gausscoords"><a class="viewcode-back" href="../../generated/multidim.models.GaussianMixtureClassifier.gausscoords.html#multidim.models.GaussianMixtureClassifier.gausscoords">[docs]</a>    <span class="k">def</span> <span class="nf">gausscoords</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -174,7 +174,7 @@
         <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="GaussianMixtureClassifier.evaluate"><a class="viewcode-back" href="../../generated/multidim.models.GaussianMixtureClassifier.evaluate.html#multidim.models.GaussianMixtureClassifier.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Evaluate all gaussians against a pointcloud </span>
+        <span class="sd">r&quot;&quot;&quot; Evaluate all gaussians against a pointcloud </span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -198,7 +198,7 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">functions</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GaussianMixtureClassifier.plot"><a class="viewcode-back" href="../../generated/multidim.models.GaussianMixtureClassifier.plot.html#multidim.models.GaussianMixtureClassifier.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;covertree&quot;</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Plot a CDER model, using matplotlib or bokeh</span>
+        <span class="sd">r&quot;&quot;&quot; Plot a CDER model, using matplotlib or bokeh</span>
 
 <span class="sd">        There are several options to help visualize various aspects of the</span>
 <span class="sd">        model.  Typically, one wants to overlay this with the plots from the</span>
@@ -239,7 +239,7 @@
                     <span class="n">all_ys</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">ymid</span><span class="p">,</span>
                     <span class="n">ymid</span> <span class="o">-</span> <span class="n">all_ys</span><span class="o">.</span><span class="n">min</span><span class="p">()])</span>
 
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">==</span> <span class="s1">&#39;bokeh.plotting.figure&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="n">__module__</span> <span class="o">==</span> <span class="s1">&#39;bokeh.plotting.figure&#39;</span><span class="p">:</span>
             <span class="n">canvas_type</span> <span class="o">=</span> <span class="s2">&quot;bokeh&quot;</span>
             <span class="kn">import</span> <span class="nn">bokeh.plotting</span>
             <span class="kn">from</span> <span class="nn">bokeh.models</span> <span class="k">import</span> <span class="n">ColumnDataSource</span><span class="p">,</span> <span class="n">Range1d</span>
@@ -248,7 +248,7 @@
             <span class="n">canvas</span><span class="o">.</span><span class="n">x_range</span> <span class="o">=</span> <span class="n">Range1d</span><span class="p">(</span><span class="n">xmid</span><span class="o">-</span><span class="n">span</span><span class="p">,</span> <span class="n">xmid</span><span class="o">+</span><span class="n">span</span><span class="p">)</span>
             <span class="n">canvas</span><span class="o">.</span><span class="n">y_range</span> <span class="o">=</span> <span class="n">Range1d</span><span class="p">(</span><span class="n">ymid</span><span class="o">-</span><span class="n">span</span><span class="p">,</span> <span class="n">ymid</span><span class="o">+</span><span class="n">span</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">==</span> <span class="s1">&#39;matplotlib.axes._subplots&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="n">__module__</span> <span class="o">==</span> <span class="s1">&#39;matplotlib.axes._subplots&#39;</span><span class="p">:</span>
             <span class="n">canvas_type</span> <span class="o">=</span> <span class="s2">&quot;pyplot&quot;</span>
             <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
             <span class="kn">from</span> <span class="nn">matplotlib.collections</span> <span class="k">import</span> <span class="n">PolyCollection</span><span class="p">,</span> <span class="n">PatchCollection</span>
@@ -343,8 +343,6 @@
                                 <span class="n">color</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">z_by_label</span><span class="p">[:,</span> <span class="n">j</span><span class="p">])</span>
                 
             <span class="k">elif</span> <span class="n">canvas_type</span> <span class="o">==</span> <span class="s2">&quot;pyplot&quot;</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="n">labels</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="n">xy</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
                 <span class="n">patches</span> <span class="o">=</span> <span class="p">[]</span>
                 <span class="n">rgbas</span> <span class="o">=</span> <span class="p">[]</span>
                 <span class="n">CC</span> <span class="o">=</span> <span class="n">colors</span><span class="o">.</span><span class="n">ColorConverter</span><span class="p">()</span>
@@ -493,7 +491,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Wrong plot style.&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GaussianMixtureClassifier.predict"><a class="viewcode-back" href="../../generated/multidim.models.GaussianMixtureClassifier.predict.html#multidim.models.GaussianMixtureClassifier.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pointclouds</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; </span>
+        <span class="sd">r&quot;&quot;&quot; </span>
 <span class="sd">        Predict labels of given pointclouds, based on previous training data </span>
 <span class="sd">        fed to :func:`fit`.</span>
 
@@ -513,7 +511,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">runit</span><span class="p">(</span><span class="n">pointclouds</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="GaussianMixtureClassifier.score"><a class="viewcode-back" href="../../generated/multidim.models.GaussianMixtureClassifier.score.html#multidim.models.GaussianMixtureClassifier.score">[docs]</a>    <span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pointclouds</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
 <span class="sd">        Score predicted labels against known labels.</span>
 
 <span class="sd">        Parameters</span>
@@ -558,7 +556,7 @@
 
 
 <div class="viewcode-block" id="CDER"><a class="viewcode-back" href="../../generated/multidim.models.CDER.html#multidim.models.CDER">[docs]</a><span class="k">class</span> <span class="nc">CDER</span><span class="p">(</span><span class="n">GaussianMixtureClassifier</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;The CDER (Cover-Tree Differencing for Entropy Reduction) algorithm for</span>
+    <span class="sd">r&quot;&quot;&quot;The CDER (Cover-Tree Differencing for Entropy Reduction) algorithm for</span>
 <span class="sd">    supervised machine-learning of labelled cloud collections.  This uses the</span>
 <span class="sd">    &quot;Cover Tree with Friends&quot; algorithm along with an entropy computation to</span>
 <span class="sd">    build a regional classifer for labelled pointclouds.  It relies on the</span>
@@ -616,7 +614,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="CDER.build_gaussian"><a class="viewcode-back" href="../../generated/multidim.models.CDER.build_gaussian.html#multidim.models.CDER.build_gaussian">[docs]</a>    <span class="k">def</span> <span class="nf">build_gaussian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coverlevel</span><span class="p">,</span> <span class="n">adult</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">dominant_index</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
 <span class="sd">        Build a Gaussian from the children of this adult in a cover-tree</span>
 <span class="sd">        (using only a particular label).</span>
 
@@ -667,7 +665,7 @@
    
 
 <div class="viewcode-block" id="CDER.gausscoords"><a class="viewcode-back" href="../../generated/multidim.models.CDER.gausscoords.html#multidim.models.CDER.gausscoords">[docs]</a>    <span class="k">def</span> <span class="nf">gausscoords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parsimonious</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; This is the Gaussian-building heart of the CDER algorithm. </span>
+        <span class="sd">r&quot;&quot;&quot; This is the Gaussian-building heart of the CDER algorithm. </span>
 <span class="sd">        Look to elders, and look to successor.  How does entropy change?   If</span>
 <span class="sd">        the entropy is a local minimum, then build a Gaussian coordinate with</span>
 <span class="sd">        the dominant label.</span>
@@ -824,7 +822,7 @@
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on May 25, 2017.
+      Last updated on May 30, 2017.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.

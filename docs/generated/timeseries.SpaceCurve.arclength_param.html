@@ -94,8 +94,8 @@
 <dd><p>Change time parametrization to the universal speed=1 arclength
 parametrization.</p>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">5e9</span><span class="p">,</span> <span class="mf">1e9</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">SpaceCurve</span><span class="p">(</span><span class="n">tn</span><span class="o">=</span><span class="n">tn</span><span class="p">,</span> <span class="n">px</span><span class="o">=</span><span class="p">(</span><span class="n">tn</span><span class="o">/</span><span class="mf">1e9</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="n">e9</span><span class="p">,</span> <span class="mi">1</span><span class="n">e9</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">SpaceCurve</span><span class="p">(</span><span class="n">tn</span><span class="o">=</span><span class="n">tn</span><span class="p">,</span> <span class="n">px</span><span class="o">=</span><span class="p">(</span><span class="n">tn</span><span class="o">/</span><span class="mi">1</span><span class="n">e9</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">data</span>
 <span class="go">            time  pos_x  pos_y  pos_z  quality</span>
 <span class="go">0            0.0    0.0    0.0    0.0       -1</span>
@@ -148,7 +148,7 @@ parametrization.</p>
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on May 25, 2017.
+      Last updated on May 30, 2017.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.

@@ -458,7 +458,7 @@
 <span class="sd">        distribution. </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">+</span> <span class="n">sigma</span><span class="o">*</span><span class="n">diff</span><span class="p">)</span> </div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">+</span> <span class="n">sigma</span><span class="o">*</span><span class="n">diff</span><span class="p">)</span> </div>
 
 <div class="viewcode-block" id="Signal.height_measure"><a class="viewcode-back" href="../generated/timeseries.Signal.height_measure.html#timeseries.Signal.height_measure">[docs]</a>    <span class="k">def</span> <span class="nf">height_measure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_pers</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Use a simulation to estimate the height-measure of an interval. &quot;&quot;&quot;</span>
@@ -675,10 +675,10 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
  
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">==</span> <span class="s1">&#39;bokeh.plotting.figure&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="n">__module__</span> <span class="o">==</span> <span class="s1">&#39;bokeh.plotting.figure&#39;</span><span class="p">:</span>
             <span class="n">canvas_type</span> <span class="o">=</span> <span class="s2">&quot;bokeh&quot;</span>
             <span class="kn">import</span> <span class="nn">bokeh.plotting</span>
-        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">==</span> <span class="s1">&#39;matplotlib.axes._subplots&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="n">__module__</span> <span class="o">==</span> <span class="s1">&#39;matplotlib.axes._subplots&#39;</span><span class="p">:</span>
             <span class="n">canvas_type</span> <span class="o">=</span> <span class="s2">&quot;pyplot&quot;</span>
             <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
         <span class="k">else</span><span class="p">:</span>
@@ -700,9 +700,9 @@
         <span class="k">pass</span></div>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Signal.from_pointcloud"><a class="viewcode-back" href="../generated/timeseries.Signal.from_pointcloud.html#timeseries.Signal.from_pointcloud">[docs]</a>    <span class="k">def</span> <span class="nf">from_pointcloud</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">norm</span><span class="p">):</span>
+<div class="viewcode-block" id="Signal.from_pointcloud"><a class="viewcode-back" href="../generated/timeseries.Signal.from_pointcloud.html#timeseries.Signal.from_pointcloud">[docs]</a>    <span class="k">def</span> <span class="nf">from_pointcloud</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">norm</span><span class="p">):</span>
         <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">direction</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">direction</span><span class="p">))</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">values</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">values</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Signal.normalize"><a class="viewcode-back" href="../generated/timeseries.Signal.normalize.html#timeseries.Signal.normalize">[docs]</a>    <span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; change this Signal object to have mean = 0 and max-min = 1 &quot;&quot;&quot;</span>
@@ -718,7 +718,7 @@
 
 
 <div class="viewcode-block" id="SpaceCurve"><a class="viewcode-back" href="../generated/timeseries.SpaceCurve.html#timeseries.SpaceCurve">[docs]</a><span class="k">class</span> <span class="nc">SpaceCurve</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot; SpaceCurve is a Python class for studying curves in </span>
+    <span class="sd">r&quot;&quot;&quot; SpaceCurve is a Python class for studying curves in </span>
 <span class="sd">    :math:`\mathbb{R}^2` or :math:`\mathbb{R}^3`.</span>
 <span class="sd">    For example, a SpaceCurve could represent kinematic flight data, or</span>
 <span class="sd">    trajectories of vehicles given by GPS coordinates.</span>
@@ -833,7 +833,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span>
     
 <div class="viewcode-block" id="SpaceCurve.accel"><a class="viewcode-back" href="../generated/timeseries.SpaceCurve.accel.html#timeseries.SpaceCurve.accel">[docs]</a>    <span class="k">def</span> <span class="nf">accel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rate</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Change time parametrization, to represent a constant tangential </span>
+        <span class="sd">r&quot;&quot;&quot;Change time parametrization, to represent a constant tangential </span>
 <span class="sd">        acceleration (or deceleration).  Locations, initial time, and</span>
 <span class="sd">        arc-length are preserved.</span>
 <span class="sd">        </span>
@@ -1015,7 +1015,7 @@
                                  <span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;pos_y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">py_shift</span><span class="p">])</span>
         <span class="n">new_pz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;pos_z&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
                                  <span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;pos_z&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">pz_shift</span><span class="p">])</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">new_tn</span><span class="p">,</span> <span class="n">px</span><span class="o">=</span><span class="n">new_px</span><span class="p">,</span> <span class="n">py</span><span class="o">=</span><span class="n">new_py</span><span class="p">,</span> <span class="n">pz</span><span class="o">=</span><span class="n">new_pz</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">(</span><span class="n">new_tn</span><span class="p">,</span> <span class="n">px</span><span class="o">=</span><span class="n">new_px</span><span class="p">,</span> <span class="n">py</span><span class="o">=</span><span class="n">new_py</span><span class="p">,</span> <span class="n">pz</span><span class="o">=</span><span class="n">new_pz</span><span class="p">)</span>
  
 <div class="viewcode-block" id="SpaceCurve.arclength_param"><a class="viewcode-back" href="../generated/timeseries.SpaceCurve.arclength_param.html#timeseries.SpaceCurve.arclength_param">[docs]</a>    <span class="k">def</span> <span class="nf">arclength_param</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Change time parametrization to the universal speed=1 arclength</span>
@@ -1089,7 +1089,7 @@
                           <span class="n">pz</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;pos_z&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="SpaceCurve.reparam"><a class="viewcode-back" href="../generated/timeseries.SpaceCurve.reparam.html#timeseries.SpaceCurve.reparam">[docs]</a>    <span class="k">def</span> <span class="nf">reparam</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rate</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Change time parametrization, to represent a constant change of speed.</span>
+        <span class="sd">r&quot;&quot;&quot;Change time parametrization, to represent a constant change of speed.</span>
 <span class="sd">        Locations, initial time, and arc-length are preserved.</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
@@ -1147,7 +1147,7 @@
                           <span class="n">pz</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;pos_z&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SpaceCurve.plot"><a class="viewcode-back" href="../generated/timeseries.SpaceCurve.plot.html#timeseries.SpaceCurve.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;SpaceCurve&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Plot the SpaceCurve in 3D.</span>
+        <span class="sd">r&quot;&quot;&quot; Plot the SpaceCurve in 3D.</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        -----------</span>
@@ -1168,10 +1168,10 @@
 <span class="sd">        be taken as an approximation!</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">==</span> <span class="s1">&#39;bokeh.plotting.figure&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="n">__module__</span> <span class="o">==</span> <span class="s1">&#39;bokeh.plotting.figure&#39;</span><span class="p">:</span>
             <span class="n">canvas_type</span> <span class="o">=</span> <span class="s2">&quot;bokeh&quot;</span>
             <span class="kn">import</span> <span class="nn">bokeh.plotting</span>
-        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">==</span> <span class="s1">&#39;matplotlib.axes._subplots&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="n">__module__</span> <span class="o">==</span> <span class="s1">&#39;matplotlib.axes._subplots&#39;</span><span class="p">:</span>
             <span class="n">canvas_type</span> <span class="o">=</span> <span class="s2">&quot;pyplot&quot;</span>
             <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
             <span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="k">import</span> <span class="n">Axes3D</span>
@@ -1208,7 +1208,7 @@
               <span class="n">time_start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
               <span class="n">time_stop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
               <span class="n">overlap_ends</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Produce equal-time SpaceCurves using a sliding-window on self.</span>
+        <span class="sd">r&quot;&quot;&quot; Produce equal-time SpaceCurves using a sliding-window on self.</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1279,7 +1279,7 @@
             <span class="k">yield</span> <span class="n">F</span></div>
 
 <div class="viewcode-block" id="SpaceCurve.clean_copy"><a class="viewcode-back" href="../generated/timeseries.SpaceCurve.clean_copy.html#timeseries.SpaceCurve.clean_copy">[docs]</a>    <span class="k">def</span> <span class="nf">clean_copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cleanup_func</span><span class="o">=</span><span class="n">curve_geometry</span><span class="o">.</span><span class="n">mollifier</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Make copy in which a cleanup function performed</span>
+        <span class="sd">r&quot;&quot;&quot; Make copy in which a cleanup function performed</span>
 <span class="sd">        on the data.</span>
 
 <span class="sd">        cleanup_func is the interface to the functions in curve_geometry.</span>
@@ -1332,7 +1332,7 @@
 
 
         <span class="c1"># Instantiate a new flighttrack object from the cleaned versions</span>
-        <span class="n">newFT</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">new_index</span><span class="p">,</span>
+        <span class="n">newFT</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">(</span><span class="n">new_index</span><span class="p">,</span>
                                <span class="n">trackid</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">trackid</span><span class="p">,</span>
                                <span class="n">platform</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">platform</span><span class="p">,</span>
                                <span class="n">activity</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">activity</span><span class="p">,</span>
@@ -1408,7 +1408,7 @@
 <div class="viewcode-block" id="SpaceCurve.copy"><a class="viewcode-back" href="../generated/timeseries.SpaceCurve.copy.html#timeseries.SpaceCurve.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; make an identical copy of self. &quot;&quot;&quot;</span>
         <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">newFT</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">trackid</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">trackid</span><span class="p">,</span>
+        <span class="n">newFT</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">trackid</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">trackid</span><span class="p">,</span>
                                <span class="n">platform</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">platform</span><span class="p">,</span>
                                <span class="n">activity</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">activity</span><span class="p">,</span>
                                <span class="p">)</span>
@@ -1417,12 +1417,12 @@
         <span class="k">return</span> <span class="n">newFT</span></div>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="SpaceCurve.load"><a class="viewcode-back" href="../generated/timeseries.SpaceCurve.load.html#timeseries.SpaceCurve.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+<div class="viewcode-block" id="SpaceCurve.load"><a class="viewcode-back" href="../generated/timeseries.SpaceCurve.load.html#timeseries.SpaceCurve.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Simple CSV reader.</span>
 <span class="sd">        columns (&#39;time&#39;, &#39;pos_x&#39;, &#39;pos_y&#39;, &#39;pos_z&#39;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">F</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">tn</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+        <span class="n">F</span> <span class="o">=</span> <span class="n">cls</span><span class="p">(</span><span class="n">tn</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
                 <span class="n">px</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;pos_x&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
                 <span class="n">py</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;pos_y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
                 <span class="n">pz</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;pos_z&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
@@ -1474,7 +1474,7 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">LM</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">bins</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SpaceCurve.lift_and_mass"><a class="viewcode-back" href="../generated/timeseries.SpaceCurve.lift_and_mass.html#timeseries.SpaceCurve.lift_and_mass">[docs]</a>    <span class="k">def</span> <span class="nf">lift_and_mass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Produce the terms of the force-balance equations, to help derive</span>
+        <span class="sd">r&quot;&quot;&quot; Produce the terms of the force-balance equations, to help derive</span>
 <span class="sd">        coefficient-of-lift and mass from pure trajectory information.</span>
 
 <span class="sd">        Consider an aircraft flying with velocity :math:`v`, banking angle</span>
@@ -1693,7 +1693,7 @@
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on May 25, 2017.
+      Last updated on May 30, 2017.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.
