@@ -363,6 +363,9 @@ Setting weights in PointCloud.stratum[0]['val']=1.0.""")
         self.level_pointer = -1
         self.reset()
 
+    def __sizeof__(self):
+        return sum( cl.__sizeof__() for _,cl in self._levels.items() )
+            
     def __repr__(self):
         s = """A CoverTree of {} points in dimension {}, computed to
 level\tadults\n""".format(
@@ -794,7 +797,7 @@ class CoverLevel(object):
 
         assert type(self.guardians) == np.ndarray\
             and self.guardians.shape == (self.covertree.N, )
-        
+
         adult_set = set(self.adults)
         assert len(adult_set) == len(self.adults)
 
@@ -822,11 +825,11 @@ class CoverLevel(object):
             assert type(self.children[ci]) == np.ndarray\
                 and self.children[ci].dtype == 'bool'\
                 and self.children[ci].shape == (self.covertree.N, )
-             
+
             assert len(set(self.friends1[ci])) == len(self.friends1[ci])
             assert len(set(self.friends2[ci])) == len(self.friends2[ci])
             assert len(set(self.friends3[ci])) == len(self.friends3[ci])
-            
+
             assert ci in self.friends1[ci]
             assert ci in self.friends2[ci]
             assert ci in self.friends3[ci]
@@ -835,7 +838,7 @@ class CoverLevel(object):
 
             assert np.count_nonzero(union & self.children[ci]) == 0,\
                 "Children overlap.  Not Partition."
-             
+
             union = union | self.children[ci]
         assert np.all(union), "Children missing.  Not Partition."
 
@@ -849,9 +852,26 @@ class CoverLevel(object):
 
         return True
 
+    def __sizeof__(self):
+        import sys
+        return  sum([sys.getsizeof(x) for x in [
+            self.adults,
+            self.children,
+            self.friends1,
+            self.friends2,
+            self.friends3,
+            self.guardians,
+            self.predecessor,
+            self.weights,
+            self.entropy]])
+
+
     def __repr__(self):
-        return "Level {} using {} adults at radius {}".format(
-            self.exponent, len(self.adults), self.radius)
+        return "Level {} using {} adults at radius {}.  size {}b {}b/adult".format(
+            self.exponent, len(self.adults), self.radius,
+            self.__sizeof__(),
+            self.__sizeof__()/len(self.adults),
+            )
 
     def find_label_weights(self, adult):
         r""" Compute the weights of labelled children of an adult. 

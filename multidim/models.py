@@ -68,6 +68,9 @@ class GaussianMixtureClassifier(sklearn.base.BaseEstimator, sklearn.base.Classif
            Can be any of the following: 
 
             - a pair of list-like objects: pointclouds_train and labels_train
+              The items in pointclouds_train should be :class:`numpy.ndarray`
+              objects.  The items in labels_train should be strings
+              (preferably, color names).
             - a single labelled and weighted :class:`multidim.PointCloud`
             - a single :class:`multidim.covertree.CoverTree` obtained from a
               labelled and weighted :class:`multidim.PointCloud`

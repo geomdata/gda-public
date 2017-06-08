@@ -37,6 +37,8 @@ class MyBuildDoc(BuildDoc):
         shutil.rmtree('docs')
         shutil.copytree('doc_build/html', 'docs', symlinks=True)
         shutil.rmtree('doc_build/html')
+        with open("docs/.nojekyll", "w") as f:
+            f.write("This file fixes documentation on GitHub.")
 
 
 cmdclass = {'build_doc_html': MyBuildDoc, 'build_doc_latex': MyBuildDoc}

@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
@@ -78,7 +78,7 @@
   <h1>Source code for multidim</h1><div class="highlight"><pre>
 <span></span><span class="c1"># coding=utf-8</span>
 
-<span class="sd">r&quot;&quot;&quot; </span>
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">The `multidim` class provides user-facing tools for topological data analysis</span>
 <span class="sd">of multi-dimensional data.</span>
 
@@ -192,7 +192,7 @@
 
 
 <div class="viewcode-block" id="Simplex"><a class="viewcode-back" href="../generated/multidim.Simplex.html#multidim.Simplex">[docs]</a><span class="k">class</span> <span class="nc">Simplex</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">r&quot;&quot;&quot;</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This class is a convenient container to access the data in the</span>
 <span class="sd">    pd DataFrame stratum[dim] of a SimplicialComplex.</span>
 <span class="sd">    It is always faster to access stratum[dim].loc[index] directly.</span>
@@ -246,7 +246,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :return: value (that is, weight) of this cell (np.float64)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cellcomplex</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">][</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
@@ -257,7 +257,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">positive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -265,7 +265,7 @@
 
     <span class="nd">@positive</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">positive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        :param b:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -273,7 +273,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">representative</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -281,7 +281,7 @@
 
     <span class="nd">@representative</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">representative</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        :param r:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -289,7 +289,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">boundary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -300,7 +300,7 @@
 
     <span class="nd">@boundary</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">boundary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        :param s:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -309,7 +309,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span>
 
     <span class="k">def</span> <span class="nf">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        :param self:</span>
 <span class="sd">        :return:</span>
@@ -317,15 +317,15 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span>
 
     <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        :param other:</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cellcomplex</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">cellcomplex</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__hash__</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__hash__</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cellcomplex</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">cellcomplex</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__hash__</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="fm">__hash__</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -344,7 +344,7 @@
 
 
 <div class="viewcode-block" id="SimplexStratum"><a class="viewcode-back" href="../generated/multidim.SimplexStratum.html#multidim.SimplexStratum">[docs]</a><span class="k">class</span> <span class="nc">SimplexStratum</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">r&quot;&quot;&quot; SimplexStratum is a thin class for calling :class:`Simplex` objects of a certain</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot; SimplexStratum is a thin class for calling :class:`Simplex` objects of a certain</span>
 <span class="sd">    dimension from a `SimplicialComplex`.  It is an interface to the data in</span>
 <span class="sd">    `SimplicialComplex.stratum`[dim], which is a `pandas.DataFrame`.  Whenever</span>
 <span class="sd">    possible, the `pandas.DataFrame` should be called directly, for speed.</span>
@@ -372,11 +372,11 @@
         <span class="k">return</span> <span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cell_complex</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span>
 
     <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">other</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__hash__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__hash__</span></div>
+        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">other</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__hash__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="fm">__hash__</span></div>
 
 
 <span class="k">def</span> <span class="nf">stratum_maker</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">r&quot;&quot;&quot;</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Make an empty stratum :class:`pandas.DataFrame` of the appropriate dimension.</span>
 <span class="sd">    This is used to initialize a new dimension of a :class:`SimplicialComplex`.</span>
 <span class="sd">    </span>
@@ -406,7 +406,7 @@
 
 
 <span class="k">def</span> <span class="nf">stratum_from_distances</span><span class="p">(</span><span class="n">dists</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">r&quot;&quot;&quot; Construct a stratum dictionary from a symmetric matrix of distances.</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Construct a stratum dictionary from a symmetric matrix of distances.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -684,7 +684,7 @@
 
 
 <div class="viewcode-block" id="SimplicialComplex"><a class="viewcode-back" href="../generated/multidim.SimplicialComplex.html#multidim.SimplicialComplex">[docs]</a><span class="k">class</span> <span class="nc">SimplicialComplex</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">r&quot;&quot;&quot;</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A class for abstract *weighted* simplicial complexes.  </span>
 <span class="sd">    A SimplicialComplex is built from 0-cells (vertices), 1-cells (edges), </span>
 <span class="sd">    2-cells (faces), and so on.  </span>
@@ -755,9 +755,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">pers0</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pers1</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="SimplicialComplex.from_distances"><a class="viewcode-back" href="../generated/multidim.SimplicialComplex.from_distances.html#multidim.SimplicialComplex.from_distances">[docs]</a>    <span class="k">def</span> <span class="nf">from_distances</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">dists</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="SimplicialComplex.from_distances"><a class="viewcode-back" href="../generated/multidim.SimplicialComplex.from_distances.html#multidim.SimplicialComplex.from_distances">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_distances</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dists</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct a `SimplicialComplex` from a symmetric matrix of distances.</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
@@ -780,10 +780,10 @@
 <span class="sd">        `SimplicialComplex`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">stratum</span> <span class="o">=</span> <span class="n">stratum_from_distances</span><span class="p">(</span><span class="n">dists</span><span class="p">,</span> <span class="n">max_length</span><span class="p">,</span> <span class="n">points</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">stratum</span><span class="o">=</span><span class="n">stratum</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">stratum</span><span class="o">=</span><span class="n">stratum</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SimplicialComplex.check"><a class="viewcode-back" href="../generated/multidim.SimplicialComplex.check.html#multidim.SimplicialComplex.check">[docs]</a>    <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;Run consistency checks on all simplices in all dimensions. </span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Run consistency checks on all simplices in all dimensions. </span>
 <span class="sd">        raises ValueError if anything is wrong. </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stratum</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -798,7 +798,7 @@
                 <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
 
 <div class="viewcode-block" id="SimplicialComplex.cells"><a class="viewcode-back" href="../generated/multidim.SimplicialComplex.cells.html#multidim.SimplicialComplex.cells">[docs]</a>    <span class="k">def</span> <span class="nf">cells</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot; iterate over all :class:`Simplex` objects of dimension dim.</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; iterate over all :class:`Simplex` objects of dimension dim.</span>
 <span class="sd">        This is generated on-demand from the :class:`SimplexStratum`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">dim</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cellstratum</span><span class="p">:</span>
@@ -821,7 +821,7 @@
         <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="SimplicialComplex.make_pers0"><a class="viewcode-back" href="../generated/multidim.SimplicialComplex.make_pers0.html#multidim.SimplicialComplex.make_pers0">[docs]</a>    <span class="k">def</span> <span class="nf">make_pers0</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;Run the UnionFind algorithm to mark connected components of the</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Run the UnionFind algorithm to mark connected components of the</span>
 <span class="sd">        SimplicialComplex.  This marks points as positive/negative.</span>
 <span class="sd">        It also marks the reprensetatives of points. </span>
 <span class="sd">        It makes a PersDiag object with unionfind, saved as :code:`self.pers0`</span>
@@ -841,7 +841,7 @@
         <span class="k">pass</span></div>
     
 <div class="viewcode-block" id="SimplicialComplex.make_pers1_rca1"><a class="viewcode-back" href="../generated/multidim.SimplicialComplex.make_pers1_rca1.html#multidim.SimplicialComplex.make_pers1_rca1">[docs]</a>    <span class="k">def</span> <span class="nf">make_pers1_rca1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot; Run RCA1 and make a 1-dimensional `homology.PersDiag` for the </span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Run RCA1 and make a 1-dimensional `homology.PersDiag` for the </span>
 <span class="sd">        edge-pairings for cycle generators. </span>
 <span class="sd">  </span>
 <span class="sd">        This reruns self.make_pers0(cutoff) again.</span>
@@ -881,7 +881,7 @@
 
 
 <div class="viewcode-block" id="PointCloud"><a class="viewcode-back" href="../generated/multidim.PointCloud.html#multidim.PointCloud">[docs]</a><span class="k">class</span> <span class="nc">PointCloud</span><span class="p">(</span><span class="n">SimplicialComplex</span><span class="p">):</span>
-    <span class="sd">r&quot;&quot;&quot; PointCloud is a class for *embedded*, weighted simplicial complexes.  </span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot; PointCloud is a class for *embedded*, weighted simplicial complexes.  </span>
 <span class="sd">    This is a subclass of :class:`SimplicialComplex`, with the additional property</span>
 <span class="sd">    that every 0-cell (vertex) is actually a point in :math:`\mathbb{R}^k.`</span>
 <span class="sd">    </span>
@@ -895,7 +895,7 @@
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_array</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">,</span>
                  <span class="n">idx0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cache_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot; Construct a :class:`PointCloud` from a cloud of n points in</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Construct a :class:`PointCloud` from a cloud of n points in</span>
 <span class="sd">        :math:`\mathbb{R}^k.` </span>
 
 <span class="sd">        Parameters</span>
@@ -982,11 +982,11 @@
             <span class="c1"># if the cutoff is 0, we don&#39;t want to bother to make all the</span>
             <span class="c1"># distances.</span>
             <span class="n">edges</span> <span class="o">=</span> <span class="n">stratum_maker</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-            <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">stratum</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">points</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="n">edges</span><span class="p">})</span>
+            <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">stratum</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">points</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="n">edges</span><span class="p">})</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">alldists</span> <span class="o">=</span> <span class="n">squareform</span><span class="p">(</span><span class="n">pdist</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">dist</span><span class="p">))</span>
             <span class="n">stratum</span> <span class="o">=</span> <span class="n">stratum_from_distances</span><span class="p">(</span><span class="n">alldists</span><span class="p">,</span> <span class="n">max_length</span><span class="p">,</span> <span class="n">points</span><span class="p">)</span>
-            <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">stratum</span><span class="o">=</span><span class="n">stratum</span><span class="p">)</span>
+            <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">stratum</span><span class="o">=</span><span class="n">stratum</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cache_type</span> <span class="o">=</span> <span class="s2">&quot;np&quot;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dist_cache</span> <span class="o">=</span> <span class="n">alldists</span>
 
@@ -1000,7 +1000,7 @@
 
 <div class="viewcode-block" id="PointCloud.plot"><a class="viewcode-back" href="../generated/multidim.PointCloud.plot.html#multidim.PointCloud.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;purple&#39;</span><span class="p">,</span>
              <span class="n">twocells</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;SimplicialComplex&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Plot a PointCloud, decorated by various proeprties.</span>
 
 <span class="sd">        Often slow!</span>
@@ -1028,11 +1028,11 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="n">__module__</span> <span class="o">==</span> <span class="s1">&#39;bokeh.plotting.figure&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">==</span> <span class="s1">&#39;bokeh.plotting.figure&#39;</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">bokeh.models</span> <span class="k">import</span> <span class="n">Range1d</span>
             <span class="n">canvas_type</span> <span class="o">=</span> <span class="s2">&quot;bokeh&quot;</span>
             <span class="kn">import</span> <span class="nn">bokeh.plotting</span>
-        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="n">__module__</span> <span class="o">==</span> <span class="s1">&#39;matplotlib.axes._subplots&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">==</span> <span class="s1">&#39;matplotlib.axes._subplots&#39;</span><span class="p">:</span>
             <span class="n">canvas_type</span> <span class="o">=</span> <span class="s2">&quot;pyplot&quot;</span>
             <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1130,7 +1130,7 @@
         <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="PointCloud.gaussian_fit"><a class="viewcode-back" href="../generated/multidim.PointCloud.gaussian_fit.html#multidim.PointCloud.gaussian_fit">[docs]</a>    <span class="k">def</span> <span class="nf">gaussian_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot; </span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">        Fit a normalized Gaussian to this cloud (using SVD).</span>
 
 
@@ -1151,7 +1151,7 @@
         <span class="k">return</span> <span class="n">fast_algorithms</span><span class="o">.</span><span class="n">gaussian_fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">center</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="PointCloud.cache_usage"><a class="viewcode-back" href="../generated/multidim.PointCloud.cache_usage.html#multidim.PointCloud.cache_usage">[docs]</a>    <span class="k">def</span> <span class="nf">cache_usage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot; Compute the size of the distance cache.  That is, what</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Compute the size of the distance cache.  That is, what</span>
 <span class="sd">        fraction of distances have we computed so far? &quot;&quot;&quot;</span>
         <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">n_choose_2</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
@@ -1166,7 +1166,7 @@
             <span class="k">return</span> <span class="p">(</span><span class="n">computed</span> <span class="o">-</span> <span class="n">n</span><span class="p">)</span><span class="o">/</span><span class="n">n_choose_2</span></div>
    
 <div class="viewcode-block" id="PointCloud.sever"><a class="viewcode-back" href="../generated/multidim.PointCloud.sever.html#multidim.PointCloud.sever">[docs]</a>    <span class="k">def</span> <span class="nf">sever</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot; </span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">        Subdivide PointCloud into several smaller PointClouds, using the</span>
 <span class="sd">        known 0-dimensional persistence diagram.  This is an</span>
 <span class="sd">        iterator (it YIELDS the terms).</span>
@@ -1215,7 +1215,7 @@
             <span class="k">yield</span> <span class="n">PointCloud</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">roots</span> <span class="o">==</span> <span class="n">i</span><span class="p">,</span> <span class="p">:])</span></div>
 
 <div class="viewcode-block" id="PointCloud.nearest_neighbors"><a class="viewcode-back" href="../generated/multidim.PointCloud.nearest_neighbors.html#multidim.PointCloud.nearest_neighbors">[docs]</a>    <span class="k">def</span> <span class="nf">nearest_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot; Compute k nearest-neighbors of the PointCloud.</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Compute k nearest-neighbors of the PointCloud.</span>
 <span class="sd">        This uses brute-force!</span>
 <span class="sd">        The clever CoverTree-based algorithm has not yet been implemented.</span>
 <span class="sd">        </span>
@@ -1245,7 +1245,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nn</span><span class="p">[</span><span class="n">k</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="PointCloud.witnessed_barycenters"><a class="viewcode-back" href="../generated/multidim.PointCloud.witnessed_barycenters.html#multidim.PointCloud.witnessed_barycenters">[docs]</a>    <span class="k">def</span> <span class="nf">witnessed_barycenters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot; Build the PointCloud of k-witnessed barycenters, weighted by </span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Build the PointCloud of k-witnessed barycenters, weighted by </span>
 <span class="sd">        distance-to-measure. This calls :func:`nearest_neighbors` with argument</span>
 <span class="sd">        :code:`(k-1)`, which can be slow. </span>
 <span class="sd">        </span>
@@ -1328,7 +1328,7 @@
         <span class="k">return</span> <span class="n">pcbc</span> </div>
 
 <div class="viewcode-block" id="PointCloud.unique_with_multiplicity"><a class="viewcode-back" href="../generated/multidim.PointCloud.unique_with_multiplicity.html#multidim.PointCloud.unique_with_multiplicity">[docs]</a>    <span class="k">def</span> <span class="nf">unique_with_multiplicity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot; </span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">        Look for duplicate points, and mark their multiplicity.</span>
 <span class="sd">        This sets self.multiplicity</span>
 
@@ -1367,7 +1367,7 @@
         <span class="k">return</span> <span class="n">tmp_coords</span><span class="p">,</span> <span class="n">tmp_counts</span></div>
 
 <div class="viewcode-block" id="PointCloud.dists"><a class="viewcode-back" href="../generated/multidim.PointCloud.dists.html#multidim.PointCloud.dists">[docs]</a>    <span class="k">def</span> <span class="nf">dists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indices0</span><span class="p">,</span> <span class="n">indices1</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot; Compute distances points indices0 and indices1.</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Compute distances points indices0 and indices1.</span>
 <span class="sd">        indices0 and indices1 must be 1-dimensional np arrays,</span>
 <span class="sd">        so use not &quot;5&quot; but &quot;np.array([5])&quot;</span>
 
@@ -1407,7 +1407,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;cache_type can be None or &#39;dict&#39; or &#39;np&#39;&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="PointCloud.cover_ball"><a class="viewcode-back" href="../generated/multidim.PointCloud.cover_ball.html#multidim.PointCloud.cover_ball">[docs]</a>    <span class="k">def</span> <span class="nf">cover_ball</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point_index</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot; Find a ball that covers the entire PointCloud.  </span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Find a ball that covers the entire PointCloud.  </span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1437,10 +1437,10 @@
                 <span class="s1">&#39;point&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">point_index</span><span class="p">,</span> <span class="p">:],</span>
                 <span class="s1">&#39;radius&#39;</span><span class="p">:</span> <span class="n">point_dists</span><span class="o">.</span><span class="n">max</span><span class="p">()}</span></div>
 
-    <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="PointCloud.from_multisample_multilabel"><a class="viewcode-back" href="../generated/multidim.PointCloud.from_multisample_multilabel.html#multidim.PointCloud.from_multisample_multilabel">[docs]</a>    <span class="k">def</span> <span class="nf">from_multisample_multilabel</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">list_of_samples</span><span class="p">,</span> <span class="n">list_of_labels</span><span class="p">,</span>
+<div class="viewcode-block" id="PointCloud.from_multisample_multilabel"><a class="viewcode-back" href="../generated/multidim.PointCloud.from_multisample_multilabel.html#multidim.PointCloud.from_multisample_multilabel">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_multisample_multilabel</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">list_of_samples</span><span class="p">,</span> <span class="n">list_of_labels</span><span class="p">,</span>
                                     <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot; Produce a single labeled and weighted pointcloud from a list of samples</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Produce a single labeled and weighted pointcloud from a list of samples</span>
 <span class="sd">        and labels of those samples.</span>
 <span class="sd">    </span>
 <span class="sd">        Parameters</span>
@@ -1505,7 +1505,7 @@
         <span class="n">pointwise_source</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pointwise_source</span><span class="p">)</span>
         <span class="n">pointwise_weight</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pointwise_weight</span><span class="p">)</span>
     
-        <span class="n">pc</span> <span class="o">=</span> <span class="n">cls</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">pointwise_weight</span><span class="p">)</span>
+        <span class="n">pc</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">pointwise_weight</span><span class="p">)</span>
         <span class="n">pc</span><span class="o">.</span><span class="n">label_info</span> <span class="o">=</span> <span class="n">label_info</span>
         <span class="n">pc</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="n">pointwise_labels</span>
         <span class="n">pc</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">pointwise_source</span>
@@ -1537,10 +1537,10 @@
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on May 30, 2017.
+      Last updated on Jun 08, 2017.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.1.
       </li>
     </ul>
     </div>

@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="genindex.html" >
     <link rel="search" title="Search" href="search.html" >
@@ -104,7 +104,7 @@ code in Cython.</p>
 <p>Automatically-generated online documentation will never see the C-only functions that
 are defined with <code class="code docutils literal"><span class="pre">cdef</span></code> in Cython, as shown in 
 <a class="reference external" href="http://cython.readthedocs.io/en/latest/src/reference/extension_types.html">http://cython.readthedocs.io/en/latest/src/reference/extension_types.html</a>
-Because of the limitations of Sphinx, you&#8217;ll have to simply view the sourcecode
+Because of the limitations of Sphinx, you’ll have to simply view the sourcecode
 for further information. For this module, these C-only functions include</p>
 <blockquote>
 <div><ul class="simple">
@@ -131,7 +131,7 @@ for further information. For this module, these C-only functions include</p>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">cdist</span></code>(XA,&nbsp;XB[,&nbsp;metric,&nbsp;p,&nbsp;V,&nbsp;VI,&nbsp;w])</td>
 <td>Computes distance between each pair of the two collections of inputs.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">cleanup</span></code>((ndarray&nbsp;time,&nbsp;ndarray&nbsp;position,&nbsp;...)</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">cleanup</span></code>((ndarray&nbsp;time,&nbsp;ndarray&nbsp;position,&nbsp;…)</td>
 <td>Throw out bad points by speed comparison.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">contour_crossings</span></code>((x[,&nbsp;contour])</td>
@@ -143,19 +143,19 @@ for further information. For this module, these C-only functions include</p>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">frenet_frame</span></code>((velocity,&nbsp;acceleration)&nbsp;-&gt;&nbsp;ndarray)</td>
 <td>Find the Frenet frame using QR-decomposition at each time step.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">frenet_kappa_tau</span></code>((ndarray&nbsp;velocity,&nbsp;...)</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">frenet_kappa_tau</span></code>((ndarray&nbsp;velocity,&nbsp;…)</td>
 <td>Compute KAPPA curvature and TAU torsion for a curve</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">mollifier</span></code>(time,&nbsp;position[,&nbsp;refinement,&nbsp;width])</td>
-<td>Smooth function in a way that retains shape by adding new graph values via the linear interpolate and smoothing via convolution with the Friedrichs&#8217; mollifier.</td>
+<td>Smooth function in a way that retains shape by adding new graph values via the linear interpolate and smoothing via convolution with the Friedrichs’ mollifier.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">mollifier_uneven</span></code>(time,&nbsp;position[,&nbsp;...])</td>
-<td>Smooth function in a way that retains shape by adding new graph values via the linear interpolate and smoothing via convolution with the Friedrichs&#8217; mollifier.</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">mollifier_uneven</span></code>(time,&nbsp;position[,&nbsp;…])</td>
+<td>Smooth function in a way that retains shape by adding new graph values via the linear interpolate and smoothing via convolution with the Friedrichs’ mollifier.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">secant_arclength</span></code>((ndarray&nbsp;position)&nbsp;-&gt;&nbsp;ndarray)</td>
 <td>Compute the cumulative arc-length sample-by-sample.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">secant_derivative</span></code>((ndarray&nbsp;time,&nbsp;...)</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">secant_derivative</span></code>((ndarray&nbsp;time,&nbsp;…)</td>
 <td>Compute the secant derivatives using points equally spaced BY INDEX.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">secant_jump</span></code>((ndarray&nbsp;position)&nbsp;-&gt;&nbsp;ndarray)</td>
@@ -164,7 +164,7 @@ for further information. For this module, these C-only functions include</p>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">similarity_matrix</span></code>(a,&nbsp;b[,&nbsp;func])</td>
 <td>similarity_matrix computes the similarity matrix of two</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">tangent_arclength</span></code>((ndarray&nbsp;time,&nbsp;...)</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">tangent_arclength</span></code>((ndarray&nbsp;time,&nbsp;…)</td>
 <td>Compute the cumulative arc-length by integrating speed.</td>
 </tr>
 </tbody>
@@ -212,10 +212,10 @@ for further information. For this module, these C-only functions include</p>
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on May 30, 2017.
+      Last updated on Jun 08, 2017.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.1.
       </li>
     </ul>
     </div>

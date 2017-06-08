@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
@@ -77,7 +77,7 @@
           <div class="body" id="spc-section-body">
             
   <h1>Source code for multidim.covertree</h1><div class="highlight"><pre>
-<span></span><span class="sd">r&quot;&quot;&quot;This module contains the essential classes for the &quot;Cover-tree with</span>
+<span></span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;This module contains the essential classes for the &quot;Cover-tree with</span>
 <span class="sd">friends&quot; algorithm, namely:</span>
 
 <span class="sd">    - :class:`CoverTree`</span>
@@ -121,7 +121,7 @@
 
 
 <div class="viewcode-block" id="CoverTree"><a class="viewcode-back" href="../../generated/multidim.covertree.CoverTree.html#multidim.covertree.CoverTree">[docs]</a><span class="k">class</span> <span class="nc">CoverTree</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">r&quot;&quot;&quot;An efficient and convenient implementation of</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;An efficient and convenient implementation of</span>
 <span class="sd">    the &quot;Cover Tree with Friends&quot; algorithm.  </span>
 <span class="sd">    This implementation follows the notation and terminology of the paper</span>
 <span class="sd">    [CDER1]_ as carefully as possible; they were written in concert.</span>
@@ -442,6 +442,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">level_pointer</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
 
+    <span class="k">def</span> <span class="nf">__sizeof__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span> <span class="n">cl</span><span class="o">.</span><span class="n">__sizeof__</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span><span class="n">cl</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_levels</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="p">)</span>
+            
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;A CoverTree of </span><span class="si">{}</span><span class="s2"> points in dimension </span><span class="si">{}</span><span class="s2">, computed to</span>
 <span class="s2">level</span><span class="se">\t</span><span class="s2">adults</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -452,11 +455,11 @@
         <span class="k">return</span> <span class="n">s</span>
 
 <div class="viewcode-block" id="CoverTree.next"><a class="viewcode-back" href="../../generated/multidim.covertree.CoverTree.next.html#multidim.covertree.CoverTree.next">[docs]</a>    <span class="k">def</span> <span class="nf">next</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot; See :func:`__next__` &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__next__</span><span class="p">()</span></div>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; See :func:`__next__` &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__next__</span><span class="p">()</span></div>
 
     <span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Increment exponent and compute/retrieve next level of cover tree as </span>
 <span class="sd">        a CoverLevel object.</span>
 <span class="sd">        </span>
@@ -608,23 +611,23 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
             <span class="c1"># ensure that previous levels have been computed</span>
             <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">level_pointer</span> <span class="o">&lt;</span> <span class="n">exponent</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__next__</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="fm">__next__</span><span class="p">()</span>
             <span class="k">assert</span> <span class="n">exponent</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">level_pointer</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_levels</span><span class="p">[</span><span class="n">exponent</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot; Iterate until stop condition is met or we run out of points. &quot;&quot;&quot;</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Iterate until stop condition is met or we run out of points. &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-        <span class="n">level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__next__</span><span class="p">()</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__next__</span><span class="p">()</span>
         <span class="k">yield</span> <span class="n">level</span>
 
         <span class="n">num_points</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">while</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">multiplicity</span><span class="p">[</span><span class="n">level</span><span class="o">.</span><span class="n">adults</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">num_points</span><span class="p">:</span>
-            <span class="n">level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__next__</span><span class="p">()</span>
+            <span class="n">level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__next__</span><span class="p">()</span>
             <span class="k">yield</span> <span class="n">level</span>
 
     <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot;Current Depth of the CoverTree.</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Current Depth of the CoverTree.</span>
 
 <span class="sd">        That is, the number of levels computed *so far*.  That is, if levels </span>
 <span class="sd">        0, 1, 2, 3 have been computed, then len(self) is 4. </span>
@@ -637,7 +640,7 @@
         <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_levels</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">+</span><span class="mi">1</span>
 
 <div class="viewcode-block" id="CoverTree.sparse_complex"><a class="viewcode-back" href="../../generated/multidim.covertree.CoverTree.sparse_complex.html#multidim.covertree.CoverTree.sparse_complex">[docs]</a>    <span class="k">def</span> <span class="nf">sparse_complex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot; Make a sparse complex from this CoverTree, using the type-4 friends </span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Make a sparse complex from this CoverTree, using the type-4 friends </span>
 <span class="sd">        algorithm. </span>
 <span class="sd">      </span>
 <span class="sd">        Notes</span>
@@ -657,7 +660,7 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="CoverTree.plot"><a class="viewcode-back" href="../../generated/multidim.covertree.CoverTree.plot.html#multidim.covertree.CoverTree.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot; Interactive plot of a CoverTree, with dynamic computation of levels.</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Interactive plot of a CoverTree, with dynamic computation of levels.</span>
 <span class="sd">        </span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
@@ -667,7 +670,7 @@
 <span class="sd">        </span>
 <span class="sd">        Other parameters are fed to :func:`CoverLevel.plot`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="n">__module__</span> <span class="o">==</span> <span class="s1">&#39;bokeh.plotting.figure&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">==</span> <span class="s1">&#39;bokeh.plotting.figure&#39;</span><span class="p">:</span>
             <span class="n">canvas_type</span> <span class="o">=</span> <span class="s2">&quot;bokeh&quot;</span>
             <span class="kn">import</span> <span class="nn">bokeh.plotting</span>
             <span class="kn">from</span> <span class="nn">bokeh.io</span> <span class="k">import</span> <span class="n">push_notebook</span>
@@ -696,7 +699,7 @@
 
 <div class="viewcode-block" id="CoverTree.plot_tree"><a class="viewcode-back" href="../../generated/multidim.covertree.CoverTree.plot_tree.html#multidim.covertree.CoverTree.plot_tree">[docs]</a>    <span class="k">def</span> <span class="nf">plot_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">show_balls</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_tribes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                   <span class="n">show_villages</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_adults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot; Plot the tree of a CoverTree.</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Plot the tree of a CoverTree.</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -717,11 +720,11 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="n">__module__</span> <span class="o">==</span> <span class="s1">&#39;bokeh.plotting.figure&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">==</span> <span class="s1">&#39;bokeh.plotting.figure&#39;</span><span class="p">:</span>
             <span class="n">canvas_type</span> <span class="o">=</span> <span class="s2">&quot;bokeh&quot;</span>
             <span class="kn">import</span> <span class="nn">bokeh.plotting</span>
             <span class="kn">from</span> <span class="nn">bokeh.io</span> <span class="k">import</span> <span class="n">push_notebook</span>
-        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="n">__module__</span> <span class="o">==</span> <span class="s1">&#39;matplotlib.axes._subplots&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">==</span> <span class="s1">&#39;matplotlib.axes._subplots&#39;</span><span class="p">:</span>
             <span class="n">canvas_type</span> <span class="o">=</span> <span class="s2">&quot;pyplot&quot;</span>
             <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
         <span class="k">else</span><span class="p">:</span>
@@ -764,7 +767,7 @@
 
 
 <div class="viewcode-block" id="CoverLevel"><a class="viewcode-back" href="../../generated/multidim.covertree.CoverLevel.html#multidim.covertree.CoverLevel">[docs]</a><span class="k">class</span> <span class="nc">CoverLevel</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">r&quot;&quot;&quot;</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A thin class to represent one level of the filtration in a :class:`CoverTree`.</span>
 <span class="sd">    A CoverLevel is essentially a collection of dictionaries of adults,</span>
 <span class="sd">    friends, children, and other attributes of a particular level.</span>
@@ -858,7 +861,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">entropy</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>  <span class="c1"># each entry a np.float64</span>
 
 <div class="viewcode-block" id="CoverLevel.check"><a class="viewcode-back" href="../../generated/multidim.covertree.CoverLevel.check.html#multidim.covertree.CoverLevel.check">[docs]</a>    <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot; Perform basic sanity checks on children, friends, etc. </span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Perform basic sanity checks on children, friends, etc. </span>
 <span class="sd">        Throws `AssertionError` if anyhting fails.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
@@ -873,7 +876,7 @@
 
         <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">guardians</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>\
             <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">guardians</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">covertree</span><span class="o">.</span><span class="n">N</span><span class="p">,</span> <span class="p">)</span>
-        
+
         <span class="n">adult_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">adults</span><span class="p">)</span>
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">adult_set</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">adults</span><span class="p">)</span>
 
@@ -901,11 +904,11 @@
             <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">ci</span><span class="p">])</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>\
                 <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">ci</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;bool&#39;</span>\
                 <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">ci</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">covertree</span><span class="o">.</span><span class="n">N</span><span class="p">,</span> <span class="p">)</span>
-             
+
             <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">friends1</span><span class="p">[</span><span class="n">ci</span><span class="p">]))</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">friends1</span><span class="p">[</span><span class="n">ci</span><span class="p">])</span>
             <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">friends2</span><span class="p">[</span><span class="n">ci</span><span class="p">]))</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">friends2</span><span class="p">[</span><span class="n">ci</span><span class="p">])</span>
             <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">friends3</span><span class="p">[</span><span class="n">ci</span><span class="p">]))</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">friends3</span><span class="p">[</span><span class="n">ci</span><span class="p">])</span>
-            
+
             <span class="k">assert</span> <span class="n">ci</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">friends1</span><span class="p">[</span><span class="n">ci</span><span class="p">]</span>
             <span class="k">assert</span> <span class="n">ci</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">friends2</span><span class="p">[</span><span class="n">ci</span><span class="p">]</span>
             <span class="k">assert</span> <span class="n">ci</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">friends3</span><span class="p">[</span><span class="n">ci</span><span class="p">]</span>
@@ -914,7 +917,7 @@
 
             <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">union</span> <span class="o">&amp;</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">ci</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span>\
                 <span class="s2">&quot;Children overlap.  Not Partition.&quot;</span>
-             
+
             <span class="n">union</span> <span class="o">=</span> <span class="n">union</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">ci</span><span class="p">]</span>
         <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">union</span><span class="p">),</span> <span class="s2">&quot;Children missing.  Not Partition.&quot;</span>
 
@@ -928,12 +931,29 @@
 
         <span class="k">return</span> <span class="kc">True</span></div>
 
+    <span class="k">def</span> <span class="nf">__sizeof__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">sys</span>
+        <span class="k">return</span>  <span class="nb">sum</span><span class="p">([</span><span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">adults</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">friends1</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">friends2</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">friends3</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">guardians</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">predecessor</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">entropy</span><span class="p">]])</span>
+
+
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;Level </span><span class="si">{}</span><span class="s2"> using </span><span class="si">{}</span><span class="s2"> adults at radius </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">exponent</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">adults</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;Level </span><span class="si">{}</span><span class="s2"> using </span><span class="si">{}</span><span class="s2"> adults at radius </span><span class="si">{}</span><span class="s2">.  size </span><span class="si">{}</span><span class="s2">b </span><span class="si">{}</span><span class="s2">b/adult&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">exponent</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">adults</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__sizeof__</span><span class="p">(),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__sizeof__</span><span class="p">()</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">adults</span><span class="p">),</span>
+            <span class="p">)</span>
 
 <div class="viewcode-block" id="CoverLevel.find_label_weights"><a class="viewcode-back" href="../../generated/multidim.covertree.CoverLevel.find_label_weights.html#multidim.covertree.CoverLevel.find_label_weights">[docs]</a>    <span class="k">def</span> <span class="nf">find_label_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">adult</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot; Compute the weights of labelled children of an adult. </span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Compute the weights of labelled children of an adult. </span>
 <span class="sd">        Store it in self.weights[adult].</span>
 
 <span class="sd">        Parameters</span>
@@ -958,7 +978,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="n">adult</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="CoverLevel.find_entropy"><a class="viewcode-back" href="../../generated/multidim.covertree.CoverLevel.find_entropy.html#multidim.covertree.CoverLevel.find_entropy">[docs]</a>    <span class="k">def</span> <span class="nf">find_entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">adult</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot; Compute the entropy of the labelled children on an adult. </span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Compute the entropy of the labelled children on an adult. </span>
 <span class="sd">        Store it in self.entropy[adults].</span>
 
 <span class="sd">        This is only used by :class:`multidim.models.CDER`</span>
@@ -983,7 +1003,7 @@
 
 
 <div class="viewcode-block" id="CoverLevel.plot_data_title"><a class="viewcode-back" href="../../generated/multidim.covertree.CoverLevel.plot_data_title.html#multidim.covertree.CoverLevel.plot_data_title">[docs]</a>    <span class="k">def</span> <span class="nf">plot_data_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show_balls</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_adults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot; Internal method -- Make source data for plot. </span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Internal method -- Make source data for plot. </span>
 <span class="sd">        </span>
 <span class="sd">        See Also</span>
 <span class="sd">        --------</span>
@@ -1009,7 +1029,7 @@
         <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">title</span></div>
 
 <div class="viewcode-block" id="CoverLevel.cleanup"><a class="viewcode-back" href="../../generated/multidim.covertree.CoverLevel.cleanup.html#multidim.covertree.CoverLevel.cleanup">[docs]</a>    <span class="k">def</span> <span class="nf">cleanup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">r&quot;&quot;&quot; Internal method -- remove duplicate friends, and compute weights</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Internal method -- remove duplicate friends, and compute weights</span>
 <span class="sd">        and entropy.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">ca</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">adults</span><span class="p">:</span>
@@ -1058,11 +1078,11 @@
                     <span class="n">all_ys</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">ymid</span><span class="p">,</span>
                     <span class="n">ymid</span> <span class="o">-</span> <span class="n">all_ys</span><span class="o">.</span><span class="n">min</span><span class="p">()])</span>
 
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="n">__module__</span> <span class="o">==</span> <span class="s1">&#39;bokeh.plotting.figure&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">==</span> <span class="s1">&#39;bokeh.plotting.figure&#39;</span><span class="p">:</span>
             <span class="n">canvas_type</span> <span class="o">=</span> <span class="s2">&quot;bokeh&quot;</span>
             <span class="kn">from</span> <span class="nn">bokeh.models</span> <span class="k">import</span> <span class="n">ColumnDataSource</span><span class="p">,</span> <span class="n">Range1d</span>
             <span class="kn">import</span> <span class="nn">bokeh.plotting</span>
-        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="n">__module__</span> <span class="o">==</span> <span class="s1">&#39;matplotlib.axes._subplots&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">==</span> <span class="s1">&#39;matplotlib.axes._subplots&#39;</span><span class="p">:</span>
             <span class="n">canvas_type</span> <span class="o">=</span> <span class="s2">&quot;pyplot&quot;</span>
             <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
             <span class="kn">from</span> <span class="nn">matplotlib.collections</span> <span class="k">import</span> <span class="n">PolyCollection</span><span class="p">,</span> <span class="n">PatchCollection</span>
@@ -1184,10 +1204,10 @@
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on May 30, 2017.
+      Last updated on Jun 08, 2017.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.1.
       </li>
     </ul>
     </div>
