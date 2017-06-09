@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
@@ -101,7 +101,7 @@ trajectories of vehicles given by GPS coordinates.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tn</strong> : list-like</p>
 <blockquote>
-<div><p>Integer timestamps, typically in ‘numpy.int64` nanoseconds-since-epoch</p>
+<div><p>Integer timestamps, typically in &#8216;numpy.int64` nanoseconds-since-epoch</p>
 </div></blockquote>
 <p><strong>px</strong> : list-like</p>
 <p><strong>py</strong> : list-like</p>
@@ -166,7 +166,7 @@ trajectories of vehicles given by GPS coordinates.</p>
 <tr class="row-even"><td><a class="reference internal" href="timeseries.SpaceCurve.arclength_param.html#timeseries.SpaceCurve.arclength_param" title="timeseries.SpaceCurve.arclength_param"><code class="xref py py-obj docutils literal"><span class="pre">SpaceCurve.arclength_param</span></code></a>()</td>
 <td>Change time parametrization to the universal speed=1 arclength parametrization.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="timeseries.SpaceCurve.auto_bin.html#timeseries.SpaceCurve.auto_bin" title="timeseries.SpaceCurve.auto_bin"><code class="xref py py-obj docutils literal"><span class="pre">SpaceCurve.auto_bin</span></code></a>([num_bins,&nbsp;underflow,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="timeseries.SpaceCurve.auto_bin.html#timeseries.SpaceCurve.auto_bin" title="timeseries.SpaceCurve.auto_bin"><code class="xref py py-obj docutils literal"><span class="pre">SpaceCurve.auto_bin</span></code></a>([num_bins,&nbsp;underflow,&nbsp;...])</td>
 <td>Count bins on the transformed persistence diagrams of</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="timeseries.SpaceCurve.clean_copy.html#timeseries.SpaceCurve.clean_copy" title="timeseries.SpaceCurve.clean_copy"><code class="xref py py-obj docutils literal"><span class="pre">SpaceCurve.clean_copy</span></code></a>([cleanup_func])</td>
@@ -187,13 +187,13 @@ trajectories of vehicles given by GPS coordinates.</p>
 <tr class="row-odd"><td><a class="reference internal" href="timeseries.SpaceCurve.lift_and_mass.html#timeseries.SpaceCurve.lift_and_mass" title="timeseries.SpaceCurve.lift_and_mass"><code class="xref py py-obj docutils literal"><span class="pre">SpaceCurve.lift_and_mass</span></code></a>()</td>
 <td>Produce the terms of the force-balance equations, to help derive coefficient-of-lift and mass from pure trajectory information.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="timeseries.SpaceCurve.lift_profile.html#timeseries.SpaceCurve.lift_profile" title="timeseries.SpaceCurve.lift_profile"><code class="xref py py-obj docutils literal"><span class="pre">SpaceCurve.lift_profile</span></code></a>([num_bins,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="timeseries.SpaceCurve.lift_profile.html#timeseries.SpaceCurve.lift_profile" title="timeseries.SpaceCurve.lift_profile"><code class="xref py py-obj docutils literal"><span class="pre">SpaceCurve.lift_profile</span></code></a>([num_bins,&nbsp;...])</td>
 <td>histogram of the lift_and_mass by lift.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="timeseries.SpaceCurve.load.html#timeseries.SpaceCurve.load" title="timeseries.SpaceCurve.load"><code class="xref py py-obj docutils literal"><span class="pre">SpaceCurve.load</span></code></a>(filename)</td>
 <td>Simple CSV reader.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="timeseries.SpaceCurve.mass_profile.html#timeseries.SpaceCurve.mass_profile" title="timeseries.SpaceCurve.mass_profile"><code class="xref py py-obj docutils literal"><span class="pre">SpaceCurve.mass_profile</span></code></a>([num_bins,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="timeseries.SpaceCurve.mass_profile.html#timeseries.SpaceCurve.mass_profile" title="timeseries.SpaceCurve.mass_profile"><code class="xref py py-obj docutils literal"><span class="pre">SpaceCurve.mass_profile</span></code></a>([num_bins,&nbsp;...])</td>
 <td>histogram of the lift_and_mass by mass.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="timeseries.SpaceCurve.plot.html#timeseries.SpaceCurve.plot" title="timeseries.SpaceCurve.plot"><code class="xref py py-obj docutils literal"><span class="pre">SpaceCurve.plot</span></code></a>(canvas[,&nbsp;title,&nbsp;color])</td>
@@ -208,10 +208,10 @@ trajectories of vehicles given by GPS coordinates.</p>
 <tr class="row-even"><td><a class="reference internal" href="timeseries.SpaceCurve.signature_curve.html#timeseries.SpaceCurve.signature_curve" title="timeseries.SpaceCurve.signature_curve"><code class="xref py py-obj docutils literal"><span class="pre">SpaceCurve.signature_curve</span></code></a>()</td>
 <td>Olver/Boutin signature curve.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="timeseries.SpaceCurve.slide.html#timeseries.SpaceCurve.slide" title="timeseries.SpaceCurve.slide"><code class="xref py py-obj docutils literal"><span class="pre">SpaceCurve.slide</span></code></a>([window,&nbsp;time_step,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="timeseries.SpaceCurve.slide.html#timeseries.SpaceCurve.slide" title="timeseries.SpaceCurve.slide"><code class="xref py py-obj docutils literal"><span class="pre">SpaceCurve.slide</span></code></a>([window,&nbsp;time_step,&nbsp;...])</td>
 <td>Produce equal-time SpaceCurves using a sliding-window on self.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="timeseries.SpaceCurve.snip.html#timeseries.SpaceCurve.snip" title="timeseries.SpaceCurve.snip"><code class="xref py py-obj docutils literal"><span class="pre">SpaceCurve.snip</span></code></a>([time_step,&nbsp;time_start,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="timeseries.SpaceCurve.snip.html#timeseries.SpaceCurve.snip" title="timeseries.SpaceCurve.snip"><code class="xref py py-obj docutils literal"><span class="pre">SpaceCurve.snip</span></code></a>([time_step,&nbsp;time_start,&nbsp;...])</td>
 <td>Cut this SpaceCurve into equal-time snippets.</td>
 </tr>
 </tbody>
@@ -251,10 +251,10 @@ trajectories of vehicles given by GPS coordinates.</p>
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Jun 08, 2017.
+      Last updated on Jun 09, 2017.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.
       </li>
     </ul>
     </div>
