@@ -349,7 +349,7 @@ Setting weights in PointCloud.stratum[0]['val']=1.0.""")
         level0 = CoverLevel(self, 0)
         level0.adults.append(self._adult0)
         # TODO!  Use index method somehow!
-        level0.children[self._adult0] = np.ones(shape=(self.N,), dtype='bool')
+        level0.children[self._adult0] = self.pointcloud.coords.index.values.copy()
         level0.friends1[self._adult0] = [self._adult0]
         level0.friends2[self._adult0] = [self._adult0]
         level0.friends3[self._adult0] = [self._adult0]
@@ -364,7 +364,7 @@ Setting weights in PointCloud.stratum[0]['val']=1.0.""")
         self.reset()
 
     def __sizeof__(self):
-        return sum( cl.__sizeof__() for _,cl in self._levels.items() )
+        return sum( [cl.__sizeof__() for _,cl in self._levels.items()] )
             
     def __repr__(self):
         s = """A CoverTree of {} points in dimension {}, computed to
@@ -422,8 +422,8 @@ level\tadults\n""".format(
         orphans = []
         for ci in level.adults:
             center_a = np.array([ci], dtype=np.int64)
-            children_ids = np.where(level.children[ci])[0]
-            children_dists = fast_algorithms.distance_cache_None(center_a, children_ids, self.coords).flatten()
+            #children_ids = np.where(level.children[ci])[0]
+            children_dists = fast_algorithms.distance_cache_None(center_a, level.children[ci], self.coords).flatten()
             
             # since we have computed children_dists, let's take a moment to count
             # duplicate points of new adults.
@@ -435,11 +435,13 @@ level\tadults\n""".format(
                         "adult {} has multiplicity {} at level {}".format(
                             ci, mult, prev_level.exponent))
 
-            my_orphans = children_ids[children_dists > level.radius]
+            my_orphans = level.children[ci][children_dists > level.radius]
+            assert np.all(np.in1d(my_orphans, level.children[ci]))
+
             if len(my_orphans) > 0 and self.sort_orphans_by_mean:
-                child_coords = self.coords[children_ids, :]
-                child_labels = self.pointcloud.labels[children_ids]
-                child_weight = self.pointcloud.stratum[0]['val'].values[children_ids]
+                child_coords = self.coords[level.children[ci], :]
+                child_labels = self.pointcloud.labels[level.children[ci]]
+                child_weight = self.pointcloud.stratum[0]['val'].values[level.children[ci]]
                 label_means, label_weights = fast_algorithms.label_means(
                                                 child_coords,
                                                 child_labels,
@@ -451,8 +453,8 @@ level\tadults\n""".format(
                                                     self.coords[my_orphans, :])
                 # get closet-to-each-label until all orphans are used
                 orphan_order = np.concatenate([
-                    dist_to_labelmean_by_orphan.argsort(axis=1).T.flatten(), 
-                    np.arange(my_orphans.shape[0])])  # include everyone.
+                    my_orphans[dist_to_labelmean_by_orphan.argsort(axis=1).T.flatten()], 
+                    my_orphans])  # include everyone.
 
                 # remove duplicates
                 sort_orphan, sort_index = np.unique(orphan_order, return_index=True)
@@ -461,7 +463,7 @@ level\tadults\n""".format(
                 # Because label_means was pre-sorted by weight, we can re-sort
                 # by that index! 
                 sort_index.sort()
-                my_orphans = my_orphans[orphan_order[sort_index]]
+                my_orphans = orphan_order[sort_index]
             orphans.extend(my_orphans)
         # check that each orphan was ejected once only.
         assert len(orphans) == len(set(orphans)), orphans
@@ -472,22 +474,21 @@ level\tadults\n""".format(
         # This is where most distances are computed, so it is the slowest.
         for orphan_index in orphans:
             assert orphan_index not in level.adults
+            assert orphan_index in level.children[level.guardians[orphan_index]], "{} not in {}".format(orphan_index, level.children[level.guardians[orphan_index]])
             old_parent, new_parent = fast_algorithms.covertree_adopt_or_liberate(
-                                    level, prev_level, orphan_index) 
+                                    level, prev_level, orphan_index)
             if new_parent == orphan_index:
                 prev_level.successors[old_parent] = np.append(prev_level.successors[old_parent], orphan_index)
                 level.predecessor[orphan_index] = old_parent
-                npc = np.zeros(shape=(self.N,), dtype='bool')
-                npc[orphan_index] = True
                 level.adults.append(orphan_index)
                 level.guardians[orphan_index] = orphan_index
-                level.children[orphan_index] = npc
+                level.children[orphan_index] = np.array([orphan_index], dtype=np.int64)
                 level.friends1[orphan_index] = [orphan_index]
                 level.friends2[orphan_index] = [orphan_index]
                 level.friends3[orphan_index] = [orphan_index]
                 self.cohort[orphan_index] = level.exponent
-            assert level.children[old_parent][orphan_index] == False
-            assert level.children[new_parent][orphan_index] == True
+            assert orphan_index not in level.children[old_parent]
+            assert orphan_index in level.children[new_parent]
 
         assert np.all(level.guardians >= 0)
 
@@ -817,14 +818,14 @@ class CoverLevel(object):
 
         # cannot check successors without violating something..
 
-        union = np.zeros(shape=(self.covertree.N, ), dtype='bool')
+        union = np.array([], dtype=np.int64)
         for ci in self.adults:
             assert type(self.friends1[ci]) == list
             assert type(self.friends2[ci]) == list
             assert type(self.friends3[ci]) == list
             assert type(self.children[ci]) == np.ndarray\
-                and self.children[ci].dtype == 'bool'\
-                and self.children[ci].shape == (self.covertree.N, )
+                and self.children[ci].dtype == 'int64'\
+                and self.children[ci].shape[0] <= self.covertree.N
 
             assert len(set(self.friends1[ci])) == len(self.friends1[ci])
             assert len(set(self.friends2[ci])) == len(self.friends2[ci])
@@ -834,13 +835,14 @@ class CoverLevel(object):
             assert ci in self.friends2[ci]
             assert ci in self.friends3[ci]
             assert self.guardians[ci] == ci
-            assert self.children[ci][ci] == True
+            assert ci in self.children[ci]
 
-            assert np.count_nonzero(union & self.children[ci]) == 0,\
+            assert np.intersect1d(union, self.children[ci]).shape[0] == 0,\
                 "Children overlap.  Not Partition."
 
-            union = union | self.children[ci]
-        assert np.all(union), "Children missing.  Not Partition."
+            union = np.union1d(union, self.children[ci])
+        assert len(union) == self.covertree.N, "Children missing.  Not Partition."
+        #assert len(union) == len(np.unique(union)), "Duplicates?"
 
         try:
             v = self.villages
@@ -867,11 +869,8 @@ class CoverLevel(object):
 
 
     def __repr__(self):
-        return "Level {} using {} adults at radius {}.  size {}b {}b/adult".format(
-            self.exponent, len(self.adults), self.radius,
-            self.__sizeof__(),
-            self.__sizeof__()/len(self.adults),
-            )
+        return "Level {} using {} adults at radius {}".format(
+            self.exponent, len(self.adults), self.radius)
 
     def find_label_weights(self, adult):
         r""" Compute the weights of labelled children of an adult. 
@@ -891,8 +890,10 @@ class CoverLevel(object):
             pass
         else:
             pc = self.covertree.pointcloud
+            children_set = np.zeros(shape=(pc.coords.shape[0],), dtype='bool')
+            children_set[self.children[adult]] = True
             self.weights[adult] = fast_algorithms.label_weights(
-                self.children[adult],
+                children_set,
                 pc.labels,
                 pc.stratum[0]['val'].values,
                 pc.label_info['int_index'].values)

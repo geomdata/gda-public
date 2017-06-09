@@ -561,8 +561,8 @@ class CDER(GaussianMixtureClassifier):
         pc = ct.pointcloud
         label_index = pc.label_info['int_index'].loc[label]
         assert label == pc.label_info.index[label_index]
-        winning_children = coverlevel.children[adult] & (pc.labels == label_index )
-        count = np.count_nonzero(winning_children)
+        winning_children = np.intersect1d(coverlevel.children[adult], np.where(pc.labels == label_index ))
+        count = len(winning_children)
         sample = ct.coords[winning_children,:]
         entropy = coverlevel.entropy[adult]
         ambient_dim = ct.coords.shape[1]

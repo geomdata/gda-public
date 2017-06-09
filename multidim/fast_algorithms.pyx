@@ -321,7 +321,7 @@ cpdef np.ndarray[NINT_t] covertree_adopt_or_liberate(object coverlevel,
                                          NINT_t orphan_index):
     # remove the orphan from the parents' list of children.
     
-    """
+    r"""
     adopt an orphan using type-1 friends. 
 
 
@@ -337,16 +337,20 @@ cpdef np.ndarray[NINT_t] covertree_adopt_or_liberate(object coverlevel,
     """
     cdef np.ndarray[NINT_t] cg = coverlevel.guardians
     cdef NINT_t deadbeat = cg[orphan_index]
-    cdef np.ndarray[NBIT_t, cast=True] dc = coverlevel.children[deadbeat]
-    dc[orphan_index] = False
-    cg[orphan_index] = -1
+    cdef NINT_t K = coverlevel.children[deadbeat].shape[0] 
+    coverlevel.children[deadbeat] = np.setdiff1d(coverlevel.children[deadbeat],
+                                                np.array([orphan_index], dtype=np.int64),
+                                                assume_unique=True)
+    assert coverlevel.children[deadbeat].shape[0] == K - 1
+    assert cg[orphan_index] == deadbeat
+    cg[orphan_index] = np.int64(-1)
 
     cdef NINT_t old_guardian = coverlevel.predecessor[deadbeat]
     cdef NINT_t old_f1
     fosters = []
     for old_f1 in prev_level.friends1[old_guardian]:
         fosters.extend(prev_level.successors[old_f1])
-    
+
     fosters = list(set(fosters))
 
     cdef np.ndarray[NINT_t] orphan_array = np.array([orphan_index], dtype=np.int64)
@@ -355,10 +359,7 @@ cpdef np.ndarray[NINT_t] covertree_adopt_or_liberate(object coverlevel,
     cdef NINT_t i, new_parent
     cdef NDBL_t d
     cdef NDBL_t R = coverlevel.radius
-    
-
     cdef np.ndarray[NBIT_t, cast=True] npc 
-    
     if fosters_array.size > 0:
         new_dists = distance_cache_None(orphan_array, fosters_array,
             coverlevel.covertree.coords).flatten()
@@ -369,31 +370,12 @@ cpdef np.ndarray[NINT_t] covertree_adopt_or_liberate(object coverlevel,
         if d <= R:
             new_parent = fosters_array[i]
             cg[orphan_index] = new_parent
-            npc = coverlevel.children[new_parent]
-            npc[orphan_index] = True
+            coverlevel.children[new_parent] = np.union1d(coverlevel.children[new_parent], [orphan_index])
             return np.array([deadbeat, new_parent])
-    
+
     # nobody claimed this orphan.  Let's promote it to an "adult" center.
     cg[orphan_index] = orphan_index
     return np.array([deadbeat, orphan_index])
-
-cpdef np.ndarray[NBIT_t, ndim=2, cast=True] youngins_and_teens(object coverlevel, NINT_t adult):
-    r"""Return boolean 2xN array of `youngins` (that is, non-teen children) 
-    and `teens` of adult at a given coverlevel. """
-    cdef NDBL_t R = coverlevel.radius
-    cdef np.ndarray[NBIT_t, cast=True] ch = coverlevel.children[adult]
-    cdef np.ndarray[NINT_t] children_ids = np.where(ch)[0]
-    cdef np.ndarray[NDBL_t] childrenR  = distance_cache_None(
-        np.array([adult], dtype=np.int64), children_ids, coverlevel.covertree.coords).flatten()
-    cdef np.ndarray[NINT_t] youngin_ids = children_ids[childrenR <= 0.5*R ]
-    cdef np.ndarray[NBIT_t, cast=True] youngins = np.zeros_like(ch)
-    youngins[youngin_ids] = 1
-    cdef np.ndarray[NBIT_t, cast=True] teens = ch & (~ youngins)
-    cdef np.ndarray[NBIT_t, cast=True, ndim=2] output = np.array(
-        [youngins, teens], dtype='bool')
-    assert np.all(output[0] | output[1] == ch)
-    assert np.all(output[0] & output[1] == np.zeros_like(ch))
-    return output
 
 cpdef np.ndarray[NINT_t, ndim=2] covertree_exchange_teens(object coverlevel, object prev_level, NINT_t ci):
     r""" For a given center of a CoverTree, determine which of its children are
@@ -406,9 +388,10 @@ cpdef np.ndarray[NINT_t, ndim=2] covertree_exchange_teens(object coverlevel, obj
      |                        |
   adult ci --->--- teen -<-- new_grd cj
     """
-    cdef np.ndarray[NBIT_t, cast=True] cci = coverlevel.children[ci]
-    cdef np.ndarray[NBIT_t, cast=True] teens = youngins_and_teens(coverlevel, ci)[1]
-    cdef np.ndarray[NINT_t] teen_ids = np.where(teens)[0]
+    cdef NDBL_t R = coverlevel.radius
+    cdef np.ndarray[NDBL_t] childrenR  = distance_cache_None(
+        np.array([ci], dtype=np.int64), coverlevel.children[ci], coverlevel.covertree.coords).flatten()
+    cdef np.ndarray[NINT_t] teens = coverlevel.children[ci][childrenR > 0.5*R]
     
     cdef np.ndarray[NINT_t] old_f2s = np.array(
         prev_level.friends2[coverlevel.predecessor[ci]]) 
@@ -422,21 +405,21 @@ cpdef np.ndarray[NINT_t, ndim=2] covertree_exchange_teens(object coverlevel, obj
         new_grd.extend(prev_level.successors[f2])
     cdef np.ndarray[NINT_t] new_guardians = np.array(new_grd)
      
-    cdef np.ndarray[NDBL_t, ndim=2] teen_dists = distance_cache_None(teen_ids, new_guardians, coverlevel.covertree.coords) 
+    cdef np.ndarray[NDBL_t, ndim=2] teen_dists = distance_cache_None(teens, new_guardians, coverlevel.covertree.coords) 
     cdef np.ndarray[NINT_t] teen_reassignments = teen_dists.argmin(axis=1)
    
-    cdef np.ndarray[NBIT_t, cast=True] ccj 
-    cdef np.ndarray[NINT_t, cast=True] cgs = coverlevel.guardians
-    cdef np.ndarray[NINT_t, ndim=2] results = np.ndarray(shape=(teen_ids.shape[0], 2), dtype=np.int64)
-    for i, teen in enumerate(teen_ids):
+    cdef np.ndarray[NINT_t] cgs = coverlevel.guardians
+    cdef np.ndarray[NINT_t, ndim=2] results = np.ndarray(shape=(teens.shape[0], 2), dtype=np.int64)
+    for i, teen in enumerate(teens):
         j = teen_reassignments[i]  # j should be np index from new_guardians
         cj = new_guardians[j]
         #print(ci, teen, cci[teen], teen in np.where(cci)[0]) # == 1
         if cj != ci:
-            ccj = coverlevel.children[cj]
             cgs[teen] = cj
-            cci[teen] = False
-            ccj[teen] = True
+            coverlevel.children[ci] = np.setdiff1d(coverlevel.children[ci],
+                                                 [teen],
+                                                 assume_unique=True)
+            coverlevel.children[cj] = np.union1d(coverlevel.children[cj], [teen])
         results[i,0] = teen
         results[i,1] = cj
     return results
