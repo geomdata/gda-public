@@ -24,7 +24,7 @@ import pandas as pd
 from . import PointCloud
 from . import fast_algorithms
 
-from scipy.spatial.distance import cdist
+from scipy.spatial.distance import cdist, pdist, squareform
 
 from collections import OrderedDict
 
@@ -313,6 +313,7 @@ class CoverTree(object):
                  sort_orphans_by_mean=True):
 
         self.pointcloud = pointcloud
+        self.pointcloud.covertree = self
 
         if not np.all(self.pointcloud.stratum[0]['val'].values > 0):
             logging.info("""Your points all have non-positive weight!
@@ -431,9 +432,7 @@ level\tadults\n""".format(
                 mult = np.count_nonzero(children_dists == 0.0)
                 self.pointcloud.multiplicity[ci] = mult
                 if mult > 1:
-                    logging.warning(
-                        "adult {} has multiplicity {} at level {}".format(
-                            ci, mult, prev_level.exponent))
+                    logging.warning("point {} has multiplicity {}.".format(ci, mult))
 
             my_orphans = level.children[ci][children_dists > level.radius]
             assert np.all(np.in1d(my_orphans, level.children[ci]))
@@ -580,6 +579,71 @@ level\tadults\n""".format(
         PointCloud object, with edge values coming from sparse complex algorithm.
         """
         raise NotImplementedError
+
+    def make_edges(self, min_distance=0.0, max_distance=None):
+        r"""Iterate over the edges between the points of the underlying
+        `PointCloud`, where min_distance < length <= max_distance.
+
+        Uses the CoverTree type-1 friends for efficiency.
+        This is called by :func:`PointCloud.build_edges`
+
+        Parameters
+        ----------
+        min_distance: float
+            Minimum length.  (Default: 0.0)  Inequality means no self-edges!
+        max_distance: float
+            Maximum length.  (Default: None, meaning 2*self._r0)
+
+        Yields
+        ------
+        triples (a,b,r), where a,b are the indices of points, and r is the
+        distance.
+        """
+
+        if max_distance is None:
+            max_distance = self._r0
+        if max_distance <= 0.0:
+            raise ValueError("Meaningless maximum distance.")
+
+        ell = np.int64(np.floor(np.log(max_distance/self._r0)/np.log(self.ratio)))
+        ball_radius = self._r0 * (self.ratio ** ell)
+        if ell <= 0:
+            ell = 1
+        else:
+            assert ball_radius * self.ratio < max_distance <= ball_radius,\
+                "Incorrect exponent?"
+        
+        # we need only check friends at level ell-1.
+        level = self[ell - 1]
+        total = 0
+        for ci in level.adults:
+            for cj in level.friends1[ci]:
+                if ci == cj:
+                    kids_i = level.children[ci]
+                    total += int(len(kids_i)*(len(kids_i)-1)/2)
+                    if len(kids_i) > 1:
+                        dists = squareform(pdist(self.coords[kids_i,:], self.pointcloud.dist))
+                        good_pairs = (min_distance < dists) & (dists <= max_distance)
+                        good_edges = np.where(good_pairs)
+                        for index_i, index_j in np.array(good_edges).T:
+                            # don't double_count on symmetric square matrix!
+                            if index_i < index_j:
+                                yield (kids_i[index_i], kids_i[index_j], dists[index_i,index_j])
+
+                # friends is reflexive, so don't double-count by parent
+                elif ci < cj:
+                    kids_i = level.children[ci]
+                    kids_j = level.children[cj]
+                    total += len(kids_i)*len(kids_j)
+                    dists = fast_algorithms.distance_cache_None(kids_i,
+                                                                kids_j,
+                                                                self.coords)
+                    good_pairs = (min_distance < dists) & (dists <= max_distance)
+                    good_edges = np.where(good_pairs)
+                    for index_i, index_j in np.array(good_edges).T:
+                        yield (kids_i[index_i], kids_j[index_j], dists[index_i,index_j])
+        if total > 0:
+            logging.warning("Examined {} possible edge distances using level {}.".format(total, ell-1))
 
     def plot(self, canvas, **kwargs):
         r""" Interactive plot of a CoverTree, with dynamic computation of levels.

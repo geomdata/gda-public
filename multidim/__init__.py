@@ -826,8 +826,8 @@ class PointCloud(SimplicialComplex):
             A np array with shape=(n,k), to
         
         max_length : float
-            If max_length is positive, then pre-compute all distances
-            and discard those edges above the max_length threshold.  
+            If max_length is positive, then find edges of length <= max_length.
+            This uses the :class:`multidim.covertree.CoverTree` for efficiency.
             Default is 0.0, meaning compute no edges.
 
         weights : :class:`numpy.ndarray`
@@ -897,20 +897,15 @@ class PointCloud(SimplicialComplex):
                 index=idx0)
 
         self.coords = pd.DataFrame(data_array, index=idx0)
+        self.covertree = None 
+
+
+
+
 
         self.max_length = max_length 
-
-        if max_length == 0.0:
-            # if the cutoff is 0, we don't want to bother to make all the
-            # distances.
-            edges = stratum_maker(1)
-            super(self.__class__, self).__init__(stratum={0: points, 1: edges})
-        else:
-            alldists = squareform(pdist(data_array, dist))
-            stratum = stratum_from_distances(alldists, max_length, points)
-            super(self.__class__, self).__init__(stratum=stratum)
-            self.cache_type = "np"
-            self.dist_cache = alldists
+        edges = stratum_maker(1)
+        super(self.__class__, self).__init__(stratum={0: points, 1: edges})
 
         self.labels = np.zeros(shape=(self.coords.shape[0],), dtype=np.int64)
         self.source = np.zeros(shape=(self.coords.shape[0],), dtype=np.int64)
@@ -919,6 +914,34 @@ class PointCloud(SimplicialComplex):
         self.label_info['points'] = np.array([n], dtype=np.int64)
         self.label_info['weight'] = np.array([self.stratum[0]['val'].sum()])
         self.label_info['int_index'] = np.array([0], dtype=np.int64)
+
+
+        if max_length > 0.0:
+            # use covertree to make all appropriate edges.
+            from . import covertree
+            self.covertree = covertree.CoverTree(self)
+            bdy0 = []
+            bdy1 = []
+            vals = []
+            for i, j, d in self.covertree.make_edges(max_distance=max_length):
+                bdy0.append(min(i,j))
+                bdy1.append(max(i,j))
+                vals.append(d)
+            bdy0 = np.array(bdy0, dtype=np.int64)
+            bdy1 = np.array(bdy1, dtype=np.int64)
+            vals = np.array(vals)
+            sortby = vals.argsort()
+            bdy0 = bdy0[sortby]
+            bdy1 = bdy1[sortby]
+            vals = vals[sortby]
+            
+            edges = pd.DataFrame({'val': vals,
+                                  'pos': np.ones(shape=vals.shape, dtype='bool'),
+                                  'rep': np.arange(vals.shape[0], dtype=np.int64),
+                                  'bdy0': bdy0, 'bdy1': bdy1, },
+                                 columns=['val', 'pos', 'rep', 'bdy0', 'bdy1'],
+                                 index=np.arange(vals.shape[0], dtype=np.int64))
+            self.stratum[1] = edges 
 
     def plot(self, canvas, cutoff=-1, color='purple',
              twocells=False, title="SimplicialComplex", label=False):
@@ -1254,6 +1277,9 @@ class PointCloud(SimplicialComplex):
         Look for duplicate points, and mark their multiplicity.
         This sets self.multiplicity
 
+
+        ToDo:  Use Covertree.
+
         Examples
         --------
         >>> a = np.array([[5.0, 2.0], [3.0, 4.0], [5.0, 2.0]])
@@ -1349,7 +1375,8 @@ class PointCloud(SimplicialComplex):
         if point_index is None:
             center = self.coords.values.mean(axis=0)
             center.shape = (1, center.shape[0])  # re-shape for cdist
-            center_dists = cdist(self.coords.values, center)
+            center_dists = cdist(self.coords.values, center,
+                metric=self.pointcloud.dist)
             point_index = center_dists.argmin()
 
         point = np.array([point_index])
