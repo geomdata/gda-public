@@ -28,6 +28,7 @@ Examples
 A SimplicialComplex with 1000 points, 499500 edges, and 0 faces.
 >>> np.all(pc.stratum[0]['pos'].values == True)
 True
+>>> pc.stratum[0]['val'] = 0.0
 >>> pc.check()
 >>> pc.make_pers0(cutoff=0.15)
 >>> for v in pc.cells(0):
@@ -84,18 +85,18 @@ True
 0- Simplex 2 of value 0.0
 >>> E=pc.stratum[1]
 >>> E.loc[:10]
-         val  pos  rep  bdy0  bdy1
-0   0.001142    0    0   858   866
-1   0.001997    0    1    98   187
-2   0.002471    0    2   251   313
-3   0.002670    0    3   599   629
-4   0.002766    0    4   150   167
-5   0.003405    0    5   573   620
-6   0.003812    0    6   474   517
-7   0.005357    0    7   893   988
-8   0.005533    0    8   623   644
-9   0.005914    0    9   648   744
-10  0.006056    0   10   612   640
+         val    pos  rep  bdy0  bdy1
+0   0.001142  False    0   858   866
+1   0.001997  False    1    98   187
+2   0.002471  False    2   251   313
+3   0.002670  False    3   599   629
+4   0.002766  False    4   150   167
+5   0.003405  False    5   573   620
+6   0.003812  False    6   474   517
+7   0.005357  False    7   893   988
+8   0.005533  False    8   623   644
+9   0.005914  False    9   648   744
+10  0.006056  False   10   612   640
 >>> pc.cells(1)[2]
 1- Simplex 2 of value 0.0024707293775457456
 """
@@ -712,7 +713,7 @@ class SimplicialComplex(object):
             if dim > 0:
                 valcheck = fast_algorithms.check_values(self, dim)
                 if not valcheck == -1:
-                    raise ValueError("Not a filtration at cell {} of dim {}.".format(valcheck, dim))
+                    raise ValueError("Not a filtration! Check 'val' in {}.stratum[{}].iloc[{}]".format(self.__name__, dim, valcheck))
 
     def __repr__(self):
         return "A SimplicialComplex with {} points, {} edges, and {} faces.".format(
@@ -903,7 +904,6 @@ class PointCloud(SimplicialComplex):
 
 
 
-        self.max_length = max_length 
         edges = stratum_maker(1)
         super(self.__class__, self).__init__(stratum={0: points, 1: edges})
 
@@ -915,15 +915,15 @@ class PointCloud(SimplicialComplex):
         self.label_info['weight'] = np.array([self.stratum[0]['val'].sum()])
         self.label_info['int_index'] = np.array([0], dtype=np.int64)
 
-
-        if max_length > 0.0:
+        self.max_length = max_length
+        if self.max_length > 0.0 or self.max_length == -1.0:
             # use covertree to make all appropriate edges.
             from . import covertree
             self.covertree = covertree.CoverTree(self)
             bdy0 = []
             bdy1 = []
             vals = []
-            for i, j, d in self.covertree.make_edges(max_distance=max_length):
+            for i, j, d in self.covertree.make_edges(max_distance=self.max_length):
                 bdy0.append(min(i,j))
                 bdy1.append(max(i,j))
                 vals.append(d)
@@ -1100,7 +1100,7 @@ class PointCloud(SimplicialComplex):
         fraction of distances have we computed so far? """
         n = self.coords.values.shape[0]
         n_choose_2 = 0.5*n*(n-1)
-        
+
         if self.cache_type is None:
             return 0.0
         elif self.cache_type == "np":
@@ -1109,7 +1109,7 @@ class PointCloud(SimplicialComplex):
         elif self.cache_type == "dict":
             computed = len(self.dist_cache)
             return (computed - n)/n_choose_2
-   
+
     def sever(self):
         r""" 
         Subdivide PointCloud into several smaller PointClouds, using the
@@ -1159,11 +1159,10 @@ class PointCloud(SimplicialComplex):
         for i in np.where(self.stratum[0]['pos'].values == True)[0]:
             yield PointCloud(self.coords.values[roots == i, :])
 
-    def nearest_neighbors(self, k):
-        r""" Compute k nearest-neighbors of the PointCloud.
-        This uses brute-force!
-        The clever CoverTree-based algorithm has not yet been implemented.
-        
+    def nearest_neighbors_slow(self, k):
+        r""" Compute k nearest-neighbors of the PointCloud, by brute-force.
+        Answers are cached in `self._nn[k]`
+
         Parameters
         ----------
         k: int
@@ -1175,12 +1174,47 @@ class PointCloud(SimplicialComplex):
         nearest neighbor of vertex i.  Note that entry [i,0] == i, so [i,k]
         is the kth nearest neighbor.
 
+        Notes
+        -----
+        This method is intended for testing, and should only be used on small datasets.
+        On a random example with 1,000 points in :math:`\mathbb{R}^2:` seeking `k=5` nearest
+        neighbors, this method takes at least twice as long as :func:`nearest_neighbors`, and the
+        discrepency is roughly quadratic.  On 2,000 points, it is about 4 times slower.
+
+        Examples
+        --------
+
+        >>> pc = PointCloud(np.array([[ 0.58814682,  0.45405299],
+        ...                           [ 0.09197879,  0.39721367],
+        ...                           [ 0.29128654,  0.28372039],
+        ...                           [ 0.14593167,  0.7027367 ],
+        ...                           [ 0.77068438,  0.37849037],
+        ...                           [ 0.17281855,  0.70204687],
+        ...                           [ 0.48146217,  0.54619034],
+        ...                           [ 0.27831744,  0.67327757],
+        ...                           [ 0.49074255,  0.70847318],
+        ...                           [ 0.132656,    0.0860524 ]]))
+        >>> pc.nearest_neighbors_slow(3)
+        array([[0, 6, 4, 8],
+               [1, 2, 3, 9],
+               [2, 1, 9, 6],
+               [3, 5, 7, 1],
+               [4, 0, 6, 8],
+               [5, 3, 7, 1],
+               [6, 0, 8, 7],
+               [7, 5, 3, 8],
+               [8, 6, 7, 0],
+               [9, 2, 1, 6]])
+
+        See Also
+        --------
+        :func:`multidim.PointCloud.nearest_neighbors`
         """
-        
+
         # simple cache
         if k in self._nn:
             return self._nn[k]
-        
+
         num_points = self.coords.shape[0]
         self._nn[k] = np.ndarray(shape=(num_points, k+1), dtype=np.int64)
 
@@ -1188,6 +1222,103 @@ class PointCloud(SimplicialComplex):
         dists = self.dists(all_points, all_points)
         self._nn[k] = dists.argsort(axis=1)[:, :k+1]  # 0th entry is always self.
         return self._nn[k]
+
+    def nearest_neighbors(self, k):
+        r""" Compute k nearest-neighbors of the PointCloud, using a clever CoverTree algorithm.
+        Answers are cached in `self._nn[k]`
+
+        Parameters
+        ----------
+        k: int
+            How many nearest neighbors to compute
+
+        Returns
+        -------
+        np array with dtype int and shape==(N,k+1).  Entry [i,j] is the jth
+        nearest neighbor of vertex i.  Note that entry [i,0] == i, so [i,k]
+        is the kth nearest neighbor.
+
+        Examples
+        --------
+
+        >>> pc = PointCloud(np.array([[ 0.58814682,  0.45405299],
+        ...                           [ 0.09197879,  0.39721367],
+        ...                           [ 0.29128654,  0.28372039],
+        ...                           [ 0.14593167,  0.7027367 ],
+        ...                           [ 0.77068438,  0.37849037],
+        ...                           [ 0.17281855,  0.70204687],
+        ...                           [ 0.48146217,  0.54619034],
+        ...                           [ 0.27831744,  0.67327757],
+        ...                           [ 0.49074255,  0.70847318],
+        ...                           [ 0.132656,    0.0860524 ]]))
+        >>> pc.nearest_neighbors(3)
+        array([[0, 6, 4, 8],
+               [1, 2, 3, 9],
+               [2, 1, 9, 6],
+               [3, 5, 7, 1],
+               [4, 0, 6, 8],
+               [5, 3, 7, 1],
+               [6, 0, 8, 7],
+               [7, 5, 3, 8],
+               [8, 6, 7, 0],
+               [9, 2, 1, 6]])
+
+
+        See Also
+        --------
+        :func:`multidim.PointCloud.nearest_neighbors_slow`
+
+        """
+        from . import covertree
+
+        if self.covertree is None:
+            self.covertree = covertree.CoverTree(self)
+
+        # simple cache
+        if k in self._nn:
+            return self._nn[k]
+
+        num_points = self.coords.shape[0]
+
+        # -1 means "not found yet"
+        self._nn[k] = -np.ones(shape=(num_points, k+1), dtype=np.int64)
+
+        # Make sure we have the entire covertree.
+        levels = [ level for level in self.covertree ]
+
+        # run backwards:
+        for level in reversed(levels):
+            r = level.radius
+            for ci in level.adults:
+                for x in level.children[ci]:
+                    unknown_neighbors = np.where(self._nn[k][x] < 0)[0]
+                    if len(unknown_neighbors) > 0:
+                        to_find = unknown_neighbors[0]
+
+                        candidates = []
+                        for cj in level.friends1[ci]:
+                            candidates.extend(level.children[cj])
+                        candidates = np.array(candidates)
+
+                        num_found = min(k+1, len(candidates))
+
+                        # don't bother computing lengths if there is nothing to
+                        # learn
+                        if num_found >= to_find:
+
+                            dists = fast_algorithms.distance_cache_None(
+                                        np.array([x]), candidates,
+                                        self.coords.values).flatten()
+                            order = dists.argsort()
+                            self._nn[k][x, to_find:num_found] = candidates[order][to_find:num_found]
+
+        return self._nn[k]
+
+#
+#        all_points = self.coords.index.values
+#        dists = self.dists(all_points, all_points)
+#        self._nn[k] = dists.argsort(axis=1)[:, :k+1]  # 0th entry is always self.
+#        return self._nn[k]
 
     def witnessed_barycenters(self, k):
         r""" Build the PointCloud of k-witnessed barycenters, weighted by 
@@ -1282,6 +1413,7 @@ class PointCloud(SimplicialComplex):
 
         Examples
         --------
+
         >>> a = np.array([[5.0, 2.0], [3.0, 4.0], [5.0, 2.0]])
         >>> pc = PointCloud(a)
         >>> b, counts = pc.unique_with_multiplicity()
@@ -1375,8 +1507,7 @@ class PointCloud(SimplicialComplex):
         if point_index is None:
             center = self.coords.values.mean(axis=0)
             center.shape = (1, center.shape[0])  # re-shape for cdist
-            center_dists = cdist(self.coords.values, center,
-                metric=self.pointcloud.dist)
+            center_dists = cdist(self.coords.values, center, metric=self.dist)
             point_index = center_dists.argmin()
 
         point = np.array([point_index])

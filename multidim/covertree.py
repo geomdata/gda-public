@@ -315,8 +315,9 @@ class CoverTree(object):
         self.pointcloud = pointcloud
         self.pointcloud.covertree = self
 
-        if not np.all(self.pointcloud.stratum[0]['val'].values > 0):
-            logging.info("""Your points all have non-positive weight!
+        if np.all(self.pointcloud.stratum[0]['val'].values <= 0):
+            logging.info("""
+Your points all have non-positive weight!
 This is probably wrong.
 Setting weights in PointCloud.stratum[0]['val']=1.0.""")
             self.pointcloud.stratum[0]['val']=1.0
@@ -580,7 +581,7 @@ level\tadults\n""".format(
         """
         raise NotImplementedError
 
-    def make_edges(self, min_distance=0.0, max_distance=None):
+    def make_edges(self, min_distance=0.0, max_distance=-1.0):
         r"""Iterate over the edges between the points of the underlying
         `PointCloud`, where min_distance < length <= max_distance.
 
@@ -592,7 +593,7 @@ level\tadults\n""".format(
         min_distance: float
             Minimum length.  (Default: 0.0)  Inequality means no self-edges!
         max_distance: float
-            Maximum length.  (Default: None, meaning 2*self._r0)
+            Maximum length.  (Default: -1.0, meaning 2*self._r0, for all edges)
 
         Yields
         ------
@@ -600,10 +601,11 @@ level\tadults\n""".format(
         distance.
         """
 
-        if max_distance is None:
-            max_distance = self._r0
+        if max_distance == -1.0:
+            max_distance = 2*self._r0
+
         if max_distance <= 0.0:
-            raise ValueError("Meaningless maximum distance.")
+            raise ValueError("Meaningless maximum distance {}.".format(max_distance))
 
         ell = np.int64(np.floor(np.log(max_distance/self._r0)/np.log(self.ratio)))
         ball_radius = self._r0 * (self.ratio ** ell)
