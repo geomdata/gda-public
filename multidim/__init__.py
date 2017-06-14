@@ -156,8 +156,6 @@ class Simplex(object):
     .. [1] D. Feichtner-Kozlov, Combinatorial algebraic topology.
         Berlin: Springer, 2008.
 
-    Examples
-    --------
     """
 
     def __init__(self, cellcomplex, dim, index):
@@ -1133,16 +1131,20 @@ class PointCloud(SimplicialComplex):
 
         Examples
         --------
+
         >>> pc = PointCloud(np.array([[0.,0.],[0.,0.5],[1.,0.],[5.,0.],[6.,0.],[5.,-0.6]]), max_length=-1.0)
         >>> pc.make_pers0(cutoff=1.9)
-        >>> for sub_pc in pc.sever():
+        >>> for indices,sub_pc in pc.sever():
+        ...     print(indices)
         ...     print(sub_pc)
         ...     print(sub_pc.coords)
+        [0 1 2]
         A SimplicialComplex with 3 points, 0 edges, and 0 faces.
              0    1
         0  0.0  0.0
         1  0.0  0.5
         2  1.0  0.0
+        [3 4 5]
         A SimplicialComplex with 3 points, 0 edges, and 0 faces.
              0    1
         0  5.0  0.0
@@ -1157,7 +1159,7 @@ class PointCloud(SimplicialComplex):
         all_roots(roots)
 
         for i in np.where(self.stratum[0]['pos'].values == True)[0]:
-            yield PointCloud(self.coords.values[roots == i, :])
+            yield np.where(roots == i)[0], PointCloud(self.coords.values[roots == i, :])
 
     def nearest_neighbors_slow(self, k):
         r""" Compute k nearest-neighbors of the PointCloud, by brute-force.
