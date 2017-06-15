@@ -35,7 +35,7 @@ Copyright
 ...      [ 670.,  560.],
 ...      [ 671.,  557.]]), max_length=-1.0)
 >>> pc.make_pers0(400.)
->>> for sub_pc in pc.sever():
+>>> for sub_index, sub_pc in pc.sever():
 ...     print(sub_pc)
 ...     print(sub_pc.coords)
 A SimplicialComplex with 13 points, 0 edges, and 0 faces.

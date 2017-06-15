@@ -106,6 +106,7 @@
 <span class="sd">A SimplicialComplex with 1000 points, 499500 edges, and 0 faces.</span>
 <span class="sd">&gt;&gt;&gt; np.all(pc.stratum[0][&#39;pos&#39;].values == True)</span>
 <span class="sd">True</span>
+<span class="sd">&gt;&gt;&gt; pc.stratum[0][&#39;val&#39;] = 0.0</span>
 <span class="sd">&gt;&gt;&gt; pc.check()</span>
 <span class="sd">&gt;&gt;&gt; pc.make_pers0(cutoff=0.15)</span>
 <span class="sd">&gt;&gt;&gt; for v in pc.cells(0):</span>
@@ -162,18 +163,18 @@
 <span class="sd">0- Simplex 2 of value 0.0</span>
 <span class="sd">&gt;&gt;&gt; E=pc.stratum[1]</span>
 <span class="sd">&gt;&gt;&gt; E.loc[:10]</span>
-<span class="sd">         val  pos  rep  bdy0  bdy1</span>
-<span class="sd">0   0.001142    0    0   858   866</span>
-<span class="sd">1   0.001997    0    1    98   187</span>
-<span class="sd">2   0.002471    0    2   251   313</span>
-<span class="sd">3   0.002670    0    3   599   629</span>
-<span class="sd">4   0.002766    0    4   150   167</span>
-<span class="sd">5   0.003405    0    5   573   620</span>
-<span class="sd">6   0.003812    0    6   474   517</span>
-<span class="sd">7   0.005357    0    7   893   988</span>
-<span class="sd">8   0.005533    0    8   623   644</span>
-<span class="sd">9   0.005914    0    9   648   744</span>
-<span class="sd">10  0.006056    0   10   612   640</span>
+<span class="sd">         val    pos  rep  bdy0  bdy1</span>
+<span class="sd">0   0.001142  False    0   858   866</span>
+<span class="sd">1   0.001997  False    1    98   187</span>
+<span class="sd">2   0.002471  False    2   251   313</span>
+<span class="sd">3   0.002670  False    3   599   629</span>
+<span class="sd">4   0.002766  False    4   150   167</span>
+<span class="sd">5   0.003405  False    5   573   620</span>
+<span class="sd">6   0.003812  False    6   474   517</span>
+<span class="sd">7   0.005357  False    7   893   988</span>
+<span class="sd">8   0.005533  False    8   623   644</span>
+<span class="sd">9   0.005914  False    9   648   744</span>
+<span class="sd">10  0.006056  False   10   612   640</span>
 <span class="sd">&gt;&gt;&gt; pc.cells(1)[2]</span>
 <span class="sd">1- Simplex 2 of value 0.0024707293775457456</span>
 <span class="sd">&quot;&quot;&quot;</span>
@@ -233,8 +234,6 @@
 <span class="sd">    .. [1] D. Feichtner-Kozlov, Combinatorial algebraic topology.</span>
 <span class="sd">        Berlin: Springer, 2008.</span>
 
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cellcomplex</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
@@ -790,7 +789,7 @@
             <span class="k">if</span> <span class="n">dim</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">valcheck</span> <span class="o">=</span> <span class="n">fast_algorithms</span><span class="o">.</span><span class="n">check_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">valcheck</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Not a filtration at cell </span><span class="si">{}</span><span class="s2"> of dim </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">valcheck</span><span class="p">,</span> <span class="n">dim</span><span class="p">))</span></div>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Not a filtration! Check &#39;val&#39; in </span><span class="si">{}</span><span class="s2">.stratum[</span><span class="si">{}</span><span class="s2">].iloc[</span><span class="si">{}</span><span class="s2">]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">valcheck</span><span class="p">))</span></div>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;A SimplicialComplex with </span><span class="si">{}</span><span class="s2"> points, </span><span class="si">{}</span><span class="s2"> edges, and </span><span class="si">{}</span><span class="s2"> faces.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -904,8 +903,8 @@
 <span class="sd">            A np array with shape=(n,k), to</span>
 <span class="sd">        </span>
 <span class="sd">        max_length : float</span>
-<span class="sd">            If max_length is positive, then pre-compute all distances</span>
-<span class="sd">            and discard those edges above the max_length threshold.  </span>
+<span class="sd">            If max_length is positive, then find edges of length &lt;= max_length.</span>
+<span class="sd">            This uses the :class:`multidim.covertree.CoverTree` for efficiency.</span>
 <span class="sd">            Default is 0.0, meaning compute no edges.</span>
 
 <span class="sd">        weights : :class:`numpy.ndarray`</span>
@@ -975,20 +974,14 @@
                 <span class="n">index</span><span class="o">=</span><span class="n">idx0</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">coords</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">idx0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">covertree</span> <span class="o">=</span> <span class="kc">None</span> 
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">max_length</span> <span class="o">=</span> <span class="n">max_length</span> 
 
-        <span class="k">if</span> <span class="n">max_length</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
-            <span class="c1"># if the cutoff is 0, we don&#39;t want to bother to make all the</span>
-            <span class="c1"># distances.</span>
-            <span class="n">edges</span> <span class="o">=</span> <span class="n">stratum_maker</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-            <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">stratum</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">points</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="n">edges</span><span class="p">})</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">alldists</span> <span class="o">=</span> <span class="n">squareform</span><span class="p">(</span><span class="n">pdist</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">dist</span><span class="p">))</span>
-            <span class="n">stratum</span> <span class="o">=</span> <span class="n">stratum_from_distances</span><span class="p">(</span><span class="n">alldists</span><span class="p">,</span> <span class="n">max_length</span><span class="p">,</span> <span class="n">points</span><span class="p">)</span>
-            <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">stratum</span><span class="o">=</span><span class="n">stratum</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">cache_type</span> <span class="o">=</span> <span class="s2">&quot;np&quot;</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">dist_cache</span> <span class="o">=</span> <span class="n">alldists</span>
+
+
+
+        <span class="n">edges</span> <span class="o">=</span> <span class="n">stratum_maker</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">stratum</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">points</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="n">edges</span><span class="p">})</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
@@ -997,6 +990,34 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">label_info</span><span class="p">[</span><span class="s1">&#39;points&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">n</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">label_info</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">label_info</span><span class="p">[</span><span class="s1">&#39;int_index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_length</span> <span class="o">=</span> <span class="n">max_length</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_length</span> <span class="o">&gt;</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_length</span> <span class="o">==</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">:</span>
+            <span class="c1"># use covertree to make all appropriate edges.</span>
+            <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">covertree</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">covertree</span> <span class="o">=</span> <span class="n">covertree</span><span class="o">.</span><span class="n">CoverTree</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="n">bdy0</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">bdy1</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">vals</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">covertree</span><span class="o">.</span><span class="n">make_edges</span><span class="p">(</span><span class="n">max_distance</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_length</span><span class="p">):</span>
+                <span class="n">bdy0</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))</span>
+                <span class="n">bdy1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))</span>
+                <span class="n">vals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+            <span class="n">bdy0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">bdy0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+            <span class="n">bdy1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">bdy1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+            <span class="n">vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
+            <span class="n">sortby</span> <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">argsort</span><span class="p">()</span>
+            <span class="n">bdy0</span> <span class="o">=</span> <span class="n">bdy0</span><span class="p">[</span><span class="n">sortby</span><span class="p">]</span>
+            <span class="n">bdy1</span> <span class="o">=</span> <span class="n">bdy1</span><span class="p">[</span><span class="n">sortby</span><span class="p">]</span>
+            <span class="n">vals</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="n">sortby</span><span class="p">]</span>
+            
+            <span class="n">edges</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;val&#39;</span><span class="p">:</span> <span class="n">vals</span><span class="p">,</span>
+                                  <span class="s1">&#39;pos&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;bool&#39;</span><span class="p">),</span>
+                                  <span class="s1">&#39;rep&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">vals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span>
+                                  <span class="s1">&#39;bdy0&#39;</span><span class="p">:</span> <span class="n">bdy0</span><span class="p">,</span> <span class="s1">&#39;bdy1&#39;</span><span class="p">:</span> <span class="n">bdy1</span><span class="p">,</span> <span class="p">},</span>
+                                 <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;rep&#39;</span><span class="p">,</span> <span class="s1">&#39;bdy0&#39;</span><span class="p">,</span> <span class="s1">&#39;bdy1&#39;</span><span class="p">],</span>
+                                 <span class="n">index</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">vals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">edges</span> 
 
 <div class="viewcode-block" id="PointCloud.plot"><a class="viewcode-back" href="../generated/multidim.PointCloud.plot.html#multidim.PointCloud.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;purple&#39;</span><span class="p">,</span>
              <span class="n">twocells</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;SimplicialComplex&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -1155,7 +1176,7 @@
 <span class="sd">        fraction of distances have we computed so far? &quot;&quot;&quot;</span>
         <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">n_choose_2</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="mf">0.0</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache_type</span> <span class="o">==</span> <span class="s2">&quot;np&quot;</span><span class="p">:</span>
@@ -1164,16 +1185,21 @@
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache_type</span> <span class="o">==</span> <span class="s2">&quot;dict&quot;</span><span class="p">:</span>
             <span class="n">computed</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dist_cache</span><span class="p">)</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">computed</span> <span class="o">-</span> <span class="n">n</span><span class="p">)</span><span class="o">/</span><span class="n">n_choose_2</span></div>
-   
+
 <div class="viewcode-block" id="PointCloud.sever"><a class="viewcode-back" href="../generated/multidim.PointCloud.sever.html#multidim.PointCloud.sever">[docs]</a>    <span class="k">def</span> <span class="nf">sever</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">        Subdivide PointCloud into several smaller PointClouds, using the</span>
 <span class="sd">        known 0-dimensional persistence diagram.  This is an</span>
-<span class="sd">        iterator (it YIELDS the terms).</span>
+<span class="sd">        iterator (it _yields_ the terms).</span>
 
 <span class="sd">        Two points end up in the same PointCloud if and only if they are </span>
 <span class="sd">        connected by a sequence of edges of length &lt; cutoff.</span>
 
+<span class="sd">        Yields</span>
+<span class="sd">        ------</span>
+<span class="sd">        pairs (indices, subpointcloud) of persistently connected PointClouds.</span>
+<span class="sd">        first term gives indices of the these points from the original `PointCloud`</span>
+<span class="sd">        the second term gives a new `PointCloud` with its own sequential index.</span>
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
@@ -1188,16 +1214,20 @@
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
+
 <span class="sd">        &gt;&gt;&gt; pc = PointCloud(np.array([[0.,0.],[0.,0.5],[1.,0.],[5.,0.],[6.,0.],[5.,-0.6]]), max_length=-1.0)</span>
 <span class="sd">        &gt;&gt;&gt; pc.make_pers0(cutoff=1.9)</span>
-<span class="sd">        &gt;&gt;&gt; for sub_pc in pc.sever():</span>
+<span class="sd">        &gt;&gt;&gt; for indices,sub_pc in pc.sever():</span>
+<span class="sd">        ...     print(indices)</span>
 <span class="sd">        ...     print(sub_pc)</span>
 <span class="sd">        ...     print(sub_pc.coords)</span>
+<span class="sd">        [0 1 2]</span>
 <span class="sd">        A SimplicialComplex with 3 points, 0 edges, and 0 faces.</span>
 <span class="sd">             0    1</span>
 <span class="sd">        0  0.0  0.0</span>
 <span class="sd">        1  0.0  0.5</span>
 <span class="sd">        2  1.0  0.0</span>
+<span class="sd">        [3 4 5]</span>
 <span class="sd">        A SimplicialComplex with 3 points, 0 edges, and 0 faces.</span>
 <span class="sd">             0    1</span>
 <span class="sd">        0  5.0  0.0</span>
@@ -1212,13 +1242,12 @@
         <span class="n">all_roots</span><span class="p">(</span><span class="n">roots</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;pos&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">==</span> <span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span>
-            <span class="k">yield</span> <span class="n">PointCloud</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">roots</span> <span class="o">==</span> <span class="n">i</span><span class="p">,</span> <span class="p">:])</span></div>
+            <span class="k">yield</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">roots</span> <span class="o">==</span> <span class="n">i</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">PointCloud</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">roots</span> <span class="o">==</span> <span class="n">i</span><span class="p">,</span> <span class="p">:])</span></div>
 
-<div class="viewcode-block" id="PointCloud.nearest_neighbors"><a class="viewcode-back" href="../generated/multidim.PointCloud.nearest_neighbors.html#multidim.PointCloud.nearest_neighbors">[docs]</a>    <span class="k">def</span> <span class="nf">nearest_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Compute k nearest-neighbors of the PointCloud.</span>
-<span class="sd">        This uses brute-force!</span>
-<span class="sd">        The clever CoverTree-based algorithm has not yet been implemented.</span>
-<span class="sd">        </span>
+    <span class="k">def</span> <span class="nf">nearest_neighbors_slow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Compute k nearest-neighbors of the PointCloud, by brute-force.</span>
+<span class="sd">        Answers are cached in `self._nn[k]`</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        k: int</span>
@@ -1230,19 +1259,151 @@
 <span class="sd">        nearest neighbor of vertex i.  Note that entry [i,0] == i, so [i,k]</span>
 <span class="sd">        is the kth nearest neighbor.</span>
 
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        This method is intended for testing, and should only be used on small datasets.</span>
+<span class="sd">        On a random example with 1,000 points in :math:`\mathbb{R}^2:` seeking `k=5` nearest</span>
+<span class="sd">        neighbors, this method takes at least twice as long as :func:`nearest_neighbors`, and the</span>
+<span class="sd">        discrepency is roughly quadratic.  On 2,000 points, it is about 4 times slower.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        &gt;&gt;&gt; pc = PointCloud(np.array([[ 0.58814682,  0.45405299],</span>
+<span class="sd">        ...                           [ 0.09197879,  0.39721367],</span>
+<span class="sd">        ...                           [ 0.29128654,  0.28372039],</span>
+<span class="sd">        ...                           [ 0.14593167,  0.7027367 ],</span>
+<span class="sd">        ...                           [ 0.77068438,  0.37849037],</span>
+<span class="sd">        ...                           [ 0.17281855,  0.70204687],</span>
+<span class="sd">        ...                           [ 0.48146217,  0.54619034],</span>
+<span class="sd">        ...                           [ 0.27831744,  0.67327757],</span>
+<span class="sd">        ...                           [ 0.49074255,  0.70847318],</span>
+<span class="sd">        ...                           [ 0.132656,    0.0860524 ]]))</span>
+<span class="sd">        &gt;&gt;&gt; pc.nearest_neighbors_slow(3)</span>
+<span class="sd">        array([[0, 6, 4, 8],</span>
+<span class="sd">               [1, 2, 3, 9],</span>
+<span class="sd">               [2, 1, 9, 6],</span>
+<span class="sd">               [3, 5, 7, 1],</span>
+<span class="sd">               [4, 0, 6, 8],</span>
+<span class="sd">               [5, 3, 7, 1],</span>
+<span class="sd">               [6, 0, 8, 7],</span>
+<span class="sd">               [7, 5, 3, 8],</span>
+<span class="sd">               [8, 6, 7, 0],</span>
+<span class="sd">               [9, 2, 1, 6]])</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        :func:`multidim.PointCloud.nearest_neighbors`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        
+
         <span class="c1"># simple cache</span>
         <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nn</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nn</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
-        
+
         <span class="n">num_points</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_nn</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">num_points</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
 
         <span class="n">all_points</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span>
         <span class="n">dists</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dists</span><span class="p">(</span><span class="n">all_points</span><span class="p">,</span> <span class="n">all_points</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_nn</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">dists</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,</span> <span class="p">:</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># 0th entry is always self.</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nn</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
+<div class="viewcode-block" id="PointCloud.nearest_neighbors"><a class="viewcode-back" href="../generated/multidim.PointCloud.nearest_neighbors.html#multidim.PointCloud.nearest_neighbors">[docs]</a>    <span class="k">def</span> <span class="nf">nearest_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Compute k nearest-neighbors of the PointCloud, using a clever CoverTree algorithm.</span>
+<span class="sd">        Answers are cached in `self._nn[k]`</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        k: int</span>
+<span class="sd">            How many nearest neighbors to compute</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np array with dtype int and shape==(N,k+1).  Entry [i,j] is the jth</span>
+<span class="sd">        nearest neighbor of vertex i.  Note that entry [i,0] == i, so [i,k]</span>
+<span class="sd">        is the kth nearest neighbor.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        &gt;&gt;&gt; pc = PointCloud(np.array([[ 0.58814682,  0.45405299],</span>
+<span class="sd">        ...                           [ 0.09197879,  0.39721367],</span>
+<span class="sd">        ...                           [ 0.29128654,  0.28372039],</span>
+<span class="sd">        ...                           [ 0.14593167,  0.7027367 ],</span>
+<span class="sd">        ...                           [ 0.77068438,  0.37849037],</span>
+<span class="sd">        ...                           [ 0.17281855,  0.70204687],</span>
+<span class="sd">        ...                           [ 0.48146217,  0.54619034],</span>
+<span class="sd">        ...                           [ 0.27831744,  0.67327757],</span>
+<span class="sd">        ...                           [ 0.49074255,  0.70847318],</span>
+<span class="sd">        ...                           [ 0.132656,    0.0860524 ]]))</span>
+<span class="sd">        &gt;&gt;&gt; pc.nearest_neighbors(3)</span>
+<span class="sd">        array([[0, 6, 4, 8],</span>
+<span class="sd">               [1, 2, 3, 9],</span>
+<span class="sd">               [2, 1, 9, 6],</span>
+<span class="sd">               [3, 5, 7, 1],</span>
+<span class="sd">               [4, 0, 6, 8],</span>
+<span class="sd">               [5, 3, 7, 1],</span>
+<span class="sd">               [6, 0, 8, 7],</span>
+<span class="sd">               [7, 5, 3, 8],</span>
+<span class="sd">               [8, 6, 7, 0],</span>
+<span class="sd">               [9, 2, 1, 6]])</span>
+
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        :func:`multidim.PointCloud.nearest_neighbors_slow`</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">covertree</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">covertree</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">covertree</span> <span class="o">=</span> <span class="n">covertree</span><span class="o">.</span><span class="n">CoverTree</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="c1"># simple cache</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nn</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nn</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
+        <span class="n">num_points</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># -1 means &quot;not found yet&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nn</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">num_points</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+
+        <span class="c1"># Make sure we have the entire covertree.</span>
+        <span class="n">levels</span> <span class="o">=</span> <span class="p">[</span> <span class="n">level</span> <span class="k">for</span> <span class="n">level</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">covertree</span> <span class="p">]</span>
+
+        <span class="c1"># run backwards:</span>
+        <span class="k">for</span> <span class="n">level</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">levels</span><span class="p">):</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">level</span><span class="o">.</span><span class="n">radius</span>
+            <span class="k">for</span> <span class="n">ci</span> <span class="ow">in</span> <span class="n">level</span><span class="o">.</span><span class="n">adults</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">level</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">ci</span><span class="p">]:</span>
+                    <span class="n">unknown_neighbors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nn</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unknown_neighbors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">to_find</span> <span class="o">=</span> <span class="n">unknown_neighbors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+                        <span class="n">candidates</span> <span class="o">=</span> <span class="p">[]</span>
+                        <span class="k">for</span> <span class="n">cj</span> <span class="ow">in</span> <span class="n">level</span><span class="o">.</span><span class="n">friends1</span><span class="p">[</span><span class="n">ci</span><span class="p">]:</span>
+                            <span class="n">candidates</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">level</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">cj</span><span class="p">])</span>
+                        <span class="n">candidates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">candidates</span><span class="p">)</span>
+
+                        <span class="n">num_found</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">candidates</span><span class="p">))</span>
+
+                        <span class="c1"># don&#39;t bother computing lengths if there is nothing to</span>
+                        <span class="c1"># learn</span>
+                        <span class="k">if</span> <span class="n">num_found</span> <span class="o">&gt;=</span> <span class="n">to_find</span><span class="p">:</span>
+
+                            <span class="n">dists</span> <span class="o">=</span> <span class="n">fast_algorithms</span><span class="o">.</span><span class="n">distance_cache_None</span><span class="p">(</span>
+                                        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">]),</span> <span class="n">candidates</span><span class="p">,</span>
+                                        <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+                            <span class="n">order</span> <span class="o">=</span> <span class="n">dists</span><span class="o">.</span><span class="n">argsort</span><span class="p">()</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_nn</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">x</span><span class="p">,</span> <span class="n">to_find</span><span class="p">:</span><span class="n">num_found</span><span class="p">]</span> <span class="o">=</span> <span class="n">candidates</span><span class="p">[</span><span class="n">order</span><span class="p">][</span><span class="n">to_find</span><span class="p">:</span><span class="n">num_found</span><span class="p">]</span>
+
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nn</span><span class="p">[</span><span class="n">k</span><span class="p">]</span></div>
+
+<span class="c1">#</span>
+<span class="c1">#        all_points = self.coords.index.values</span>
+<span class="c1">#        dists = self.dists(all_points, all_points)</span>
+<span class="c1">#        self._nn[k] = dists.argsort(axis=1)[:, :k+1]  # 0th entry is always self.</span>
+<span class="c1">#        return self._nn[k]</span>
 
 <div class="viewcode-block" id="PointCloud.witnessed_barycenters"><a class="viewcode-back" href="../generated/multidim.PointCloud.witnessed_barycenters.html#multidim.PointCloud.witnessed_barycenters">[docs]</a>    <span class="k">def</span> <span class="nf">witnessed_barycenters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Build the PointCloud of k-witnessed barycenters, weighted by </span>
@@ -1332,8 +1493,12 @@
 <span class="sd">        Look for duplicate points, and mark their multiplicity.</span>
 <span class="sd">        This sets self.multiplicity</span>
 
+
+<span class="sd">        ToDo:  Use Covertree.</span>
+
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
+
 <span class="sd">        &gt;&gt;&gt; a = np.array([[5.0, 2.0], [3.0, 4.0], [5.0, 2.0]])</span>
 <span class="sd">        &gt;&gt;&gt; pc = PointCloud(a)</span>
 <span class="sd">        &gt;&gt;&gt; b, counts = pc.unique_with_multiplicity()</span>
@@ -1427,7 +1592,7 @@
         <span class="k">if</span> <span class="n">point_index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">center</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
             <span class="n">center</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">center</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># re-shape for cdist</span>
-            <span class="n">center_dists</span> <span class="o">=</span> <span class="n">cdist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">center</span><span class="p">)</span>
+            <span class="n">center_dists</span> <span class="o">=</span> <span class="n">cdist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">)</span>
             <span class="n">point_index</span> <span class="o">=</span> <span class="n">center_dists</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>
 
         <span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">point_index</span><span class="p">])</span>
@@ -1537,7 +1702,7 @@
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Jun 09, 2017.
+      Last updated on Jun 15, 2017.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.

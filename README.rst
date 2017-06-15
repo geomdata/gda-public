@@ -52,11 +52,15 @@ within python via the ``help( )`` command:
     >>> s = timeseries.Signal([1,2,3,4,5])
     >>> help(s)
 
-You can build a nice HTML guide:
+You can build a nice HTML guide, but you need to get a copy of the SciPy Sphinx theme:
 
 .. code::
     
     (gda_env) bash$ cd /path/to/gda-public
+    (gda_env) bash$ git clone https://github.com/scipy/scipy-sphinx-theme
+    (gda_env) bash$ cd doc_src
+    (gda_env) bash$ ln -sf ../scipy-sphinx-theme/_theme ./
+    (gda_env) bash$ cd -
     (gda_env) bash$ python setup.py build_doc_html
     
 which can be viewed in a web browser at file:////path/to/gda-public/docs/build/html/index.html

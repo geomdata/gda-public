@@ -103,7 +103,7 @@
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">PointCloud</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">fast_algorithms</span>
 
-<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="k">import</span> <span class="n">cdist</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="k">import</span> <span class="n">cdist</span><span class="p">,</span> <span class="n">pdist</span><span class="p">,</span> <span class="n">squareform</span>
 
 <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
 
@@ -392,9 +392,11 @@
                  <span class="n">sort_orphans_by_mean</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span> <span class="o">=</span> <span class="n">pointcloud</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">covertree</span> <span class="o">=</span> <span class="bp">self</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Your points all have non-positive weight!</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Your points all have non-positive weight!</span>
 <span class="s2">This is probably wrong.</span>
 <span class="s2">Setting weights in PointCloud.stratum[0][&#39;val&#39;]=1.0.&quot;&quot;&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">=</span><span class="mf">1.0</span>
@@ -510,9 +512,7 @@
                 <span class="n">mult</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">children_dists</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">multiplicity</span><span class="p">[</span><span class="n">ci</span><span class="p">]</span> <span class="o">=</span> <span class="n">mult</span>
                 <span class="k">if</span> <span class="n">mult</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                    <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                        <span class="s2">&quot;adult </span><span class="si">{}</span><span class="s2"> has multiplicity </span><span class="si">{}</span><span class="s2"> at level </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                            <span class="n">ci</span><span class="p">,</span> <span class="n">mult</span><span class="p">,</span> <span class="n">prev_level</span><span class="o">.</span><span class="n">exponent</span><span class="p">))</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;point </span><span class="si">{}</span><span class="s2"> has multiplicity </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ci</span><span class="p">,</span> <span class="n">mult</span><span class="p">))</span>
 
             <span class="n">my_orphans</span> <span class="o">=</span> <span class="n">level</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">ci</span><span class="p">][</span><span class="n">children_dists</span> <span class="o">&gt;</span> <span class="n">level</span><span class="o">.</span><span class="n">radius</span><span class="p">]</span>
             <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="n">my_orphans</span><span class="p">,</span> <span class="n">level</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">ci</span><span class="p">]))</span>
@@ -659,6 +659,72 @@
 <span class="sd">        PointCloud object, with edge values coming from sparse complex algorithm.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+    <span class="k">def</span> <span class="nf">make_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_distance</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">max_distance</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Iterate over the edges between the points of the underlying</span>
+<span class="sd">        `PointCloud`, where min_distance &lt; length &lt;= max_distance.</span>
+
+<span class="sd">        Uses the CoverTree type-1 friends for efficiency.</span>
+<span class="sd">        This is called by :func:`PointCloud.build_edges`</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        min_distance: float</span>
+<span class="sd">            Minimum length.  (Default: 0.0)  Inequality means no self-edges!</span>
+<span class="sd">        max_distance: float</span>
+<span class="sd">            Maximum length.  (Default: -1.0, meaning 2*self._r0, for all edges)</span>
+
+<span class="sd">        Yields</span>
+<span class="sd">        ------</span>
+<span class="sd">        triples (a,b,r), where a,b are the indices of points, and r is the</span>
+<span class="sd">        distance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">max_distance</span> <span class="o">==</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">:</span>
+            <span class="n">max_distance</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_r0</span>
+
+        <span class="k">if</span> <span class="n">max_distance</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Meaningless maximum distance </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">max_distance</span><span class="p">))</span>
+
+        <span class="n">ell</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">max_distance</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">_r0</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ratio</span><span class="p">)))</span>
+        <span class="n">ball_radius</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_r0</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ratio</span> <span class="o">**</span> <span class="n">ell</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ell</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">ell</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">ball_radius</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ratio</span> <span class="o">&lt;</span> <span class="n">max_distance</span> <span class="o">&lt;=</span> <span class="n">ball_radius</span><span class="p">,</span>\
+                <span class="s2">&quot;Incorrect exponent?&quot;</span>
+        
+        <span class="c1"># we need only check friends at level ell-1.</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">ell</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">ci</span> <span class="ow">in</span> <span class="n">level</span><span class="o">.</span><span class="n">adults</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">cj</span> <span class="ow">in</span> <span class="n">level</span><span class="o">.</span><span class="n">friends1</span><span class="p">[</span><span class="n">ci</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">ci</span> <span class="o">==</span> <span class="n">cj</span><span class="p">:</span>
+                    <span class="n">kids_i</span> <span class="o">=</span> <span class="n">level</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">ci</span><span class="p">]</span>
+                    <span class="n">total</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">kids_i</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">kids_i</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">kids_i</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">dists</span> <span class="o">=</span> <span class="n">squareform</span><span class="p">(</span><span class="n">pdist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">kids_i</span><span class="p">,:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">dist</span><span class="p">))</span>
+                        <span class="n">good_pairs</span> <span class="o">=</span> <span class="p">(</span><span class="n">min_distance</span> <span class="o">&lt;</span> <span class="n">dists</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dists</span> <span class="o">&lt;=</span> <span class="n">max_distance</span><span class="p">)</span>
+                        <span class="n">good_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">good_pairs</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">index_i</span><span class="p">,</span> <span class="n">index_j</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">good_edges</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">:</span>
+                            <span class="c1"># don&#39;t double_count on symmetric square matrix!</span>
+                            <span class="k">if</span> <span class="n">index_i</span> <span class="o">&lt;</span> <span class="n">index_j</span><span class="p">:</span>
+                                <span class="k">yield</span> <span class="p">(</span><span class="n">kids_i</span><span class="p">[</span><span class="n">index_i</span><span class="p">],</span> <span class="n">kids_i</span><span class="p">[</span><span class="n">index_j</span><span class="p">],</span> <span class="n">dists</span><span class="p">[</span><span class="n">index_i</span><span class="p">,</span><span class="n">index_j</span><span class="p">])</span>
+
+                <span class="c1"># friends is reflexive, so don&#39;t double-count by parent</span>
+                <span class="k">elif</span> <span class="n">ci</span> <span class="o">&lt;</span> <span class="n">cj</span><span class="p">:</span>
+                    <span class="n">kids_i</span> <span class="o">=</span> <span class="n">level</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">ci</span><span class="p">]</span>
+                    <span class="n">kids_j</span> <span class="o">=</span> <span class="n">level</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">cj</span><span class="p">]</span>
+                    <span class="n">total</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">kids_i</span><span class="p">)</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">kids_j</span><span class="p">)</span>
+                    <span class="n">dists</span> <span class="o">=</span> <span class="n">fast_algorithms</span><span class="o">.</span><span class="n">distance_cache_None</span><span class="p">(</span><span class="n">kids_i</span><span class="p">,</span>
+                                                                <span class="n">kids_j</span><span class="p">,</span>
+                                                                <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
+                    <span class="n">good_pairs</span> <span class="o">=</span> <span class="p">(</span><span class="n">min_distance</span> <span class="o">&lt;</span> <span class="n">dists</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dists</span> <span class="o">&lt;=</span> <span class="n">max_distance</span><span class="p">)</span>
+                    <span class="n">good_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">good_pairs</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">index_i</span><span class="p">,</span> <span class="n">index_j</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">good_edges</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">:</span>
+                        <span class="k">yield</span> <span class="p">(</span><span class="n">kids_i</span><span class="p">[</span><span class="n">index_i</span><span class="p">],</span> <span class="n">kids_j</span><span class="p">[</span><span class="n">index_j</span><span class="p">],</span> <span class="n">dists</span><span class="p">[</span><span class="n">index_i</span><span class="p">,</span><span class="n">index_j</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">total</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Examined </span><span class="si">{}</span><span class="s2"> possible edge distances using level </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">total</span><span class="p">,</span> <span class="n">ell</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
 
 <div class="viewcode-block" id="CoverTree.plot"><a class="viewcode-back" href="../../generated/multidim.covertree.CoverTree.plot.html#multidim.covertree.CoverTree.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Interactive plot of a CoverTree, with dynamic computation of levels.</span>
@@ -1205,7 +1271,7 @@
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Jun 09, 2017.
+      Last updated on Jun 15, 2017.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.

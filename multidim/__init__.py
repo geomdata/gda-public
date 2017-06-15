@@ -1112,11 +1112,16 @@ class PointCloud(SimplicialComplex):
         r""" 
         Subdivide PointCloud into several smaller PointClouds, using the
         known 0-dimensional persistence diagram.  This is an
-        iterator (it YIELDS the terms).
+        iterator (it _yields_ the terms).
 
         Two points end up in the same PointCloud if and only if they are 
         connected by a sequence of edges of length < cutoff.
 
+        Yields
+        ------
+        pairs (indices, subpointcloud) of persistently connected PointClouds.
+        first term gives indices of the these points from the original `PointCloud`
+        the second term gives a new `PointCloud` with its own sequential index.
 
         Notes
         -----

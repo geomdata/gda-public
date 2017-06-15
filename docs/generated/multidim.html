@@ -116,6 +116,7 @@ from <a class="reference internal" href="multidim.Simplex.html#multidim.Simplex"
 <span class="go">A SimplicialComplex with 1000 points, 499500 edges, and 0 faces.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">pc</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;pos&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">==</span> <span class="kc">True</span><span class="p">)</span>
 <span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pc</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;val&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pc</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pc</span><span class="o">.</span><span class="n">make_pers0</span><span class="p">(</span><span class="n">cutoff</span><span class="o">=</span><span class="mf">0.15</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">pc</span><span class="o">.</span><span class="n">cells</span><span class="p">(</span><span class="mi">0</span><span class="p">):</span>
@@ -172,18 +173,18 @@ from <a class="reference internal" href="multidim.Simplex.html#multidim.Simplex"
 <span class="go">0- Simplex 2 of value 0.0</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">E</span><span class="o">=</span><span class="n">pc</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">E</span><span class="o">.</span><span class="n">loc</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
-<span class="go">         val  pos  rep  bdy0  bdy1</span>
-<span class="go">0   0.001142    0    0   858   866</span>
-<span class="go">1   0.001997    0    1    98   187</span>
-<span class="go">2   0.002471    0    2   251   313</span>
-<span class="go">3   0.002670    0    3   599   629</span>
-<span class="go">4   0.002766    0    4   150   167</span>
-<span class="go">5   0.003405    0    5   573   620</span>
-<span class="go">6   0.003812    0    6   474   517</span>
-<span class="go">7   0.005357    0    7   893   988</span>
-<span class="go">8   0.005533    0    8   623   644</span>
-<span class="go">9   0.005914    0    9   648   744</span>
-<span class="go">10  0.006056    0   10   612   640</span>
+<span class="go">         val    pos  rep  bdy0  bdy1</span>
+<span class="go">0   0.001142  False    0   858   866</span>
+<span class="go">1   0.001997  False    1    98   187</span>
+<span class="go">2   0.002471  False    2   251   313</span>
+<span class="go">3   0.002670  False    3   599   629</span>
+<span class="go">4   0.002766  False    4   150   167</span>
+<span class="go">5   0.003405  False    5   573   620</span>
+<span class="go">6   0.003812  False    6   474   517</span>
+<span class="go">7   0.005357  False    7   893   988</span>
+<span class="go">8   0.005533  False    8   623   644</span>
+<span class="go">9   0.005914  False    9   648   744</span>
+<span class="go">10  0.006056  False   10   612   640</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pc</span><span class="o">.</span><span class="n">cells</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
 <span class="go">1- Simplex 2 of value 0.0024707293775457456</span>
 </pre></div>
@@ -214,7 +215,7 @@ from <a class="reference internal" href="multidim.Simplex.html#multidim.Simplex"
 <td>Construct a stratum dictionary from a symmetric matrix of distances.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">stratum_maker</span></code>([dim])</td>
-<td>Make an empty stratum <a class="reference external" href="http://pandas-docs.github.io/pandas-docs-travis/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.21.0.dev+140.g73930c5.dirty)"><code class="xref py py-class docutils literal"><span class="pre">pandas.DataFrame</span></code></a> of the appropriate dimension.</td>
+<td>Make an empty stratum <a class="reference external" href="http://pandas-docs.github.io/pandas-docs-travis/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.21.0.dev+167.g1eb22d5.dirty)"><code class="xref py py-class docutils literal"><span class="pre">pandas.DataFrame</span></code></a> of the appropriate dimension.</td>
 </tr>
 </tbody>
 </table>
@@ -285,7 +286,7 @@ from <a class="reference internal" href="multidim.Simplex.html#multidim.Simplex"
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Jun 09, 2017.
+      Last updated on Jun 15, 2017.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.

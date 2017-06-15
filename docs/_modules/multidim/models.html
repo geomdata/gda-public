@@ -597,9 +597,9 @@
 <span class="sd">    &gt;&gt;&gt; cder = CDER(parsimonious=True)  # prepare a classifier</span>
 <span class="sd">    &gt;&gt;&gt; cder.fit([train_dataL, train_dataR], [&quot;green&quot;, &quot;magenta&quot;])  # this runs CoverTree</span>
 <span class="sd">    &gt;&gt;&gt; for g in cder.gaussians:</span>
-<span class="sd">    ...     print(list(g.keys()))</span>
+<span class="sd">    ...     print(sorted(list(g.keys())))</span>
 <span class="sd">    ...     break</span>
-<span class="sd">    [&#39;label&#39;, &#39;mean&#39;, &#39;std&#39;, &#39;rotation&#39;, &#39;index&#39;, &#39;adult&#39;, &#39;level&#39;, &#39;radius&#39;, &#39;entropy&#39;, &#39;weight&#39;, &#39;count&#39;]</span>
+<span class="sd">    [&#39;adult&#39;, &#39;count&#39;, &#39;entropy&#39;, &#39;index&#39;, &#39;label&#39;, &#39;level&#39;, &#39;mean&#39;, &#39;radius&#39;, &#39;rotation&#39;, &#39;std&#39;, &#39;weight&#39;]</span>
 <span class="sd">    &gt;&gt;&gt; test_dataL = np.random.rand(50,2) - np.array([-1.5, -0.5])  # should be green</span>
 <span class="sd">    &gt;&gt;&gt; test_dataR = np.random.rand(50,2) - np.array([0.5, -0.5])  # should be magenta</span>
 <span class="sd">    &gt;&gt;&gt; cder.predict([test_dataL, test_dataR])  # Guess the labels</span>
@@ -825,7 +825,7 @@
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Jun 09, 2017.
+      Last updated on Jun 15, 2017.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.

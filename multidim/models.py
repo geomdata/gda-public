@@ -518,9 +518,9 @@ class CDER(GaussianMixtureClassifier):
     >>> cder = CDER(parsimonious=True)  # prepare a classifier
     >>> cder.fit([train_dataL, train_dataR], ["green", "magenta"])  # this runs CoverTree
     >>> for g in cder.gaussians:
-    ...     print(list(g.keys()))
+    ...     print(sorted(list(g.keys())))
     ...     break
-    ['label', 'mean', 'std', 'rotation', 'index', 'adult', 'level', 'radius', 'entropy', 'weight', 'count']
+    ['adult', 'count', 'entropy', 'index', 'label', 'level', 'mean', 'radius', 'rotation', 'std', 'weight']
     >>> test_dataL = np.random.rand(50,2) - np.array([-1.5, -0.5])  # should be green
     >>> test_dataR = np.random.rand(50,2) - np.array([0.5, -0.5])  # should be magenta
     >>> cder.predict([test_dataL, test_dataR])  # Guess the labels

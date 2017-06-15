@@ -121,8 +121,12 @@ within python via the <code class="docutils literal"><span class="pre">help(</sp
 &gt;&gt;&gt; help(s)
 </pre></div>
 </div>
-<p>You can build a nice HTML guide:</p>
+<p>You can build a nice HTML guide, but you need to get a copy of the SciPy Sphinx theme:</p>
 <div class="code highlight-default"><div class="highlight"><pre><span></span>(gda_env) bash$ cd /path/to/gda-public
+(gda_env) bash$ git clone https://github.com/scipy/scipy-sphinx-theme
+(gda_env) bash$ cd doc_src
+(gda_env) bash$ ln -sf ../scipy-sphinx-theme/_theme ./
+(gda_env) bash$ cd -
 (gda_env) bash$ python setup.py build_doc_html
 </pre></div>
 </div>
@@ -187,7 +191,7 @@ by using <code class="docutils literal"><span class="pre">python</span> <span cl
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Jun 09, 2017.
+      Last updated on Jun 15, 2017.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.

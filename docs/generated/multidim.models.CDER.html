@@ -132,9 +132,9 @@ and one &#8220;magenta&#8221; pointcloud sampled from a uniform distribution on 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cder</span> <span class="o">=</span> <span class="n">CDER</span><span class="p">(</span><span class="n">parsimonious</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># prepare a classifier</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cder</span><span class="o">.</span><span class="n">fit</span><span class="p">([</span><span class="n">train_dataL</span><span class="p">,</span> <span class="n">train_dataR</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="s2">&quot;magenta&quot;</span><span class="p">])</span>  <span class="c1"># this runs CoverTree</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">cder</span><span class="o">.</span><span class="n">gaussians</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">keys</span><span class="p">())))</span>
 <span class="gp">... </span>    <span class="k">break</span>
-<span class="go">[&#39;label&#39;, &#39;mean&#39;, &#39;std&#39;, &#39;rotation&#39;, &#39;index&#39;, &#39;adult&#39;, &#39;level&#39;, &#39;radius&#39;, &#39;entropy&#39;, &#39;weight&#39;, &#39;count&#39;]</span>
+<span class="go">[&#39;adult&#39;, &#39;count&#39;, &#39;entropy&#39;, &#39;index&#39;, &#39;label&#39;, &#39;level&#39;, &#39;mean&#39;, &#39;radius&#39;, &#39;rotation&#39;, &#39;std&#39;, &#39;weight&#39;]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">test_dataL</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">])</span>  <span class="c1"># should be green</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">test_dataR</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">])</span>  <span class="c1"># should be magenta</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cder</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">test_dataL</span><span class="p">,</span> <span class="n">test_dataR</span><span class="p">])</span>  <span class="c1"># Guess the labels</span>
@@ -217,7 +217,7 @@ and one &#8220;magenta&#8221; pointcloud sampled from a uniform distribution on 
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Jun 09, 2017.
+      Last updated on Jun 15, 2017.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.1.
