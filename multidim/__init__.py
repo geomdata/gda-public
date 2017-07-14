@@ -784,7 +784,7 @@ class SimplicialComplex(object):
         self.make_pers0(cutoff=cutoff)
         
         column_list, column_edge_index, stop_edge = homology.dim1.rca1(self.stratum[1], cutoff=cutoff)
-        
+
         assert len(column_list) == len(column_edge_index)
 
         pers_list = [(c[-1], column_edge_index[i]) for i, c in
@@ -941,7 +941,7 @@ class PointCloud(SimplicialComplex):
                                  index=np.arange(vals.shape[0], dtype=np.int64))
             self.stratum[1] = edges 
 
-    def plot(self, canvas, cutoff=-1, color='purple',
+    def plot(self, canvas, cutoff=-1, color='purple', neg_edges=False,
              twocells=False, title="SimplicialComplex", label=False):
         r"""
         Plot a PointCloud, decorated by various proeprties.
@@ -1002,22 +1002,23 @@ class PointCloud(SimplicialComplex):
             all_edges = all_edges[all_edges['val'] < cutoff]
 
         # plot negative edges, need to build structure for multi_line
-        neg = all_edges[all_edges['pos'] == False]
-        pt0 = self.coords.loc[neg['bdy0'].values].values
-        pt1 = self.coords.loc[neg['bdy1'].values].values
-        pts = np.hstack([pt0, pt1])
-        xs = pts[:, 0::2]
-        ys = pts[:, 1::2]
+        if neg_edges:
+            neg = all_edges[all_edges['pos'] == False]
+            pt0 = self.coords.loc[neg['bdy0'].values].values
+            pt1 = self.coords.loc[neg['bdy1'].values].values
+            pts = np.hstack([pt0, pt1])
+            xs = pts[:, 0::2]
+            ys = pts[:, 1::2]
 
-        if canvas_type == "bokeh":
-            canvas.multi_line(list(xs),
-                              list(ys),
-                              line_width=1, alpha=0.4, color='orange')
-        elif canvas_type == "pyplot":
-            for i in range(xs.shape[0]):
-                # should use Collections instead.
-                canvas.plot(xs[i, :], ys[i, :],
-                            alpha=0.4, color='orange')
+            if canvas_type == "bokeh":
+                canvas.multi_line(list(xs),
+                                  list(ys),
+                                  line_width=1, alpha=0.4, color='orange')
+            elif canvas_type == "pyplot":
+                for i in range(xs.shape[0]):
+                    # should use Collections instead.
+                    canvas.plot(xs[i, :], ys[i, :],
+                                alpha=0.4, color='orange')
 
         # plot positive edges, need to build structure for multi_line
         pos = all_edges[all_edges['pos'] == True]
