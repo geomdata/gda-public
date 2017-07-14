@@ -26,6 +26,7 @@ Here are minimal instructions with no detail.  First, unpack or clone the code t
 
 .. code::
 
+    bash$ cd ~   # Change directory to anywhere *except* /path/to/gda-public !
     bash$ conda create --name gda_env --file /path/to/gda-public/requirements.txt python=3
     bash$ source activate gda_env
     (gda_env) bash$ pip install file:///path/to/gda-public
