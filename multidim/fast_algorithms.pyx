@@ -214,7 +214,7 @@ cpdef gaussian_fit(np.ndarray[NDBL_t, ndim=2] cloud, center=None):
     
     N = cloud.shape[0] # for bias of sample distribution.
 
-    svd = np.linalg.svd((cloud-mean)/np.sqrt(N-1.0))
+    svd = np.linalg.svd((cloud-mean)/np.sqrt(N-1.0), full_matrices=False)
     u = svd[0]
     s = svd[1]
     v = svd[2]
