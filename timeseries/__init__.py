@@ -1305,12 +1305,12 @@ class SpaceCurve(object):
 #        curv_per_alt = KT[:, 0] / (P[:,2]+1)
 #        acc_per_alt = acc / (P[:,2]+1)
 #        tors_per_alt = KT[:, 1] / (P[:,2]+1)
-        print(tau.shape)
-        print(kap_s.shape)
-        print(tau.shape)
-        print(tau_s.shape)
-        friction = kap * speed ** 2  ## need to check this for angle.
-        bank = np.arctan(friction / 9.8)  ## replace 9.8 with gravity??
+        #print(tau.shape)
+        #print(kap_s.shape)
+        #print(tau.shape)
+        #print(tau_s.shape)
+#        friction = kap * speed ** 2  ## need to check this for angle.
+#        bank = np.arctan(friction / 9.8)  ## replace 9.8 with gravity??
 
         
         # dKT_ds = curve_geometry.secant_derivative(arclengthS, KT)
@@ -1326,31 +1326,19 @@ class SpaceCurve(object):
         self.info['acc'] = acc
         self.info['jerk'] = jerk
 
-        self.info['curv'] = 0.0
-        self.info['curv'].values[1:-1] = kap
-        self.info['curv'].values[:1] = kap[0]
-        self.info['curv'].values[-1:] = kap[-1]
-        
-        self.info['curv_s'] = 0.0
-        self.info['curv_s'].values[2:-2] = kap_s
-        self.info['curv_s'].values[:2] = kap_s[0]
-        self.info['curv_s'].values[-2:] = kap_s[-1]
-
-        self.info['tors'] = 0.0
-        self.info['tors'].values[2:-2] = tau
-        self.info['tors'].values[:2] = tau[0]
-        self.info['tors'].values[-2:] = tau[-1]
-
-        self.info['tors_s'] = 0.0
-        self.info['tors_s'].values[3:-3] = tau_s
-        self.info['tors_s'].values[:3] = tau_s[0]
-        self.info['tors_s'].values[-3:] = tau_s[-1]
-
-
+        self.info['curv'] = kap
+        self.info['curv_s'] = kap_s
         self.info['tors'] = tau
-        self.info['dKds'] = curv_s
-        self.info['dTds'] = tau_s
-        self.info['bank'] = bank
+        
+        self.info['tors_s'] = 0.0
+        #self.info['tors_s'].values[3:-3] = tau_s
+        #self.info['tors_s'].values[:3] = tau_s[0]
+        #self.info['tors_s'].values[-3:] = tau_s[-1]
+
+
+        #self.info['tors'] = tau
+        #self.info['dKds'] = curv_s
+        #self.info['dTds'] = tau_s
         pass
 
     def featurize(self, sort_and_grab_num=None):
@@ -1531,11 +1519,12 @@ class SpaceCurve(object):
                 'bank': bank_hist}
 
     def signature_curve(self):
-        """ Olver/Boutin signature curve.
+        r""" Olver/Boutin signature curve.
         (kappa, kappa_s, tau, tau_s)
-        due to difference methods, the lengths are (n-2, n-4, n-4, n-6)
+        due to difference methods, the lengths are (n-2, n-4, n-4, n-6),
+        but we pad them all to length n
 
-........Usage:
+        Usage:
         ------
         >>> ts = np.arange(0,12,0.1)
         >>> # Line
@@ -1556,10 +1545,10 @@ class SpaceCurve(object):
         ...                px = np.cos(ts),
         ...                py = np.sin(ts))
         >>> kappa, kappa_s, tau, tau_s = C.signature_curve()
-        >>> kappa.shape
-        (118,)
+        >>> kappa.shape # padded
+        (120,)
         >>> kappa_s.shape
-        (116,)
+        (120,)
         >>> np.allclose(kappa, 1.)
         True
         >>> np.allclose(kappa_s, 0.)
@@ -1570,8 +1559,8 @@ class SpaceCurve(object):
         ...                px = np.cos(ts**2),
         ...                py = np.sin(ts**2))
         >>> kappa, kappa_s, tau, tau_s  = C.signature_curve()
-        >>> kappa_s.shape
-        (116,)
+        >>> kappa_s.shape # padded
+        (120,)
         >>> np.allclose(kappa, 1.)
         True
         >>> np.allclose(kappa_s, 0.)
@@ -1586,11 +1575,11 @@ class SpaceCurve(object):
         ...                px = np.exp(0.75*ts)*np.cos(ts),
         ...                py = np.exp(0.75*ts)*np.sin(ts))
         >>> kappa, kappa_s, tau, tau_s = C.signature_curve()
-        >>> kappa.shape
-        (1198,)
-        >>> np.allclose(kappa,  np.exp(-0.75*ts[1:-1]), atol=0.1)
+        >>> kappa.shape # padded
+        (1200,)
+        >>> np.allclose(kappa[1:-1],  np.exp(-0.75*ts[1:-1]), atol=0.1)
         True
-        >>> np.allclose(kappa_s*np.exp(1.5*ts[2:-2]), -12./25., atol=0.01)
+        >>> np.allclose(kappa_s[2:-2]*np.exp(1.5*ts[2:-2]), -12./25., atol=0.01)
         True
         >>> # A Helix
         >>> C = SpaceCurve(tn = np.arange(ts.shape[0]),
@@ -1598,11 +1587,11 @@ class SpaceCurve(object):
         ...                py = 3*np.sin(ts),
         ...                pz = 4*ts)
         >>> kappa, kappa_s, tau, tau_s = C.signature_curve()
-        >>> np.allclose(kappa, 3/25.,)
+        >>> np.allclose(kappa, 3/25.)
         True
         >>> np.allclose(kappa_s, 0.0)
         True
-        >>> np.allclose(tau, 4/25.,)
+        >>> np.allclose(tau, 4/25.)
         True
         >>> np.allclose(tau_s, 0.0)
         True
@@ -1698,58 +1687,85 @@ class SpaceCurve(object):
                                     P_i_pls_2[i] - P_i[i]]).T
             
             tetra_height[i] = np.linalg.qr(tetrahedron, mode='r')[-1,-1]
-        old_settings = np.seterr(divide='ignore')
+        # we want tau = 6 * tetra_height / denom_t, but 
+        # don't want to divide by zero, which happens if points repeat.
+        tau_fwd = 6 * tetra_height
         denom_t = d * e * f * kappa[1:-1] # sign is inherited!
-        tau_fwd = 6 * (tetra_height / denom_t)
-        tau_fwd[denom_t == 0] = 0
-        np.seterr(**old_settings)
+        non_trivial = (tetra_height != 0)
+        tau_fwd[non_trivial] = tau_fwd[non_trivial] / denom_t[non_trivial]
+        tau_fwd[~ non_trivial] = 0.0 
         
         # tau according to Boutin's \tilde{tau}_1, in the backard direction
         tetra_height = np.ndarray(shape = kappa_s.shape, dtype='float')
         for i in range(P_i.shape[0]):
             tetrahedron = np.array([P_i_mns_2[i] - P_i[i], 
                                     P_i_mns_1[i] - P_i[i], 
-                                    P_i_pls_2[i] - P_i[i]]).T
+                                    P_i_pls_1[i] - P_i[i]]).T
             
             tetra_height[i] = np.linalg.qr(tetrahedron, mode='r')[-1,-1]
-        old_settings = np.seterr(divide='ignore')
-        denom_t = dd * ee * ff * kappa[1:-1] # sign is inherited!
-        tau_bwd = 6 * (tetra_height / denom_t)
-        tau_bwd[denom_t == 0] = 0
-        np.seterr(**old_settings)
-
+        # we want tau = 6 * tetra_height / denom_t, but 
+        # don't want to divide by zero, which happens if points repeat.
+        tau_bwd = 6 * tetra_height
+        denom_t = d * e * f * kappa[1:-1] # sign is inherited!
+        non_trivial = (tetra_height != 0)
+        tau_bwd[non_trivial] = tau_bwd[non_trivial] / denom_t[non_trivial]
+        tau_bwd[~ non_trivial] = 0.0 
+        
         tau = (tau_fwd + tau_bwd)/2
-
 
        
         
-        # tau_s according to Boutin's (17), in the forward direction
-        P_i_pls_3 = pos[4:, :]
-        h = np.sqrt(np.sum((P_i_pls_3 - P_i_pls_2[:-1])**2, axis=1))
-        dh = d[:-1] + h
-        denom_ts = denom_ks[1:-1] + dh
-        old_settings = np.seterr(divide='ignore')  #seterr to known value
-        tau_s_fwd = 4*(tau[1:] - tau[:-1] + (denom_ks[1:-1] -3*dh) * tau * kappa_s / (6 * kappa[2:-2]))/denom_ts
-        tau_s_fwd[denom_ts == 0] = 0
-        np.seterr(**old_settings)
-
-        # tau_s according to Boutin's (17), in the backward direction
-        P_i_mns_3 = pos[:-4, :]
-        h = np.sqrt(np.sum((P_i_mns_3 - P_i_mns_2[1:])**2, axis=1))
-        dh = d[1:] + h
-        denom_ts = denom_ks[1:-1] + dh
-        old_settings = np.seterr(divide='ignore')  #seterr to known value
-        tau_s_bwd = 4*(tau[1:] - tau[:-1] + (denom_ks[1:-1] -3*dh) * tau * kappa_s / (6 * kappa[2:-2]))/denom_ts
-        tau_s_bwd[denom_ts == 0] = 0
-        np.seterr(**old_settings)
-
-        tau_s = (tau_s_fwd + tau_s_bwd)/2
+#        # tau_s according to Boutin's (17), in the forward direction
+#        P_i_pls_3 = pos[4:, :]
+#        h = np.sqrt(np.sum((P_i_pls_3 - P_i_pls_2[:-1])**2, axis=1))
+#        dh = d[:-1] + h
+#        denom_ts = denom_ks[1:-1] + dh
+#        old_settings = np.seterr(divide='ignore')  #seterr to known value
+#        tau_s_fwd = 4*(tau[1:] - tau[:-1] + (denom_ks[1:-1] -3*dh) * tau * kappa_s / (6 * kappa[2:-2]))/denom_ts
+#        tau_s_fwd[denom_ts == 0] = 0
+#        np.seterr(**old_settings)
+#
+#        # tau_s according to Boutin's (17), in the backward direction
+#        P_i_mns_3 = pos[:-4, :]
+#        h = np.sqrt(np.sum((P_i_mns_3 - P_i_mns_2[1:])**2, axis=1))
+#        dh = d[1:] + h
+#        denom_ts = denom_ks[1:-1] + dh
+#        old_settings = np.seterr(divide='ignore')  #seterr to known value
+#        tau_s_bwd = 4*(tau[1:] - tau[:-1] + (denom_ks[1:-1] -3*dh) * tau * kappa_s / (6 * kappa[2:-2]))/denom_ts
+#        tau_s_bwd[denom_ts == 0] = 0
+#        np.seterr(**old_settings)
+#        
+#        tau_s = (tau_s_fwd + tau_s_bwd)/2
 
         assert kappa.shape == (n-2,)
         assert kappa_s.shape == (n-4,)
         assert tau.shape == (n-4,)
-        assert tau_s.shape == (n-6,)
+        #assert tau_s.shape == (n-6,)
 
-        return kappa, kappa_s, tau, tau_s
+        #print(kappa.shape, tau_s.shape)
+
+        kappa_pad = np.ndarray(shape=(n,), dtype='float')
+        kappa_s_pad = np.ndarray(shape=(n,), dtype='float')
+        tau_pad = np.ndarray(shape=(n,), dtype='float')
+        tau_s_pad = np.ndarray(shape=(n,), dtype='float')
+        
+        kappa_pad[1:-1] = kappa
+        kappa_pad[:1] = kappa[0]
+        kappa_pad[-1:] = kappa[-1]
+
+        kappa_s_pad[2:-2] = kappa_s
+        kappa_s_pad[:2] = kappa_s[0]
+        kappa_s_pad[-2:] = kappa_s[-1]
+
+        tau_pad[2:-2] = tau
+        tau_pad[:2] = tau[0]
+        tau_pad[-2:] = tau[-1]
+
+        tau_s_pad[:] = 0.0
+        #tau_s_pad[2:-2] = tau_s
+        #tau_s_pad[:2] = tau_s[0]
+        #tau_s_pad[-2:] = tau_s[-1]
+        
+        return kappa_pad, kappa_s_pad, tau_pad, tau_s_pad
 
 # end of class SpaceCurve
