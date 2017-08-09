@@ -941,7 +941,8 @@ class PointCloud(SimplicialComplex):
                                  index=np.arange(vals.shape[0], dtype=np.int64))
             self.stratum[1] = edges 
 
-    def plot(self, canvas, cutoff=-1, color='purple', neg_edges=False,
+    def plot(self, canvas, cutoff=-1, color='purple', pos_edges=False,
+             edge_alpha=-1.0, size=1,
              twocells=False, title="SimplicialComplex", label=False):
         r"""
         Plot a PointCloud, decorated by various proeprties.
@@ -1000,12 +1001,19 @@ class PointCloud(SimplicialComplex):
         all_edges = self.stratum[1]
         if cutoff >= 0:
             all_edges = all_edges[all_edges['val'] < cutoff]
+        
+        if len(all_edges) > 0:
+            minval = np.min(all_edges['val'].values)
+            maxval = np.max(all_edges['val'].values)
+        else:
+            edge_alpha = 1.0
 
-        # plot negative edges, need to build structure for multi_line
-        if neg_edges:
-            neg = all_edges[all_edges['pos'] == False]
-            pt0 = self.coords.loc[neg['bdy0'].values].values
-            pt1 = self.coords.loc[neg['bdy1'].values].values
+        # plot positive edges, need to build structure for multi_line
+        if pos_edges:
+            pos = all_edges[all_edges['pos'] == True]
+            val = pos['val'].values
+            pt0 = self.coords.loc[pos['bdy0'].values].values
+            pt1 = self.coords.loc[pos['bdy1'].values].values
             pts = np.hstack([pt0, pt1])
             xs = pts[:, 0::2]
             ys = pts[:, 1::2]
@@ -1016,14 +1024,20 @@ class PointCloud(SimplicialComplex):
                                   line_width=1, alpha=0.4, color='orange')
             elif canvas_type == "pyplot":
                 for i in range(xs.shape[0]):
+                    if edge_alpha >= 0.0:
+                        this_edge_alpha = edge_alpha
+                    else:
+                        this_edge_alpha = 0.5 + 0.5*(val[i] - minval)/(maxval - minval)
                     # should use Collections instead.
                     canvas.plot(xs[i, :], ys[i, :],
-                                alpha=0.4, color='orange')
+                        alpha=this_edge_alpha, color='orange')
 
-        # plot positive edges, need to build structure for multi_line
-        pos = all_edges[all_edges['pos'] == True]
-        pt0 = self.coords.loc[pos['bdy0'].values].values
-        pt1 = self.coords.loc[pos['bdy1'].values].values
+        # plot negative edges, need to build structure for multi_line
+        neg = all_edges[all_edges['pos'] == False]
+        val = neg['val'].values
+
+        pt0 = self.coords.loc[neg['bdy0'].values].values
+        pt1 = self.coords.loc[neg['bdy1'].values].values
         pts = np.hstack([pt0, pt1])
         xs = pts[:, 0::2]
         ys = pts[:, 1::2]
@@ -1035,8 +1049,13 @@ class PointCloud(SimplicialComplex):
         elif canvas_type == "pyplot":
             for i in range(xs.shape[0]):
                 # should use Collections instead.
+                if edge_alpha >= 0.0:
+                    this_edge_alpha = edge_alpha
+                else:
+                    this_edge_alpha = 0.5 + 0.5*(val[i] - minval)/(maxval - minval)
+                    # should use Collections instead.
                 canvas.plot(xs[i, :], ys[i, :],
-                            alpha=0.6, color='blue')
+                    alpha=this_edge_alpha, color='blue')
 
         all_verts = self.stratum[0]
         # CURRENT UNIONFIND DOES NOT MARK NEG VERTS
@@ -1044,9 +1063,9 @@ class PointCloud(SimplicialComplex):
         xs = list(self.coords.loc[neg.index, 0])
         ys = list(self.coords.loc[neg.index, 1])
         if canvas_type == "bokeh":
-            canvas.circle(xs, ys, color='black', alpha=0.5, size=1)
+            canvas.circle(xs, ys, color='black', alpha=0.5, size=size)
         elif canvas_type == "pyplot":
-            canvas.scatter(x=xs, y=ys, color='black', alpha=0.5)
+            canvas.scatter(x=xs, y=ys, s=size, color='black', alpha=0.5)
 
         pos = all_verts[all_verts['pos'] == True]
         xs = self.coords.loc[pos.index, 0]
@@ -1062,10 +1081,10 @@ class PointCloud(SimplicialComplex):
                         ymid - ys.min()])
             canvas.x_range = Range1d(xmid-span, xmid+span)
             canvas.y_range = Range1d(ymid-span, ymid+span)
-            canvas.circle(list(xs), list(ys), color=cs, alpha=0.4, size=3)
+            canvas.circle(list(xs), list(ys), color=cs, alpha=0.4, size=size)
 
         elif canvas_type == "pyplot":
-            canvas.scatter(x=xs, y=ys, color=cs, alpha=0.4, s=30, marker='x')
+            canvas.scatter(x=xs, y=ys, color=cs, alpha=0.4, s=size)
 
         if label:
             if canvas_type == "bokeh":
