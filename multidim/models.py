@@ -567,7 +567,7 @@ class CDER(GaussianMixtureClassifier):
         entropy = coverlevel.entropy[adult]
         ambient_dim = ct.coords.shape[1]
         weight = coverlevel.weights[adult][label_index].sum()
-        if count <= 1:
+        if count < ambient_dim:
             logging.warn("Too few points {} at {}.  Lost {}*{}".format(count, adult, 1-entropy, weight))
             return None
         m,s,v = gaussian_fit(sample)
