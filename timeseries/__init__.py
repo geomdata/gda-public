@@ -1,4 +1,4 @@
-""" 
+r"""
 This module defines tools for geometric analysis of one-dimensional
 (time-series) data sets.  The main classes are
 
@@ -1113,12 +1113,8 @@ class SpaceCurve(object):
         if pos.shape[0] == 0:
             return False
 
-        llh = curve_geometry.latlonhae_from_ecef(pos)
-        enu_pos = curve_geometry.enu_from_ecef_at_latlonhae(pos - pos[0, :],
-                                                            llh)
-
         if canvas_type == "pyplot":
-            canvas.plot(enu_pos[:, 0], enu_pos[:, 1], enu_pos[:, 2],
+            canvas.plot(pos[:, 0], pos[:, 1], pos[:, 2],
                         color=color)
         else:
             raise NotImplementedError
@@ -1280,8 +1276,6 @@ class SpaceCurve(object):
         # all derivatives and integrals
         A = curve_geometry.secant_derivative(T, V)
         J = curve_geometry.secant_derivative(T, A)
-        # TNB = curve_geometry.frenet_frame(V, A)
-        # KT = curve_geometry.frenet_kappa_tau(V, A, J)
         arclengthS = curve_geometry.secant_arclength(P)
 
         # norms
@@ -1289,6 +1283,36 @@ class SpaceCurve(object):
         acc = np.linalg.norm(A, axis=1).flatten()
         jerk = np.linalg.norm(J, axis=1).flatten()
 
+
+        # Use signature curve to make curv and tors
+        kap, kap_s, tau, tau_s = self.signature_curve()
+       
+        #KT = np.ndarray(shape=(T.shape[0], 2), dtype='float')
+        #KT[:2, :] = sc[0, :]
+        #KT[:-2, :] = sc[-1, :]
+        #KT[2:-2, :] = sc
+
+
+        #TNB_enu = curve_geometry.frenet_frame(V, A)
+        #tilt = np.arccos(np.abs(TNB_enu[:, 2, 2]))
+
+        #dKT_ds = curve_geometry.secant_derivative(arclengthS, KT)
+        #tilt_array = tilt.copy()
+        #tilt_array.shape = (tilt.shape[0], 1)
+        #dtilt_ds = curve_geometry.secant_derivative(arclengthS,
+        #tilt_array).flatten()
+
+#        curv_per_alt = KT[:, 0] / (P[:,2]+1)
+#        acc_per_alt = acc / (P[:,2]+1)
+#        tors_per_alt = KT[:, 1] / (P[:,2]+1)
+        print(tau.shape)
+        print(kap_s.shape)
+        print(tau.shape)
+        print(tau_s.shape)
+        friction = kap * speed ** 2  ## need to check this for angle.
+        bank = np.arctan(friction / 9.8)  ## replace 9.8 with gravity??
+
+        
         # dKT_ds = curve_geometry.secant_derivative(arclengthS, KT)
         
         self.info['vel_x'] = V[:, 0]
@@ -1301,8 +1325,32 @@ class SpaceCurve(object):
         self.info['speed'] = speed
         self.info['acc'] = acc
         self.info['jerk'] = jerk
-        # self.info['curv'] = KT[:, 0]
-        # self.info['tors'] = KT[:, 1]
+
+        self.info['curv'] = 0.0
+        self.info['curv'].values[1:-1] = kap
+        self.info['curv'].values[:1] = kap[0]
+        self.info['curv'].values[-1:] = kap[-1]
+        
+        self.info['curv_s'] = 0.0
+        self.info['curv_s'].values[2:-2] = kap_s
+        self.info['curv_s'].values[:2] = kap_s[0]
+        self.info['curv_s'].values[-2:] = kap_s[-1]
+
+        self.info['tors'] = 0.0
+        self.info['tors'].values[2:-2] = tau
+        self.info['tors'].values[:2] = tau[0]
+        self.info['tors'].values[-2:] = tau[-1]
+
+        self.info['tors_s'] = 0.0
+        self.info['tors_s'].values[3:-3] = tau_s
+        self.info['tors_s'].values[:3] = tau_s[0]
+        self.info['tors_s'].values[-3:] = tau_s[-1]
+
+
+        self.info['tors'] = tau
+        self.info['dKds'] = curv_s
+        self.info['dTds'] = tau_s
+        self.info['bank'] = bank
         pass
 
     def featurize(self, sort_and_grab_num=None):
@@ -1427,7 +1475,7 @@ class SpaceCurve(object):
         air_density = np.poly1d([2.70588959e-19, -5.57103078e-14, 3.91598431e-09, -1.15140013e-04, 1.22679477e+00])
 
         speed = self.info['speed'].values
-        altacc = self.info['altacc'].values
+        altacc = self.info['acc_z'].values
         bank = self.info['bank'].values
         cosb = np.cos(bank)
         h = self.info['alt'].values
@@ -1485,69 +1533,118 @@ class SpaceCurve(object):
     def signature_curve(self):
         """ Olver/Boutin signature curve.
         (kappa, kappa_s, tau, tau_s)
-        (currently planar only)
+        due to difference methods, the lengths are (n-2, n-4, n-4, n-6)
 
+........Usage:
+        ------
         >>> ts = np.arange(0,12,0.1)
         >>> # Line
         >>> C = SpaceCurve(tn = np.arange(ts.shape[0]),
         ...                px = 5*ts + 3, py=2*ts + 5)
-        >>> sig = C.signature_curve()
-        >>> np.allclose(sig, 0.0, atol=1.5e-7)
+        >>> kappa, kappa_s, tau, tau_s = C.signature_curve()
+        >>> np.allclose(kappa, 0.0, atol=1.5e-7)
+        True
+        >>> np.allclose(kappa_s, 0.0, atol=1.5e-7)
+        True
+        >>> np.allclose(tau, 0.0, atol=1.5e-7)
+        True
+        >>> np.allclose(tau_s, 0.0, atol=1.5e-7)
         True
         >>> ts = np.arange(0,12,0.1)
         >>> # Circle with constant speed
         >>> C = SpaceCurve(tn = np.arange(ts.shape[0]),
         ...                px = np.cos(ts),
         ...                py = np.sin(ts))
-        >>> sig = C.signature_curve()
-        >>> sig.shape
-        (116, 2)
-        >>> np.allclose(sig[:,0], 1.)
+        >>> kappa, kappa_s, tau, tau_s = C.signature_curve()
+        >>> kappa.shape
+        (118,)
+        >>> kappa_s.shape
+        (116,)
+        >>> np.allclose(kappa, 1.)
         True
-        >>> np.allclose(sig[:,1], 0.)
+        >>> np.allclose(kappa_s, 0.)
         True
-
         >>> ts = np.arange(0,12,0.1)
         >>> # Circle with varying speed
         >>> C = SpaceCurve(tn = np.arange(ts.shape[0]),
         ...                px = np.cos(ts**2),
         ...                py = np.sin(ts**2))
-        >>> sig = C.signature_curve()
-        >>> sig.shape
-        (116, 2)
-        >>> np.allclose(sig[:,0], 1.)
+        >>> kappa, kappa_s, tau, tau_s  = C.signature_curve()
+        >>> kappa_s.shape
+        (116,)
+        >>> np.allclose(kappa, 1.)
         True
-        >>> np.allclose(sig[:,1], 0.)
+        >>> np.allclose(kappa_s, 0.)
         True
-
+        >>> np.allclose(tau, 0.)
+        True
+        >>> np.allclose(tau_s, 0.)
+        True
         >>> ts = np.arange(1,13,0.01)
         >>> # A Spiral
         >>> C = SpaceCurve(tn = np.arange(ts.shape[0]),
         ...                px = np.exp(0.75*ts)*np.cos(ts),
         ...                py = np.exp(0.75*ts)*np.sin(ts))
-        >>> sig = C.signature_curve()
-        >>> sig.shape
-        (1196, 2)
-        >>> np.allclose(sig[:,0],  np.exp(-0.75*ts[2:-2]), atol=0.1)
+        >>> kappa, kappa_s, tau, tau_s = C.signature_curve()
+        >>> kappa.shape
+        (1198,)
+        >>> np.allclose(kappa,  np.exp(-0.75*ts[1:-1]), atol=0.1)
         True
-        >>> np.allclose(sig[:,1]*np.exp(1.5*ts[2:-2]), -12./25., atol=0.01)
+        >>> np.allclose(kappa_s*np.exp(1.5*ts[2:-2]), -12./25., atol=0.01)
+        True
+        >>> # A Helix
+        >>> C = SpaceCurve(tn = np.arange(ts.shape[0]),
+        ...                px = 3*np.cos(ts),
+        ...                py = 3*np.sin(ts),
+        ...                pz = 4*ts)
+        >>> kappa, kappa_s, tau, tau_s = C.signature_curve()
+        >>> np.allclose(kappa, 3/25.,)
+        True
+        >>> np.allclose(kappa_s, 0.0)
+        True
+        >>> np.allclose(tau, 4/25.,)
+        True
+        >>> np.allclose(tau_s, 0.0)
+        True
+        >>> # A Helix (reversed)
+        >>> C = SpaceCurve(tn = np.arange(ts.shape[0]),
+        ...                px = 3*np.cos(-ts),
+        ...                py = 3*np.sin(-ts),
+        ...                pz = 4*ts)
+        >>> kappa, kappa_s, tau, tau_s = C.signature_curve()
+        >>> np.allclose(kappa, -3/25.,)
+        True
+        >>> np.allclose(kappa_s, 0.0)
+        True
+        >>> np.allclose(tau, -4/25.,)
+        True
+        >>> np.allclose(tau_s, 0.0)
         True
         """
-        if not np.all(self.data['pos_z'].values == 0.):
-            raise ValueError("This method currently handles only planar curves.")
+        
+        #if not np.all(self.data['pos_z'].values == 0.):
+        #    raise ValueError("This method currently handles only planar curves.")
 
         # if np.all(self.data['pos_x'].values == 0.):
-        pos = self.data[['pos_x', 'pos_y']].values
+        pos = self.data[['pos_x', 'pos_y', 'pos_z']].values
         n = pos.shape[0]
 
         # follow Calabi's naming convention.
         # We deal with 1-interior points.
-        P_i_pls_0 = pos[1:-1, :]
-        P_i_pls_1 = pos[2:, :]
         P_i_mns_1 = pos[:-2, :]
+        P_i       = pos[1:-1, :]
+        P_i_pls_1 = pos[2:, :]
 
-        a = np.sqrt(np.sum((P_i_pls_0 - P_i_mns_1)**2, axis=1))
-        b = np.sqrt(np.sum((P_i_pls_1 - P_i_pls_0)**2, axis=1))
+        # Use the determinant to set a right-handed sign.
+        triples = np.ndarray(shape=(n-2, 3,3), dtype='float')
+        triples[:, 0, :] = P_i_mns_1
+        triples[:, 1, :] = P_i      
+        triples[:, 2, :] = P_i_pls_1
+        sign = (-1)**np.signbit(np.linalg.det(triples))
+
+
+        a = np.sqrt(np.sum((P_i       - P_i_mns_1)**2, axis=1))
+        b = np.sqrt(np.sum((P_i_pls_1 - P_i      )**2, axis=1))
         c = np.sqrt(np.sum((P_i_pls_1 - P_i_mns_1)**2, axis=1))
         s = 0.5*(a+b+c)
         # If a,b,c are co-linear, then we might get s-c to be negative
@@ -1558,34 +1655,101 @@ class SpaceCurve(object):
 
         abc = a*b*c
         # Calabi,et al eqn (2.2)
-        kappa = 4*np.sqrt(s*s_minus_a*s_minus_b*s_minus_c) / abc
+        kappa = sign*4*np.sqrt(s*s_minus_a*s_minus_b*s_minus_c) / abc
         kappa[abc == 0] = 0.
         assert kappa.shape[0] == n-2
 
         # Now, we follow Boutin's naming convention.
         # We deal with 2-interior points.
-        P_i_pls_0 = pos[2:-2, :]
+        P_i = pos[2:-2, :]
         P_i_pls_1 = pos[3:-1, :]
         P_i_pls_2 = pos[4:, :]
         P_i_mns_1 = pos[1:-3, :]
         P_i_mns_2 = pos[0:-4, :]
-        a = np.sqrt(np.sum((P_i_pls_0 - P_i_mns_1)**2, axis=1))
-        b = np.sqrt(np.sum((P_i_pls_1 - P_i_pls_0)**2, axis=1))
+        a = np.sqrt(np.sum((P_i       - P_i_mns_1)**2, axis=1))
+        b = np.sqrt(np.sum((P_i_pls_1 - P_i      )**2, axis=1))
         # c = np.sqrt(np.sum((P_i_pls_1 - P_i_mns_1)**2, axis=1))
         d = np.sqrt(np.sum((P_i_pls_2 - P_i_pls_1)**2, axis=1))
-        # e = np.sqrt(np.sum((P_i_pls_2 - P_i_pls_0)**2, axis=1))
-        # f = np.sqrt(np.sum((P_i_pls_2 - P_i_mns_1)**2, axis=1))
-        g = np.sqrt(np.sum((P_i_mns_1 - P_i_mns_2)**2, axis=1))
+        e = np.sqrt(np.sum((P_i_pls_2 - P_i      )**2, axis=1))
+        f = np.sqrt(np.sum((P_i_pls_2 - P_i_mns_1)**2, axis=1))
+        g = np.sqrt(np.sum((P_i_mns_2 - P_i_mns_1)**2, axis=1))
+        # reverse collections, for reverse tau
+        dd = g
+        ee = np.sqrt(np.sum((P_i_mns_2 - P_i      )**2, axis=1))
+        ff = np.sqrt(np.sum((P_i_mns_2 - P_i_pls_1)**2, axis=1))
+
         assert a.shape[0] == n-4
 
         # Note that the index of a goes 0..n-5, and
         # Note that the index of kappa goes 0..n-3.
         # and P[i] corresponds to a[i] and kappa[i+1]
-        denom = 2*a + 2*b + d + g
-        kappa_s = 3*(kappa[2:] - kappa[:-2])/denom
-        kappa_s[denom == 0] = 0
-        assert kappa_s.shape[0] == n-4
+        denom_ks = 2*a + 2*b + d + g
+        old_settings = np.seterr(divide='ignore')
+        kappa_s = 3*(kappa[2:] - kappa[:-2])/denom_ks
+        kappa_s[denom_ks == 0] = 0
+        np.seterr(**old_settings)
+        
+      
+        # tau according to Boutin's \tilde{tau}_1, in the forward direction
+        tetra_height = np.ndarray(shape = kappa_s.shape, dtype='float')
+        for i in range(P_i.shape[0]):
+            tetrahedron = np.array([P_i_mns_1[i] - P_i[i], 
+                                    P_i_pls_1[i] - P_i[i], 
+                                    P_i_pls_2[i] - P_i[i]]).T
+            
+            tetra_height[i] = np.linalg.qr(tetrahedron, mode='r')[-1,-1]
+        old_settings = np.seterr(divide='ignore')
+        denom_t = d * e * f * kappa[1:-1] # sign is inherited!
+        tau_fwd = 6 * (tetra_height / denom_t)
+        tau_fwd[denom_t == 0] = 0
+        np.seterr(**old_settings)
+        
+        # tau according to Boutin's \tilde{tau}_1, in the backard direction
+        tetra_height = np.ndarray(shape = kappa_s.shape, dtype='float')
+        for i in range(P_i.shape[0]):
+            tetrahedron = np.array([P_i_mns_2[i] - P_i[i], 
+                                    P_i_mns_1[i] - P_i[i], 
+                                    P_i_pls_2[i] - P_i[i]]).T
+            
+            tetra_height[i] = np.linalg.qr(tetrahedron, mode='r')[-1,-1]
+        old_settings = np.seterr(divide='ignore')
+        denom_t = dd * ee * ff * kappa[1:-1] # sign is inherited!
+        tau_bwd = 6 * (tetra_height / denom_t)
+        tau_bwd[denom_t == 0] = 0
+        np.seterr(**old_settings)
 
-        return np.array([kappa[1:-1], kappa_s]).T
+        tau = (tau_fwd + tau_bwd)/2
+
+
+       
+        
+        # tau_s according to Boutin's (17), in the forward direction
+        P_i_pls_3 = pos[4:, :]
+        h = np.sqrt(np.sum((P_i_pls_3 - P_i_pls_2[:-1])**2, axis=1))
+        dh = d[:-1] + h
+        denom_ts = denom_ks[1:-1] + dh
+        old_settings = np.seterr(divide='ignore')  #seterr to known value
+        tau_s_fwd = 4*(tau[1:] - tau[:-1] + (denom_ks[1:-1] -3*dh) * tau * kappa_s / (6 * kappa[2:-2]))/denom_ts
+        tau_s_fwd[denom_ts == 0] = 0
+        np.seterr(**old_settings)
+
+        # tau_s according to Boutin's (17), in the backward direction
+        P_i_mns_3 = pos[:-4, :]
+        h = np.sqrt(np.sum((P_i_mns_3 - P_i_mns_2[1:])**2, axis=1))
+        dh = d[1:] + h
+        denom_ts = denom_ks[1:-1] + dh
+        old_settings = np.seterr(divide='ignore')  #seterr to known value
+        tau_s_bwd = 4*(tau[1:] - tau[:-1] + (denom_ks[1:-1] -3*dh) * tau * kappa_s / (6 * kappa[2:-2]))/denom_ts
+        tau_s_bwd[denom_ts == 0] = 0
+        np.seterr(**old_settings)
+
+        tau_s = (tau_s_fwd + tau_s_bwd)/2
+
+        assert kappa.shape == (n-2,)
+        assert kappa_s.shape == (n-4,)
+        assert tau.shape == (n-4,)
+        assert tau_s.shape == (n-6,)
+
+        return kappa, kappa_s, tau, tau_s
 
 # end of class SpaceCurve
