@@ -92,7 +92,7 @@
 <em class="property">class </em><code class="descclassname">multidim.models.</code><code class="descname">CDER</code><span class="sig-paren">(</span><em>stop_level=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/multidim/models.html#CDER"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multidim.models.CDER" title="Permalink to this definition">¶</a></dt>
 <dd><p>The CDER (Cover-Tree Differencing for Entropy Reduction) algorithm for
 supervised machine-learning of labelled cloud collections.  This uses the
-&#8220;Cover Tree with Friends&#8221; algorithm along with an entropy computation to
+“Cover Tree with Friends” algorithm along with an entropy computation to
 build a regional classifer for labelled pointclouds.  It relies on the
 <a class="reference internal" href="multidim.covertree.CoverTree.html#multidim.covertree.CoverTree" title="multidim.covertree.CoverTree"><code class="xref py py-class docutils literal"><span class="pre">multidim.covertree.CoverTree</span></code></a> and 
 <a class="reference internal" href="multidim.covertree.CoverLevel.html#multidim.covertree.CoverLevel" title="multidim.covertree.CoverLevel"><code class="xref py py-class docutils literal"><span class="pre">multidim.covertree.CoverLevel</span></code></a> data structures.</p>
@@ -119,9 +119,9 @@ Default: <code class="code docutils literal"><span class="pre">True</span></code
 <p class="last"><a class="reference internal" href="multidim.covertree.CoverTree.html#multidim.covertree.CoverTree" title="multidim.covertree.CoverTree"><code class="xref py py-class docutils literal"><span class="pre">multidim.covertree.CoverTree</span></code></a></p>
 </div>
 <p class="rubric">Examples</p>
-<p>We&#8217;ll make a simple dataset with one &#8220;green&#8221; pointcloud sampled from 
+<p>We’ll make a simple dataset with one “green” pointcloud sampled from 
 a uniform distribution on the 1x1 square centered at (-1,0),
-and one &#8220;magenta&#8221; pointcloud sampled from a uniform distribution on the 
+and one “magenta” pointcloud sampled from a uniform distribution on the 
 1x1 square centered at (1, 0).</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">multidim</span>
@@ -150,13 +150,13 @@ and one &#8220;magenta&#8221; pointcloud sampled from a uniform distribution on 
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="multidim.models.CDER.build_gaussian.html#multidim.models.CDER.build_gaussian" title="multidim.models.CDER.build_gaussian"><code class="xref py py-obj docutils literal"><span class="pre">CDER.build_gaussian</span></code></a>(coverlevel,&nbsp;adult,&nbsp;...)</td>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.models.CDER.build_gaussian.html#multidim.models.CDER.build_gaussian" title="multidim.models.CDER.build_gaussian"><code class="xref py py-obj docutils literal"><span class="pre">CDER.build_gaussian</span></code></a>(coverlevel,&nbsp;adult,&nbsp;…)</td>
 <td>Build a Gaussian from the children of this adult in a cover-tree (using only a particular label).</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="multidim.models.CDER.evaluate.html#multidim.models.CDER.evaluate" title="multidim.models.CDER.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">CDER.evaluate</span></code></a>(x)</td>
 <td>Evaluate all gaussians against a pointcloud</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="multidim.models.CDER.fit.html#multidim.models.CDER.fit" title="multidim.models.CDER.fit"><code class="xref py py-obj docutils literal"><span class="pre">CDER.fit</span></code></a>(\*training)</td>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.models.CDER.fit.html#multidim.models.CDER.fit" title="multidim.models.CDER.fit"><code class="xref py py-obj docutils literal"><span class="pre">CDER.fit</span></code></a>(*training)</td>
 <td>Fit this estimator to training data.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="multidim.models.CDER.gausscoords.html#multidim.models.CDER.gausscoords" title="multidim.models.CDER.gausscoords"><code class="xref py py-obj docutils literal"><span class="pre">CDER.gausscoords</span></code></a>([parsimonious])</td>
@@ -177,7 +177,7 @@ and one &#8220;magenta&#8221; pointcloud sampled from a uniform distribution on 
 <tr class="row-odd"><td><a class="reference internal" href="multidim.models.CDER.score.html#multidim.models.CDER.score" title="multidim.models.CDER.score"><code class="xref py py-obj docutils literal"><span class="pre">CDER.score</span></code></a>(pointclouds,&nbsp;labels)</td>
 <td>Score predicted labels against known labels.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="multidim.models.CDER.set_params.html#multidim.models.CDER.set_params" title="multidim.models.CDER.set_params"><code class="xref py py-obj docutils literal"><span class="pre">CDER.set_params</span></code></a>(\*\*params)</td>
+<tr class="row-even"><td><a class="reference internal" href="multidim.models.CDER.set_params.html#multidim.models.CDER.set_params" title="multidim.models.CDER.set_params"><code class="xref py py-obj docutils literal"><span class="pre">CDER.set_params</span></code></a>(**params)</td>
 <td>Set the parameters of this estimator.</td>
 </tr>
 </tbody>
@@ -217,10 +217,10 @@ and one &#8220;magenta&#8221; pointcloud sampled from a uniform distribution on 
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Jul 14, 2017.
+      Last updated on Aug 09, 2017.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.5.6.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
       </li>
     </ul>
     </div>
