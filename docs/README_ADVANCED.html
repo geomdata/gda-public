@@ -254,6 +254,18 @@ bash$
 </pre></div>
 </div>
 </div>
+<div class="section" id="porting-changes">
+<h2>Porting Changes<a class="headerlink" href="#porting-changes" title="Permalink to this headline">¶</a></h2>
+<p>Suppose you have your own copy of this repo, and you want to copy in changes
+in-bulk, but a merge request is not possible because they are on different
+platforms.</p>
+<p>repo_old&gt; git format-patch –root  # produce all changes from history
+repo_new&gt; go to head, update, and remove <em>all</em> working files
+repo_new&gt; ls /path/to/repo_old/*.patch | while read r; do git apply “$a”; done
+repo_new&gt; run your tests
+repo_new&gt; git add -A
+repo_new&gt; git commit -m “imported to version XXXXXXX from internal repo.” -a</p>
+</div>
 </div>
 
 
@@ -269,6 +281,7 @@ bash$
 <li><a class="reference internal" href="#online-setup-and-testing-with-anaconda-on-windows">Online Setup and Testing with Anaconda on Windows</a></li>
 <li><a class="reference internal" href="#offline-setup-and-testing-with-anaconda">Offline Setup and Testing with Anaconda</a></li>
 <li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#porting-changes">Porting Changes</a></li>
 </ul>
 </li>
 </ul>
