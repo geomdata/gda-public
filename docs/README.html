@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
     <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="genindex.html" >
     <link rel="search" title="Search" href="search.html" >
@@ -91,15 +92,15 @@ See <em class="xref py py-obj">LICENSE</em> for copyright information.</p>
 <p>The code is written in Python and Cython.  It is written for Python 3.5, but it
 should work in Python 2.7 (albeit with some performance penalty).  For
 stability and consistency, Anaconda is preferred.</p>
-<p>See <code class="docutils literal"><span class="pre">requirements.txt</span></code> for requirements.</p>
+<p>See <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> for requirements.</p>
 <p>If you want to work in an air-gapped system, you can pre-download all of the
 required packages from <a class="reference external" href="http://repo.continuum.io/pkgs/">http://repo.continuum.io/pkgs/</a> This is automated in
-<code class="docutils literal"><span class="pre">download.py</span></code> and <code class="docutils literal"><span class="pre">download-viz.py</span></code>, and is described below.</p>
+<code class="docutils literal notranslate"><span class="pre">download.py</span></code> and <code class="docutils literal notranslate"><span class="pre">download-viz.py</span></code>, and is described below.</p>
 <p>Please submit any <strong>BUGS</strong> to <a class="reference external" href="https://github.com/geomdata/gda-public/issues">https://github.com/geomdata/gda-public/issues</a></p>
 <div class="section" id="quick-start">
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
-<p>Here are minimal instructions with no detail.  First, unpack or clone the code to <code class="docutils literal"><span class="pre">/path/to/gda-public</span></code>.  Then</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span>bash$ cd ~   # Change directory to anywhere *except* /path/to/gda-public !
+<p>Here are minimal instructions with no detail.  First, unpack or clone the code to <code class="docutils literal notranslate"><span class="pre">/path/to/gda-public</span></code>.  Then</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>bash$ cd ~   # Change directory to anywhere *except* /path/to/gda-public !
 bash$ conda create --name gda_env --file /path/to/gda-public/requirements.txt python=3
 bash$ source activate gda_env
 (gda_env) bash$ pip install file:///path/to/gda-public
@@ -107,15 +108,15 @@ bash$ source activate gda_env
 </pre></div>
 </div>
 <p>In a worksheet, try</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">multidim</span><span class="o">,</span> <span class="nn">homology</span><span class="o">,</span> <span class="nn">timeseries</span>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">multidim</span><span class="o">,</span> <span class="nn">homology</span><span class="o">,</span> <span class="nn">timeseries</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="building-documentation">
 <h2>Building Documentation<a class="headerlink" href="#building-documentation" title="Permalink to this headline">¶</a></h2>
 <p>The package comes with thorough documentation in docstrings, accessible from
-within python via the <code class="docutils literal"><span class="pre">help(</span> <span class="pre">)</span></code> command:</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span>(gda_env) bash$ python
+within python via the <code class="docutils literal notranslate"><span class="pre">help(</span> <span class="pre">)</span></code> command:</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>(gda_env) bash$ python
 &gt;&gt;&gt; import timeseries
 &gt;&gt;&gt; help(timeseries)
 &gt;&gt;&gt; s = timeseries.Signal([1,2,3,4,5])
@@ -123,7 +124,7 @@ within python via the <code class="docutils literal"><span class="pre">help(</sp
 </pre></div>
 </div>
 <p>You can build a nice HTML guide, but you need to get a copy of the SciPy Sphinx theme:</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span>(gda_env) bash$ cd /path/to/gda-public
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>(gda_env) bash$ cd /path/to/gda-public
 (gda_env) bash$ git clone https://github.com/scipy/scipy-sphinx-theme
 (gda_env) bash$ cd doc_src
 (gda_env) bash$ ln -sf ../scipy-sphinx-theme/_theme ./
@@ -133,7 +134,7 @@ within python via the <code class="docutils literal"><span class="pre">help(</sp
 </div>
 <p>which can be viewed in a web browser at <a class="reference external" href="file:////path/to/gda-public/docs/build/html/index.html">file:////path/to/gda-public/docs/build/html/index.html</a></p>
 <p>You can also produce a static PDF documentation with</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span>(gda_env) bash$ python setup.py build_doc_latex
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>(gda_env) bash$ python setup.py build_doc_latex
 (gda_env) bash$ cd /path/to/gda-public/doc_build/latex/latex
 (gda_env) bash$ make
 </pre></div>
@@ -143,11 +144,11 @@ within python via the <code class="docutils literal"><span class="pre">help(</sp
 <div class="section" id="running-and-using">
 <h2>Running and Using<a class="headerlink" href="#running-and-using" title="Permalink to this headline">¶</a></h2>
 <p>This will be filled in later versions, with suggestions.</p>
-<p>Take a look at <em class="xref py py-obj">examples_README</em> and the jupyter notebooks in <code class="docutils literal"><span class="pre">examples/</span></code></p>
-<p>The docstrings, accessible via <code class="docutils literal"><span class="pre">help(</span> <span class="pre">)</span></code>, are always a good reference for
+<p>Take a look at <em class="xref py py-obj">examples_README</em> and the jupyter notebooks in <code class="docutils literal notranslate"><span class="pre">examples/</span></code></p>
+<p>The docstrings, accessible via <code class="docutils literal notranslate"><span class="pre">help(</span> <span class="pre">)</span></code>, are always a good reference for
 low-level operations.</p>
 <p>Note!  The code contains a lot of “assert” statements, so you can speed it up
-by using <code class="docutils literal"><span class="pre">python</span> <span class="pre">-O</span></code>.</p>
+by using <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-O</span></code>.</p>
 </div>
 </div>
 
@@ -157,7 +158,7 @@ by using <code class="docutils literal"><span class="pre">python</span> <span cl
           </div>
       <div class="spc-rightsidebar span3">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">README for GDA-Public</a><ul>
 <li><a class="reference internal" href="#quick-start">Quick Start</a></li>
@@ -192,10 +193,10 @@ by using <code class="docutils literal"><span class="pre">python</span> <span cl
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

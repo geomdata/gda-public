@@ -1,5 +1,5 @@
-multidim.covertree.CoverLevel.find_entropy
-==========================================
+multidim.covertree.CoverLevel.find\_entropy
+===========================================
 
 .. currentmodule:: multidim.covertree
 

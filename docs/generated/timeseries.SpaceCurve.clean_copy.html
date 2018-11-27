@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
@@ -95,22 +96,22 @@
 on the data.</p>
 <p>cleanup_func is the interface to the functions in curve_geometry.
 In particular:
-1. <code class="xref py py-func docutils literal"><span class="pre">curve_geometry.cleanup()</span></code> does slope comparison
-2. <code class="xref py py-func docutils literal"><span class="pre">curve_geometry.mollifier()</span></code> does a convolution</p>
+1. <code class="xref py py-func docutils literal notranslate"><span class="pre">curve_geometry.cleanup()</span></code> does slope comparison
+2. <code class="xref py py-func docutils literal notranslate"><span class="pre">curve_geometry.mollifier()</span></code> does a convolution</p>
 <p>cleanup_func should at the minimum take time and position as
 positional arguments 1 and 2 and return both new time and new
-position arrays.  All Keyword arguments (<code class="code docutils literal"><span class="pre">**kwargs</span></code>) are passed on to
+position arrays.  All Keyword arguments (<code class="code docutils literal notranslate"><span class="pre">**kwargs</span></code>) are passed on to
 cleanup_func.</p>
 <p>One can tune the various cleanup functions by passing
 a user manufactured function, for example
 .. code:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">my_cleanup</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">time</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span><span class="n">curve_geometry</span><span class="o">.</span><span class="n">mollifier</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">my_cleanup</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">time</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span><span class="n">curve_geometry</span><span class="o">.</span><span class="n">mollifier</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 <span class="n">clean_track</span> <span class="o">=</span> <span class="n">track</span><span class="o">.</span><span class="n">clean_copy</span><span class="p">(</span><span class="n">cleanup_func</span> <span class="o">=</span> <span class="n">my_cleanup</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>would be equivalent to
 .. code:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">clean_track</span> <span class="o">=</span> <span class="n">track</span><span class="o">.</span><span class="n">clean_copy</span><span class="p">(</span><span class="n">cleanup_func</span><span class="o">=</span><span class="n">curve_geometry</span><span class="o">.</span><span class="n">mollifier</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">clean_track</span> <span class="o">=</span> <span class="n">track</span><span class="o">.</span><span class="n">clean_copy</span><span class="p">(</span><span class="n">cleanup_func</span><span class="o">=</span><span class="n">curve_geometry</span><span class="o">.</span><span class="n">mollifier</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -148,10 +149,10 @@ a user manufactured function, for example
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

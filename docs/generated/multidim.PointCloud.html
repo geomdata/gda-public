@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
@@ -89,13 +90,13 @@
 <h1>multidim.PointCloud<a class="headerlink" href="#multidim-pointcloud" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="multidim.PointCloud">
-<em class="property">class </em><code class="descclassname">multidim.</code><code class="descname">PointCloud</code><span class="sig-paren">(</span><em>data_array</em>, <em>max_length=0.0</em>, <em>weights=None</em>, <em>dist=’euclidean’</em>, <em>idx0=None</em>, <em>cache_type=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/multidim.html#PointCloud"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multidim.PointCloud" title="Permalink to this definition">¶</a></dt>
-<dd><p>PointCloud is a class for <em>embedded</em>, weighted simplicial complexes.  
-This is a subclass of <a class="reference internal" href="multidim.SimplicialComplex.html#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-class docutils literal"><span class="pre">SimplicialComplex</span></code></a>, with the additional property
-that every 0-cell (vertex) is actually a point in <span class="math">\(\mathbb{R}^k.\)</span></p>
-<p>The most basic and most common example of a PointCloud is a set of
-<span class="math">\(N\)</span> points in <span class="math">\(\mathbb{R}^k\)</span> with weights assigned as an
-arbitrary index label.</p>
+<em class="property">class </em><code class="descclassname">multidim.</code><code class="descname">PointCloud</code><span class="sig-paren">(</span><em>data_array</em>, <em>max_length=0.0</em>, <em>heights=None</em>, <em>masses=None</em>, <em>dist='euclidean'</em>, <em>idx0=None</em>, <em>cache_type=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/multidim.html#PointCloud"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multidim.PointCloud" title="Permalink to this definition">¶</a></dt>
+<dd><p>PointCloud is a class for <em>embedded</em>, weighted simplicial complexes.
+This is a subclass of <a class="reference internal" href="multidim.SimplicialComplex.html#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimplicialComplex</span></code></a>, with the additional property
+that every 0-cell (vertex) is actually a point in <span class="math notranslate nohighlight">\(\mathbb{R}^k.\)</span></p>
+<p>The most basic and most common example of a PointCloud is an indexed set of
+<span class="math notranslate nohighlight">\(N\)</span> points in <span class="math notranslate nohighlight">\(\mathbb{R}^k\)</span> with heights assigned as 0, and
+mass assigned as 1.</p>
 <p>Typically, a user starts with 0-cells only.  Then, any 1-cells, 2-cells,
 …, are created later via some topological construction.</p>
 <table border="1" class="longtable docutils">
@@ -104,53 +105,56 @@ arbitrary index label.</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.cache_usage.html#multidim.PointCloud.cache_usage" title="multidim.PointCloud.cache_usage"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.cache_usage</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.cache_usage.html#multidim.PointCloud.cache_usage" title="multidim.PointCloud.cache_usage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointCloud.cache_usage</span></code></a>()</td>
 <td>Compute the size of the distance cache.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="multidim.PointCloud.cells.html#multidim.PointCloud.cells" title="multidim.PointCloud.cells"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.cells</span></code></a>(dim)</td>
-<td>iterate over all <a class="reference internal" href="multidim.Simplex.html#multidim.Simplex" title="multidim.Simplex"><code class="xref py py-class docutils literal"><span class="pre">Simplex</span></code></a> objects of dimension dim.</td>
+<tr class="row-even"><td><a class="reference internal" href="multidim.PointCloud.cells.html#multidim.PointCloud.cells" title="multidim.PointCloud.cells"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointCloud.cells</span></code></a>(dim)</td>
+<td>iterate over all <a class="reference internal" href="multidim.Simplex.html#multidim.Simplex" title="multidim.Simplex"><code class="xref py py-class docutils literal notranslate"><span class="pre">Simplex</span></code></a> objects of dimension dim.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.check.html#multidim.PointCloud.check" title="multidim.PointCloud.check"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.check</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.check.html#multidim.PointCloud.check" title="multidim.PointCloud.check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointCloud.check</span></code></a>()</td>
 <td>Run consistency checks on all simplices in all dimensions.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="multidim.PointCloud.cover_ball.html#multidim.PointCloud.cover_ball" title="multidim.PointCloud.cover_ball"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.cover_ball</span></code></a>([point_index])</td>
+<tr class="row-even"><td><a class="reference internal" href="multidim.PointCloud.cover_ball.html#multidim.PointCloud.cover_ball" title="multidim.PointCloud.cover_ball"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointCloud.cover_ball</span></code></a>([point_index])</td>
 <td>Find a ball that covers the entire PointCloud.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.dists.html#multidim.PointCloud.dists" title="multidim.PointCloud.dists"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.dists</span></code></a>(indices0,&nbsp;indices1)</td>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.dists.html#multidim.PointCloud.dists" title="multidim.PointCloud.dists"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointCloud.dists</span></code></a>(indices0,&nbsp;indices1)</td>
 <td>Compute distances points indices0 and indices1.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="multidim.PointCloud.from_distances.html#multidim.PointCloud.from_distances" title="multidim.PointCloud.from_distances"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.from_distances</span></code></a>(dists[,&nbsp;…])</td>
-<td>Construct a <a class="reference internal" href="multidim.SimplicialComplex.html#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-obj docutils literal"><span class="pre">SimplicialComplex</span></code></a> from a symmetric matrix of distances.</td>
+<tr class="row-even"><td><a class="reference internal" href="multidim.PointCloud.from_distances.html#multidim.PointCloud.from_distances" title="multidim.PointCloud.from_distances"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointCloud.from_distances</span></code></a>(dists[,&nbsp;…])</td>
+<td>Construct a <a class="reference internal" href="multidim.SimplicialComplex.html#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimplicialComplex</span></code></a> from a symmetric matrix of distances.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.from_multisample_multilabel.html#multidim.PointCloud.from_multisample_multilabel" title="multidim.PointCloud.from_multisample_multilabel"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.from_multisample_multilabel</span></code></a>(…)</td>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.from_multisample_multilabel.html#multidim.PointCloud.from_multisample_multilabel" title="multidim.PointCloud.from_multisample_multilabel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointCloud.from_multisample_multilabel</span></code></a>(…)</td>
 <td>Produce a single labeled and weighted pointcloud from a list of samples and labels of those samples.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="multidim.PointCloud.gaussian_fit.html#multidim.PointCloud.gaussian_fit" title="multidim.PointCloud.gaussian_fit"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.gaussian_fit</span></code></a>([center])</td>
+<tr class="row-even"><td><a class="reference internal" href="multidim.PointCloud.gaussian_fit.html#multidim.PointCloud.gaussian_fit" title="multidim.PointCloud.gaussian_fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointCloud.gaussian_fit</span></code></a>([center])</td>
 <td>Fit a normalized Gaussian to this cloud (using SVD).</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.make_pers0.html#multidim.PointCloud.make_pers0" title="multidim.PointCloud.make_pers0"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.make_pers0</span></code></a>([cutoff])</td>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.make_pers0.html#multidim.PointCloud.make_pers0" title="multidim.PointCloud.make_pers0"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointCloud.make_pers0</span></code></a>([cutoff])</td>
 <td>Run the UnionFind algorithm to mark connected components of the SimplicialComplex.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="multidim.PointCloud.make_pers1_rca1.html#multidim.PointCloud.make_pers1_rca1" title="multidim.PointCloud.make_pers1_rca1"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.make_pers1_rca1</span></code></a>([cutoff])</td>
-<td>Run RCA1 and make a 1-dimensional <a class="reference internal" href="homology.PersDiag.html#homology.PersDiag" title="homology.PersDiag"><code class="xref py py-obj docutils literal"><span class="pre">homology.PersDiag</span></code></a> for the  edge-pairings for cycle generators.</td>
+<tr class="row-even"><td><a class="reference internal" href="multidim.PointCloud.make_pers1_rca1.html#multidim.PointCloud.make_pers1_rca1" title="multidim.PointCloud.make_pers1_rca1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointCloud.make_pers1_rca1</span></code></a>([cutoff])</td>
+<td>Run RCA1 and make a 1-dimensional <a class="reference internal" href="homology.PersDiag.html#homology.PersDiag" title="homology.PersDiag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">homology.PersDiag</span></code></a> for the edge-pairings for cycle generators.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.nearest_neighbors.html#multidim.PointCloud.nearest_neighbors" title="multidim.PointCloud.nearest_neighbors"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.nearest_neighbors</span></code></a>(k)</td>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.nearest_neighbors.html#multidim.PointCloud.nearest_neighbors" title="multidim.PointCloud.nearest_neighbors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointCloud.nearest_neighbors</span></code></a>(k)</td>
 <td>Compute k nearest-neighbors of the PointCloud, using a clever CoverTree algorithm.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="multidim.PointCloud.plot.html#multidim.PointCloud.plot" title="multidim.PointCloud.plot"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.plot</span></code></a>(canvas[,&nbsp;cutoff,&nbsp;color,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="multidim.PointCloud.nearest_neighbors_slow.html#multidim.PointCloud.nearest_neighbors_slow" title="multidim.PointCloud.nearest_neighbors_slow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointCloud.nearest_neighbors_slow</span></code></a>(k)</td>
+<td>Compute k nearest-neighbors of the PointCloud, by brute-force.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.plot.html#multidim.PointCloud.plot" title="multidim.PointCloud.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointCloud.plot</span></code></a>(canvas[,&nbsp;cutoff,&nbsp;color,&nbsp;…])</td>
 <td>Plot a PointCloud, decorated by various proeprties.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.reset.html#multidim.PointCloud.reset" title="multidim.PointCloud.reset"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.reset</span></code></a>()</td>
-<td>delete persistence diagrams, and forget all representative and</td>
+<tr class="row-even"><td><a class="reference internal" href="multidim.PointCloud.reset.html#multidim.PointCloud.reset" title="multidim.PointCloud.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointCloud.reset</span></code></a>()</td>
+<td>delete persistence diagrams, and forget all representative and positivity information.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="multidim.PointCloud.sever.html#multidim.PointCloud.sever" title="multidim.PointCloud.sever"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.sever</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.sever.html#multidim.PointCloud.sever" title="multidim.PointCloud.sever"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointCloud.sever</span></code></a>()</td>
 <td>Subdivide PointCloud into several smaller PointClouds, using the known 0-dimensional persistence diagram.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.unique_with_multiplicity.html#multidim.PointCloud.unique_with_multiplicity" title="multidim.PointCloud.unique_with_multiplicity"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.unique_with_multiplicity</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="multidim.PointCloud.unique_with_multiplicity.html#multidim.PointCloud.unique_with_multiplicity" title="multidim.PointCloud.unique_with_multiplicity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointCloud.unique_with_multiplicity</span></code></a>()</td>
 <td>Look for duplicate points, and mark their multiplicity.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="multidim.PointCloud.witnessed_barycenters.html#multidim.PointCloud.witnessed_barycenters" title="multidim.PointCloud.witnessed_barycenters"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud.witnessed_barycenters</span></code></a>(k)</td>
-<td>Build the PointCloud of k-witnessed barycenters, weighted by  distance-to-measure.</td>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.witnessed_barycenters.html#multidim.PointCloud.witnessed_barycenters" title="multidim.PointCloud.witnessed_barycenters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointCloud.witnessed_barycenters</span></code></a>(k)</td>
+<td>Build the PointCloud of k-witnessed barycenters, weighted by distance-to-measure.</td>
 </tr>
 </tbody>
 </table>
@@ -189,10 +193,10 @@ arbitrary index label.</p>
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

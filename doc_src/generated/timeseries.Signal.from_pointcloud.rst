@@ -1,5 +1,5 @@
-timeseries.Signal.from_pointcloud
-=================================
+timeseries.Signal.from\_pointcloud
+==================================
 
 .. currentmodule:: timeseries
 

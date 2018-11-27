@@ -1,5 +1,5 @@
-timeseries.SpaceCurve.auto_bin
-==============================
+timeseries.SpaceCurve.auto\_bin
+===============================
 
 .. currentmodule:: timeseries
 

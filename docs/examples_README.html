@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
     <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="genindex.html" >
     <link rel="search" title="Search" href="search.html" >
@@ -85,17 +86,17 @@
             
   <div class="section" id="example-worksheets">
 <h1>Example Worksheets<a class="headerlink" href="#example-worksheets" title="Permalink to this headline">¶</a></h1>
-<p>The <code class="docutils literal"><span class="pre">examples/</span></code> contains Jupyter notebooks that demonstrate various features.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">examples/</span></code> contains Jupyter notebooks that demonstrate various features.</p>
 <p><strong>Note</strong> that jupyter should be launched in a conda environment, and it should be
 launched from the parent folder of this one to enusre that paths are correct.
 .. code:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>(gda_env) bash$ jupyter notebook --notebook-dir /path/to/gda-public/examples/
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(gda_env) bash$ jupyter notebook --notebook-dir /path/to/gda-public/examples/
 </pre></div>
 </div>
-<p>Also, if you have <em>not</em> installed gda-public using pip, then Python will be executed from <code class="docutils literal"><span class="pre">/path/to/gda-public/examples</span></code> while
-the modules are built in <code class="docutils literal"><span class="pre">/path/to/gda-public</span></code>, and you will need to update the
+<p>Also, if you have <em>not</em> installed gda-public using pip, then Python will be executed from <code class="docutils literal notranslate"><span class="pre">/path/to/gda-public/examples</span></code> while
+the modules are built in <code class="docutils literal notranslate"><span class="pre">/path/to/gda-public</span></code>, and you will need to update the
 path in your Jupyter notebook in order to import the modules.</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">sys</span>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">sys</span>
 <span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;..&quot;</span><span class="p">)</span>
 <span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">]:</span> <span class="nb">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
 <span class="p">[</span> <span class="o">&lt;</span><span class="n">some</span> <span class="n">things</span><span class="o">&gt;</span><span class="p">,</span> <span class="s1">&#39;..&#39;</span><span class="p">]</span>
@@ -134,10 +135,10 @@ path in your Jupyter notebook in order to import the modules.</p>
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

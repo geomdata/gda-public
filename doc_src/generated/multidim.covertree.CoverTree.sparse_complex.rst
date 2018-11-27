@@ -1,5 +1,5 @@
-multidim.covertree.CoverTree.sparse_complex
-===========================================
+multidim.covertree.CoverTree.sparse\_complex
+============================================
 
 .. currentmodule:: multidim.covertree
 

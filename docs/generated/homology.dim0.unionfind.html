@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
@@ -92,46 +93,51 @@
 <code class="descclassname">homology.dim0.</code><code class="descname">unionfind</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#homology.dim0.unionfind" title="Permalink to this definition">¶</a></dt>
 <dd><p>Apply the UnionFind algorithm to compute zero-dimensional persistence
 diagram.
-Connected components are born at the value/weight of a vertex.
-Connected components merge/die at the value/weight of the joining edge.</p>
+Connected components are born at the height of a vertex.
+Connected components merge/die at the height of the joining edge.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>myobject</strong> : <a class="reference internal" href="multidim.SimplicialComplex.html#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-class docutils literal"><span class="pre">multidim.SimplicialComplex</span></code></a>, <a class="reference internal" href="multidim.PointCloud.html#multidim.PointCloud" title="multidim.PointCloud"><code class="xref py py-class docutils literal"><span class="pre">multidim.PointCloud</span></code></a>, or <a class="reference internal" href="timeseries.Signal.html#timeseries.Signal" title="timeseries.Signal"><code class="xref py py-class docutils literal"><span class="pre">timeseries.Signal</span></code></a></p>
-<blockquote>
-<div><p>The algorithm requires values (that is, <em>heights</em>) on the vertices
-object and weights on the edges.</p>
-</div></blockquote>
-<p><strong>cutoff</strong> : <code class="xref py py-class docutils literal"><span class="pre">numpy.float64</span></code></p>
-<blockquote>
-<div><p>Stop computing persistence at height <code class="code docutils literal"><span class="pre">cutoff</span></code>.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>myobject</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="multidim.SimplicialComplex.html#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-class docutils literal notranslate"><span class="pre">multidim.SimplicialComplex</span></code></a>, <a class="reference internal" href="multidim.PointCloud.html#multidim.PointCloud" title="multidim.PointCloud"><code class="xref py py-class docutils literal notranslate"><span class="pre">multidim.PointCloud</span></code></a>,</span></dt>
+<dd><p class="first last">or <a class="reference internal" href="timeseries.Signal.html#timeseries.Signal" title="timeseries.Signal"><code class="xref py py-class docutils literal notranslate"><span class="pre">timeseries.Signal</span></code></a>
+The algorithm requires <em>heights</em> on the vertices and heights on the edges.</p>
+</dd>
+<dt><strong>cutoff</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.float64</span></code></span></dt>
+<dd><p class="first last">Stop computing persistence at height <code class="code docutils literal notranslate"><span class="pre">cutoff</span></code>.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>birth_index</strong> : <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.13)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a></p>
-<p><strong>death_index</strong> : <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.13)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a></p>
-<p><strong>birth_value</strong> : <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.13)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a></p>
-<p><strong>death_value</strong> : <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.13)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a></p>
-<p><strong>mergetree</strong> : <em class="xref py py-obj">stdtypes.dict</em></p>
-<blockquote class="last">
-<div><p>The mergetree is a dictionary keyed by the index of vertices where a
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>birth_index</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt>
+<dd></dd>
+<dt><strong>death_index</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt>
+<dd></dd>
+<dt><strong>birth_height</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt>
+<dd></dd>
+<dt><strong>death_height</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt>
+<dd></dd>
+<dt><strong>mergetree</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><em class="xref py py-obj">stdtypes.dict</em></span></dt>
+<dd><p class="first last">The mergetree is a dictionary keyed by the index of vertices where a
 merge occurred.  The values of the dictionary are the
 previous representatives that were merged.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>If the input object has <span class="math">\(n\)</span> edges, then this functiomn calls 
-<code class="xref py py-func docutils literal"><span class="pre">homology.dim0.merge()</span></code> a total of <span class="math">\(n\)</span> times, and it calls 
-<code class="xref py py-func docutils literal"><span class="pre">persistence.fast_algorithms.root()</span></code> a total of <span class="math">\(2n\)</span> times.</p>
+<p>If the input object has <span class="math notranslate nohighlight">\(n\)</span> edges, then this functiomn calls 
+<code class="xref py py-func docutils literal notranslate"><span class="pre">homology.dim0.merge()</span></code> a total of <span class="math notranslate nohighlight">\(n\)</span> times, and it calls 
+<code class="xref py py-func docutils literal notranslate"><span class="pre">persistence.fast_algorithms.root()</span></code> a total of <span class="math notranslate nohighlight">\(2n\)</span> times.</p>
 <p class="rubric">References</p>
-<table class="docutils citation" frame="void" id="r3" rules="none">
+<table class="docutils citation" frame="void" id="rc7437c806fd1-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[R3]</a></td><td>H. Edelsbrunner and J. Harer, Computational Topology: An
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>H. Edelsbrunner and J. Harer, Computational Topology: An
 Introduction. American Mathematical Soc., 2010.</td></tr>
 </tbody>
 </table>
@@ -170,10 +176,10 @@ Introduction. American Mathematical Soc., 2010.</td></tr>
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

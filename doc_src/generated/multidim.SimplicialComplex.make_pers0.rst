@@ -1,5 +1,5 @@
-multidim.SimplicialComplex.make_pers0
-=====================================
+multidim.SimplicialComplex.make\_pers0
+======================================
 
 .. currentmodule:: multidim
 

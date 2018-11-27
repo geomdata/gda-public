@@ -1,5 +1,5 @@
-timeseries.SpaceCurve.clean_copy
-================================
+timeseries.SpaceCurve.clean\_copy
+=================================
 
 .. currentmodule:: timeseries
 

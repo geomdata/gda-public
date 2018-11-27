@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
@@ -92,20 +93,24 @@
 <dt id="multidim.models.GaussianMixtureClassifier.predict">
 <code class="descclassname">GaussianMixtureClassifier.</code><code class="descname">predict</code><span class="sig-paren">(</span><em>pointclouds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/multidim/models.html#GaussianMixtureClassifier.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multidim.models.GaussianMixtureClassifier.predict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Predict labels of given pointclouds, based on previous training data 
-fed to <a class="reference internal" href="multidim.models.GaussianMixtureClassifier.fit.html#multidim.models.GaussianMixtureClassifier.fit" title="multidim.models.GaussianMixtureClassifier.fit"><code class="xref py py-func docutils literal"><span class="pre">fit()</span></code></a>.</p>
-<p>This is just a call to <a class="reference internal" href="multidim.models.GaussianMixtureClassifier.runit.html#multidim.models.GaussianMixtureClassifier.runit" title="multidim.models.GaussianMixtureClassifier.runit"><code class="xref py py-func docutils literal"><span class="pre">runit()</span></code></a></p>
+fed to <a class="reference internal" href="multidim.models.GaussianMixtureClassifier.fit.html#multidim.models.GaussianMixtureClassifier.fit" title="multidim.models.GaussianMixtureClassifier.fit"><code class="xref py py-func docutils literal notranslate"><span class="pre">fit()</span></code></a>.</p>
+<p>This is just a call to <a class="reference internal" href="multidim.models.GaussianMixtureClassifier.runit.html#multidim.models.GaussianMixtureClassifier.runit" title="multidim.models.GaussianMixtureClassifier.runit"><code class="xref py py-func docutils literal notranslate"><span class="pre">runit()</span></code></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>pointclouds</strong> : list-like</p>
-<blockquote>
-<div><p>A list of arrays.  Each array is a pointcloud.  Each row of that
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>pointclouds</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list-like</span></dt>
+<dd><p class="first last">A list of arrays.  Each array is a pointcloud.  Each row of that
 array is a point.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">array of labels, one for each pointcloud in the input list.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>array of labels, one for each pointcloud in the input list.</strong></dt>
+<dd></dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -145,10 +150,10 @@ array is a point.</p>
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

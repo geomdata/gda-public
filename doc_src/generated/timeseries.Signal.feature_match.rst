@@ -1,5 +1,5 @@
-timeseries.Signal.feature_match
-===============================
+timeseries.Signal.feature\_match
+================================
 
 .. currentmodule:: timeseries
 

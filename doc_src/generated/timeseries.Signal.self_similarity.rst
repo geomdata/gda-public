@@ -1,5 +1,5 @@
-timeseries.Signal.self_similarity
-=================================
+timeseries.Signal.self\_similarity
+==================================
 
 .. currentmodule:: timeseries
 

@@ -1,5 +1,5 @@
-timeseries.Signal.interval_height
-=================================
+timeseries.Signal.interval\_height
+==================================
 
 .. currentmodule:: timeseries
 

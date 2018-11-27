@@ -1,5 +1,5 @@
-multidim.models.CDER.get_params
-===============================
+multidim.models.CDER.get\_params
+================================
 
 .. currentmodule:: multidim.models
 

@@ -1,5 +1,5 @@
-timeseries.test_mollifier.TestMollifier.setup
-=============================================
+timeseries.test\_mollifier.TestMollifier.setup
+==============================================
 
 .. currentmodule:: timeseries.test_mollifier
 

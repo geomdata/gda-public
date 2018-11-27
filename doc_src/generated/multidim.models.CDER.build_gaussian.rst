@@ -1,5 +1,5 @@
-multidim.models.CDER.build_gaussian
-===================================
+multidim.models.CDER.build\_gaussian
+====================================
 
 .. currentmodule:: multidim.models
 

@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" >
     <link rel="search" title="Search" href="../../search.html" >
@@ -382,7 +383,7 @@
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
 <span class="sd">    .. [CDER1] Supervised Learning of Labeled Pointcloud Differences via Cover-Tree Entropy Reduction https://arxiv.org/abs/1702.07959</span>
-<span class="sd">    .. [CDER2] CDER, Learning with Friends http://www.curieux.us/abe/talks/cder/</span>
+<span class="sd">    .. [CDER2] CDER, Learning with Friends https://www.ima.umn.edu/2016-2017/DSS9.6.16-5.30.17/26150</span>
 <span class="sd">    .. [iter1] https://docs.python.org/3/library/stdtypes.html?highlight=iterator#iterator-types</span>
 <span class="sd">    .. [iter2] https://wiki.python.org/moin/Iterator</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -394,12 +395,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span> <span class="o">=</span> <span class="n">pointcloud</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">covertree</span> <span class="o">=</span> <span class="bp">self</span>
 
-        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">):</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">Your points all have non-positive weight!</span>
-<span class="s2">This is probably wrong.</span>
-<span class="s2">Setting weights in PointCloud.stratum[0][&#39;val&#39;]=1.0.&quot;&quot;&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">=</span><span class="mf">1.0</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;mass&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Some of your points have non-positive mass!  This is probably wrong.</span>
+<span class="s2">Consider setting masses with PointCloud.stratum[0][&#39;mass&#39;]=1.0.&quot;&quot;&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">label_set</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">label_info</span><span class="p">[</span><span class="s1">&#39;int_index&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">coords</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">values</span>
@@ -505,7 +504,6 @@
             <span class="n">center_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">ci</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
             <span class="c1">#children_ids = np.where(level.children[ci])[0]</span>
             <span class="n">children_dists</span> <span class="o">=</span> <span class="n">fast_algorithms</span><span class="o">.</span><span class="n">distance_cache_None</span><span class="p">(</span><span class="n">center_a</span><span class="p">,</span> <span class="n">level</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">ci</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-            
             <span class="c1"># since we have computed children_dists, let&#39;s take a moment to count</span>
             <span class="c1"># duplicate points of new adults.</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cohort</span><span class="p">[</span><span class="n">ci</span><span class="p">]</span> <span class="o">==</span> <span class="n">prev_level</span><span class="o">.</span><span class="n">exponent</span><span class="p">:</span>
@@ -520,7 +518,7 @@
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">my_orphans</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">sort_orphans_by_mean</span><span class="p">:</span>
                 <span class="n">child_coords</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">level</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">ci</span><span class="p">],</span> <span class="p">:]</span>
                 <span class="n">child_labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">labels</span><span class="p">[</span><span class="n">level</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">ci</span><span class="p">]]</span>
-                <span class="n">child_weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">level</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">ci</span><span class="p">]]</span>
+                <span class="n">child_weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pointcloud</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;mass&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">level</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">ci</span><span class="p">]]</span>
                 <span class="n">label_means</span><span class="p">,</span> <span class="n">label_weights</span> <span class="o">=</span> <span class="n">fast_algorithms</span><span class="o">.</span><span class="n">label_means</span><span class="p">(</span>
                                                 <span class="n">child_coords</span><span class="p">,</span>
                                                 <span class="n">child_labels</span><span class="p">,</span>
@@ -660,7 +658,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-    <span class="k">def</span> <span class="nf">make_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_distance</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">max_distance</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">):</span>
+<div class="viewcode-block" id="CoverTree.make_edges"><a class="viewcode-back" href="../../generated/multidim.covertree.CoverTree.make_edges.html#multidim.covertree.CoverTree.make_edges">[docs]</a>    <span class="k">def</span> <span class="nf">make_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_distance</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">max_distance</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Iterate over the edges between the points of the underlying</span>
 <span class="sd">        `PointCloud`, where min_distance &lt; length &lt;= max_distance.</span>
 
@@ -724,7 +722,7 @@
                     <span class="k">for</span> <span class="n">index_i</span><span class="p">,</span> <span class="n">index_j</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">good_edges</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">:</span>
                         <span class="k">yield</span> <span class="p">(</span><span class="n">kids_i</span><span class="p">[</span><span class="n">index_i</span><span class="p">],</span> <span class="n">kids_j</span><span class="p">[</span><span class="n">index_j</span><span class="p">],</span> <span class="n">dists</span><span class="p">[</span><span class="n">index_i</span><span class="p">,</span><span class="n">index_j</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">total</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Examined </span><span class="si">{}</span><span class="s2"> possible edge distances using level </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">total</span><span class="p">,</span> <span class="n">ell</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Examined </span><span class="si">{}</span><span class="s2"> possible edge distances using level </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">total</span><span class="p">,</span> <span class="n">ell</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="CoverTree.plot"><a class="viewcode-back" href="../../generated/multidim.covertree.CoverTree.plot.html#multidim.covertree.CoverTree.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Interactive plot of a CoverTree, with dynamic computation of levels.</span>
@@ -1040,7 +1038,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="n">adult</span><span class="p">]</span> <span class="o">=</span> <span class="n">fast_algorithms</span><span class="o">.</span><span class="n">label_weights</span><span class="p">(</span>
                 <span class="n">children_set</span><span class="p">,</span>
                 <span class="n">pc</span><span class="o">.</span><span class="n">labels</span><span class="p">,</span>
-                <span class="n">pc</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                <span class="n">pc</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;mass&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
                 <span class="n">pc</span><span class="o">.</span><span class="n">label_info</span><span class="p">[</span><span class="s1">&#39;int_index&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="n">adult</span><span class="p">]</span></div>
 
@@ -1271,10 +1269,10 @@
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

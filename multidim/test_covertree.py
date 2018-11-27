@@ -23,7 +23,6 @@ class TestCovers:
 
     def setup(self):
         self.PC = multidim.PointCloud(numpy.load("tests/circle.npy"))
-        self.PC.stratum[0]['val'] = 1.0
 
     def teardown(self):
         del self.PC

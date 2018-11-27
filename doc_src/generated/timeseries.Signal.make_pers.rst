@@ -1,5 +1,5 @@
-timeseries.Signal.make_pers
-===========================
+timeseries.Signal.make\_pers
+============================
 
 .. currentmodule:: timeseries
 

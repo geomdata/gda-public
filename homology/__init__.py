@@ -127,9 +127,9 @@ class PersDiag(object):
         tree = self.forest
         for idx in killbc.index[::-1]:  # from long to short.
             for child_idx in tree[idx]:
-                ignore[child_idx] = True
-        ignorebc = killbc[ignore]
-        killbc = killbc[~ignore]
+                ignore.loc[child_idx] = True
+        ignorebc = killbc.loc[ignore]
+        killbc = killbc.loc[~ignore]
 
         self._clip[beta] = {'killcode': killbc,
                             'keepcode': keepbc,

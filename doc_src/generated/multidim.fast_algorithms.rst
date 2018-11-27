@@ -1,5 +1,5 @@
-multidim.fast_algorithms
-========================
+multidim.fast\_algorithms
+=========================
 
 .. automodule:: multidim.fast_algorithms
 
@@ -9,8 +9,7 @@ multidim.fast_algorithms
 
    .. autosummary::
    
-      cdist
-      check_values
+      check_heights
       covertree_adopt_or_liberate
       covertree_befriend321
       covertree_exchange_teens
@@ -20,9 +19,9 @@ multidim.fast_algorithms
       distance_cache_numpy
       edges_from_dists
       entropy
-      euclidean
       gaussian
       gaussian_fit
+      gaussian_fit_wt
       is_partition_bool
       is_partition_list
       label_means

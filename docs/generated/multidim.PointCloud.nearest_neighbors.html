@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,13 +24,13 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
     <link rel="top" title="GDA Toolbox v1.0 Manual" href="../index.html" >
     <link rel="up" title="multidim.PointCloud" href="multidim.PointCloud.html" >
-    <link rel="next" title="multidim.PointCloud.plot" href="multidim.PointCloud.plot.html" >
+    <link rel="next" title="multidim.PointCloud.nearest_neighbors_slow" href="multidim.PointCloud.nearest_neighbors_slow.html" >
     <link rel="prev" title="multidim.PointCloud.make_pers1_rca1" href="multidim.PointCloud.make_pers1_rca1.html" > 
   </head>
   <body>
@@ -66,7 +67,7 @@
            >modules</a>
       </li>
       <li class="active">
-        <a href="multidim.PointCloud.plot.html" title="multidim.PointCloud.plot"
+        <a href="multidim.PointCloud.nearest_neighbors_slow.html" title="multidim.PointCloud.nearest_neighbors_slow"
            accesskey="N">next</a>
       </li>
       <li class="active">
@@ -97,25 +98,31 @@ Answers are cached in <em class="xref py py-obj">self._nn[k]</em></p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>k: int</strong></p>
-<blockquote>
-<div><p>How many nearest neighbors to compute</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>k: int</strong></dt>
+<dd><p class="first last">How many nearest neighbors to compute</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">np array with dtype int and shape==(N,k+1).  Entry [i,j] is the jth</p>
-<p>nearest neighbor of vertex i.  Note that entry [i,0] == i, so [i,k]</p>
-<p class="last">is the kth nearest neighbor.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>np array with dtype int and shape==(N,k+1).  Entry [i,j] is the jth</strong></dt>
+<dd></dd>
+<dt><strong>nearest neighbor of vertex i.  Note that entry [i,0] == i, so [i,k]</strong></dt>
+<dd></dd>
+<dt><strong>is the kth nearest neighbor.</strong></dt>
+<dd></dd>
+</dl>
 </td>
 </tr>
 </tbody>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><code class="xref py py-func docutils literal"><span class="pre">multidim.PointCloud.nearest_neighbors_slow()</span></code></p>
+<p class="last"><a class="reference internal" href="multidim.PointCloud.nearest_neighbors_slow.html#multidim.PointCloud.nearest_neighbors_slow" title="multidim.PointCloud.nearest_neighbors_slow"><code class="xref py py-func docutils literal notranslate"><span class="pre">multidim.PointCloud.nearest_neighbors_slow()</span></code></a></p>
 </div>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pc</span> <span class="o">=</span> <span class="n">PointCloud</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">0.58814682</span><span class="p">,</span>  <span class="mf">0.45405299</span><span class="p">],</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pc</span> <span class="o">=</span> <span class="n">PointCloud</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">0.58814682</span><span class="p">,</span>  <span class="mf">0.45405299</span><span class="p">],</span>
 <span class="gp">... </span>                          <span class="p">[</span> <span class="mf">0.09197879</span><span class="p">,</span>  <span class="mf">0.39721367</span><span class="p">],</span>
 <span class="gp">... </span>                          <span class="p">[</span> <span class="mf">0.29128654</span><span class="p">,</span>  <span class="mf">0.28372039</span><span class="p">],</span>
 <span class="gp">... </span>                          <span class="p">[</span> <span class="mf">0.14593167</span><span class="p">,</span>  <span class="mf">0.7027367</span> <span class="p">],</span>
@@ -152,8 +159,8 @@ Answers are cached in <em class="xref py py-obj">self._nn[k]</em></p>
   <p class="topless"><a href="multidim.PointCloud.make_pers1_rca1.html"
                         title="previous chapter">multidim.PointCloud.make_pers1_rca1</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="multidim.PointCloud.plot.html"
-                        title="next chapter">multidim.PointCloud.plot</a></p>
+  <p class="topless"><a href="multidim.PointCloud.nearest_neighbors_slow.html"
+                        title="next chapter">multidim.PointCloud.nearest_neighbors_slow</a></p>
         </div>
       </div>
         </div>
@@ -173,10 +180,10 @@ Answers are cached in <em class="xref py py-obj">self._nn[k]</em></p>
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

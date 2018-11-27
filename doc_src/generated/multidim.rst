@@ -9,11 +9,7 @@ multidim
 
    .. autosummary::
    
-      cdist
-      is_valid_dm
       lower_star_for_image
-      pdist
-      squareform
       stratum_from_distances
       stratum_maker
    
@@ -29,7 +25,6 @@ multidim
       Simplex
       SimplexStratum
       SimplicialComplex
-      defaultdict
    
    
 

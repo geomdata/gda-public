@@ -1,5 +1,5 @@
-multidim.PointCloud.from_distances
-==================================
+multidim.PointCloud.from\_distances
+===================================
 
 .. currentmodule:: multidim
 

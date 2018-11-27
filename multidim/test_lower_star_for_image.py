@@ -83,14 +83,14 @@ class TestLowerStar:
         # vertices with values
         self.vertices = []
         for cell in self.lowerStar.cells(0):
-            self.vertices += [[cell.index,cell.value]]
+            self.vertices += [[cell.index,cell.height]]
 
         # print(self.vertices)
 
         # edges with values
         self.edges = []
         for cell in self.lowerStar.cells(1):
-            self.edges += [[cell.boundary,cell.value]]
+            self.edges += [[cell.boundary,cell.height]]
 
         # print(self.edges)
 
@@ -101,7 +101,7 @@ class TestLowerStar:
             face = []
             for item in boundary:
                 face += list((self.edges[item])[0])
-            self.faces += [[set(face),cell.value]]
+            self.faces += [[set(face),cell.height]]
 
         # print(self.faces)
 

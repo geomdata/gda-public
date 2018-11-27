@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
@@ -97,20 +98,21 @@ Locations, initial time, and arc-length are preserved.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>rate</strong> : float</p>
-<blockquote class="last">
-<div><p>A (positive) ratio by which to increase the speed.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>rate</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">A (positive) ratio by which to increase the speed.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>If <code class="code docutils literal"><span class="pre">speed[i]</span></code> changes to <code class="code docutils literal"><span class="pre">speed[i]*q[i]</span></code>, then
-<code class="code docutils literal"><span class="pre">delta_t[i]</span></code> changes to <code class="code docutils literal"><span class="pre">delta_t[i]*p[i]</span></code>, where 
-<code class="code docutils literal"><span class="pre">p[i]</span> <span class="pre">=</span> <span class="pre">1</span> <span class="pre">/</span> <span class="pre">q[i]</span></code>.</p>
+<p>If <code class="code docutils literal notranslate"><span class="pre">speed[i]</span></code> changes to <code class="code docutils literal notranslate"><span class="pre">speed[i]*q[i]</span></code>, then
+<code class="code docutils literal notranslate"><span class="pre">delta_t[i]</span></code> changes to <code class="code docutils literal notranslate"><span class="pre">delta_t[i]*p[i]</span></code>, where 
+<code class="code docutils literal notranslate"><span class="pre">p[i]</span> <span class="pre">=</span> <span class="pre">1</span> <span class="pre">/</span> <span class="pre">q[i]</span></code>.</p>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="o">*</span><span class="mf">1e9</span><span class="p">,</span> <span class="mf">1e9</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="o">*</span><span class="mf">1e9</span><span class="p">,</span> <span class="mf">1e9</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">SpaceCurve</span><span class="p">(</span><span class="n">tn</span><span class="o">=</span><span class="n">tn</span><span class="p">,</span> <span class="n">px</span><span class="o">=</span><span class="mf">10.0</span><span class="o">*</span><span class="n">tn</span><span class="o">/</span><span class="mf">1e9</span><span class="p">)</span> <span class="c1"># drive straight at 10m/s</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span>
 <span class="go">SpaceCurve with 5 entries and duration 4.000000000</span>
@@ -178,10 +180,10 @@ Locations, initial time, and arc-length are preserved.</p>
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

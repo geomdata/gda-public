@@ -10,7 +10,7 @@ multidim.fast_algorithms
    .. autosummary::
    
       cdist
-      check_values
+      check_heights
       covertree_adopt_or_liberate
       covertree_befriend321
       covertree_exchange_teens

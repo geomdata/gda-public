@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
@@ -90,38 +91,35 @@
 <h1>multidim.covertree.CoverLevel.plot<a class="headerlink" href="#multidim-covertree-coverlevel-plot" title="Permalink to this headline">¶</a></h1>
 <dl class="method">
 <dt id="multidim.covertree.CoverLevel.plot">
-<code class="descclassname">CoverLevel.</code><code class="descname">plot</code><span class="sig-paren">(</span><em>canvas</em>, <em>show_balls=True</em>, <em>show_adults=True</em>, <em>show_hulls=False</em>, <em>color=’purple’</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/multidim/covertree.html#CoverLevel.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multidim.covertree.CoverLevel.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot a single level of a <a class="reference internal" href="multidim.covertree.CoverTree.html#multidim.covertree.CoverTree" title="multidim.covertree.CoverTree"><code class="xref py py-obj docutils literal"><span class="pre">CoverTree</span></code></a></p>
+<code class="descclassname">CoverLevel.</code><code class="descname">plot</code><span class="sig-paren">(</span><em>canvas</em>, <em>show_balls=True</em>, <em>show_adults=True</em>, <em>show_hulls=False</em>, <em>color='purple'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/multidim/covertree.html#CoverLevel.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multidim.covertree.CoverLevel.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot a single level of a <a class="reference internal" href="multidim.covertree.CoverTree.html#multidim.covertree.CoverTree" title="multidim.covertree.CoverTree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CoverTree</span></code></a></p>
 <p>See the example at <a class="reference external" href="http://nbviewer.jupyter.org/github/geomdata/gda-public/blob/master/examples/example-covertree.ipynb">example-covertree</a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>canvas</strong> : <code class="xref py py-class docutils literal"><span class="pre">bokeh.plotting.figure.Figure</span></code></p>
-<blockquote>
-<div><p>as obtained from <code class="code docutils literal"><span class="pre">canvas</span> <span class="pre">=</span> <span class="pre">bokeh.plotting.figure()</span></code></p>
-</div></blockquote>
-<p><strong>show_balls</strong> : bool</p>
-<blockquote>
-<div><p>Draw the covering balls at this level.
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>canvas</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">bokeh.plotting.figure.Figure</span></code></span></dt>
+<dd><p class="first last">as obtained from <code class="code docutils literal notranslate"><span class="pre">canvas</span> <span class="pre">=</span> <span class="pre">bokeh.plotting.figure()</span></code></p>
+</dd>
+<dt><strong>show_balls</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Draw the covering balls at this level.
 Default: True</p>
-</div></blockquote>
-<p><strong>show_adults</strong> : bool</p>
-<blockquote>
-<div><p>Draw the adults at this level.
+</dd>
+<dt><strong>show_adults</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Draw the adults at this level.
 Default: True</p>
-</div></blockquote>
-<p><strong>show_hulls</strong> : bool</p>
-<blockquote>
-<div><p>Draw the convex hulls of the childeren of each adult.
+</dd>
+<dt><strong>show_hulls</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Draw the convex hulls of the childeren of each adult.
 Note – this works only with matplotlib for now, not bokeh.
 Default: False</p>
-</div></blockquote>
-<p><strong>color</strong> : str</p>
-<blockquote class="last">
-<div><p>Name of color to use for cover-tree balls and hulls.
+</dd>
+<dt><strong>color</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Name of color to use for cover-tree balls and hulls.
 Default: ‘purple’</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -162,10 +160,10 @@ Default: ‘purple’</p>
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

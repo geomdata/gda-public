@@ -1,5 +1,5 @@
-multidim.models.GaussianMixtureClassifier.get_params
-====================================================
+multidim.models.GaussianMixtureClassifier.get\_params
+=====================================================
 
 .. currentmodule:: multidim.models
 

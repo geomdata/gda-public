@@ -1,5 +1,5 @@
-timeseries.Signal.iter_intervals
-================================
+timeseries.Signal.iter\_intervals
+=================================
 
 .. currentmodule:: timeseries
 

@@ -1,5 +1,5 @@
-multidim.PointCloud.make_pers0
-==============================
+multidim.PointCloud.make\_pers0
+===============================
 
 .. currentmodule:: multidim
 

@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
@@ -90,27 +91,26 @@
 <h1>timeseries.SpaceCurve.plot<a class="headerlink" href="#timeseries-spacecurve-plot" title="Permalink to this headline">¶</a></h1>
 <dl class="method">
 <dt id="timeseries.SpaceCurve.plot">
-<code class="descclassname">SpaceCurve.</code><code class="descname">plot</code><span class="sig-paren">(</span><em>canvas</em>, <em>title=’SpaceCurve’</em>, <em>color=’blue’</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/timeseries.html#SpaceCurve.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#timeseries.SpaceCurve.plot" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">SpaceCurve.</code><code class="descname">plot</code><span class="sig-paren">(</span><em>canvas</em>, <em>title='SpaceCurve'</em>, <em>color='blue'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/timeseries.html#SpaceCurve.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#timeseries.SpaceCurve.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot the SpaceCurve in 3D.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>canvas</strong> : <code class="xref py py-class docutils literal"><span class="pre">matplotlib.axes._subplots.AxesSubplot</span></code></p>
-<blockquote>
-<div><p>Be sure that 3D plotting is enabled on this canvas, with
-<code class="code docutils literal"><span class="pre">mpl_toolkits.mplot3d</span> <span class="pre">import</span> <span class="pre">Axes3D</span></code> and 
-<code class="code docutils literal"><span class="pre">canvas</span> <span class="pre">=</span> <span class="pre">matplotlib.pyplot.subplot(projection='3d')</span></code></p>
-</div></blockquote>
-<p><strong>title</strong> : str</p>
-<blockquote>
-<div><p>A title for the figure.</p>
-</div></blockquote>
-<p><strong>color</strong> : str</p>
-<blockquote class="last">
-<div><p>The name of a color for the points to draw.  Passed to the
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>canvas</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes._subplots.AxesSubplot</span></code></span></dt>
+<dd><p class="first last">Be sure that 3D plotting is enabled on this canvas, with
+<code class="code docutils literal notranslate"><span class="pre">mpl_toolkits.mplot3d</span> <span class="pre">import</span> <span class="pre">Axes3D</span></code> and 
+<code class="code docutils literal notranslate"><span class="pre">canvas</span> <span class="pre">=</span> <span class="pre">matplotlib.pyplot.subplot(projection='3d')</span></code></p>
+</dd>
+<dt><strong>title</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">A title for the figure.</p>
+</dd>
+<dt><strong>color</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The name of a color for the points to draw.  Passed to the
 appropriate drawing library (bokeh or matplotlib).</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -153,10 +153,10 @@ be taken as an approximation!</p>
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

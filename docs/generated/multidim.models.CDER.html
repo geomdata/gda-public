@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
@@ -94,36 +95,50 @@
 supervised machine-learning of labelled cloud collections.  This uses the
 “Cover Tree with Friends” algorithm along with an entropy computation to
 build a regional classifer for labelled pointclouds.  It relies on the
-<a class="reference internal" href="multidim.covertree.CoverTree.html#multidim.covertree.CoverTree" title="multidim.covertree.CoverTree"><code class="xref py py-class docutils literal"><span class="pre">multidim.covertree.CoverTree</span></code></a> and 
-<a class="reference internal" href="multidim.covertree.CoverLevel.html#multidim.covertree.CoverLevel" title="multidim.covertree.CoverLevel"><code class="xref py py-class docutils literal"><span class="pre">multidim.covertree.CoverLevel</span></code></a> data structures.</p>
-<p>See the paper <a class="reference internal" href="multidim.covertree.CoverTree.html#cder1" id="id1">[CDER1]</a> and the talk <a class="reference internal" href="multidim.covertree.CoverTree.html#cder2" id="id2">[CDER2]</a>.</p>
+<a class="reference internal" href="multidim.covertree.CoverTree.html#multidim.covertree.CoverTree" title="multidim.covertree.CoverTree"><code class="xref py py-class docutils literal notranslate"><span class="pre">multidim.covertree.CoverTree</span></code></a> and 
+<a class="reference internal" href="multidim.covertree.CoverLevel.html#multidim.covertree.CoverLevel" title="multidim.covertree.CoverLevel"><code class="xref py py-class docutils literal notranslate"><span class="pre">multidim.covertree.CoverLevel</span></code></a> data structures.</p>
+<p>See the paper <a class="reference internal" href="#re39f6b12315d-cder1" id="id1">[CDER1]</a> and the talk <a class="reference internal" href="#re39f6b12315d-cder2" id="id2">[CDER2]</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>parsimonious</strong> : bool</p>
-<blockquote class="last">
-<div><p>Whether to use the parsimonious version of CDER, where a region is
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>parsimonious</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Whether to use the parsimonious version of CDER, where a region is
 ignored once entropy reached a local minimum.  For most datasets,
-<code class="code docutils literal"><span class="pre">parsimonious=False</span></code> provides a better classifier, but they are more
-expensive to evaluate.  In many cases, <code class="code docutils literal"><span class="pre">parsimonious=False</span></code> is 
+<code class="code docutils literal notranslate"><span class="pre">parsimonious=False</span></code> provides a better classifier, but they are more
+expensive to evaluate.  In many cases, <code class="code docutils literal notranslate"><span class="pre">parsimonious=False</span></code> is 
 good enough, and is significantly faster.
-Default: <code class="code docutils literal"><span class="pre">True</span></code></p>
-</div></blockquote>
+Default: <code class="code docutils literal notranslate"><span class="pre">True</span></code></p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="multidim.covertree.CoverTree.html#multidim.covertree.CoverTree" title="multidim.covertree.CoverTree"><code class="xref py py-class docutils literal"><span class="pre">multidim.covertree.CoverTree</span></code></a></p>
+<p class="last"><a class="reference internal" href="multidim.covertree.CoverTree.html#multidim.covertree.CoverTree" title="multidim.covertree.CoverTree"><code class="xref py py-class docutils literal notranslate"><span class="pre">multidim.covertree.CoverTree</span></code></a></p>
 </div>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="re39f6b12315d-cder1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[CDER1]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id3">2</a>)</em> Supervised Learning of Labeled Pointcloud Differences via Cover-Tree Entropy Reduction <a class="reference external" href="https://arxiv.org/abs/1702.07959">https://arxiv.org/abs/1702.07959</a></td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="re39f6b12315d-cder2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[CDER2]</td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id4">2</a>)</em> CDER, Learning with Friends <a class="reference external" href="https://www.ima.umn.edu/2016-2017/DSS9.6.16-5.30.17/26150">https://www.ima.umn.edu/2016-2017/DSS9.6.16-5.30.17/26150</a></td></tr>
+</tbody>
+</table>
 <p class="rubric">Examples</p>
 <p>We’ll make a simple dataset with one “green” pointcloud sampled from 
 a uniform distribution on the 1x1 square centered at (-1,0),
 and one “magenta” pointcloud sampled from a uniform distribution on the 
 1x1 square centered at (1, 0).</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">multidim</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">train_dataL</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">])</span>  <span class="c1"># for green</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># dataL.mean(axis=0)  # should be near (-1, 0)</span>
@@ -150,34 +165,34 @@ and one “magenta” pointcloud sampled from a uniform distribution on the
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="multidim.models.CDER.build_gaussian.html#multidim.models.CDER.build_gaussian" title="multidim.models.CDER.build_gaussian"><code class="xref py py-obj docutils literal"><span class="pre">CDER.build_gaussian</span></code></a>(coverlevel,&nbsp;adult,&nbsp;…)</td>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.models.CDER.build_gaussian.html#multidim.models.CDER.build_gaussian" title="multidim.models.CDER.build_gaussian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CDER.build_gaussian</span></code></a>(coverlevel,&nbsp;adult,&nbsp;…)</td>
 <td>Build a Gaussian from the children of this adult in a cover-tree (using only a particular label).</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="multidim.models.CDER.evaluate.html#multidim.models.CDER.evaluate" title="multidim.models.CDER.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">CDER.evaluate</span></code></a>(x)</td>
+<tr class="row-even"><td><a class="reference internal" href="multidim.models.CDER.evaluate.html#multidim.models.CDER.evaluate" title="multidim.models.CDER.evaluate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CDER.evaluate</span></code></a>(x)</td>
 <td>Evaluate all gaussians against a pointcloud</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="multidim.models.CDER.fit.html#multidim.models.CDER.fit" title="multidim.models.CDER.fit"><code class="xref py py-obj docutils literal"><span class="pre">CDER.fit</span></code></a>(*training)</td>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.models.CDER.fit.html#multidim.models.CDER.fit" title="multidim.models.CDER.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CDER.fit</span></code></a>(*training)</td>
 <td>Fit this estimator to training data.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="multidim.models.CDER.gausscoords.html#multidim.models.CDER.gausscoords" title="multidim.models.CDER.gausscoords"><code class="xref py py-obj docutils literal"><span class="pre">CDER.gausscoords</span></code></a>([parsimonious])</td>
+<tr class="row-even"><td><a class="reference internal" href="multidim.models.CDER.gausscoords.html#multidim.models.CDER.gausscoords" title="multidim.models.CDER.gausscoords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CDER.gausscoords</span></code></a>([parsimonious])</td>
 <td>This is the Gaussian-building heart of the CDER algorithm.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="multidim.models.CDER.get_params.html#multidim.models.CDER.get_params" title="multidim.models.CDER.get_params"><code class="xref py py-obj docutils literal"><span class="pre">CDER.get_params</span></code></a>([deep])</td>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.models.CDER.get_params.html#multidim.models.CDER.get_params" title="multidim.models.CDER.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CDER.get_params</span></code></a>([deep])</td>
 <td>Pass original kwargs internally.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="multidim.models.CDER.plot.html#multidim.models.CDER.plot" title="multidim.models.CDER.plot"><code class="xref py py-obj docutils literal"><span class="pre">CDER.plot</span></code></a>(canvas[,&nbsp;style])</td>
+<tr class="row-even"><td><a class="reference internal" href="multidim.models.CDER.plot.html#multidim.models.CDER.plot" title="multidim.models.CDER.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CDER.plot</span></code></a>(canvas[,&nbsp;style])</td>
 <td>Plot a CDER model, using matplotlib or bokeh</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="multidim.models.CDER.predict.html#multidim.models.CDER.predict" title="multidim.models.CDER.predict"><code class="xref py py-obj docutils literal"><span class="pre">CDER.predict</span></code></a>(pointclouds)</td>
-<td>Predict labels of given pointclouds, based on previous training data  fed to <a class="reference internal" href="multidim.models.CDER.fit.html#multidim.models.CDER.fit" title="multidim.models.CDER.fit"><code class="xref py py-func docutils literal"><span class="pre">fit()</span></code></a>.</td>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.models.CDER.predict.html#multidim.models.CDER.predict" title="multidim.models.CDER.predict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CDER.predict</span></code></a>(pointclouds)</td>
+<td>Predict labels of given pointclouds, based on previous training data  fed to <a class="reference internal" href="multidim.models.CDER.fit.html#multidim.models.CDER.fit" title="multidim.models.CDER.fit"><code class="xref py py-func docutils literal notranslate"><span class="pre">fit()</span></code></a>.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="multidim.models.CDER.runit.html#multidim.models.CDER.runit" title="multidim.models.CDER.runit"><code class="xref py py-obj docutils literal"><span class="pre">CDER.runit</span></code></a>(pointclouds)</td>
+<tr class="row-even"><td><a class="reference internal" href="multidim.models.CDER.runit.html#multidim.models.CDER.runit" title="multidim.models.CDER.runit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CDER.runit</span></code></a>(pointclouds)</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="multidim.models.CDER.score.html#multidim.models.CDER.score" title="multidim.models.CDER.score"><code class="xref py py-obj docutils literal"><span class="pre">CDER.score</span></code></a>(pointclouds,&nbsp;labels)</td>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.models.CDER.score.html#multidim.models.CDER.score" title="multidim.models.CDER.score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CDER.score</span></code></a>(pointclouds,&nbsp;labels)</td>
 <td>Score predicted labels against known labels.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="multidim.models.CDER.set_params.html#multidim.models.CDER.set_params" title="multidim.models.CDER.set_params"><code class="xref py py-obj docutils literal"><span class="pre">CDER.set_params</span></code></a>(**params)</td>
+<tr class="row-even"><td><a class="reference internal" href="multidim.models.CDER.set_params.html#multidim.models.CDER.set_params" title="multidim.models.CDER.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CDER.set_params</span></code></a>(**params)</td>
 <td>Set the parameters of this estimator.</td>
 </tr>
 </tbody>
@@ -217,10 +232,10 @@ and one “magenta” pointcloud sampled from a uniform distribution on the
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

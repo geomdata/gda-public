@@ -1,5 +1,5 @@
-timeseries.SpaceCurve.mass_profile
-==================================
+timeseries.SpaceCurve.mass\_profile
+===================================
 
 .. currentmodule:: timeseries
 

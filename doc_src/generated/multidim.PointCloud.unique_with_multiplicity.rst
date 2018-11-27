@@ -1,5 +1,5 @@
-multidim.PointCloud.unique_with_multiplicity
-============================================
+multidim.PointCloud.unique\_with\_multiplicity
+==============================================
 
 .. currentmodule:: multidim
 

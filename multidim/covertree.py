@@ -303,7 +303,7 @@ class CoverTree(object):
     References
     ----------
     .. [CDER1] Supervised Learning of Labeled Pointcloud Differences via Cover-Tree Entropy Reduction https://arxiv.org/abs/1702.07959
-    .. [CDER2] CDER, Learning with Friends http://www.curieux.us/abe/talks/cder/
+    .. [CDER2] CDER, Learning with Friends https://www.ima.umn.edu/2016-2017/DSS9.6.16-5.30.17/26150
     .. [iter1] https://docs.python.org/3/library/stdtypes.html?highlight=iterator#iterator-types
     .. [iter2] https://wiki.python.org/moin/Iterator
     """
@@ -315,12 +315,10 @@ class CoverTree(object):
         self.pointcloud = pointcloud
         self.pointcloud.covertree = self
 
-        if np.all(self.pointcloud.stratum[0]['val'].values <= 0):
-            logging.info("""
-Your points all have non-positive weight!
-This is probably wrong.
-Setting weights in PointCloud.stratum[0]['val']=1.0.""")
-            self.pointcloud.stratum[0]['val']=1.0
+        if np.any(self.pointcloud.stratum[0]['mass'].values <= 0):
+            logging.warning("""
+Some of your points have non-positive mass!  This is probably wrong.
+Consider setting masses with PointCloud.stratum[0]['mass']=1.0.""")
 
         self.label_set = self.pointcloud.label_info['int_index'].values
         self.coords = self.pointcloud.coords.values
@@ -426,7 +424,6 @@ level\tadults\n""".format(
             center_a = np.array([ci], dtype=np.int64)
             #children_ids = np.where(level.children[ci])[0]
             children_dists = fast_algorithms.distance_cache_None(center_a, level.children[ci], self.coords).flatten()
-            
             # since we have computed children_dists, let's take a moment to count
             # duplicate points of new adults.
             if self.cohort[ci] == prev_level.exponent:
@@ -441,7 +438,7 @@ level\tadults\n""".format(
             if len(my_orphans) > 0 and self.sort_orphans_by_mean:
                 child_coords = self.coords[level.children[ci], :]
                 child_labels = self.pointcloud.labels[level.children[ci]]
-                child_weight = self.pointcloud.stratum[0]['val'].values[level.children[ci]]
+                child_weight = self.pointcloud.stratum[0]['mass'].values[level.children[ci]]
                 label_means, label_weights = fast_algorithms.label_means(
                                                 child_coords,
                                                 child_labels,
@@ -645,7 +642,7 @@ level\tadults\n""".format(
                     for index_i, index_j in np.array(good_edges).T:
                         yield (kids_i[index_i], kids_j[index_j], dists[index_i,index_j])
         if total > 0:
-            logging.warning("Examined {} possible edge distances using level {}.".format(total, ell-1))
+            logging.info("Examined {} possible edge distances using level {}.".format(total, ell-1))
 
     def plot(self, canvas, **kwargs):
         r""" Interactive plot of a CoverTree, with dynamic computation of levels.
@@ -961,7 +958,7 @@ class CoverLevel(object):
             self.weights[adult] = fast_algorithms.label_weights(
                 children_set,
                 pc.labels,
-                pc.stratum[0]['val'].values,
+                pc.stratum[0]['mass'].values,
                 pc.label_info['int_index'].values)
         return self.weights[adult]
 

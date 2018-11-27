@@ -127,14 +127,14 @@ cdef int merge(np.ndarray[NINT_t] components, NINT_t i, NINT_t j):
 cpdef unionfind(object myobject, NDBL_t cutoff):
     r""" Apply the UnionFind algorithm to compute zero-dimensional persistence
     diagram.
-    Connected components are born at the value/weight of a vertex.
-    Connected components merge/die at the value/weight of the joining edge.
+    Connected components are born at the height of a vertex.
+    Connected components merge/die at the height of the joining edge.
 
     Parameters
     ----------
-    myobject : :class:`multidim.SimplicialComplex`, :class:`multidim.PointCloud`, or :class:`timeseries.Signal`
-        The algorithm requires values (that is, *heights*) on the vertices
-        object and weights on the edges.
+    myobject : :class:`multidim.SimplicialComplex`, :class:`multidim.PointCloud`,
+        or :class:`timeseries.Signal`
+        The algorithm requires *heights* on the vertices and heights on the edges.
     cutoff : :class:`numpy.float64`
         Stop computing persistence at height :code:`cutoff`.
 
@@ -142,8 +142,8 @@ cpdef unionfind(object myobject, NDBL_t cutoff):
     -------
     birth_index : :class:`numpy.ndarray`
     death_index : :class:`numpy.ndarray`
-    birth_value : :class:`numpy.ndarray`
-    death_value : :class:`numpy.ndarray`
+    birth_height : :class:`numpy.ndarray`
+    death_height : :class:`numpy.ndarray`
     mergetree : `stdtypes.dict`
         The mergetree is a dictionary keyed by the index of vertices where a
         merge occurred.  The values of the dictionary are the
@@ -163,35 +163,35 @@ cpdef unionfind(object myobject, NDBL_t cutoff):
         Introduction. American Mathematical Soc., 2010.
     """
     cdef NINT_t idx, n, i, a, b, e_max, previous_merge_a, previous_merge_b
-    cdef NDBL_t a_val, b_val, e_val
+    cdef NDBL_t a_hgt, b_hgt, e_hgt
      
     cdef np.ndarray[NINT_t] components
-    cdef np.ndarray[NDBL_t] verts_val
+    cdef np.ndarray[NDBL_t] verts_hgt
     cdef np.ndarray[NINT_t] edges_src
     cdef np.ndarray[NINT_t] edges_dst
-    cdef np.ndarray[NDBL_t] edges_val
+    cdef np.ndarray[NDBL_t] edges_hgt
     cdef np.ndarray[NINT_t] edges_max
     cdef np.ndarray[NBIT_t, cast=True] verts_pos
     cdef np.ndarray[NBIT_t, cast=True] edges_pos
 
     if myobject.__class__.__module__ == "timeseries":
         components = myobject.components.values
-        verts_val = myobject.vertices['value'].values
-        verts_pos = np.ones_like(verts_val, dtype='bool')
+        verts_hgt = myobject.vertices['height'].values
+        verts_pos = np.ones_like(verts_hgt, dtype='bool')
         edges_src = myobject.edges['src'].values
         edges_dst = myobject.edges['dst'].values
-        edges_val = myobject.edges['val' ].values
+        edges_hgt = myobject.edges['height' ].values
         edges_max = myobject.edges['max'].values
         n = edges_src.shape[0]
         edges_pos = np.zeros(shape=(n,), dtype='bool') # not needed.
 
     elif myobject.__class__.__module__ == "multidim":
         components = myobject.stratum[0]['rep'].values
-        verts_val = myobject.stratum[0]['val'].values
+        verts_hgt = myobject.stratum[0]['height'].values
         verts_pos = myobject.stratum[0]['pos'].values
         edges_src = myobject.stratum[1]['bdy0'].values
         edges_dst = myobject.stratum[1]['bdy1'].values
-        edges_val = myobject.stratum[1]['val'].values
+        edges_hgt = myobject.stratum[1]['height'].values
         edges_pos = myobject.stratum[1]['pos'].values
         n = edges_src.shape[0]
         edges_max = np.zeros(shape=(n,), dtype=np.int64)
@@ -200,24 +200,24 @@ cpdef unionfind(object myobject, NDBL_t cutoff):
             e_src = edges_src[idx]
             e_dst = edges_dst[idx]
             # Who's on top?  Identify the death location.
-            if verts_val[e_src] < verts_val[e_dst]:
+            if verts_hgt[e_src] < verts_hgt[e_dst]:
                 e_max = e_dst
-            elif verts_val[e_src] > verts_val[e_dst]:
+            elif verts_hgt[e_src] > verts_hgt[e_dst]:
                 e_max = e_src
             elif e_src < e_dst:
                 e_max = e_dst
             elif e_src > e_dst:
                 e_max = e_src
             else:
-                raise ValueError("Two vertices have the same value and index!")
+                raise ValueError("Two vertices have the same height and index!")
             edges_max[idx] = e_max
         
     else:
         raise TypeError("Input to unionfind must be a multidim.SimplicialComplex or timeseries.Signal.")
 
     cdef np.ndarray[NINT_t] merges = np.arange(components.shape[0], dtype=np.int64)
-    cdef NINT_t absbirth_i = verts_val.argmin()
-    cdef NINT_t absdeath_i = verts_val.argmax()
+    cdef NINT_t absbirth_i = verts_hgt.argmin()
+    cdef NINT_t absdeath_i = verts_hgt.argmax()
     n = edges_src.shape[0]
  
 
@@ -231,7 +231,7 @@ cpdef unionfind(object myobject, NDBL_t cutoff):
     death = []
     birth = []
 
-    assert edges_src.size == edges_dst.size == edges_max.size == edges_val.size,\
+    assert edges_src.size == edges_dst.size == edges_max.size == edges_hgt.size,\
         "Incompatible sizes for edge data."
 
     mergetree = []
@@ -242,8 +242,8 @@ cpdef unionfind(object myobject, NDBL_t cutoff):
     for idx in range(n):
         if ncomps <= 1: break
         
-        e_val = edges_val[idx]
-        if 0 <= cutoff <= e_val: break
+        e_hgt = edges_hgt[idx]
+        if 0 <= cutoff <= e_hgt: break
 
         e_src = edges_src[idx]
         e_dst = edges_dst[idx]
@@ -251,19 +251,19 @@ cpdef unionfind(object myobject, NDBL_t cutoff):
         
         a = root(components, e_src)
         b = root(components, e_dst)
-        a_val = verts_val[a] 
-        b_val = verts_val[b]
+        a_hgt = verts_hgt[a]
+        b_hgt = verts_hgt[b]
          
-        if a_val < b_val:
+        if a_hgt < b_hgt:
             merge(components, a, b)  # point b to a (so a is the representative)
             verts_pos[b] = False
             edges_pos[idx] = False ## for RCA1
             # don't record the diagonal instant-death case.
-            if b_val != e_val:
+            if b_hgt != e_hgt:
                 birth_i.append(b)
                 death_i.append(e_max)
-                birth.append(b_val)
-                death.append(e_val)
+                birth.append(b_hgt)
+                death.append(e_hgt)
                 # track/make mergetree.  Every min and max so far should be
                 # marked.  
                 # The roots are a,b.
@@ -281,15 +281,15 @@ cpdef unionfind(object myobject, NDBL_t cutoff):
                 mergetree.append( (e_max, (previous_merge_a, previous_merge_b)) )
             ncomps -= 1
 
-        elif b_val < a_val:
+        elif b_hgt < a_hgt:
             merge(components, b, a)
             verts_pos[a] = False
             edges_pos[idx] = False ## for RCA1
-            if a_val != e_val:
+            if a_hgt != e_hgt:
                 birth_i.append(a)
                 death_i.append(e_max)
-                birth.append(a_val)
-                death.append(e_val)
+                birth.append(a_hgt)
+                death.append(e_hgt)
                 previous_merge_a = root(merges, a)
                 previous_merge_b = root(merges, b)
                 merges[previous_merge_a] = e_max
@@ -304,11 +304,11 @@ cpdef unionfind(object myobject, NDBL_t cutoff):
             merge(components, a, b)
             verts_pos[b] = False
             edges_pos[idx] = False ## for RCA1
-            if b_val != e_val:
+            if b_hgt != e_hgt:
                 birth_i.append(b)
                 death_i.append(e_max)
-                birth.append(b_val)
-                death.append(e_val)
+                birth.append(b_hgt)
+                death.append(e_hgt)
                 previous_merge_a = root(merges, a)
                 previous_merge_b = root(merges, b)
                 merges[previous_merge_a] = e_max
@@ -323,11 +323,11 @@ cpdef unionfind(object myobject, NDBL_t cutoff):
             merge(components, b, a)
             verts_pos[a] = False
             edges_pos[idx] = False ## for RCA1
-            if a_val != e_val:
+            if a_hgt != e_hgt:
                 birth_i.append(a)
                 death_i.append(e_max)
-                birth.append(a_val)
-                death.append(e_val)
+                birth.append(a_hgt)
+                death.append(e_hgt)
                 previous_merge_a = root(merges, a)
                 previous_merge_b = root(merges, b)
                 merges[previous_merge_a] = e_max
@@ -340,8 +340,8 @@ cpdef unionfind(object myobject, NDBL_t cutoff):
         
     birth_i.append(absbirth_i)
     death_i.append(absdeath_i)
-    birth.append(verts_val[absbirth_i])
-    death.append(verts_val[absdeath_i])
+    birth.append(verts_hgt[absbirth_i])
+    death.append(verts_hgt[absdeath_i])
     assert ncomps > 0, "{} comps".format(ncomps)
     return np.array(birth_i, dtype=np.int64), np.array(death_i, dtype=np.int64), np.array(birth, dtype=np.float64), np.array(death, dtype=np.float64), dict(mergetree)
 
@@ -375,6 +375,8 @@ cpdef mkforestDBL(np.ndarray[NINT_t, ndim=1] idents,
 
     tree=collections.defaultdict(set)
     parents=dict()
+    cdef NINT_t i, my_ident
+    cdef NDBL_t my_begin, my_close
 
     for i in index:
         my_ident = idents[i]

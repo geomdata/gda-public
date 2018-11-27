@@ -90,7 +90,7 @@ cpdef rca1(edges, NDBL_t cutoff=-1.0, NINT_t begin=0):
     ----------
     edges : :class:`pandas.DataFrame`
         Edge list as Dataframe. edges.columns.values =
-        array(['bdy0', 'bdy1', 'pos', 'rep', 'val'], dtype=object)
+        array(['bdy0', 'bdy1', 'pos', 'rep', 'height'], dtype=object)
     cutoff : double
 
     begin : int
@@ -119,15 +119,12 @@ cpdef rca1(edges, NDBL_t cutoff=-1.0, NINT_t begin=0):
     --------
     :func:`reduce_matrix`, :class:`SimplicialComplex`
 
-    Notes
-    -----
-
 
     Examples
     --------
     We consider the following example from [1]_.
 
-    >>> edges = pandas.DataFrame({'val':[ 1.0, 1.0, 1.0],
+    >>> edges = pandas.DataFrame({'height':[ 1.0, 1.0, 1.0],
     ...                           'pos': [True, True, True],
     ...                           'rep' : [0, 1, 2],
     ...                           'bdy0': [0, 1, 2],
@@ -135,7 +132,7 @@ cpdef rca1(edges, NDBL_t cutoff=-1.0, NINT_t begin=0):
 
     """
     cdef np.ndarray[NINT_t] edges_idx = edges.index.values
-    cdef np.ndarray[NDBL_t] edges_val = edges['val'].values
+    cdef np.ndarray[NDBL_t] edges_hgt = edges['height'].values
     cdef np.ndarray[NBIT_t, cast=True] edges_pos = edges['pos'].values
     cdef np.ndarray[NINT_t, ndim=2] edges_bdy  = edges[['bdy0','bdy1']].values
 
@@ -148,9 +145,9 @@ cpdef rca1(edges, NDBL_t cutoff=-1.0, NINT_t begin=0):
     cdef np.ndarray[NINT_t] allkeys, U, keys
 
     edge_idx = -1 ## just to avoid compiler warning
-    for edge_idx in range(begin, edges_val.shape[0]):
+    for edge_idx in range(begin, edges_hgt.shape[0]):
         assert edge_idx == edges_idx[edge_idx]
-        if 0 <= cutoff and cutoff <= edges_val[edge_idx]: break
+        if 0 <= cutoff and cutoff <= edges_hgt[edge_idx]: break
         a = edges_bdy[edge_idx][0]
         b = edges_bdy[edge_idx][1]
         

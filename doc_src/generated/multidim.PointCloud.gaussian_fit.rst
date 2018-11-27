@@ -1,5 +1,5 @@
-multidim.PointCloud.gaussian_fit
-================================
+multidim.PointCloud.gaussian\_fit
+=================================
 
 .. currentmodule:: multidim
 

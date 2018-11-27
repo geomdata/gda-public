@@ -1,5 +1,5 @@
-timeseries.SpaceCurve.lift_profile
-==================================
+timeseries.SpaceCurve.lift\_profile
+===================================
 
 .. currentmodule:: timeseries
 

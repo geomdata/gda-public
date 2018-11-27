@@ -1,5 +1,5 @@
-multidim.PointCloud.witnessed_barycenters
-=========================================
+multidim.PointCloud.witnessed\_barycenters
+==========================================
 
 .. currentmodule:: multidim
 

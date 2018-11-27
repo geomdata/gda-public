@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
@@ -90,18 +91,19 @@
 <h1>timeseries.Signal.plot<a class="headerlink" href="#timeseries-signal-plot" title="Permalink to this headline">¶</a></h1>
 <dl class="method">
 <dt id="timeseries.Signal.plot">
-<code class="descclassname">Signal.</code><code class="descname">plot</code><span class="sig-paren">(</span><em>canvas</em>, <em>title=’Signal’</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/timeseries.html#Signal.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#timeseries.Signal.plot" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">Signal.</code><code class="descname">plot</code><span class="sig-paren">(</span><em>canvas</em>, <em>title='Signal'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/timeseries.html#Signal.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#timeseries.Signal.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot the Signal.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>canvas</strong> : class:<code class="xref py py-obj docutils literal"><span class="pre">bokeh.plotting.figure.Figure</span></code> or <code class="xref py py-class docutils literal"><span class="pre">matplotlib.axes._subplots.AxesSubplot</span></code></p>
-<blockquote class="last">
-<div><p>A bokeh or pyplot canvas to draw on.  Create one with
-<code class="code docutils literal"><span class="pre">canvas</span> <span class="pre">=</span> <span class="pre">bokeh.plotting.figure()</span></code> or
-<code class="code docutils literal"><span class="pre">fig,canvas</span> <span class="pre">=</span> <span class="pre">matplotlib.pyplot.subplots()</span></code></p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>canvas</strong> <span class="classifier-delimiter">:</span> <span class="classifier">class:<code class="xref py py-obj docutils literal notranslate"><span class="pre">bokeh.plotting.figure.Figure</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes._subplots.AxesSubplot</span></code></span></dt>
+<dd><p class="first last">A bokeh or pyplot canvas to draw on.  Create one with
+<code class="code docutils literal notranslate"><span class="pre">canvas</span> <span class="pre">=</span> <span class="pre">bokeh.plotting.figure()</span></code> or
+<code class="code docutils literal notranslate"><span class="pre">fig,canvas</span> <span class="pre">=</span> <span class="pre">matplotlib.pyplot.subplots()</span></code></p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -143,10 +145,10 @@
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

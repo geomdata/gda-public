@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
@@ -90,19 +91,20 @@
 <h1>homology.PersDiag.plot<a class="headerlink" href="#homology-persdiag-plot" title="Permalink to this headline">¶</a></h1>
 <dl class="method">
 <dt id="homology.PersDiag.plot">
-<code class="descclassname">PersDiag.</code><code class="descname">plot</code><span class="sig-paren">(</span><em>canvas</em>, <em>transform=None</em>, <em>bins=None</em>, <em>title=’Pers Diag’</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/homology.html#PersDiag.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#homology.PersDiag.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot the persistence diagram using <code class="xref py py-obj docutils literal"><span class="pre">matplotlib</span></code> or <code class="xref py py-obj docutils literal"><span class="pre">bokeh</span></code>.</p>
+<code class="descclassname">PersDiag.</code><code class="descname">plot</code><span class="sig-paren">(</span><em>canvas</em>, <em>transform=None</em>, <em>bins=None</em>, <em>title='Pers Diag'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/homology.html#PersDiag.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#homology.PersDiag.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the persistence diagram using <code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">bokeh</span></code>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>canvas      An instance of :class:`bokeh.plotting.figure.Figure`</strong></p>
-<blockquote class="last">
-<div><p>invoked as <em class="xref py py-obj">canvas = bokeh.plotting.figure()</em>, or a 
-an instance of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.axes._subplots.AxesSubplot</span></code>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>canvas      An instance of :class:`bokeh.plotting.figure.Figure`</strong></dt>
+<dd><p class="first last">invoked as <em class="xref py py-obj">canvas = bokeh.plotting.figure()</em>, or a 
+an instance of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes._subplots.AxesSubplot</span></code>
 invoked as <em class="xref py py-obj">fig,canvas = matplotlib.pyplot.subplots()</em> or
 similar.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -144,10 +146,10 @@ similar.</p>
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

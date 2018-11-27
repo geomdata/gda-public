@@ -1,5 +1,5 @@
-timeseries.SpaceCurve.lift_and_mass
-===================================
+timeseries.SpaceCurve.lift\_and\_mass
+=====================================
 
 .. currentmodule:: timeseries
 

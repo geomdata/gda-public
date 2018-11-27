@@ -19,7 +19,8 @@ multidim.Simplex
          :toctree:
       
          Simplex.boundary
+         Simplex.height
+         Simplex.mass
          Simplex.positive
          Simplex.representative
-         Simplex.value
 

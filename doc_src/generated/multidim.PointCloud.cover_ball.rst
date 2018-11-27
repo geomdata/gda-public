@@ -1,5 +1,5 @@
-multidim.PointCloud.cover_ball
-==============================
+multidim.PointCloud.cover\_ball
+===============================
 
 .. currentmodule:: multidim
 

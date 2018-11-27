@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
@@ -90,37 +91,37 @@
 <h1>multidim.models.CDER.plot<a class="headerlink" href="#multidim-models-cder-plot" title="Permalink to this headline">¶</a></h1>
 <dl class="method">
 <dt id="multidim.models.CDER.plot">
-<code class="descclassname">CDER.</code><code class="descname">plot</code><span class="sig-paren">(</span><em>canvas</em>, <em>style=’covertree’</em><span class="sig-paren">)</span><a class="headerlink" href="#multidim.models.CDER.plot" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">CDER.</code><code class="descname">plot</code><span class="sig-paren">(</span><em>canvas</em>, <em>style='covertree'</em><span class="sig-paren">)</span><a class="headerlink" href="#multidim.models.CDER.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a CDER model, using matplotlib or bokeh</p>
 <p>There are several options to help visualize various aspects of the
 model.  Typically, one wants to overlay this with the plots from the
-underlying <a class="reference internal" href="multidim.PointCloud.html#multidim.PointCloud" title="multidim.PointCloud"><code class="xref py py-class docutils literal"><span class="pre">multidim.PointCloud</span></code></a> and 
-<a class="reference internal" href="multidim.covertree.CoverTree.html#multidim.covertree.CoverTree" title="multidim.covertree.CoverTree"><code class="xref py py-class docutils literal"><span class="pre">multidim.covertree.CoverTree</span></code></a> objects.</p>
+underlying <a class="reference internal" href="multidim.PointCloud.html#multidim.PointCloud" title="multidim.PointCloud"><code class="xref py py-class docutils literal notranslate"><span class="pre">multidim.PointCloud</span></code></a> and 
+<a class="reference internal" href="multidim.covertree.CoverTree.html#multidim.covertree.CoverTree" title="multidim.covertree.CoverTree"><code class="xref py py-class docutils literal notranslate"><span class="pre">multidim.covertree.CoverTree</span></code></a> objects.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>canvas</strong> : object</p>
-<blockquote>
-<div><p>An instance of 
-<code class="xref py py-obj docutils literal"><span class="pre">bokeh.plotting.figure.Figure</span></code> as in
-<code class="code docutils literal"><span class="pre">canvas</span> <span class="pre">=</span> <span class="pre">bokeh.plotting.figure()</span></code>
-or an instance of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.axes._subplots.AxesSubplot</span></code> as 
-in <code class="code docutils literal"><span class="pre">axes,canvas</span> <span class="pre">=</span> <span class="pre">matplotlib.pyplot.subplots()</span></code></p>
-</div></blockquote>
-<p><strong>style</strong> : str</p>
-<blockquote class="last">
-<div><p>options are “gaussians”, “covertree”, “heatmap”, “hulls”, 
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>canvas</strong> <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
+<dd><p class="first last">An instance of 
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">bokeh.plotting.figure.Figure</span></code> as in
+<code class="code docutils literal notranslate"><span class="pre">canvas</span> <span class="pre">=</span> <span class="pre">bokeh.plotting.figure()</span></code>
+or an instance of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes._subplots.AxesSubplot</span></code> as 
+in <code class="code docutils literal notranslate"><span class="pre">axes,canvas</span> <span class="pre">=</span> <span class="pre">matplotlib.pyplot.subplots()</span></code></p>
+</dd>
+<dt><strong>style</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">options are “gaussians”, “covertree”, “heatmap”, “hulls”, 
 “expatriots”, and “predictions”.  Colors are generally obtained
 from the label names.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="multidim.PointCloud.plot.html#multidim.PointCloud.plot" title="multidim.PointCloud.plot"><code class="xref py py-func docutils literal"><span class="pre">multidim.PointCloud.plot()</span></code></a>, <a class="reference internal" href="multidim.covertree.CoverTree.plot.html#multidim.covertree.CoverTree.plot" title="multidim.covertree.CoverTree.plot"><code class="xref py py-func docutils literal"><span class="pre">multidim.covertree.CoverTree.plot()</span></code></a></p>
+<p class="last"><a class="reference internal" href="multidim.PointCloud.plot.html#multidim.PointCloud.plot" title="multidim.PointCloud.plot"><code class="xref py py-func docutils literal notranslate"><span class="pre">multidim.PointCloud.plot()</span></code></a>, <a class="reference internal" href="multidim.covertree.CoverTree.plot.html#multidim.covertree.CoverTree.plot" title="multidim.covertree.CoverTree.plot"><code class="xref py py-func docutils literal notranslate"><span class="pre">multidim.covertree.CoverTree.plot()</span></code></a></p>
 </div>
 </dd></dl>
 
@@ -157,10 +158,10 @@ from the label names.</p>
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

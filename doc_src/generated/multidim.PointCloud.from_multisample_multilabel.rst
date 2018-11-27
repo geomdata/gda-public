@@ -1,5 +1,5 @@
-multidim.PointCloud.from_multisample_multilabel
-===============================================
+multidim.PointCloud.from\_multisample\_multilabel
+=================================================
 
 .. currentmodule:: multidim
 

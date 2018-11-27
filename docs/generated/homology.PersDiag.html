@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
@@ -92,7 +93,7 @@
 <em class="property">class </em><code class="descclassname">homology.</code><code class="descname">PersDiag</code><span class="sig-paren">(</span><em>birth_index</em>, <em>death_index</em>, <em>birth_value</em>, <em>death_value</em>, <em>mergetree</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/homology.html#PersDiag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#homology.PersDiag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Persistence Diagrams and related merge-tree information.  Sometimes
 known as barcodes.</p>
-<p>A <a class="reference internal" href="#homology.PersDiag" title="homology.PersDiag"><code class="xref py py-class docutils literal"><span class="pre">PersDiag</span></code></a> consists of a <a class="reference external" href="http://pandas-docs.github.io/pandas-docs-travis/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.21.0.dev+346.g556effc.dirty)"><code class="xref py py-class docutils literal"><span class="pre">pandas.DataFrame</span></code></a> of birth and
+<p>A <a class="reference internal" href="#homology.PersDiag" title="homology.PersDiag"><code class="xref py py-class docutils literal notranslate"><span class="pre">PersDiag</span></code></a> consists of a <a class="reference external" href="http://pandas-docs.github.io/pandas-docs-travis/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0.dev0+1133.gee283fae)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> of birth and
 death values (sorted by length), along with the tree and forest for range and domain inclusion.</p>
 <p>You should not call this directly — instead use the constructor on your
 <em class="xref py py-obj">homology.SimplicialComplex</em> or ‘timeseries.Signal` object.</p>
@@ -102,55 +103,57 @@ death values (sorted by length), along with the tree and forest for range and do
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>birth_index</strong> : list_like</p>
-<p><strong>death_index</strong> : list_like</p>
-<p><strong>birth_value</strong> : list_like</p>
-<p><strong>death_value</strong> : list_like</p>
-<p class="last"><strong>mergetree</strong> : dict</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>birth_index</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list_like</span></dt>
+<dd></dd>
+<dt><strong>death_index</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list_like</span></dt>
+<dd></dd>
+<dt><strong>birth_value</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list_like</span></dt>
+<dd></dd>
+<dt><strong>death_value</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list_like</span></dt>
+<dd></dd>
+<dt><strong>mergetree</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd></dd>
+</dl>
 </td>
 </tr>
 </tbody>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="homology.dim0.unionfind.html#homology.dim0.unionfind" title="homology.dim0.unionfind"><code class="xref py py-func docutils literal"><span class="pre">homology.dim0.unionfind()</span></code></a></p>
+<p class="last"><a class="reference internal" href="homology.dim0.unionfind.html#homology.dim0.unionfind" title="homology.dim0.unionfind"><code class="xref py py-func docutils literal notranslate"><span class="pre">homology.dim0.unionfind()</span></code></a></p>
 </div>
 <p class="rubric">Notes</p>
 <p>Users should never call this directly — instead use the constructor on your
-<code class="xref py py-class docutils literal"><span class="pre">homology.SimplicialComplex</span></code> or <a class="reference internal" href="timeseries.Signal.html#timeseries.Signal" title="timeseries.Signal"><code class="xref py py-class docutils literal"><span class="pre">timeseries.Signal</span></code></a> object.</p>
-<p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="7%" />
-<col width="93%" />
-</colgroup>
+<code class="xref py py-class docutils literal notranslate"><span class="pre">homology.SimplicialComplex</span></code> or <a class="reference internal" href="timeseries.Signal.html#timeseries.Signal" title="timeseries.Signal"><code class="xref py py-class docutils literal notranslate"><span class="pre">timeseries.Signal</span></code></a> object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
 <tbody valign="top">
-<tr class="row-odd"><td>diagram</td>
-<td>(<a class="reference external" href="http://pandas-docs.github.io/pandas-docs-travis/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.21.0.dev+346.g556effc.dirty)"><code class="xref py py-class docutils literal"><span class="pre">pandas.DataFrame</span></code></a>) A DataFrame showing all of the birth/death information. It has columns <code class="code docutils literal"><span class="pre">birth_index</span></code>, <code class="code docutils literal"><span class="pre">death_index</span></code>, <code class="code docutils literal"><span class="pre">birth</span></code>, <code class="code docutils literal"><span class="pre">death</span></code>, and <code class="code docutils literal"><span class="pre">pers</span></code></td>
-</tr>
-<tr class="row-even"><td>lefts</td>
-<td>(<a class="reference external" href="http://pandas-docs.github.io/pandas-docs-travis/generated/pandas.Series.html#pandas.Series" title="(in pandas v0.21.0.dev+346.g556effc.dirty)"><code class="xref py py-class docutils literal"><span class="pre">pandas.Series</span></code></a>)</td>
-</tr>
-<tr class="row-odd"><td>rights</td>
-<td>(<a class="reference external" href="http://pandas-docs.github.io/pandas-docs-travis/generated/pandas.Series.html#pandas.Series" title="(in pandas v0.21.0.dev+346.g556effc.dirty)"><code class="xref py py-class docutils literal"><span class="pre">pandas.Series</span></code></a>)</td>
-</tr>
-<tr class="row-even"><td>domains</td>
-<td>(dict)</td>
-</tr>
-<tr class="row-odd"><td>bartree</td>
-<td>(dict)</td>
-</tr>
-<tr class="row-even"><td>bartree_parents</td>
-<td>(dict)</td>
-</tr>
-<tr class="row-odd"><td>forest</td>
-<td>(dict)</td>
-</tr>
-<tr class="row-even"><td>forest_parents</td>
-<td>(dict)</td>
-</tr>
-<tr class="row-odd"><td>mergetree</td>
-<td>(dict)</td>
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>diagram</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference external" href="http://pandas-docs.github.io/pandas-docs-travis/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0.dev0+1133.gee283fae)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt>
+<dd><p class="first last">A DataFrame showing all of the birth/death information.
+It has columns <code class="code docutils literal notranslate"><span class="pre">birth_index</span></code>, <code class="code docutils literal notranslate"><span class="pre">death_index</span></code>, <code class="code docutils literal notranslate"><span class="pre">birth</span></code>,
+<code class="code docutils literal notranslate"><span class="pre">death</span></code>, and <code class="code docutils literal notranslate"><span class="pre">pers</span></code></p>
+</dd>
+<dt><strong>lefts</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference external" href="http://pandas-docs.github.io/pandas-docs-travis/generated/pandas.Series.html#pandas.Series" title="(in pandas v0.24.0.dev0+1133.gee283fae)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.Series</span></code></a></span></dt>
+<dd></dd>
+<dt><strong>rights</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference external" href="http://pandas-docs.github.io/pandas-docs-travis/generated/pandas.Series.html#pandas.Series" title="(in pandas v0.24.0.dev0+1133.gee283fae)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.Series</span></code></a></span></dt>
+<dd></dd>
+<dt><strong>domains</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd></dd>
+<dt><strong>bartree</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd></dd>
+<dt><strong>bartree_parents</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd></dd>
+<dt><strong>forest</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd></dd>
+<dt><strong>forest_parents</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd></dd>
+<dt><strong>mergetree</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd></dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -160,34 +163,34 @@ death values (sorted by length), along with the tree and forest for range and do
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="homology.PersDiag.bin.html#homology.PersDiag.bin" title="homology.PersDiag.bin"><code class="xref py py-obj docutils literal"><span class="pre">PersDiag.bin</span></code></a>(width[,&nbsp;underflow,&nbsp;overflow,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="homology.PersDiag.bin.html#homology.PersDiag.bin" title="homology.PersDiag.bin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PersDiag.bin</span></code></a>(width[,&nbsp;underflow,&nbsp;overflow,&nbsp;…])</td>
 <td>Count bins on the transformed persistence diagram.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="homology.PersDiag.bin_bot.html#homology.PersDiag.bin_bot" title="homology.PersDiag.bin_bot"><code class="xref py py-obj docutils literal"><span class="pre">PersDiag.bin_bot</span></code></a>(width[,&nbsp;underflow,&nbsp;overflow])</td>
+<tr class="row-even"><td><a class="reference internal" href="homology.PersDiag.bin_bot.html#homology.PersDiag.bin_bot" title="homology.PersDiag.bin_bot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PersDiag.bin_bot</span></code></a>(width[,&nbsp;underflow,&nbsp;overflow])</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="homology.PersDiag.bin_diag.html#homology.PersDiag.bin_diag" title="homology.PersDiag.bin_diag"><code class="xref py py-obj docutils literal"><span class="pre">PersDiag.bin_diag</span></code></a>(width[,&nbsp;underflow,&nbsp;overflow])</td>
+<tr class="row-odd"><td><a class="reference internal" href="homology.PersDiag.bin_diag.html#homology.PersDiag.bin_diag" title="homology.PersDiag.bin_diag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PersDiag.bin_diag</span></code></a>(width[,&nbsp;underflow,&nbsp;overflow])</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="homology.PersDiag.bin_len.html#homology.PersDiag.bin_len" title="homology.PersDiag.bin_len"><code class="xref py py-obj docutils literal"><span class="pre">PersDiag.bin_len</span></code></a>(width[,&nbsp;underflow,&nbsp;overflow])</td>
+<tr class="row-even"><td><a class="reference internal" href="homology.PersDiag.bin_len.html#homology.PersDiag.bin_len" title="homology.PersDiag.bin_len"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PersDiag.bin_len</span></code></a>(width[,&nbsp;underflow,&nbsp;overflow])</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="homology.PersDiag.bin_top.html#homology.PersDiag.bin_top" title="homology.PersDiag.bin_top"><code class="xref py py-obj docutils literal"><span class="pre">PersDiag.bin_top</span></code></a>(width[,&nbsp;underflow,&nbsp;overflow])</td>
+<tr class="row-odd"><td><a class="reference internal" href="homology.PersDiag.bin_top.html#homology.PersDiag.bin_top" title="homology.PersDiag.bin_top"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PersDiag.bin_top</span></code></a>(width[,&nbsp;underflow,&nbsp;overflow])</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="homology.PersDiag.clip.html#homology.PersDiag.clip" title="homology.PersDiag.clip"><code class="xref py py-obj docutils literal"><span class="pre">PersDiag.clip</span></code></a>(beta)</td>
+<tr class="row-even"><td><a class="reference internal" href="homology.PersDiag.clip.html#homology.PersDiag.clip" title="homology.PersDiag.clip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PersDiag.clip</span></code></a>(beta)</td>
 <td>clip the barcode below beta.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="homology.PersDiag.grab.html#homology.PersDiag.grab" title="homology.PersDiag.grab"><code class="xref py py-obj docutils literal"><span class="pre">PersDiag.grab</span></code></a>(n)</td>
+<tr class="row-odd"><td><a class="reference internal" href="homology.PersDiag.grab.html#homology.PersDiag.grab" title="homology.PersDiag.grab"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PersDiag.grab</span></code></a>(n)</td>
 <td>clip the barcode, using only the top n entries.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="homology.PersDiag.plot.html#homology.PersDiag.plot" title="homology.PersDiag.plot"><code class="xref py py-obj docutils literal"><span class="pre">PersDiag.plot</span></code></a>(canvas[,&nbsp;transform,&nbsp;bins,&nbsp;title])</td>
-<td>Plot the persistence diagram using <code class="xref py py-obj docutils literal"><span class="pre">matplotlib</span></code> or <code class="xref py py-obj docutils literal"><span class="pre">bokeh</span></code>.</td>
+<tr class="row-even"><td><a class="reference internal" href="homology.PersDiag.plot.html#homology.PersDiag.plot" title="homology.PersDiag.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PersDiag.plot</span></code></a>(canvas[,&nbsp;transform,&nbsp;bins,&nbsp;title])</td>
+<td>Plot the persistence diagram using <code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">bokeh</span></code>.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="homology.PersDiag.syzygy.html#homology.PersDiag.syzygy" title="homology.PersDiag.syzygy"><code class="xref py py-obj docutils literal"><span class="pre">PersDiag.syzygy</span></code></a>(powers)</td>
+<tr class="row-odd"><td><a class="reference internal" href="homology.PersDiag.syzygy.html#homology.PersDiag.syzygy" title="homology.PersDiag.syzygy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PersDiag.syzygy</span></code></a>(powers)</td>
 <td>compute the syzygy coordinate of my barcode.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="homology.PersDiag.transform.html#homology.PersDiag.transform" title="homology.PersDiag.transform"><code class="xref py py-obj docutils literal"><span class="pre">PersDiag.transform</span></code></a>([transform,&nbsp;points])</td>
+<tr class="row-even"><td><a class="reference internal" href="homology.PersDiag.transform.html#homology.PersDiag.transform" title="homology.PersDiag.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PersDiag.transform</span></code></a>([transform,&nbsp;points])</td>
 <td>Produce an array of points, obtained by transforming the persistence diagram.</td>
 </tr>
 </tbody>
@@ -227,10 +230,10 @@ death values (sorted by length), along with the tree and forest for range and do
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

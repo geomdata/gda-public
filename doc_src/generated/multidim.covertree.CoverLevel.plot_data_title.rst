@@ -1,5 +1,5 @@
-multidim.covertree.CoverLevel.plot_data_title
-=============================================
+multidim.covertree.CoverLevel.plot\_data\_title
+===============================================
 
 .. currentmodule:: multidim.covertree
 

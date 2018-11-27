@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,14 +24,14 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
     <link rel="top" title="GDA Toolbox v1.0 Manual" href="../index.html" >
     <link rel="up" title="multidim.PointCloud" href="multidim.PointCloud.html" >
     <link rel="next" title="multidim.PointCloud.reset" href="multidim.PointCloud.reset.html" >
-    <link rel="prev" title="multidim.PointCloud.nearest_neighbors" href="multidim.PointCloud.nearest_neighbors.html" > 
+    <link rel="prev" title="multidim.PointCloud.nearest_neighbors_slow" href="multidim.PointCloud.nearest_neighbors_slow.html" > 
   </head>
   <body>
 
@@ -70,7 +71,7 @@
            accesskey="N">next</a>
       </li>
       <li class="active">
-        <a href="multidim.PointCloud.nearest_neighbors.html" title="multidim.PointCloud.nearest_neighbors"
+        <a href="multidim.PointCloud.nearest_neighbors_slow.html" title="multidim.PointCloud.nearest_neighbors_slow"
            accesskey="P">previous</a>
       </li>
     </ul>
@@ -90,37 +91,34 @@
 <h1>multidim.PointCloud.plot<a class="headerlink" href="#multidim-pointcloud-plot" title="Permalink to this headline">¶</a></h1>
 <dl class="method">
 <dt id="multidim.PointCloud.plot">
-<code class="descclassname">PointCloud.</code><code class="descname">plot</code><span class="sig-paren">(</span><em>canvas</em>, <em>cutoff=-1</em>, <em>color=’purple’</em>, <em>pos_edges=False</em>, <em>edge_alpha=-1.0</em>, <em>size=1</em>, <em>twocells=False</em>, <em>title=’SimplicialComplex’</em>, <em>label=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/multidim.html#PointCloud.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multidim.PointCloud.plot" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">PointCloud.</code><code class="descname">plot</code><span class="sig-paren">(</span><em>canvas</em>, <em>cutoff=-1</em>, <em>color='purple'</em>, <em>pos_edges=False</em>, <em>edge_alpha=-1.0</em>, <em>size=1</em>, <em>twocells=False</em>, <em>title='SimplicialComplex'</em>, <em>label=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/multidim.html#PointCloud.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multidim.PointCloud.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a PointCloud, decorated by various proeprties.</p>
 <p>Often slow!</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>canvas</strong> : object</p>
-<blockquote>
-<div><p>An instance of 
-<code class="xref py py-obj docutils literal"><span class="pre">bokeh.plotting.figure.Figure</span></code> as in
-<code class="code docutils literal"><span class="pre">canvas</span> <span class="pre">=</span> <span class="pre">bokeh.plotting.figure()</span></code>
-or an instance of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.axes._subplots.AxesSubplot</span></code> as 
-in <code class="code docutils literal"><span class="pre">axes,canvas</span> <span class="pre">=</span> <span class="pre">matplotlib.pyplot.subplots()</span></code></p>
-</div></blockquote>
-<p><strong>cutoff</strong> : float</p>
-<blockquote>
-<div><p>if cutoff&gt;=0, only draw edges up to length &lt;cutoff</p>
-</div></blockquote>
-<p><strong>twocells</strong> : boolean</p>
-<blockquote>
-<div><p>draw 2-cells (triangles)?</p>
-</div></blockquote>
-<p><strong>title</strong> : string</p>
-<blockquote>
-<div><p>title for plot</p>
-</div></blockquote>
-<p><strong>label</strong> : boolean</p>
-<blockquote class="last">
-<div><p>label points in plot?</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>canvas</strong> <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
+<dd><p class="first last">An instance of
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">bokeh.plotting.figure.Figure</span></code> as in
+<code class="code docutils literal notranslate"><span class="pre">canvas</span> <span class="pre">=</span> <span class="pre">bokeh.plotting.figure()</span></code>
+or an instance of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes._subplots.AxesSubplot</span></code> as
+in <code class="code docutils literal notranslate"><span class="pre">axes,canvas</span> <span class="pre">=</span> <span class="pre">matplotlib.pyplot.subplots()</span></code></p>
+</dd>
+<dt><strong>cutoff</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">if cutoff&gt;=0, only draw edges up to length &lt;cutoff</p>
+</dd>
+<dt><strong>twocells</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
+<dd><p class="first last">draw 2-cells (triangles)?</p>
+</dd>
+<dt><strong>title</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first last">title for plot</p>
+</dd>
+<dt><strong>label</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
+<dd><p class="first last">label points in plot?</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -136,8 +134,8 @@ in <code class="code docutils literal"><span class="pre">axes,canvas</span> <spa
       <div class="spc-rightsidebar span3">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="multidim.PointCloud.nearest_neighbors.html"
-                        title="previous chapter">multidim.PointCloud.nearest_neighbors</a></p>
+  <p class="topless"><a href="multidim.PointCloud.nearest_neighbors_slow.html"
+                        title="previous chapter">multidim.PointCloud.nearest_neighbors_slow</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="multidim.PointCloud.reset.html"
                         title="next chapter">multidim.PointCloud.reset</a></p>
@@ -160,10 +158,10 @@ in <code class="code docutils literal"><span class="pre">axes,canvas</span> <spa
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

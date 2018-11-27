@@ -1,5 +1,5 @@
-timeseries.test_mollifier.TestMollifier.teardown
-================================================
+timeseries.test\_mollifier.TestMollifier.teardown
+=================================================
 
 .. currentmodule:: timeseries.test_mollifier
 

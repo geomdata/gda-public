@@ -1,5 +1,5 @@
-homology.PersDiag.bin_diag
-==========================
+homology.PersDiag.bin\_diag
+===========================
 
 .. currentmodule:: homology
 

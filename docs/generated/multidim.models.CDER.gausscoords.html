@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
@@ -95,19 +96,20 @@
 Look to elders, and look to successor.  How does entropy change?   If
 the entropy is a local minimum, then build a Gaussian coordinate with
 the dominant label.
-This populates <code class="code docutils literal"><span class="pre">self.gaussians</span></code> for a <a class="reference internal" href="multidim.models.CDER.html#multidim.models.CDER" title="multidim.models.CDER"><code class="xref py py-class docutils literal"><span class="pre">CDER</span></code></a> object.</p>
+This populates <code class="code docutils literal notranslate"><span class="pre">self.gaussians</span></code> for a <a class="reference internal" href="multidim.models.CDER.html#multidim.models.CDER" title="multidim.models.CDER"><code class="xref py py-class docutils literal notranslate"><span class="pre">CDER</span></code></a> object.</p>
 <p>Generally, a user will never call this.  It is called by
-<a class="reference internal" href="multidim.models.CDER.fit.html#multidim.models.CDER.fit" title="multidim.models.CDER.fit"><code class="xref py py-func docutils literal"><span class="pre">fit()</span></code></a></p>
+<a class="reference internal" href="multidim.models.CDER.fit.html#multidim.models.CDER.fit" title="multidim.models.CDER.fit"><code class="xref py py-func docutils literal notranslate"><span class="pre">fit()</span></code></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>parsimonious:  bool</strong></p>
-<blockquote class="last">
-<div><p>If True, then ignore unlikely regions quickly, to minimize the number of
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>parsimonious:  bool</strong></dt>
+<dd><p class="first last">If True, then ignore unlikely regions quickly, to minimize the number of
 Gaussian coordinates.  If False, then check all levels of the
 CoverTree.  (default: True)</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -115,8 +117,8 @@ CoverTree.  (default: True)</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><code class="xref py py-func docutils literal"><span class="pre">build_gaussians()</span></code></dt>
-<dd>func:<a class="reference internal" href="multidim.models.CDER.fit.html#multidim.models.CDER.fit" title="multidim.models.CDER.fit"><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code></a></dd>
+<dt><code class="xref py py-func docutils literal notranslate"><span class="pre">build_gaussians()</span></code></dt>
+<dd>func:<a class="reference internal" href="multidim.models.CDER.fit.html#multidim.models.CDER.fit" title="multidim.models.CDER.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a></dd>
 </dl>
 </div>
 </dd></dl>
@@ -154,10 +156,10 @@ CoverTree.  (default: True)</p>
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

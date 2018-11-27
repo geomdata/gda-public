@@ -39,7 +39,7 @@ class TestBarycenters:
 
     def test_bary(self):
         wb = self.PC.witnessed_barycenters(3)
-        assert np.all(wb.stratum[0]['val'].values*3. == 2.)
+        assert np.all(wb.stratum[0]['height'].values*3. == 2.)
 
     def test_rand(self):
         randX = np.random.rand(1000, 2)

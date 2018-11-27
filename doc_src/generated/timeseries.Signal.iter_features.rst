@@ -1,5 +1,5 @@
-timeseries.Signal.iter_features
-===============================
+timeseries.Signal.iter\_features
+================================
 
 .. currentmodule:: timeseries
 

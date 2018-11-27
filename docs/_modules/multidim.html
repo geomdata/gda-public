@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
@@ -78,7 +79,7 @@
   <h1>Source code for multidim</h1><div class="highlight"><pre>
 <span></span><span class="c1"># coding=utf-8</span>
 
-<span class="sa">r</span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">The `multidim` class provides user-facing tools for topological data analysis</span>
 <span class="sd">of multi-dimensional data.</span>
 
@@ -93,7 +94,7 @@
 
 <span class="sd">Copyright</span>
 <span class="sd">---------</span>
-<span class="sd">- This file is part of https://github.com/geomdata/gda-public/ </span>
+<span class="sd">- This file is part of https://github.com/geomdata/gda-public/</span>
 <span class="sd">- 2015, 2016, 2017 by Geometric Data Analytics, Inc. (http://geomdata.com)</span>
 <span class="sd">- AGPL license. See `LICENSE` or https://github.com/geomdata/gda-public/blob/master/LICENSE</span>
 
@@ -106,28 +107,27 @@
 <span class="sd">A SimplicialComplex with 1000 points, 499500 edges, and 0 faces.</span>
 <span class="sd">&gt;&gt;&gt; np.all(pc.stratum[0][&#39;pos&#39;].values == True)</span>
 <span class="sd">True</span>
-<span class="sd">&gt;&gt;&gt; pc.stratum[0][&#39;val&#39;] = 0.0</span>
 <span class="sd">&gt;&gt;&gt; pc.check()</span>
 <span class="sd">&gt;&gt;&gt; pc.make_pers0(cutoff=0.15)</span>
 <span class="sd">&gt;&gt;&gt; for v in pc.cells(0):</span>
 <span class="sd">...     if v.positive:</span>
 <span class="sd">...         print(v)</span>
-<span class="sd">0+ Simplex 0 of value 0.0</span>
-<span class="sd">0+ Simplex 74 of value 0.0</span>
-<span class="sd">0+ Simplex 183 of value 0.0</span>
-<span class="sd">0+ Simplex 195 of value 0.0</span>
-<span class="sd">0+ Simplex 197 of value 0.0</span>
-<span class="sd">0+ Simplex 231 of value 0.0</span>
-<span class="sd">0+ Simplex 354 of value 0.0</span>
-<span class="sd">0+ Simplex 397 of value 0.0</span>
-<span class="sd">0+ Simplex 489 of value 0.0</span>
-<span class="sd">0+ Simplex 530 of value 0.0</span>
-<span class="sd">0+ Simplex 607 of value 0.0</span>
-<span class="sd">0+ Simplex 757 of value 0.0</span>
-<span class="sd">0+ Simplex 781 of value 0.0</span>
-<span class="sd">0+ Simplex 800 of value 0.0</span>
-<span class="sd">0+ Simplex 903 of value 0.0</span>
-<span class="sd">0+ Simplex 980 of value 0.0</span>
+<span class="sd">0+ Simplex 0 of height 0.0 and mass 1.0</span>
+<span class="sd">0+ Simplex 74 of height 0.0 and mass 1.0</span>
+<span class="sd">0+ Simplex 183 of height 0.0 and mass 1.0</span>
+<span class="sd">0+ Simplex 195 of height 0.0 and mass 1.0</span>
+<span class="sd">0+ Simplex 197 of height 0.0 and mass 1.0</span>
+<span class="sd">0+ Simplex 231 of height 0.0 and mass 1.0</span>
+<span class="sd">0+ Simplex 354 of height 0.0 and mass 1.0</span>
+<span class="sd">0+ Simplex 397 of height 0.0 and mass 1.0</span>
+<span class="sd">0+ Simplex 489 of height 0.0 and mass 1.0</span>
+<span class="sd">0+ Simplex 530 of height 0.0 and mass 1.0</span>
+<span class="sd">0+ Simplex 607 of height 0.0 and mass 1.0</span>
+<span class="sd">0+ Simplex 757 of height 0.0 and mass 1.0</span>
+<span class="sd">0+ Simplex 781 of height 0.0 and mass 1.0</span>
+<span class="sd">0+ Simplex 800 of height 0.0 and mass 1.0</span>
+<span class="sd">0+ Simplex 903 of height 0.0 and mass 1.0</span>
+<span class="sd">0+ Simplex 980 of height 0.0 and mass 1.0</span>
 <span class="sd">&gt;&gt;&gt; pc.pers0.grab(5)[&#39;keepcode&#39;]</span>
 <span class="sd">     birth_index  death_index  birth     death      pers</span>
 <span class="sd">979          213          316    0.0  0.136923  0.136923</span>
@@ -145,25 +145,25 @@
 <span class="sd">200         1816         7688  0.071490  0.149336  0.077846</span>
 <span class="sd">&gt;&gt;&gt; V=pc.stratum[0]</span>
 <span class="sd">&gt;&gt;&gt; V.loc[:10]</span>
-<span class="sd">    val    pos  rep</span>
-<span class="sd">0   0.0   True    0</span>
-<span class="sd">1   0.0  False    0</span>
-<span class="sd">2   0.0  False    1</span>
-<span class="sd">3   0.0  False    0</span>
-<span class="sd">4   0.0  False    0</span>
-<span class="sd">5   0.0  False    4</span>
-<span class="sd">6   0.0  False    1</span>
-<span class="sd">7   0.0  False    0</span>
-<span class="sd">8   0.0  False    0</span>
-<span class="sd">9   0.0  False    0</span>
-<span class="sd">10  0.0  False    1</span>
+<span class="sd">    height  mass    pos  rep</span>
+<span class="sd">0      0.0   1.0   True    0</span>
+<span class="sd">1      0.0   1.0  False    0</span>
+<span class="sd">2      0.0   1.0  False    1</span>
+<span class="sd">3      0.0   1.0  False    0</span>
+<span class="sd">4      0.0   1.0  False    0</span>
+<span class="sd">5      0.0   1.0  False    4</span>
+<span class="sd">6      0.0   1.0  False    1</span>
+<span class="sd">7      0.0   1.0  False    0</span>
+<span class="sd">8      0.0   1.0  False    0</span>
+<span class="sd">9      0.0   1.0  False    0</span>
+<span class="sd">10     0.0   1.0  False    1</span>
 <span class="sd">&gt;&gt;&gt; pc.cells(0)[0]</span>
-<span class="sd">0+ Simplex 0 of value 0.0</span>
+<span class="sd">0+ Simplex 0 of height 0.0 and mass 1.0</span>
 <span class="sd">&gt;&gt;&gt; pc.cells(0)[2]</span>
-<span class="sd">0- Simplex 2 of value 0.0</span>
+<span class="sd">0- Simplex 2 of height 0.0 and mass 1.0</span>
 <span class="sd">&gt;&gt;&gt; E=pc.stratum[1]</span>
 <span class="sd">&gt;&gt;&gt; E.loc[:10]</span>
-<span class="sd">         val    pos  rep  bdy0  bdy1</span>
+<span class="sd">      height    pos  rep  bdy0  bdy1</span>
 <span class="sd">0   0.001142  False    0   858   866</span>
 <span class="sd">1   0.001997  False    1    98   187</span>
 <span class="sd">2   0.002471  False    2   251   313</span>
@@ -176,7 +176,7 @@
 <span class="sd">9   0.005914  False    9   648   744</span>
 <span class="sd">10  0.006056  False   10   612   640</span>
 <span class="sd">&gt;&gt;&gt; pc.cells(1)[2]</span>
-<span class="sd">1- Simplex 2 of value 0.0024707293775457456</span>
+<span class="sd">1- Simplex 2 of height 0.0024707293775457456 and mass None</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
@@ -244,15 +244,29 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">height</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :return: value (that is, weight) of this cell (np.float64)</span>
+<span class="sd">        :return: height (that is, filtered value) of this cell (np.float64)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cellcomplex</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">][</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cellcomplex</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">][</span><span class="s1">&#39;height&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
 
-    <span class="nd">@value</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cellcomplex</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">][</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+    <span class="nd">@height</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">height</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cellcomplex</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">][</span><span class="s1">&#39;height&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: mass of this cell (np.float64 or None)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s1">&#39;mass&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cellcomplex</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cellcomplex</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">][</span><span class="s1">&#39;mass&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@mass</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">mass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cellcomplex</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">][</span><span class="s1">&#39;mass&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">positive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -331,15 +345,16 @@
         <span class="n">sign</span> <span class="o">=</span> <span class="s2">&quot;+&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">positive</span><span class="p">:</span>
             <span class="n">sign</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span>
-        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}{}</span><span class="s2"> Simplex </span><span class="si">{}</span><span class="s2"> of value </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">sign</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
-                                                    <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}{}</span><span class="s2"> Simplex </span><span class="si">{}</span><span class="s2"> of height </span><span class="si">{}</span><span class="s2"> and mass </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">sign</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+                                                    <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">),</span>
+                                                    <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mass</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cellcomplex</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">cellcomplex</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;These Cells are not in the same SimplicialComplex!&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;These Cells are not of the same dimension!&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">value</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">height</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="SimplexStratum"><a class="viewcode-back" href="../generated/multidim.SimplexStratum.html#multidim.SimplexStratum">[docs]</a><span class="k">class</span> <span class="nc">SimplexStratum</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -378,7 +393,7 @@
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Make an empty stratum :class:`pandas.DataFrame` of the appropriate dimension.</span>
 <span class="sd">    This is used to initialize a new dimension of a :class:`SimplicialComplex`.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    dim : int</span>
@@ -398,7 +413,7 @@
     <span class="k">if</span> <span class="n">dim</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">bdy_size</span> <span class="o">=</span> <span class="n">dim</span> <span class="o">+</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({},</span>
-                        <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;rep&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;bdy</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                        <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;rep&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;bdy</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
                                                          <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span>
                                                          <span class="nb">range</span><span class="p">(</span><span class="n">bdy_size</span><span class="p">)],</span>
                         <span class="n">index</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
@@ -432,14 +447,14 @@
     <span class="k">if</span> <span class="n">points</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">n</span> <span class="o">=</span> <span class="n">dists</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">idx0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
-        <span class="n">val0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="n">hgt0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
         <span class="n">pos0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;bool&#39;</span><span class="p">)</span>
         <span class="n">points</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-            <span class="s1">&#39;val&#39;</span><span class="p">:</span> <span class="n">val0</span><span class="p">,</span>
+            <span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="n">hgt0</span><span class="p">,</span>
             <span class="s1">&#39;pos&#39;</span><span class="p">:</span> <span class="n">pos0</span><span class="p">,</span>
             <span class="s1">&#39;rep&#39;</span><span class="p">:</span> <span class="n">idx0</span><span class="p">,</span>
         <span class="p">},</span>
-                <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;rep&#39;</span><span class="p">],</span>
+                <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;rep&#39;</span><span class="p">],</span>
                 <span class="n">index</span><span class="o">=</span><span class="n">idx0</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">max_length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -447,29 +462,29 @@
         <span class="c1"># distances.</span>
         <span class="n">edges</span> <span class="o">=</span> <span class="n">stratum_maker</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">val1</span><span class="p">,</span> <span class="n">pos1</span><span class="p">,</span> <span class="n">bdys</span> <span class="o">=</span> <span class="n">fast_algorithms</span><span class="o">.</span><span class="n">edges_from_dists</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dists</span><span class="p">,</span>
+        <span class="n">hgt1</span><span class="p">,</span> <span class="n">pos1</span><span class="p">,</span> <span class="n">bdys</span> <span class="o">=</span> <span class="n">fast_algorithms</span><span class="o">.</span><span class="n">edges_from_dists</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dists</span><span class="p">,</span>
                                                             <span class="n">cutoff</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">max_length</span><span class="p">))</span>
-        <span class="n">num_edges</span> <span class="o">=</span> <span class="n">val1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">num_edges</span> <span class="o">=</span> <span class="n">hgt1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">idx1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_edges</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int64&#39;</span><span class="p">)</span>
         <span class="n">edges</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-            <span class="s1">&#39;val&#39;</span><span class="p">:</span> <span class="n">val1</span><span class="p">,</span>
+            <span class="s1">&#39;hgt&#39;</span><span class="p">:</span> <span class="n">hgt1</span><span class="p">,</span>
             <span class="s1">&#39;pos&#39;</span><span class="p">:</span> <span class="n">pos1</span><span class="p">,</span>
             <span class="s1">&#39;rep&#39;</span><span class="p">:</span> <span class="n">idx1</span><span class="p">,</span>
             <span class="s1">&#39;bdy0&#39;</span><span class="p">:</span> <span class="n">bdys</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
             <span class="s1">&#39;bdy1&#39;</span><span class="p">:</span> <span class="n">bdys</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
         <span class="p">},</span>
-                <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;rep&#39;</span><span class="p">,</span> <span class="s1">&#39;bdy0&#39;</span><span class="p">,</span> <span class="s1">&#39;bdy1&#39;</span><span class="p">],</span>
+                <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;hgt&#39;</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;rep&#39;</span><span class="p">,</span> <span class="s1">&#39;bdy0&#39;</span><span class="p">,</span> <span class="s1">&#39;bdy1&#39;</span><span class="p">],</span>
                 <span class="n">index</span><span class="o">=</span><span class="n">idx1</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">points</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="n">edges</span><span class="p">}</span>
 
 
-<span class="k">def</span> <span class="nf">lower_star_for_image</span><span class="p">(</span><span class="n">val_array</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">lower_star_for_image</span><span class="p">(</span><span class="n">img_array</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the lower star weighted simplicial complex from a 2d grid/image.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    val_array, a `numpy.ndarray` of dimension 2.</span>
+<span class="sd">    img_array, a `numpy.ndarray` of dimension 2.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -482,77 +497,77 @@
 <span class="sd">    &gt;&gt;&gt; lower_star_for_image(A)</span>
 <span class="sd">    A SimplicialComplex with 12 points, 23 edges, and 12 faces.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">val_array</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span>\
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">img_array</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span>\
         <span class="s2">&quot;Lower-star filtration is currently for images (2d arrays) only.&quot;</span>
 
-    <span class="n">m</span> <span class="o">=</span> <span class="n">val_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="n">val_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">img_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">img_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
     <span class="c1"># make all vertices, by flattening val_array and indexing in the normal way</span>
-    <span class="n">verts_val</span> <span class="o">=</span> <span class="n">val_array</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">verts_hgt</span> <span class="o">=</span> <span class="n">img_array</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
     <span class="n">verts_rep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">m</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
     <span class="n">flat_index</span> <span class="o">=</span> <span class="n">verts_rep</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
 
-    <span class="n">edges_val</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">edges_hgt</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">edges_rep</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">edges_bdy0</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">edges_bdy1</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="c1"># Make all the horizontal edges.</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)):</span>
-        <span class="c1"># collect vertices&#39; indices and values</span>
+        <span class="c1"># collect vertices&#39; indices and heights</span>
         <span class="c1"># left=(i,j) -- right=(i,j+1)</span>
         <span class="n">lf_idx</span> <span class="o">=</span> <span class="n">flat_index</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
         <span class="n">rt_idx</span> <span class="o">=</span> <span class="n">flat_index</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
         <span class="c1"># There is no real reason for these asserts -- just clarification.</span>
         <span class="c1"># assert lf_idx == n*(i) + (j)</span>
         <span class="c1"># assert rt_idx == n*(i) + (j+1)</span>
-        
-        <span class="n">lf_val</span> <span class="o">=</span> <span class="n">val_array</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
-        <span class="n">rt_val</span> <span class="o">=</span> <span class="n">val_array</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">lf_hgt</span> <span class="o">=</span> <span class="n">img_array</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+        <span class="n">rt_hgt</span> <span class="o">=</span> <span class="n">img_array</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
         <span class="c1"># There is no real reason for these asserts -- just clarification.</span>
-        <span class="c1"># assert lf_val == verts_val[lf_idx]</span>
-        <span class="c1"># assert rt_val == verts_val[rt_idx]</span>
-        
-        <span class="n">edges_val</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">lf_val</span><span class="p">,</span> <span class="n">rt_val</span><span class="p">]))</span>
+        <span class="c1"># assert lf_hgt == verts_hgt[lf_idx]</span>
+        <span class="c1"># assert rt_hgt == verts_hgt[rt_idx]</span>
+
+        <span class="n">edges_hgt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">lf_hgt</span><span class="p">,</span> <span class="n">rt_hgt</span><span class="p">]))</span>
         <span class="n">edges_rep</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">edges_rep</span><span class="p">))</span>
         <span class="n">edges_bdy0</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lf_idx</span><span class="p">)</span>
         <span class="n">edges_bdy1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rt_idx</span><span class="p">)</span>
 
         <span class="c1"># This i,j horizontal edge should have index (n-1)*i + j</span>
-        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">edges_val</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">==</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span> 
-    
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">edges_hgt</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">==</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span>
+
     <span class="c1"># did we count all horizontal edges?</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">edges_val</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">m</span> 
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">edges_hgt</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">m</span>
 
     <span class="c1"># Make all the vertical edges</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)):</span>
-        <span class="c1"># collect vertices&#39; indices and values</span>
+        <span class="c1"># collect vertices&#39; indices and heights</span>
         <span class="c1"># top=(i,j)</span>
-        <span class="c1">#     | </span>
+        <span class="c1">#     |</span>
         <span class="c1"># bot=(i+1,j)</span>
         <span class="n">tp_idx</span> <span class="o">=</span> <span class="n">flat_index</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
         <span class="n">bt_idx</span> <span class="o">=</span> <span class="n">flat_index</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
         <span class="c1"># There is no real reason for these asserts -- just clarification.</span>
         <span class="c1"># assert tp_idx == n*(i) + (j)</span>
         <span class="c1"># assert bt_idx == n*(i+1) + (j)</span>
-        <span class="n">tp_val</span> <span class="o">=</span> <span class="n">val_array</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
-        <span class="n">bt_val</span> <span class="o">=</span> <span class="n">val_array</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+        <span class="n">tp_hgt</span> <span class="o">=</span> <span class="n">img_array</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+        <span class="n">bt_hgt</span> <span class="o">=</span> <span class="n">img_array</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
         <span class="c1"># There is no real reason for these asserts -- just clarification.</span>
-        <span class="c1"># assert tp_val == verts_val[tp_idx]</span>
-        <span class="c1"># assert bt_val == verts_val[bt_idx]</span>
-        <span class="n">edges_val</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">tp_val</span><span class="p">,</span> <span class="n">bt_val</span><span class="p">]))</span>
+        <span class="c1"># assert tp_hgt == verts_hgt[tp_idx]</span>
+        <span class="c1"># assert bt_hgt == verts_hgt[bt_idx]</span>
+        <span class="n">edges_hgt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">tp_hgt</span><span class="p">,</span> <span class="n">bt_hgt</span><span class="p">]))</span>
         <span class="n">edges_rep</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">edges_rep</span><span class="p">))</span>
         <span class="n">edges_bdy0</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tp_idx</span><span class="p">)</span>
         <span class="n">edges_bdy1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bt_idx</span><span class="p">)</span>
 
         <span class="c1"># This i,j vertical edge should have index n*i + j</span>
         <span class="c1"># AFTER the (n-1)*m horizontal edges</span>
-        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">edges_val</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">==</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">m</span> <span class="o">+</span> <span class="n">n</span><span class="o">*</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">edges_hgt</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">==</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">m</span> <span class="o">+</span> <span class="n">n</span><span class="o">*</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span>
 
     <span class="c1"># did we cound all vertical AND horizontal edges?</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">edges_val</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">m</span> <span class="o">+</span> <span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">edges_hgt</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">m</span> <span class="o">+</span> <span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
-    <span class="n">faces_val</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">faces_hgt</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">faces_rep</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">faces_bdy0</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">faces_bdy1</span> <span class="o">=</span> <span class="p">[]</span>
@@ -560,7 +575,7 @@
 
     <span class="c1"># Make the diagonal edges, and the faces, too.</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)):</span>
-        <span class="c1"># collect the vertices&#39; indices and values</span>
+        <span class="c1"># collect the vertices&#39; indices and heights</span>
         <span class="c1">#  nw=(i,j)        ne=(i, j+1)</span>
         <span class="c1">#          at (i,j)</span>
         <span class="c1">#  sw=(i+1, j)     se=(i+1, j+1)</span>
@@ -573,30 +588,30 @@
         <span class="c1"># assert ne_idx == n*(i) + (j+1)</span>
         <span class="c1"># assert se_idx == n*(i+1) + (j+1)</span>
         <span class="c1"># assert sw_idx == n*(i+1) + (j)</span>
- 
-        <span class="n">nw_val</span> <span class="o">=</span> <span class="n">val_array</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
-        <span class="n">ne_val</span> <span class="o">=</span> <span class="n">val_array</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">se_val</span> <span class="o">=</span> <span class="n">val_array</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">sw_val</span> <span class="o">=</span> <span class="n">val_array</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+
+        <span class="n">nw_hgt</span> <span class="o">=</span> <span class="n">img_array</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+        <span class="n">ne_hgt</span> <span class="o">=</span> <span class="n">img_array</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">se_hgt</span> <span class="o">=</span> <span class="n">img_array</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">sw_hgt</span> <span class="o">=</span> <span class="n">img_array</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
         <span class="c1"># There is no real reason for these asserts -- just clarification.</span>
-        <span class="c1"># assert nw_val == verts_val[nw_idx]</span>
-        <span class="c1"># assert ne_val == verts_val[ne_idx]</span>
-        <span class="c1"># assert se_val == verts_val[se_idx]</span>
-        <span class="c1"># assert sw_val == verts_val[sw_idx]</span>
+        <span class="c1"># assert nw_hgt == verts_hgt[nw_idx]</span>
+        <span class="c1"># assert ne_hgt == verts_hgt[ne_idx]</span>
+        <span class="c1"># assert se_hgt == verts_hgt[se_idx]</span>
+        <span class="c1"># assert sw_hgt == verts_hgt[sw_idx]</span>
 
         <span class="c1"># determine diagonal</span>
-        <span class="n">cell_max_loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">([</span><span class="n">nw_val</span><span class="p">,</span> <span class="n">ne_val</span><span class="p">,</span> <span class="n">se_val</span><span class="p">,</span> <span class="n">sw_val</span><span class="p">])</span>
+        <span class="n">cell_max_loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">([</span><span class="n">nw_hgt</span><span class="p">,</span> <span class="n">ne_hgt</span><span class="p">,</span> <span class="n">se_hgt</span><span class="p">,</span> <span class="n">sw_hgt</span><span class="p">])</span>
 
         <span class="k">if</span> <span class="n">cell_max_loc</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="c1"># Max is either nw or se.</span>
-            <span class="c1"># Make edge (nw,se) </span>
-            <span class="n">edges_val</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">nw_val</span><span class="p">,</span> <span class="n">se_val</span><span class="p">]))</span>
+            <span class="c1"># Make edge (nw,se)</span>
+            <span class="n">edges_hgt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">nw_hgt</span><span class="p">,</span> <span class="n">se_hgt</span><span class="p">]))</span>
             <span class="n">edges_rep</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">edges_rep</span><span class="p">))</span>
             <span class="n">edges_bdy0</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nw_idx</span><span class="p">)</span>
             <span class="n">edges_bdy1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">se_idx</span><span class="p">)</span>
 
             <span class="c1"># Make face (nw,ne,se).</span>
-            <span class="n">faces_val</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">nw_val</span><span class="p">,</span> <span class="n">ne_val</span><span class="p">,</span> <span class="n">se_val</span><span class="p">]))</span>
+            <span class="n">faces_hgt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">nw_hgt</span><span class="p">,</span> <span class="n">ne_hgt</span><span class="p">,</span> <span class="n">se_hgt</span><span class="p">]))</span>
             <span class="n">faces_rep</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">faces_rep</span><span class="p">))</span>
             <span class="n">faces_bdy0</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span>  <span class="c1"># horizontal nw-ne</span>
             <span class="c1"># assert edges_bdy0[ (n-1)*i + j ] == nw_idx</span>
@@ -607,9 +622,9 @@
             <span class="n">faces_bdy2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">edges_rep</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># most recent edge is nw\se</span>
             <span class="c1"># assert edges_bdy0[ edges_rep[-1] ] == nw_idx</span>
             <span class="c1"># assert edges_bdy1[ edges_rep[-1] ] == se_idx</span>
-            
+
             <span class="c1"># Make face (sw,se,nw).</span>
-            <span class="n">faces_val</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">sw_val</span><span class="p">,</span> <span class="n">se_val</span><span class="p">,</span> <span class="n">nw_val</span><span class="p">]))</span>
+            <span class="n">faces_hgt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">sw_hgt</span><span class="p">,</span> <span class="n">se_hgt</span><span class="p">,</span> <span class="n">nw_hgt</span><span class="p">]))</span>
             <span class="n">faces_rep</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">faces_rep</span><span class="p">))</span>
             <span class="n">faces_bdy0</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span>  <span class="c1"># horizontal sw-se</span>
             <span class="c1"># assert edges_bdy0[ (n-1)*(i+1) + j ] == sw_idx</span>
@@ -623,14 +638,14 @@
 
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Max is either ne or sw.</span>
-            <span class="c1"># Make edge (ne,sw) </span>
-            <span class="n">edges_val</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">ne_val</span><span class="p">,</span> <span class="n">sw_val</span><span class="p">]))</span>
+            <span class="c1"># Make edge (ne,sw)</span>
+            <span class="n">edges_hgt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">ne_hgt</span><span class="p">,</span> <span class="n">sw_hgt</span><span class="p">]))</span>
             <span class="n">edges_rep</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">edges_rep</span><span class="p">))</span>
             <span class="n">edges_bdy0</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ne_idx</span><span class="p">)</span>
             <span class="n">edges_bdy1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sw_idx</span><span class="p">)</span>
 
             <span class="c1"># Make face (nw,ne,sw).</span>
-            <span class="n">faces_val</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">nw_val</span><span class="p">,</span> <span class="n">ne_val</span><span class="p">,</span> <span class="n">sw_val</span><span class="p">]))</span>
+            <span class="n">faces_hgt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">nw_hgt</span><span class="p">,</span> <span class="n">ne_hgt</span><span class="p">,</span> <span class="n">sw_hgt</span><span class="p">]))</span>
             <span class="n">faces_rep</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">faces_rep</span><span class="p">))</span>
             <span class="n">faces_bdy0</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span>  <span class="c1"># horizontal nw-ne</span>
             <span class="c1"># assert edges_bdy0[ (n-1)*i + j ] == nw_idx</span>
@@ -641,9 +656,9 @@
             <span class="n">faces_bdy2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">edges_rep</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># most recent edge is ne\sw</span>
             <span class="c1"># assert edges_bdy0[ edges_rep[-1] ] == ne_idx</span>
             <span class="c1"># assert edges_bdy1[ edges_rep[-1] ] == sw_idx</span>
-            
+
             <span class="c1"># Make face (sw,se,ne).</span>
-            <span class="n">faces_val</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">sw_val</span><span class="p">,</span> <span class="n">se_val</span><span class="p">,</span> <span class="n">ne_val</span><span class="p">]))</span>
+            <span class="n">faces_hgt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">sw_hgt</span><span class="p">,</span> <span class="n">se_hgt</span><span class="p">,</span> <span class="n">ne_hgt</span><span class="p">]))</span>
             <span class="n">faces_rep</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">faces_rep</span><span class="p">))</span>
             <span class="n">faces_bdy0</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span>  <span class="c1"># horizontal sw-se</span>
             <span class="c1"># assert edges_bdy0[ (n-1)*(i+1) + j ] == sw_idx</span>
@@ -655,82 +670,91 @@
             <span class="c1"># assert edges_bdy0[ edges_rep[-1] ] == ne_idx</span>
             <span class="c1"># assert edges_bdy1[ edges_rep[-1] ] == sw_idx</span>
 
-    <span class="n">verts_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">verts_val</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;bool&#39;</span><span class="p">)</span>
+    <span class="n">verts_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">verts_hgt</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;bool&#39;</span><span class="p">)</span>
     <span class="n">edges_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">edges_rep</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;bool&#39;</span><span class="p">)</span>
     <span class="n">faces_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">faces_rep</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;bool&#39;</span><span class="p">)</span>
 
-    <span class="n">verts</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;val&#39;</span><span class="p">:</span> <span class="n">verts_val</span><span class="p">,</span>
+    <span class="n">verts</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="n">verts_hgt</span><span class="p">,</span>
                           <span class="s1">&#39;rep&#39;</span><span class="p">:</span> <span class="n">verts_rep</span><span class="p">,</span>
                           <span class="s1">&#39;pos&#39;</span><span class="p">:</span> <span class="n">verts_pos</span><span class="p">},</span>
-                         <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;rep&#39;</span><span class="p">])</span>
+                         <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;rep&#39;</span><span class="p">])</span>
 
-    <span class="n">edges</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;val&#39;</span><span class="p">:</span> <span class="n">edges_val</span><span class="p">,</span>
+    <span class="n">edges</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="n">edges_hgt</span><span class="p">,</span>
                           <span class="s1">&#39;rep&#39;</span><span class="p">:</span> <span class="n">edges_rep</span><span class="p">,</span>
                           <span class="s1">&#39;pos&#39;</span><span class="p">:</span> <span class="n">edges_pos</span><span class="p">,</span>
                           <span class="s1">&#39;bdy0&#39;</span><span class="p">:</span> <span class="n">edges_bdy0</span><span class="p">,</span>
                           <span class="s1">&#39;bdy1&#39;</span><span class="p">:</span> <span class="n">edges_bdy1</span><span class="p">},</span>
-                         <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;rep&#39;</span><span class="p">,</span> <span class="s1">&#39;bdy0&#39;</span><span class="p">,</span> <span class="s1">&#39;bdy1&#39;</span><span class="p">])</span>
+                         <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;rep&#39;</span><span class="p">,</span> <span class="s1">&#39;bdy0&#39;</span><span class="p">,</span> <span class="s1">&#39;bdy1&#39;</span><span class="p">])</span>
 
-    <span class="n">faces</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;val&#39;</span><span class="p">:</span> <span class="n">faces_val</span><span class="p">,</span>
+    <span class="n">faces</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="n">faces_hgt</span><span class="p">,</span>
                           <span class="s1">&#39;rep&#39;</span><span class="p">:</span> <span class="n">faces_rep</span><span class="p">,</span>
                           <span class="s1">&#39;pos&#39;</span><span class="p">:</span> <span class="n">faces_pos</span><span class="p">,</span>
                           <span class="s1">&#39;bdy0&#39;</span><span class="p">:</span> <span class="n">faces_bdy0</span><span class="p">,</span>
                           <span class="s1">&#39;bdy1&#39;</span><span class="p">:</span> <span class="n">faces_bdy1</span><span class="p">,</span>
                           <span class="s1">&#39;bdy2&#39;</span><span class="p">:</span> <span class="n">faces_bdy2</span><span class="p">},</span>
-                         <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;rep&#39;</span><span class="p">,</span> <span class="s1">&#39;bdy0&#39;</span><span class="p">,</span> <span class="s1">&#39;bdy1&#39;</span><span class="p">,</span> <span class="s1">&#39;bdy2&#39;</span><span class="p">])</span>
+                         <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;rep&#39;</span><span class="p">,</span> <span class="s1">&#39;bdy0&#39;</span><span class="p">,</span> <span class="s1">&#39;bdy1&#39;</span><span class="p">,</span> <span class="s1">&#39;bdy2&#39;</span><span class="p">])</span>
 
     <span class="k">return</span> <span class="n">SimplicialComplex</span><span class="p">(</span><span class="n">stratum</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">verts</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="n">edges</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="n">faces</span><span class="p">})</span>
 
 
 <div class="viewcode-block" id="SimplicialComplex"><a class="viewcode-back" href="../generated/multidim.SimplicialComplex.html#multidim.SimplicialComplex">[docs]</a><span class="k">class</span> <span class="nc">SimplicialComplex</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A class for abstract *weighted* simplicial complexes.  </span>
-<span class="sd">    A SimplicialComplex is built from 0-cells (vertices), 1-cells (edges), </span>
-<span class="sd">    2-cells (faces), and so on.  </span>
-<span class="sd">    </span>
-<span class="sd">    Each cell knows its boundary.  A 0-cell has no boundary. A 1-cell has two </span>
-<span class="sd">    0-cells as its boundary.  A 2-cell has three 1-cells as its boundary, and </span>
+<span class="sd">    A class for abstract *weighted* simplicial complexes.</span>
+<span class="sd">    A SimplicialComplex is built from 0-cells (vertices), 1-cells (edges),</span>
+<span class="sd">    2-cells (faces), and so on.</span>
+
+<span class="sd">    Each cell knows its boundary.  A 0-cell has no boundary. A 1-cell has two</span>
+<span class="sd">    0-cells as its boundary.  A 2-cell has three 1-cells as its boundary, and</span>
 <span class="sd">    so on.</span>
 
-<span class="sd">    Each cell has a weight value, called `val`.  These weights are used in </span>
-<span class="sd">    several topological algorithms. </span>
+<span class="sd">    Each cell *must* height value, called `height`.  These heights are used in</span>
+<span class="sd">    several topological algorithms that depend on filtering.</span>
 
-<span class="sd">    A SimplicialComplex has no notion of coordinates or embedding.  For that, use the</span>
-<span class="sd">    :class:`PointCloud` class, which inherits all methods from SimplicialComplex but </span>
-<span class="sd">    also adds coordinate-dependent methods.</span>
-<span class="sd">    </span>
+<span class="sd">    Each cell *may* have a mass value, called `mass`.  These masses are used in</span>
+<span class="sd">    some data-analysis methods that involve weighted averaging or probability.</span>
+
+<span class="sd">    Each cell can</span>
+<span class="sd">    A SimplicialComplex has no notion of coordinates or embedding.  For that,</span>
+<span class="sd">    use the :class:`PointCloud` class, which inherits all methods from</span>
+<span class="sd">    SimplicialComplex but also adds coordinate-dependent methods.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    stratum : dict</span>
-<span class="sd">        Dictionary of :class:`pandas.DataFrame` objects holding vertices, </span>
+<span class="sd">        Dictionary of :class:`pandas.DataFrame` objects holding vertices,</span>
 <span class="sd">        edges, faces, and so on.  See examples below.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    One can refernce the :class:`Simplex` objects that are separated by dimension</span>
-<span class="sd">    into :class:`SimplexStratum` objects.</span>
-<span class="sd">    Each :class:`Simplex` object has a value, so these are *weighted* simplicial</span>
-<span class="sd">    complexes.</span>
+<span class="sd">    One can reference the :class:`Simplex` objects that are separated by</span>
+<span class="sd">    dimension into :class:`SimplexStratum` objects.</span>
 
-<span class="sd">    The **rep** and **pos** attributes are used when computing various homologies,</span>
-<span class="sd">    such as the Rips or Cech complexes.</span>
+<span class="sd">    Each :class:`Simplex` object has a height, so these are *filtered*</span>
+<span class="sd">    simplicial complexes.</span>
 
-<span class="sd">    Whenever possible, computations are done on :class:`numpy.ndarray` arrays </span>
+<span class="sd">    Each :class:`Simplex` object may have a mass, so these can be are *weighted*</span>
+<span class="sd">    simplicial complexes.</span>
+
+<span class="sd">    The **rep** and **pos** attributes are used when computing various</span>
+<span class="sd">    homologies, such as the Rips or Cech complexes.</span>
+
+<span class="sd">    Whenever possible, computations are done on :class:`numpy.ndarray` arrays</span>
 <span class="sd">    in compiled code, so they are usually quite fast.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    For example, a formal triangle could be built this way:</span>
 
-<span class="sd">    &gt;&gt;&gt; vertices = pd.DataFrame({&#39;val&#39;:[ 1.0, 1.0, 1.0],</span>
+<span class="sd">    &gt;&gt;&gt; vertices = pd.DataFrame({&#39;height&#39;:[ 0.0, 0.0, 0.0],</span>
+<span class="sd">    ...                          &#39;mass&#39;: [1.0, 1.0, 1.0],</span>
 <span class="sd">    ...                          &#39;pos&#39;: [True, True, True],</span>
 <span class="sd">    ...                          &#39;rep&#39; : [0, 1, 2]})</span>
-<span class="sd">    &gt;&gt;&gt; edges = pd.DataFrame({&#39;val&#39;:[ 1.0, 1.0, 1.0],</span>
+<span class="sd">    &gt;&gt;&gt; edges = pd.DataFrame({&#39;height&#39;:[ 0.0, 0.0, 0.0],</span>
 <span class="sd">    ...                       &#39;pos&#39;: [True, True, True],</span>
 <span class="sd">    ...                       &#39;rep&#39; : [0, 1, 2],</span>
 <span class="sd">    ...                       &#39;bdy0&#39;: [0, 1, 2],</span>
 <span class="sd">    ...                       &#39;bdy1&#39;: [1, 2, 0]})</span>
-<span class="sd">    &gt;&gt;&gt; faces = pd.DataFrame({&#39;val&#39;: [1.0],</span>
+<span class="sd">    &gt;&gt;&gt; faces = pd.DataFrame({&#39;height&#39;: [0.0],</span>
 <span class="sd">    ...                       &#39;pos&#39;: [True],</span>
 <span class="sd">    ...                       &#39;rep&#39;: [0],</span>
 <span class="sd">    ...                       &#39;bdy0&#39;: [0],</span>
@@ -758,7 +782,7 @@
     <span class="k">def</span> <span class="nf">from_distances</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dists</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct a `SimplicialComplex` from a symmetric matrix of distances.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        dists : `numpy.ndarray`</span>
@@ -782,14 +806,14 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">stratum</span><span class="o">=</span><span class="n">stratum</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SimplicialComplex.check"><a class="viewcode-back" href="../generated/multidim.SimplicialComplex.check.html#multidim.SimplicialComplex.check">[docs]</a>    <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Run consistency checks on all simplices in all dimensions. </span>
-<span class="sd">        raises ValueError if anything is wrong. </span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Run consistency checks on all simplices in all dimensions.</span>
+<span class="sd">        raises ValueError if anything is wrong.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stratum</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">dim</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">valcheck</span> <span class="o">=</span> <span class="n">fast_algorithms</span><span class="o">.</span><span class="n">check_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+                <span class="n">valcheck</span> <span class="o">=</span> <span class="n">fast_algorithms</span><span class="o">.</span><span class="n">check_heights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">valcheck</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Not a filtration! Check &#39;val&#39; in </span><span class="si">{}</span><span class="s2">.stratum[</span><span class="si">{}</span><span class="s2">].iloc[</span><span class="si">{}</span><span class="s2">]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">valcheck</span><span class="p">))</span></div>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Not a filtration! Check &#39;height&#39; in (</span><span class="si">{}</span><span class="s2">).stratum[</span><span class="si">{}</span><span class="s2">].iloc[</span><span class="si">{}</span><span class="s2">]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">valcheck</span><span class="p">))</span></div>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;A SimplicialComplex with </span><span class="si">{}</span><span class="s2"> points, </span><span class="si">{}</span><span class="s2"> edges, and </span><span class="si">{}</span><span class="s2"> faces.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -822,7 +846,7 @@
 <div class="viewcode-block" id="SimplicialComplex.make_pers0"><a class="viewcode-back" href="../generated/multidim.SimplicialComplex.make_pers0.html#multidim.SimplicialComplex.make_pers0">[docs]</a>    <span class="k">def</span> <span class="nf">make_pers0</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Run the UnionFind algorithm to mark connected components of the</span>
 <span class="sd">        SimplicialComplex.  This marks points as positive/negative.</span>
-<span class="sd">        It also marks the reprensetatives of points. </span>
+<span class="sd">        It also marks the reprensetatives of points.</span>
 <span class="sd">        It makes a PersDiag object with unionfind, saved as :code:`self.pers0`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -831,36 +855,78 @@
 
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_length</span> <span class="o">&gt;=</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">cutoff</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_length</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Persistence cutoff is greater than max_length of pre-computed edges.  This is meaningless.&quot;</span><span class="p">)</span> 
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Persistence cutoff is greater than max_length of pre-computed edges.  This is meaningless.&quot;</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="k">pass</span>
 
         <span class="n">tbirth_index</span><span class="p">,</span> <span class="n">tdeath_index</span><span class="p">,</span> <span class="n">ybirth_index</span><span class="p">,</span> <span class="n">ydeath_index</span><span class="p">,</span> <span class="n">mergetree</span> <span class="o">=</span> <span class="n">homology</span><span class="o">.</span><span class="n">dim0</span><span class="o">.</span><span class="n">unionfind</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">cutoff</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pers0</span> <span class="o">=</span> <span class="n">homology</span><span class="o">.</span><span class="n">PersDiag</span><span class="p">(</span><span class="n">tbirth_index</span><span class="p">,</span> <span class="n">tdeath_index</span><span class="p">,</span> <span class="n">ybirth_index</span><span class="p">,</span> <span class="n">ydeath_index</span><span class="p">,</span> <span class="n">mergetree</span><span class="p">)</span>
         <span class="k">pass</span></div>
-    
+
 <div class="viewcode-block" id="SimplicialComplex.make_pers1_rca1"><a class="viewcode-back" href="../generated/multidim.SimplicialComplex.make_pers1_rca1.html#multidim.SimplicialComplex.make_pers1_rca1">[docs]</a>    <span class="k">def</span> <span class="nf">make_pers1_rca1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Run RCA1 and make a 1-dimensional `homology.PersDiag` for the </span>
-<span class="sd">        edge-pairings for cycle generators. </span>
-<span class="sd">  </span>
-<span class="sd">        This reruns self.make_pers0(cutoff) again.</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Run RCA1 and make a 1-dimensional `homology.PersDiag` for the</span>
+<span class="sd">        edge-pairings for cycle generators.</span>
+
+<span class="sd">        This reruns self.make_pers0(cutoff) again, to make sure components are</span>
+<span class="sd">        marked correctly.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        -----------</span>
 <span class="sd">        cutoff: float</span>
-<span class="sd">            Maximum edge value to use for RCA1 algorithm. Longer edges ignored.</span>
-<span class="sd">            (Default: -1, meaning use no edges.)</span>
-<span class="sd">        </span>
+<span class="sd">            Maximum edge height to use for RCA1 algorithm. Higher edges ignored.</span>
+<span class="sd">            (Default: -1, meaning use all edges.)</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        none.  Produces `self.pers1` </span>
+<span class="sd">        none.  Produces `self.pers1`</span>
 
 <span class="sd">        Table of edge pairs, similar to a persistence diagram.</span>
-<span class="sd">        &quot;&quot;&quot;</span> 
+
+<span class="sd">        BUGS</span>
+<span class="sd">        ----</span>
+<span class="sd">        data = np.array([[0.,0.],[1.,0.],[0.,1.],[1.,0.5]]) fails.</span>
+
+
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        &gt;&gt;&gt; data = np.array([[0.,0.],[1.,0.],[0.,1.],[1.,1.]])</span>
+<span class="sd">        &gt;&gt;&gt; pc = PointCloud(data, max_length=-1)</span>
+<span class="sd">        &gt;&gt;&gt; print(pc.stratum[1])</span>
+<span class="sd">             height   pos  rep  bdy0  bdy1</span>
+<span class="sd">        0  1.000000  True    0     0     1</span>
+<span class="sd">        1  1.000000  True    1     0     2</span>
+<span class="sd">        2  1.000000  True    2     1     3</span>
+<span class="sd">        3  1.000000  True    3     2     3</span>
+<span class="sd">        4  1.414214  True    4     0     3</span>
+<span class="sd">        5  1.414214  True    5     1     2</span>
+<span class="sd">        &gt;&gt;&gt; pc.make_pers1_rca1()</span>
+<span class="sd">        &gt;&gt;&gt; print(pc.pers1.diagram)</span>
+<span class="sd">           birth_index  death_index  birth     death      pers</span>
+<span class="sd">        0            3            4    1.0  1.414214  0.414214</span>
+
+<span class="sd">        &gt;&gt;&gt; data = np.array([[0.,0.],[1.,0.],[0.,1.],[1.,0.5]])</span>
+<span class="sd">        &gt;&gt;&gt; pc = PointCloud(data, max_length=-1)</span>
+<span class="sd">        &gt;&gt;&gt; print(pc.stratum[1])</span>
+<span class="sd">             height   pos  rep  bdy0  bdy1</span>
+<span class="sd">        0  0.500000  True    0     1     3</span>
+<span class="sd">        1  1.000000  True    1     0     1</span>
+<span class="sd">        2  1.000000  True    2     0     2</span>
+<span class="sd">        3  1.118034  True    3     0     3</span>
+<span class="sd">        4  1.118034  True    4     2     3</span>
+<span class="sd">        5  1.414214  True    5     1     2</span>
+<span class="sd">        &gt;&gt;&gt; pc.make_pers1_rca1()</span>
+<span class="sd">        &gt;&gt;&gt; print(pc.pers1.diagram)</span>
+<span class="sd">        Empty DataFrame</span>
+<span class="sd">        Columns: [birth_index, death_index, birth, death, pers]</span>
+<span class="sd">        Index: []</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># we need 0dim persistence first.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">make_pers0</span><span class="p">(</span><span class="n">cutoff</span><span class="o">=</span><span class="n">cutoff</span><span class="p">)</span>
-        
+
         <span class="n">column_list</span><span class="p">,</span> <span class="n">column_edge_index</span><span class="p">,</span> <span class="n">stop_edge</span> <span class="o">=</span> <span class="n">homology</span><span class="o">.</span><span class="n">dim1</span><span class="o">.</span><span class="n">rca1</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">cutoff</span><span class="o">=</span><span class="n">cutoff</span><span class="p">)</span>
 
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">column_list</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">column_edge_index</span><span class="p">)</span>
@@ -868,71 +934,84 @@
         <span class="n">pers_list</span> <span class="o">=</span> <span class="p">[(</span><span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">column_edge_index</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span>
                      <span class="nb">enumerate</span><span class="p">(</span><span class="n">column_list</span><span class="p">)</span> <span class="k">if</span> <span class="n">c</span><span class="p">]</span>
         <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pers_list</span><span class="p">)</span>
-        <span class="n">mergetree</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pers1</span> <span class="o">=</span> <span class="n">homology</span><span class="o">.</span><span class="n">PersDiag</span><span class="p">(</span>
-            <span class="n">p</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
-            <span class="n">p</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">p</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">p</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-            <span class="n">mergetree</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">mergetree</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([])</span> <span class="c1"># we can&#39;t compute a mergetree yet</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pers1</span> <span class="o">=</span> <span class="n">homology</span><span class="o">.</span><span class="n">PersDiag</span><span class="p">(</span>
+                <span class="n">p</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+                <span class="n">p</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;height&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">p</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;height&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">p</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                <span class="n">mergetree</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># no births or deaths recorded</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pers1</span> <span class="o">=</span> <span class="n">homology</span><span class="o">.</span><span class="n">PersDiag</span><span class="p">([],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="nb">dict</span><span class="p">([]))</span>
 
         <span class="k">pass</span></div></div>
 
 
 <div class="viewcode-block" id="PointCloud"><a class="viewcode-back" href="../generated/multidim.PointCloud.html#multidim.PointCloud">[docs]</a><span class="k">class</span> <span class="nc">PointCloud</span><span class="p">(</span><span class="n">SimplicialComplex</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot; PointCloud is a class for *embedded*, weighted simplicial complexes.  </span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot; PointCloud is a class for *embedded*, weighted simplicial complexes.</span>
 <span class="sd">    This is a subclass of :class:`SimplicialComplex`, with the additional property</span>
 <span class="sd">    that every 0-cell (vertex) is actually a point in :math:`\mathbb{R}^k.`</span>
-<span class="sd">    </span>
-<span class="sd">    The most basic and most common example of a PointCloud is a set of</span>
-<span class="sd">    :math:`N` points in :math:`\mathbb{R}^k` with weights assigned as an</span>
-<span class="sd">    arbitrary index label.</span>
-<span class="sd">    </span>
+
+<span class="sd">    The most basic and most common example of a PointCloud is an indexed set of</span>
+<span class="sd">    :math:`N` points in :math:`\mathbb{R}^k` with heights assigned as 0, and</span>
+<span class="sd">    mass assigned as 1.</span>
+
 <span class="sd">    Typically, a user starts with 0-cells only.  Then, any 1-cells, 2-cells,</span>
 <span class="sd">    ..., are created later via some topological construction.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_array</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">,</span>
-                 <span class="n">idx0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cache_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_array</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">heights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">masses</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">dist</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">,</span> <span class="n">idx0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cache_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Construct a :class:`PointCloud` from a cloud of n points in</span>
-<span class="sd">        :math:`\mathbb{R}^k.` </span>
+<span class="sd">        :math:`\mathbb{R}^k.`</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        data_array : :class:`numpy.ndarray`</span>
-<span class="sd">            A np array with shape=(n,k), to</span>
-<span class="sd">        </span>
+<span class="sd">            A np array with shape=(n,k), to use as the pointcloud.  The array</span>
+<span class="sd">            must have dtype==&#39;float64&#39;.</span>
+
 <span class="sd">        max_length : float</span>
 <span class="sd">            If max_length is positive, then find edges of length &lt;= max_length.</span>
 <span class="sd">            This uses the :class:`multidim.covertree.CoverTree` for efficiency.</span>
 <span class="sd">            Default is 0.0, meaning compute no edges.</span>
 
-<span class="sd">        weights : :class:`numpy.ndarray`</span>
-<span class="sd">            If weights is given, it is used to assign graded values to the </span>
+<span class="sd">        heights : :class:`numpy.ndarray`</span>
+<span class="sd">            If heights is given, it is used to assign graded values to the</span>
 <span class="sd">            points in data_array. It must be a np array of dtype==&#39;float64&#39; and</span>
 <span class="sd">            shape==(n,), like from np.apply_along_axis(my_func, 1, data_array)</span>
-<span class="sd">            Default: None (all have weight 0.0)</span>
+<span class="sd">            Default: None (all have height 0.0)</span>
+
+<span class="sd">        masses : :class:`numpy.ndarray`</span>
+<span class="sd">            If masses is given, it is used to assign mass values to the</span>
+<span class="sd">            points in data_array. It must be a np array of dtype==&#39;float64&#39; and</span>
+<span class="sd">            shape==(n,), like from np.apply_along_axis(my_func, 1, data_array)</span>
+<span class="sd">            Default: None (all have mass 1.0)</span>
 
 <span class="sd">        idx0 : :class:`numpy.ndarray`</span>
-<span class="sd">            If idx0 is given, it is used to assign index values to the </span>
+<span class="sd">            If idx0 is given, it is used to assign index values to the</span>
 <span class="sd">            points in data_array. It must be a np array of dtype==&#39;int64&#39; and</span>
 <span class="sd">            shape==(n,),</span>
 <span class="sd">            Default: None (index by order given in data_array)</span>
 
 <span class="sd">        cache_type : None or &quot;np&quot; or &quot;dict&quot;</span>
-<span class="sd">            What type of distance cache to use.  Often None is actualyl faster!</span>
+<span class="sd">            What type of distance cache to use.  Often None is actually faster!</span>
 <span class="sd">            If you really care about speed, remember to use -O</span>
 
 <span class="sd">        dist : function</span>
-<span class="sd">            If dist is given, it is used as the distance function for computing </span>
+<span class="sd">            If dist is given, it is used as the distance function for computing</span>
 <span class="sd">            edge lengths, via scipy.spatial.distance.pdist.  Not used with on-demand caching.</span>
 <span class="sd">            Default: &#39;euclidean&#39;</span>
 
 
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">data_array</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="s2">&quot;Data must be float64.&quot;</span>
         <span class="n">n</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">data_array</span><span class="o">.</span><span class="n">shape</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="n">k</span>
-        
+
         <span class="bp">self</span><span class="o">.</span><span class="n">cache_type</span> <span class="o">=</span> <span class="n">cache_type</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dist_cache</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dist</span> <span class="o">=</span> <span class="n">dist</span>
@@ -946,15 +1025,25 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;cache_type can be None or &#39;dict&#39; or &#39;np&#39;&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">heights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">heights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> \
-                   <span class="ow">and</span> <span class="n">weights</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">n</span><span class="p">,)</span> \
-                   <span class="ow">and</span> <span class="n">weights</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;float64&#39;</span><span class="p">,</span> \
-                   <span class="s2">&quot;Wrong type or size for weights data on pointcloud.&quot;</span>
+            <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">heights</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> \
+                   <span class="ow">and</span> <span class="n">heights</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">n</span><span class="p">,)</span> \
+                   <span class="ow">and</span> <span class="n">heights</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;float64&#39;</span><span class="p">,</span> \
+                   <span class="s2">&quot;Wrong type or size for heights data on pointcloud.&quot;</span>
 
-        <span class="n">val0</span> <span class="o">=</span> <span class="n">weights</span>
+        <span class="n">hgt0</span> <span class="o">=</span> <span class="n">heights</span>
+
+        <span class="k">if</span> <span class="n">masses</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">masses</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">masses</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> \
+                   <span class="ow">and</span> <span class="n">masses</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">n</span><span class="p">,)</span> \
+                   <span class="ow">and</span> <span class="n">masses</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;float64&#39;</span><span class="p">,</span> \
+                   <span class="s2">&quot;Wrong type or size for heights data on pointcloud.&quot;</span>
+
+        <span class="n">mas0</span> <span class="o">=</span> <span class="n">masses</span>
 
         <span class="n">pos0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;bool&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">idx0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -964,21 +1053,18 @@
                    <span class="ow">and</span> <span class="n">idx0</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">n</span><span class="p">,)</span> \
                    <span class="ow">and</span> <span class="n">idx0</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;int64&#39;</span><span class="p">,</span> \
                    <span class="s2">&quot;Wrong type or size for indexing data on pointcloud.&quot;</span>
-        
+
         <span class="n">points</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-            <span class="s1">&#39;val&#39;</span><span class="p">:</span> <span class="n">val0</span><span class="p">,</span>
+            <span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="n">hgt0</span><span class="p">,</span>
+            <span class="s1">&#39;mass&#39;</span><span class="p">:</span> <span class="n">mas0</span><span class="p">,</span>
             <span class="s1">&#39;pos&#39;</span><span class="p">:</span> <span class="n">pos0</span><span class="p">,</span>
             <span class="s1">&#39;rep&#39;</span><span class="p">:</span> <span class="n">idx0</span><span class="p">,</span>
         <span class="p">},</span>
-                <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;rep&#39;</span><span class="p">],</span>
+                <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">,</span> <span class="s1">&#39;mass&#39;</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;rep&#39;</span><span class="p">],</span>
                 <span class="n">index</span><span class="o">=</span><span class="n">idx0</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">coords</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">idx0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">covertree</span> <span class="o">=</span> <span class="kc">None</span> 
-
-
-
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">covertree</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="n">edges</span> <span class="o">=</span> <span class="n">stratum_maker</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">stratum</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">points</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="n">edges</span><span class="p">})</span>
@@ -988,7 +1074,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">label_info</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;black&#39;</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">label_info</span><span class="p">[</span><span class="s1">&#39;clouds&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">label_info</span><span class="p">[</span><span class="s1">&#39;points&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">n</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">label_info</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_info</span><span class="p">[</span><span class="s1">&#39;tot_mass&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;mass&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">label_info</span><span class="p">[</span><span class="s1">&#39;int_index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">max_length</span> <span class="o">=</span> <span class="n">max_length</span>
@@ -998,26 +1084,26 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">covertree</span> <span class="o">=</span> <span class="n">covertree</span><span class="o">.</span><span class="n">CoverTree</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
             <span class="n">bdy0</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">bdy1</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">vals</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">hgts</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">covertree</span><span class="o">.</span><span class="n">make_edges</span><span class="p">(</span><span class="n">max_distance</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_length</span><span class="p">):</span>
                 <span class="n">bdy0</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))</span>
                 <span class="n">bdy1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))</span>
-                <span class="n">vals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+                <span class="n">hgts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
             <span class="n">bdy0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">bdy0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
             <span class="n">bdy1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">bdy1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
-            <span class="n">vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
-            <span class="n">sortby</span> <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">argsort</span><span class="p">()</span>
+            <span class="n">hgts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hgts</span><span class="p">)</span>
+            <span class="n">sortby</span> <span class="o">=</span> <span class="n">hgts</span><span class="o">.</span><span class="n">argsort</span><span class="p">()</span>
             <span class="n">bdy0</span> <span class="o">=</span> <span class="n">bdy0</span><span class="p">[</span><span class="n">sortby</span><span class="p">]</span>
             <span class="n">bdy1</span> <span class="o">=</span> <span class="n">bdy1</span><span class="p">[</span><span class="n">sortby</span><span class="p">]</span>
-            <span class="n">vals</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="n">sortby</span><span class="p">]</span>
-            
-            <span class="n">edges</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;val&#39;</span><span class="p">:</span> <span class="n">vals</span><span class="p">,</span>
-                                  <span class="s1">&#39;pos&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;bool&#39;</span><span class="p">),</span>
-                                  <span class="s1">&#39;rep&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">vals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span>
+            <span class="n">hgts</span> <span class="o">=</span> <span class="n">hgts</span><span class="p">[</span><span class="n">sortby</span><span class="p">]</span>
+
+            <span class="n">edges</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="n">hgts</span><span class="p">,</span>
+                                  <span class="s1">&#39;pos&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">hgts</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;bool&#39;</span><span class="p">),</span>
+                                  <span class="s1">&#39;rep&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">hgts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span>
                                   <span class="s1">&#39;bdy0&#39;</span><span class="p">:</span> <span class="n">bdy0</span><span class="p">,</span> <span class="s1">&#39;bdy1&#39;</span><span class="p">:</span> <span class="n">bdy1</span><span class="p">,</span> <span class="p">},</span>
-                                 <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;rep&#39;</span><span class="p">,</span> <span class="s1">&#39;bdy0&#39;</span><span class="p">,</span> <span class="s1">&#39;bdy1&#39;</span><span class="p">],</span>
-                                 <span class="n">index</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">vals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">edges</span> 
+                                 <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;rep&#39;</span><span class="p">,</span> <span class="s1">&#39;bdy0&#39;</span><span class="p">,</span> <span class="s1">&#39;bdy1&#39;</span><span class="p">],</span>
+                                 <span class="n">index</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">hgts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">edges</span>
 
 <div class="viewcode-block" id="PointCloud.plot"><a class="viewcode-back" href="../generated/multidim.PointCloud.plot.html#multidim.PointCloud.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;purple&#39;</span><span class="p">,</span> <span class="n">pos_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
              <span class="n">edge_alpha</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
@@ -1026,25 +1112,25 @@
 <span class="sd">        Plot a PointCloud, decorated by various proeprties.</span>
 
 <span class="sd">        Often slow!</span>
-<span class="sd">       </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        canvas : object</span>
-<span class="sd">            An instance of </span>
+<span class="sd">            An instance of</span>
 <span class="sd">            `bokeh.plotting.figure.Figure` as in</span>
 <span class="sd">            :code:`canvas = bokeh.plotting.figure()`</span>
-<span class="sd">            or an instance of :class:`matplotlib.axes._subplots.AxesSubplot` as </span>
+<span class="sd">            or an instance of :class:`matplotlib.axes._subplots.AxesSubplot` as</span>
 <span class="sd">            in :code:`axes,canvas = matplotlib.pyplot.subplots()`</span>
-<span class="sd">       </span>
+
 <span class="sd">        cutoff : float</span>
 <span class="sd">            if cutoff&gt;=0, only draw edges up to length &lt;cutoff</span>
-<span class="sd">        </span>
+
 <span class="sd">        twocells : boolean</span>
 <span class="sd">            draw 2-cells (triangles)?</span>
-<span class="sd">        </span>
+
 <span class="sd">        title : string</span>
 <span class="sd">            title for plot</span>
-<span class="sd">        </span>
+
 <span class="sd">        label : boolean</span>
 <span class="sd">            label points in plot?</span>
 
@@ -1078,18 +1164,18 @@
         <span class="c1"># find edges</span>
         <span class="n">all_edges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">cutoff</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">all_edges</span> <span class="o">=</span> <span class="n">all_edges</span><span class="p">[</span><span class="n">all_edges</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">cutoff</span><span class="p">]</span>
-        
+            <span class="n">all_edges</span> <span class="o">=</span> <span class="n">all_edges</span><span class="p">[</span><span class="n">all_edges</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">cutoff</span><span class="p">]</span>
+
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_edges</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">minval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">all_edges</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-            <span class="n">maxval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">all_edges</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+            <span class="n">minhgt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">all_edges</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+            <span class="n">maxhgt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">all_edges</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">edge_alpha</span> <span class="o">=</span> <span class="mf">1.0</span>
 
         <span class="c1"># plot positive edges, need to build structure for multi_line</span>
         <span class="k">if</span> <span class="n">pos_edges</span><span class="p">:</span>
             <span class="n">pos</span> <span class="o">=</span> <span class="n">all_edges</span><span class="p">[</span><span class="n">all_edges</span><span class="p">[</span><span class="s1">&#39;pos&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">]</span>
-            <span class="n">val</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
             <span class="n">pt0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">pos</span><span class="p">[</span><span class="s1">&#39;bdy0&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
             <span class="n">pt1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">pos</span><span class="p">[</span><span class="s1">&#39;bdy1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
             <span class="n">pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">pt0</span><span class="p">,</span> <span class="n">pt1</span><span class="p">])</span>
@@ -1112,7 +1198,7 @@
 
         <span class="c1"># plot negative edges, need to build structure for multi_line</span>
         <span class="n">neg</span> <span class="o">=</span> <span class="n">all_edges</span><span class="p">[</span><span class="n">all_edges</span><span class="p">[</span><span class="s1">&#39;pos&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">False</span><span class="p">]</span>
-        <span class="n">val</span> <span class="o">=</span> <span class="n">neg</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">neg</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 
         <span class="n">pt0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">neg</span><span class="p">[</span><span class="s1">&#39;bdy0&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
         <span class="n">pt1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">neg</span><span class="p">[</span><span class="s1">&#39;bdy1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
@@ -1171,13 +1257,13 @@
         <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="PointCloud.gaussian_fit"><a class="viewcode-back" href="../generated/multidim.PointCloud.gaussian_fit.html#multidim.PointCloud.gaussian_fit">[docs]</a>    <span class="k">def</span> <span class="nf">gaussian_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; </span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fit a normalized Gaussian to this cloud (using SVD).</span>
 
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        center </span>
+<span class="sd">        center</span>
 <span class="sd">            If center is None (default), we find the best Gaussian with free mean.</span>
 <span class="sd">            If center is given as an integer, use the point with that integer as the</span>
 <span class="sd">            mean of the Gaussian.</span>
@@ -1207,12 +1293,12 @@
             <span class="k">return</span> <span class="p">(</span><span class="n">computed</span> <span class="o">-</span> <span class="n">n</span><span class="p">)</span><span class="o">/</span><span class="n">n_choose_2</span></div>
 
 <div class="viewcode-block" id="PointCloud.sever"><a class="viewcode-back" href="../generated/multidim.PointCloud.sever.html#multidim.PointCloud.sever">[docs]</a>    <span class="k">def</span> <span class="nf">sever</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; </span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Subdivide PointCloud into several smaller PointClouds, using the</span>
 <span class="sd">        known 0-dimensional persistence diagram.  This is an</span>
 <span class="sd">        iterator (it _yields_ the terms).</span>
 
-<span class="sd">        Two points end up in the same PointCloud if and only if they are </span>
+<span class="sd">        Two points end up in the same PointCloud if and only if they are</span>
 <span class="sd">        connected by a sequence of edges of length &lt; cutoff.</span>
 
 <span class="sd">        Yields</span>
@@ -1229,7 +1315,7 @@
 
 <span class="sd">        See Also</span>
 <span class="sd">        --------</span>
-<span class="sd">        :func:`make_pers0` :func:`reset` </span>
+<span class="sd">        :func:`make_pers0` :func:`reset`</span>
 
 
 <span class="sd">        Examples</span>
@@ -1255,7 +1341,7 @@
 <span class="sd">        2  5.0 -0.6</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        
+
         <span class="kn">from</span> <span class="nn">homology.dim0</span> <span class="k">import</span> <span class="n">all_roots</span>
 
         <span class="n">roots</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;rep&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -1264,7 +1350,7 @@
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;pos&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">==</span> <span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span>
             <span class="k">yield</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">roots</span> <span class="o">==</span> <span class="n">i</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">PointCloud</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">roots</span> <span class="o">==</span> <span class="n">i</span><span class="p">,</span> <span class="p">:])</span></div>
 
-    <span class="k">def</span> <span class="nf">nearest_neighbors_slow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<div class="viewcode-block" id="PointCloud.nearest_neighbors_slow"><a class="viewcode-back" href="../generated/multidim.PointCloud.nearest_neighbors_slow.html#multidim.PointCloud.nearest_neighbors_slow">[docs]</a>    <span class="k">def</span> <span class="nf">nearest_neighbors_slow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Compute k nearest-neighbors of the PointCloud, by brute-force.</span>
 <span class="sd">        Answers are cached in `self._nn[k]`</span>
 
@@ -1326,7 +1412,7 @@
         <span class="n">all_points</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span>
         <span class="n">dists</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dists</span><span class="p">(</span><span class="n">all_points</span><span class="p">,</span> <span class="n">all_points</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_nn</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">dists</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,</span> <span class="p">:</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># 0th entry is always self.</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nn</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nn</span><span class="p">[</span><span class="n">k</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="PointCloud.nearest_neighbors"><a class="viewcode-back" href="../generated/multidim.PointCloud.nearest_neighbors.html#multidim.PointCloud.nearest_neighbors">[docs]</a>    <span class="k">def</span> <span class="nf">nearest_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Compute k nearest-neighbors of the PointCloud, using a clever CoverTree algorithm.</span>
@@ -1426,10 +1512,10 @@
 <span class="c1">#        return self._nn[k]</span>
 
 <div class="viewcode-block" id="PointCloud.witnessed_barycenters"><a class="viewcode-back" href="../generated/multidim.PointCloud.witnessed_barycenters.html#multidim.PointCloud.witnessed_barycenters">[docs]</a>    <span class="k">def</span> <span class="nf">witnessed_barycenters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Build the PointCloud of k-witnessed barycenters, weighted by </span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Build the PointCloud of k-witnessed barycenters, weighted by</span>
 <span class="sd">        distance-to-measure. This calls :func:`nearest_neighbors` with argument</span>
-<span class="sd">        :code:`(k-1)`, which can be slow. </span>
-<span class="sd">        </span>
+<span class="sd">        :code:`(k-1)`, which can be slow.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        k : int</span>
@@ -1439,11 +1525,11 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        pc : :class:`PointCloud`</span>
-<span class="sd">            A pointcloud whose 0-cells are the witnessed barycenters, and </span>
-<span class="sd">            whose 1-cells are the edges between </span>
+<span class="sd">            A pointcloud whose 0-cells are the witnessed barycenters, and</span>
+<span class="sd">            whose 1-cells are the edges between</span>
 <span class="sd">            those barycenters, all weighted by the notion of distance to a</span>
 <span class="sd">            measure.</span>
-<span class="sd">        &quot;&quot;&quot;</span> 
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">shape</span>
 
@@ -1466,7 +1552,7 @@
         <span class="k">assert</span> <span class="n">polygons</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
         <span class="n">barycenters</span> <span class="o">=</span> <span class="n">polygons</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="k">assert</span> <span class="n">barycenters</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
-      
+
         <span class="c1"># compute weights</span>
         <span class="n">diffs</span> <span class="o">=</span> <span class="n">polygons</span> <span class="o">-</span> <span class="n">barycenters</span>
         <span class="k">assert</span> <span class="n">diffs</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
@@ -1475,12 +1561,12 @@
         <span class="n">weights</span> <span class="o">=</span> <span class="o">-</span><span class="n">norms</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="n">k</span>
         <span class="k">assert</span> <span class="n">weights</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">p</span><span class="p">,)</span>
         <span class="n">pcbc</span> <span class="o">=</span> <span class="n">PointCloud</span><span class="p">(</span><span class="n">barycenters</span><span class="p">,</span>
-                          <span class="n">weights</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="n">weights</span><span class="p">),</span>
+                          <span class="n">heights</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="n">weights</span><span class="p">),</span>
                           <span class="n">dist</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">)</span>
         <span class="n">pcbc</span><span class="o">.</span><span class="n">dists</span> <span class="o">=</span> <span class="n">squareform</span><span class="p">(</span><span class="n">pdist</span><span class="p">(</span><span class="n">pcbc</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">pcbc</span><span class="o">.</span><span class="n">dist</span><span class="p">))</span>
-      
+
         <span class="c1"># make edges</span>
-        <span class="n">val</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">hgt</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">pos</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">idx</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">bdy0</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1494,22 +1580,22 @@
             <span class="n">wi</span> <span class="o">=</span> <span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="n">wj</span> <span class="o">=</span> <span class="n">weights</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
             <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mu</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">mu</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">wi</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">wj</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">wi</span> <span class="o">-</span> <span class="n">wj</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="n">mu</span>
-            <span class="n">val</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> 
-        
+            <span class="n">hgt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+
         <span class="n">edges</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-            <span class="s1">&#39;val&#39;</span><span class="p">:</span> <span class="n">val</span><span class="p">,</span>
+            <span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="n">hgt</span><span class="p">,</span>
             <span class="s1">&#39;pos&#39;</span><span class="p">:</span> <span class="n">pos</span><span class="p">,</span>
             <span class="s1">&#39;rep&#39;</span><span class="p">:</span> <span class="n">idx</span><span class="p">,</span>
             <span class="s1">&#39;bdy0&#39;</span><span class="p">:</span> <span class="n">bdy0</span><span class="p">,</span>
             <span class="s1">&#39;bdy1&#39;</span><span class="p">:</span> <span class="n">bdy1</span><span class="p">,</span>
             <span class="p">},</span>
-                <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;rep&#39;</span><span class="p">,</span> <span class="s1">&#39;bdy0&#39;</span><span class="p">,</span> <span class="s1">&#39;bdy1&#39;</span><span class="p">],</span>
+                <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;rep&#39;</span><span class="p">,</span> <span class="s1">&#39;bdy0&#39;</span><span class="p">,</span> <span class="s1">&#39;bdy1&#39;</span><span class="p">],</span>
                 <span class="n">index</span><span class="o">=</span><span class="n">idx</span><span class="p">)</span>
-        <span class="n">pcbc</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">edges</span> 
-        <span class="k">return</span> <span class="n">pcbc</span> </div>
+        <span class="n">pcbc</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">edges</span>
+        <span class="k">return</span> <span class="n">pcbc</span></div>
 
 <div class="viewcode-block" id="PointCloud.unique_with_multiplicity"><a class="viewcode-back" href="../generated/multidim.PointCloud.unique_with_multiplicity.html#multidim.PointCloud.unique_with_multiplicity">[docs]</a>    <span class="k">def</span> <span class="nf">unique_with_multiplicity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; </span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Look for duplicate points, and mark their multiplicity.</span>
 <span class="sd">        This sets self.multiplicity</span>
 
@@ -1548,7 +1634,7 @@
         <span class="n">d</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">assert</span> <span class="n">n</span> <span class="o">%</span> <span class="n">d</span> <span class="o">==</span> <span class="mi">0</span>
         <span class="n">tmp_coords</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">//</span><span class="n">d</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
-        
+
         <span class="k">return</span> <span class="n">tmp_coords</span><span class="p">,</span> <span class="n">tmp_counts</span></div>
 
 <div class="viewcode-block" id="PointCloud.dists"><a class="viewcode-back" href="../generated/multidim.PointCloud.dists.html#multidim.PointCloud.dists">[docs]</a>    <span class="k">def</span> <span class="nf">dists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indices0</span><span class="p">,</span> <span class="n">indices1</span><span class="p">):</span>
@@ -1557,7 +1643,7 @@
 <span class="sd">        so use not &quot;5&quot; but &quot;np.array([5])&quot;</span>
 
 <span class="sd">        The return is a np array with shape == (len(indices0), len(indices1))</span>
-<span class="sd">        </span>
+
 <span class="sd">        This uses the distance cache, depending on self.cache_type.</span>
 <span class="sd">        You can query the size of the cache with :func:`cache_usage`.</span>
 
@@ -1576,7 +1662,7 @@
             <span class="n">N</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist_cache</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist_cache</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">dist_cache</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span>
-            <span class="k">return</span> <span class="n">fast_algorithms</span><span class="o">.</span><span class="n">distance_cache_np</span><span class="p">(</span><span class="n">indices0</span><span class="p">,</span>
+            <span class="k">return</span> <span class="n">fast_algorithms</span><span class="o">.</span><span class="n">distance_cache_numpy</span><span class="p">(</span><span class="n">indices0</span><span class="p">,</span>
                                                      <span class="n">indices1</span><span class="p">,</span>
                                                      <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
                                                      <span class="bp">self</span><span class="o">.</span><span class="n">dist_cache</span><span class="p">)</span>
@@ -1592,14 +1678,14 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;cache_type can be None or &#39;dict&#39; or &#39;np&#39;&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="PointCloud.cover_ball"><a class="viewcode-back" href="../generated/multidim.PointCloud.cover_ball.html#multidim.PointCloud.cover_ball">[docs]</a>    <span class="k">def</span> <span class="nf">cover_ball</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point_index</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Find a ball that covers the entire PointCloud.  </span>
-<span class="sd">        </span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Find a ball that covers the entire PointCloud.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        point_index : int</span>
 <span class="sd">            If point_index is given, we use that point as the center.</span>
 <span class="sd">            If point_index is None (default), then we compute the point neareast</span>
-<span class="sd">            the center-of-mass, which requires an extra :func:`numpy.mean` and </span>
+<span class="sd">            the center-of-mass, which requires an extra :func:`numpy.mean` and</span>
 <span class="sd">            :func:`scipy.spatial.distance.cdist` call.</span>
 
 <span class="sd">        Returns</span>
@@ -1624,40 +1710,46 @@
 
 <div class="viewcode-block" id="PointCloud.from_multisample_multilabel"><a class="viewcode-back" href="../generated/multidim.PointCloud.from_multisample_multilabel.html#multidim.PointCloud.from_multisample_multilabel">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_multisample_multilabel</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">list_of_samples</span><span class="p">,</span> <span class="n">list_of_labels</span><span class="p">,</span>
-                                    <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                                    <span class="n">equal_priors</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">normalize_domain</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Produce a single labeled and weighted pointcloud from a list of samples</span>
 <span class="sd">        and labels of those samples.</span>
-<span class="sd">    </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        list_of_samples :</span>
 <span class="sd">            A list (or np array) of np arrays.  Each such array is</span>
 <span class="sd">            considered to be a sample of N points in R^d.  N can vary between</span>
-<span class="sd">            entries, but d cannot.  </span>
-<span class="sd">    </span>
+<span class="sd">            entries, but d cannot.</span>
+
 <span class="sd">        list_of_labels :</span>
 <span class="sd">            A list of labels.  Labels can be anything, but it is covenient to</span>
 <span class="sd">            use strings like &quot;red&quot; and &quot;blue&quot;.    list_of_labels[i] is the</span>
 <span class="sd">            label for the points in list_of_samples[i].</span>
-<span class="sd">    </span>
-<span class="sd">        normalize:</span>
+
+<span class="sd">        equal_priors:</span>
 <span class="sd">            Re-normalize weights so that each label is equally likely.</span>
+<span class="sd">            Default: True</span>
+
+<span class="sd">        normalize_domain:</span>
+<span class="sd">            Use SVD/PCA to re-shape the original data to be roughy spherical.</span>
+<span class="sd">            This should allow better learning via CDER.</span>
+<span class="sd">            Default: False</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_of_labels</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_of_samples</span><span class="p">),</span>\
             <span class="s2">&quot;list_of_labels must equal list_of arrays. </span><span class="si">{}</span><span class="s2"> != </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                 <span class="nb">len</span><span class="p">(</span><span class="n">list_of_labels</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_of_samples</span><span class="p">))</span>
-    
+
         <span class="n">ambient_dim</span> <span class="o">=</span> <span class="n">list_of_samples</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">assert</span> <span class="nb">all</span><span class="p">([</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">ambient_dim</span> <span class="k">for</span> <span class="n">X</span> <span class="ow">in</span> <span class="n">list_of_samples</span><span class="p">]),</span>\
             <span class="s2">&quot;Dimension mismatch among list_of_samples!&quot;</span>
-    
+
         <span class="n">label_info</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">list_of_labels</span><span class="p">)))))</span>
         <span class="c1"># [&#39;blue&#39;, &#39;green&#39;, &#39;red&#39;]</span>
         <span class="c1"># label_names = list(label_dict.keys())</span>
         <span class="c1"># label_index = np.array</span>
         <span class="c1"># num_labels = len(label_dict)</span>
-    
+
         <span class="c1"># count how many times each label occurs.</span>
         <span class="n">label_info</span><span class="p">[</span><span class="s1">&#39;clouds&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">label_info</span><span class="p">),),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
         <span class="n">label_info</span><span class="p">[</span><span class="s1">&#39;points&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">label_info</span><span class="p">),),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
@@ -1666,36 +1758,42 @@
             <span class="n">label_bool</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">l</span> <span class="o">==</span> <span class="n">label</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">list_of_labels</span><span class="p">])</span>
             <span class="n">label_info</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">label</span><span class="p">,</span> <span class="s1">&#39;clouds&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">label_bool</span><span class="p">)</span>
         <span class="n">label_info</span><span class="p">[</span><span class="s1">&#39;int_index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label_info</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_indexer</span><span class="p">(</span><span class="n">label_info</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
-    
+
         <span class="c1"># merge the samples into one big dataset</span>
         <span class="c1"># expand the sample-wise labels to point-wise labels</span>
         <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">list_of_samples</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">normalize_domain</span><span class="p">:</span>
+            <span class="n">m</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">v</span> <span class="o">=</span> <span class="n">fast_algorithms</span><span class="o">.</span><span class="n">gaussian_fit</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+            <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">((</span><span class="n">points</span> <span class="o">-</span> <span class="n">m</span><span class="p">),</span> <span class="n">v</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">/</span><span class="n">s</span>
+
         <span class="n">pointwise_labels</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># keep track of labels, pointwise</span>
         <span class="n">pointwise_source</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">pointwise_weight</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">X</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">list_of_samples</span><span class="p">):</span>
             <span class="n">l</span> <span class="o">=</span> <span class="n">list_of_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="n">num</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">assert</span> <span class="n">num</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;bad? </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             <span class="n">pointwise_labels</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">label_info</span><span class="p">[</span><span class="s1">&#39;int_index&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">l</span><span class="p">]]</span><span class="o">*</span><span class="n">num</span><span class="p">)</span>
             <span class="n">pointwise_source</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">num</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">equal_priors</span><span class="p">:</span>
                 <span class="n">wt</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">num</span><span class="o">/</span><span class="n">label_info</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">l</span><span class="p">,</span> <span class="s1">&#39;clouds&#39;</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">wt</span> <span class="o">=</span> <span class="mf">1.0</span>
             <span class="n">pointwise_weight</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">wt</span><span class="p">]</span><span class="o">*</span><span class="n">num</span><span class="p">)</span>
             <span class="n">label_info</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">l</span><span class="p">,</span> <span class="s1">&#39;points&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">(</span><span class="n">label_info</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">l</span><span class="p">,</span> <span class="s1">&#39;points&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
             <span class="n">label_info</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">l</span><span class="p">,</span> <span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">wt</span><span class="o">*</span><span class="n">num</span>
-    
+
         <span class="n">pointwise_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pointwise_labels</span><span class="p">)</span>
         <span class="n">pointwise_source</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pointwise_source</span><span class="p">)</span>
         <span class="n">pointwise_weight</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pointwise_weight</span><span class="p">)</span>
-    
-        <span class="n">pc</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">pointwise_weight</span><span class="p">)</span>
+
+        <span class="n">pc</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">masses</span><span class="o">=</span><span class="n">pointwise_weight</span><span class="p">)</span>
         <span class="n">pc</span><span class="o">.</span><span class="n">label_info</span> <span class="o">=</span> <span class="n">label_info</span>
         <span class="n">pc</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="n">pointwise_labels</span>
         <span class="n">pc</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">pointwise_source</span>
         <span class="k">return</span> <span class="n">pc</span></div></div>
-    
+
 </pre></div>
 
           </div>
@@ -1722,10 +1820,10 @@
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

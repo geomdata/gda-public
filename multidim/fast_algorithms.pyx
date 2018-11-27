@@ -54,7 +54,7 @@ import itertools
 
 from scipy.spatial.distance import euclidean, cdist
 
-cpdef NINT_t check_values(object myobject, NINT_t dim=1):
+cpdef NINT_t check_heights(object myobject, NINT_t dim=1):
     """ Verify that cells of dimension `dim` have weight greater than
     their boundaries of dimension `dim - 1`.
 
@@ -64,18 +64,18 @@ cpdef NINT_t check_values(object myobject, NINT_t dim=1):
 
     cdef NINT_t idx
     cdef np.ndarray[NINT_t, ndim=2] cell_bdy
-    cdef np.ndarray[NDBL_t] bdy_val, cell_val
+    cdef np.ndarray[NDBL_t] bdy_hgt, cell_hgt
 
     if dim <= 0:
         raise ValueError("Wrong dimension?  0 cells have no boundary.")
 
     if myobject.__class__.__module__ == "multidim":
 
-        bdy_val = myobject.stratum[0]['val'].values
+        bdy_hgt = myobject.stratum[0]['height'].values
         cell_bdy = myobject.stratum[1].filter(regex='^bdy[0-9]+').values
-        cell_val = myobject.stratum[1]['val'].values
-        for idx in range(cell_val.shape[0]):
-            if bdy_val[cell_bdy[idx,:]].max() >= cell_val[idx]:
+        cell_hgt = myobject.stratum[1]['height'].values
+        for idx in range(cell_hgt.shape[0]):
+            if bdy_hgt[cell_bdy[idx,:]].max() >= cell_hgt[idx]:
                 return idx
 
         return np.int64(-1)
@@ -164,6 +164,39 @@ cpdef NDBL_t entropy(np.ndarray[NDBL_t] bins):
     #p_logp[np.isnan(p_logp)] = NDBL(0.) # 0log0 = 0*inf = nan --> 0
     return - p_logp.sum() 
 
+cpdef gaussian_fit_wt(np.ndarray[NDBL_t, ndim=2] cloud, np.ndarray[NDBL_t] weights, center=None):
+    """ Fit a normalized Gaussian to this cloud using singular value
+    decomposition, with weights on the points.
+
+    See Also:
+    ---------
+    :func:`gaussian_fit`
+
+    """
+    cdef np.ndarray[NDBL_t, ndim=1] mean, s
+    cdef NINT_t N, totwt
+    cdef np.ndarray[NDBL_t, ndim=2] u, v
+    
+    if center is None:
+        mean = cloud.mean(axis=0)
+    elif hasattr(center, '__len__') and len(center) == cloud.shape[1]:
+        mean = np.array(center)
+    elif isinstance(center, np.integer):
+        mean = cloud[center,:]
+    else:
+        raise ValueError("center must be integer or tuple or None.")
+    
+    N = cloud.shape[0] # for bias of sample distribution.
+
+    totwt = np.sum(weights)/(N-1)  # correct weighting???
+    svd = np.linalg.svd((cloud-mean)*np.sqrt(weights*totwt/(N-1)), full_matrices=False)
+    u = svd[0]
+    s = svd[1]
+    v = svd[2]
+    
+    return mean, s, v
+
+
 cpdef gaussian_fit(np.ndarray[NDBL_t, ndim=2] cloud, center=None):
     """ Fit a normalized Gaussian to this cloud using singular value decomposition.
 
@@ -199,7 +232,7 @@ cpdef gaussian_fit(np.ndarray[NDBL_t, ndim=2] cloud, center=None):
         Linear Models. Springer Science & Business Media, 2011.
 
     """
-    cdef np.ndarray[NDBL_t, ndim=1] mean, s
+    cdef np.ndarray[NDBL_t, ndim=1] weights
     cdef NINT_t N
     cdef np.ndarray[NDBL_t, ndim=2] u, v
     

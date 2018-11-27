@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>multidim.PointCloud.nearest_neighbors_slow &mdash; GDA Toolbox v1.0 Manual</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="GDA Toolbox v1.0 Manual" href="../index.html" >
+    <link rel="up" title="multidim.PointCloud" href="multidim.PointCloud.html" >
+    <link rel="next" title="multidim.PointCloud.plot" href="multidim.PointCloud.plot.html" >
+    <link rel="prev" title="multidim.PointCloud.nearest_neighbors" href="multidim.PointCloud.nearest_neighbors.html" > 
+  </head>
+  <body>
+
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">GDA Toolbox v1.0 Manual</a></li>
+	
+          <li class="active"><a href="../multidimensional_data.html" >Multidimensional Data</a></li>
+          <li class="active"><a href="multidim.PointCloud.html" accesskey="U">multidim.PointCloud</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="../py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="multidim.PointCloud.plot.html" title="multidim.PointCloud.plot"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="multidim.PointCloud.nearest_neighbors.html" title="multidim.PointCloud.nearest_neighbors"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="multidim-pointcloud-nearest-neighbors-slow">
+<h1>multidim.PointCloud.nearest_neighbors_slow<a class="headerlink" href="#multidim-pointcloud-nearest-neighbors-slow" title="Permalink to this headline">¶</a></h1>
+<dl class="method">
+<dt id="multidim.PointCloud.nearest_neighbors_slow">
+<code class="descclassname">PointCloud.</code><code class="descname">nearest_neighbors_slow</code><span class="sig-paren">(</span><em>k</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/multidim.html#PointCloud.nearest_neighbors_slow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multidim.PointCloud.nearest_neighbors_slow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute k nearest-neighbors of the PointCloud, by brute-force.
+Answers are cached in <em class="xref py py-obj">self._nn[k]</em></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>k: int</strong></dt>
+<dd><p class="first last">How many nearest neighbors to compute</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>np array with dtype int and shape==(N,k+1).  Entry [i,j] is the jth</strong></dt>
+<dd></dd>
+<dt><strong>nearest neighbor of vertex i.  Note that entry [i,0] == i, so [i,k]</strong></dt>
+<dd></dd>
+<dt><strong>is the kth nearest neighbor.</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="multidim.PointCloud.nearest_neighbors.html#multidim.PointCloud.nearest_neighbors" title="multidim.PointCloud.nearest_neighbors"><code class="xref py py-func docutils literal notranslate"><span class="pre">multidim.PointCloud.nearest_neighbors()</span></code></a></p>
+</div>
+<p class="rubric">Notes</p>
+<p>This method is intended for testing, and should only be used on small datasets.
+On a random example with 1,000 points in <span class="math notranslate nohighlight">\(\mathbb{R}^2:\)</span> seeking <em class="xref py py-obj">k=5</em> nearest
+neighbors, this method takes at least twice as long as <a class="reference internal" href="multidim.PointCloud.nearest_neighbors.html#multidim.PointCloud.nearest_neighbors" title="multidim.PointCloud.nearest_neighbors"><code class="xref py py-func docutils literal notranslate"><span class="pre">nearest_neighbors()</span></code></a>, and the
+discrepency is roughly quadratic.  On 2,000 points, it is about 4 times slower.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pc</span> <span class="o">=</span> <span class="n">PointCloud</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">0.58814682</span><span class="p">,</span>  <span class="mf">0.45405299</span><span class="p">],</span>
+<span class="gp">... </span>                          <span class="p">[</span> <span class="mf">0.09197879</span><span class="p">,</span>  <span class="mf">0.39721367</span><span class="p">],</span>
+<span class="gp">... </span>                          <span class="p">[</span> <span class="mf">0.29128654</span><span class="p">,</span>  <span class="mf">0.28372039</span><span class="p">],</span>
+<span class="gp">... </span>                          <span class="p">[</span> <span class="mf">0.14593167</span><span class="p">,</span>  <span class="mf">0.7027367</span> <span class="p">],</span>
+<span class="gp">... </span>                          <span class="p">[</span> <span class="mf">0.77068438</span><span class="p">,</span>  <span class="mf">0.37849037</span><span class="p">],</span>
+<span class="gp">... </span>                          <span class="p">[</span> <span class="mf">0.17281855</span><span class="p">,</span>  <span class="mf">0.70204687</span><span class="p">],</span>
+<span class="gp">... </span>                          <span class="p">[</span> <span class="mf">0.48146217</span><span class="p">,</span>  <span class="mf">0.54619034</span><span class="p">],</span>
+<span class="gp">... </span>                          <span class="p">[</span> <span class="mf">0.27831744</span><span class="p">,</span>  <span class="mf">0.67327757</span><span class="p">],</span>
+<span class="gp">... </span>                          <span class="p">[</span> <span class="mf">0.49074255</span><span class="p">,</span>  <span class="mf">0.70847318</span><span class="p">],</span>
+<span class="gp">... </span>                          <span class="p">[</span> <span class="mf">0.132656</span><span class="p">,</span>    <span class="mf">0.0860524</span> <span class="p">]]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pc</span><span class="o">.</span><span class="n">nearest_neighbors_slow</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">array([[0, 6, 4, 8],</span>
+<span class="go">       [1, 2, 3, 9],</span>
+<span class="go">       [2, 1, 9, 6],</span>
+<span class="go">       [3, 5, 7, 1],</span>
+<span class="go">       [4, 0, 6, 8],</span>
+<span class="go">       [5, 3, 7, 1],</span>
+<span class="go">       [6, 0, 8, 7],</span>
+<span class="go">       [7, 5, 3, 8],</span>
+<span class="go">       [8, 6, 7, 0],</span>
+<span class="go">       [9, 2, 1, 6]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="multidim.PointCloud.nearest_neighbors.html"
+                        title="previous chapter">multidim.PointCloud.nearest_neighbors</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="multidim.PointCloud.plot.html"
+                        title="next chapter">multidim.PointCloud.plot</a></p>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
+      </li>
+      <li>
+      Last updated on Nov 27, 2018.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

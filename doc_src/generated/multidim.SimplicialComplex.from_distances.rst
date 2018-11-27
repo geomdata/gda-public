@@ -1,5 +1,5 @@
-multidim.SimplicialComplex.from_distances
-=========================================
+multidim.SimplicialComplex.from\_distances
+==========================================
 
 .. currentmodule:: multidim
 

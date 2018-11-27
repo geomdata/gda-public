@@ -1,5 +1,5 @@
-timeseries.test_mollifier.TestMollifier.test_resonable_reconstruction
-=====================================================================
+timeseries.test\_mollifier.TestMollifier.test\_resonable\_reconstruction
+========================================================================
 
 .. currentmodule:: timeseries.test_mollifier
 

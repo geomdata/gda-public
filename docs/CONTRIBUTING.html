@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
     <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="genindex.html" >
     <link rel="search" title="Search" href="search.html" >
@@ -89,17 +90,17 @@
 <h2>Repository usage<a class="headerlink" href="#repository-usage" title="Permalink to this headline">¶</a></h2>
 <p>Public open-source development happens at <a class="reference external" href="https://github.com/geomdata/gda-public">https://github.com/geomdata/gda-public</a></p>
 <p>To get started:</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="o">-</span><span class="n">b</span> <span class="n">dev</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="n">geomdata</span><span class="o">/</span><span class="n">gda</span><span class="o">-</span><span class="n">public</span><span class="o">.</span><span class="n">git</span>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="o">-</span><span class="n">b</span> <span class="n">dev</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="n">geomdata</span><span class="o">/</span><span class="n">gda</span><span class="o">-</span><span class="n">public</span><span class="o">.</span><span class="n">git</span>
 </pre></div>
 </div>
-<p>Ongoing cleanup work should happen in the <code class="docutils literal"><span class="pre">dev</span></code> branch.  Specific feature
+<p>Ongoing cleanup work should happen in the <code class="docutils literal notranslate"><span class="pre">dev</span></code> branch.  Specific feature
 additions can happen in their own short-lived branch.  Whenever possible, the
-<code class="docutils literal"><span class="pre">master</span></code> branch should <strong>not</strong> be committed to directly; instead, commit
-changes to <code class="docutils literal"><span class="pre">dev</span></code>, then apply a merge request from <code class="docutils literal"><span class="pre">dev</span></code> to <code class="docutils literal"><span class="pre">master</span></code>.  This way,
-<code class="docutils literal"><span class="pre">dev</span></code> is always ahead of <code class="docutils literal"><span class="pre">master</span></code>.</p>
-<p>The contents of <code class="docutils literal"><span class="pre">master</span></code> should always pass all the unit tests.  Merges from
-<code class="docutils literal"><span class="pre">dev</span></code> to <code class="docutils literal"><span class="pre">master</span></code> should not be accepted otherwise.</p>
-<p>Versions of <code class="docutils literal"><span class="pre">master</span></code> will be tagged <code class="docutils literal"><span class="pre">VERSION_X.Y.Z</span></code> according to milestones.
+<code class="docutils literal notranslate"><span class="pre">master</span></code> branch should <strong>not</strong> be committed to directly; instead, commit
+changes to <code class="docutils literal notranslate"><span class="pre">dev</span></code>, then apply a merge request from <code class="docutils literal notranslate"><span class="pre">dev</span></code> to <code class="docutils literal notranslate"><span class="pre">master</span></code>.  This way,
+<code class="docutils literal notranslate"><span class="pre">dev</span></code> is always ahead of <code class="docutils literal notranslate"><span class="pre">master</span></code>.</p>
+<p>The contents of <code class="docutils literal notranslate"><span class="pre">master</span></code> should always pass all the unit tests.  Merges from
+<code class="docutils literal notranslate"><span class="pre">dev</span></code> to <code class="docutils literal notranslate"><span class="pre">master</span></code> should not be accepted otherwise.</p>
+<p>Versions of <code class="docutils literal notranslate"><span class="pre">master</span></code> will be tagged <code class="docutils literal notranslate"><span class="pre">VERSION_X.Y.Z</span></code> according to milestones.
 See <a class="reference external" href="https://gitgub.com/geomdata/gda-public/tags">https://gitgub.com/geomdata/gda-public/tags</a></p>
 </div>
 <div class="section" id="profiling">
@@ -108,9 +109,9 @@ See <a class="reference external" href="https://gitgub.com/geomdata/gda-public/t
 like, from an end-user’s perspective.  Be Pythonic and avoid surprises.</p>
 <p>Try writing the code first in pure Python to establish an object model and
 input/putput format.  After it works, then use a profiling system (such as the
-Python builtin <code class="docutils literal"><span class="pre">cProfile</span></code> or something interactive like
+Python builtin <code class="docutils literal notranslate"><span class="pre">cProfile</span></code> or something interactive like
 <a class="reference external" href="https://github.com/what-studio/profiling">https://github.com/what-studio/profiling</a>) to determine where it is slow.
-Another simple way to profile is to use <code class="docutils literal"><span class="pre">%prun</span></code> or <code class="docutils literal"><span class="pre">%timeit</span></code> in IPython or
+Another simple way to profile is to use <code class="docutils literal notranslate"><span class="pre">%prun</span></code> or <code class="docutils literal notranslate"><span class="pre">%timeit</span></code> in IPython or
 Jupyter.  Transfer the slow parts of your code to a compiled Cython .pyx file.</p>
 </div>
 <div class="section" id="style">
@@ -122,9 +123,9 @@ to type declarations.</p>
 <p>A lot of our data is arrays.  (Coordinates, point-clouds, matrices, etc.)
 We use Pandas DataFrames (or Series) as a presentation layer, because it has
 nice labels and indexing.  We use the underlying NumPy array as the data layer,
-as it is fast, especially via Cython.  That is, the user should use <code class="docutils literal"><span class="pre">DF</span> <span class="pre">=</span>
-<span class="pre">DataFrame(</span> <span class="pre">)</span></code>.  Performance-sensitive code should access <code class="docutils literal"><span class="pre">DF.index.values</span></code>
-for the index set and <code class="docutils literal"><span class="pre">DF.values</span></code> for the actual content.</p>
+as it is fast, especially via Cython.  That is, the user should use <code class="docutils literal notranslate"><span class="pre">DF</span> <span class="pre">=</span>
+<span class="pre">DataFrame(</span> <span class="pre">)</span></code>.  Performance-sensitive code should access <code class="docutils literal notranslate"><span class="pre">DF.index.values</span></code>
+for the index set and <code class="docutils literal notranslate"><span class="pre">DF.values</span></code> for the actual content.</p>
 </div>
 <div class="section" id="documentation">
 <h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
@@ -132,7 +133,7 @@ for the index set and <code class="docutils literal"><span class="pre">DF.values
 Use #-comments only for short clarifying notes to future developers; however,
 if you need #-comments in your code to understand it, it is probably too messy.</p>
 <p>Make sure the documentation is sane, via Sphinx</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span>(gda_env) bash$ cd /path/to/gda-public/
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>(gda_env) bash$ cd /path/to/gda-public/
 (gda_env) bash$ python setup.py build_doc_html
 (gda_env) bash$ python setup.py build_doc_latex
 </pre></div>
@@ -143,12 +144,12 @@ if you need #-comments in your code to understand it, it is probably too messy.<
 <h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
 <p>Write tests before, during, and after writing
 .. code:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>(gda_env) bash$ cd /path/to/gda-public/
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(gda_env) bash$ cd /path/to/gda-public/
 (gda_env) bash$ py.test
 </pre></div>
 </div>
-<p>Simple function tests can be in docstrings, run using <code class="docutils literal"><span class="pre">doctest</span></code> or (preferably)
-<code class="docutils literal"><span class="pre">py.test</span></code>.  More complicated tests should be written under the <code class="docutils literal"><span class="pre">tests/</span></code>
+<p>Simple function tests can be in docstrings, run using <code class="docutils literal notranslate"><span class="pre">doctest</span></code> or (preferably)
+<code class="docutils literal notranslate"><span class="pre">py.test</span></code>.  More complicated tests should be written under the <code class="docutils literal notranslate"><span class="pre">tests/</span></code>
 directory.</p>
 <p>Try to keep dependencies to the Anaconda built-in libraries.</p>
 <p>If newer versions of Python and NumPy break this code, debug by creating a
@@ -159,12 +160,12 @@ conda env (or python venv) with different versions to compare.</p>
 <p>To build a new Docker environment, get Docker running on your machine and do
 this
 ..code:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>bash$ cd /path/to/gda-public
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>bash$ cd /path/to/gda-public
 bash$ docker build -t &lt;name-for-container&gt; -f .dockerfile .
 </pre></div>
 </div>
 <p>The official container is at <a class="reference external" href="https://hub.docker.com/r/geomdata/builder/">https://hub.docker.com/r/geomdata/builder/</a>
-This container is used for automated unit tests, as in <code class="docutils literal"><span class="pre">.gitlab-ci.yml</span></code></p>
+This container is used for automated unit tests, as in <code class="docutils literal notranslate"><span class="pre">.gitlab-ci.yml</span></code></p>
 </div>
 </div>
 
@@ -174,7 +175,7 @@ This container is used for automated unit tests, as in <code class="docutils lit
           </div>
       <div class="spc-rightsidebar span3">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Development Guidelines</a><ul>
 <li><a class="reference internal" href="#repository-usage">Repository usage</a></li>
@@ -212,10 +213,10 @@ This container is used for automated unit tests, as in <code class="docutils lit
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

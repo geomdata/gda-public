@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
@@ -97,23 +98,23 @@ code in Cython.</p>
 <dl class="docutils">
 <dt>This module is compiled by either of these commands</dt>
 <dd><ul class="first last simple">
-<li><code class="code docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code>  (as called by <code class="code docutils literal"><span class="pre">pip</span></code> for standard installation and use)</li>
-<li><code class="code docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">build_ext</span> <span class="pre">--inplace</span></code> (as run by developers for code testing)</li>
+<li><code class="code docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code>  (as called by <code class="code docutils literal notranslate"><span class="pre">pip</span></code> for standard installation and use)</li>
+<li><code class="code docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">build_ext</span> <span class="pre">--inplace</span></code> (as run by developers for code testing)</li>
 </ul>
 </dd>
 </dl>
 <div class="section" id="notes">
 <h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h2>
 <p>Automatically-generated online documentation will never see the C-only functions that
-are defined with <code class="code docutils literal"><span class="pre">cdef</span></code> in Cython, as shown in 
+are defined with <code class="code docutils literal notranslate"><span class="pre">cdef</span></code> in Cython, as shown in 
 <a class="reference external" href="http://cython.readthedocs.io/en/latest/src/reference/extension_types.html">http://cython.readthedocs.io/en/latest/src/reference/extension_types.html</a>
 Because of the limitations of Sphinx, you’ll have to simply view the sourcecode
 for further information. For this module, these C-only functions include</p>
 <blockquote>
 <div><ul class="simple">
-<li><code class="xref py py-func docutils literal"><span class="pre">homology.dim0.root()</span></code></li>
-<li><code class="xref py py-func docutils literal"><span class="pre">homology.dim0.connected()</span></code></li>
-<li><code class="xref py py-func docutils literal"><span class="pre">homology.dim0.merge()</span></code></li>
+<li><code class="xref py py-func docutils literal notranslate"><span class="pre">homology.dim0.root()</span></code></li>
+<li><code class="xref py py-func docutils literal notranslate"><span class="pre">homology.dim0.connected()</span></code></li>
+<li><code class="xref py py-func docutils literal notranslate"><span class="pre">homology.dim0.merge()</span></code></li>
 </ul>
 </div></blockquote>
 </div>
@@ -131,13 +132,13 @@ for further information. For this module, these C-only functions include</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="homology.dim0.all_roots.html#homology.dim0.all_roots" title="homology.dim0.all_roots"><code class="xref py py-obj docutils literal"><span class="pre">all_roots</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="homology.dim0.all_roots.html#homology.dim0.all_roots" title="homology.dim0.all_roots"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all_roots</span></code></a></td>
 <td>Reference each vertex directly to its representative root, from MergeTree.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="homology.dim0.mkforestDBL.html#homology.dim0.mkforestDBL" title="homology.dim0.mkforestDBL"><code class="xref py py-obj docutils literal"><span class="pre">mkforestDBL</span></code></a></td>
-<td>Make inclusion tree and parentage linked lists by walking across This method is for <code class="xref py py-class docutils literal"><span class="pre">np.float64</span></code> arrays (for indexing speed).</td>
+<tr class="row-even"><td><a class="reference internal" href="homology.dim0.mkforestDBL.html#homology.dim0.mkforestDBL" title="homology.dim0.mkforestDBL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mkforestDBL</span></code></a></td>
+<td>Make inclusion tree and parentage linked lists by walking across This method is for <code class="xref py py-class docutils literal notranslate"><span class="pre">np.float64</span></code> arrays (for indexing speed).</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="homology.dim0.unionfind.html#homology.dim0.unionfind" title="homology.dim0.unionfind"><code class="xref py py-obj docutils literal"><span class="pre">unionfind</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="homology.dim0.unionfind.html#homology.dim0.unionfind" title="homology.dim0.unionfind"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unionfind</span></code></a></td>
 <td>Apply the UnionFind algorithm to compute zero-dimensional persistence diagram.</td>
 </tr>
 </tbody>
@@ -151,7 +152,7 @@ for further information. For this module, these C-only functions include</p>
           </div>
       <div class="spc-rightsidebar span3">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <h3><a href="../index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">homology.dim0</a><ul>
 <li><a class="reference internal" href="#notes">Notes</a></li>
@@ -185,10 +186,10 @@ for further information. For this module, these C-only functions include</p>
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

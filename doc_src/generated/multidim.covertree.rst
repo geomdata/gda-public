@@ -5,13 +5,6 @@ multidim.covertree
 
    
    
-   .. rubric:: Functions
-
-   .. autosummary::
-   
-      cdist
-      deepcopy
-   
    
 
    
@@ -22,8 +15,6 @@ multidim.covertree
    
       CoverLevel
       CoverTree
-      OrderedDict
-      PointCloud
    
    
 

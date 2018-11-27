@@ -1,5 +1,5 @@
-multidim.PointCloud.cache_usage
-===============================
+multidim.PointCloud.cache\_usage
+================================
 
 .. currentmodule:: multidim
 

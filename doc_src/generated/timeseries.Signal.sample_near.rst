@@ -1,5 +1,5 @@
-timeseries.Signal.sample_near
-=============================
+timeseries.Signal.sample\_near
+==============================
 
 .. currentmodule:: timeseries
 

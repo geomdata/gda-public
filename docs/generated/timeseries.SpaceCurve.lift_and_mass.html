@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
@@ -93,13 +94,13 @@
 <code class="descclassname">SpaceCurve.</code><code class="descname">lift_and_mass</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/timeseries.html#SpaceCurve.lift_and_mass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#timeseries.SpaceCurve.lift_and_mass" title="Permalink to this definition">¶</a></dt>
 <dd><p>Produce the terms of the force-balance equations, to help derive
 coefficient-of-lift and mass from pure trajectory information.</p>
-<p>Consider an aircraft flying with velocity <span class="math">\(v\)</span>, banking angle
-<span class="math">\(\theta\)</span>, air density <span class="math">\(\rho\)</span>, mass <span class="math">\(m\)</span>, gravity
-<span class="math">\(g\)</span>, vertical acceleration <span class="math">\(\ddot{z}\)</span>, and lift coefficient
-<span class="math">\(C_{\text{lift}}\)</span>.</p>
+<p>Consider an aircraft flying with velocity <span class="math notranslate nohighlight">\(v\)</span>, banking angle
+<span class="math notranslate nohighlight">\(\theta\)</span>, air density <span class="math notranslate nohighlight">\(\rho\)</span>, mass <span class="math notranslate nohighlight">\(m\)</span>, gravity
+<span class="math notranslate nohighlight">\(g\)</span>, vertical acceleration <span class="math notranslate nohighlight">\(\ddot{z}\)</span>, and lift coefficient
+<span class="math notranslate nohighlight">\(C_{\text{lift}}\)</span>.</p>
 <p>The force-balance equation is 
 ..math:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">LHS</span> <span class="o">=</span> \<span class="n">frac12</span> \<span class="o">|</span><span class="n">v</span>\<span class="o">|^</span><span class="mi">2</span> \<span class="p">,</span> \<span class="n">cos</span><span class="p">(</span>\<span class="n">theta</span><span class="p">)</span>\<span class="p">,</span> \<span class="n">rho</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LHS</span> <span class="o">=</span> \<span class="n">frac12</span> \<span class="o">|</span><span class="n">v</span>\<span class="o">|^</span><span class="mi">2</span> \<span class="p">,</span> \<span class="n">cos</span><span class="p">(</span>\<span class="n">theta</span><span class="p">)</span>\<span class="p">,</span> \<span class="n">rho</span>
 <span class="n">RHS</span> <span class="o">=</span> <span class="p">(</span><span class="n">g</span> <span class="o">+</span> \<span class="n">ddot</span><span class="p">{</span><span class="n">z</span><span class="p">})</span>
 <span class="n">LHS</span>\<span class="p">,</span> <span class="n">C_</span><span class="p">{</span>\<span class="n">text</span><span class="p">{</span><span class="n">lift</span><span class="p">}}</span> <span class="o">=</span> <span class="n">RHS</span>\<span class="p">,</span> <span class="n">m</span>
 </pre></div>
@@ -108,10 +109,11 @@ coefficient-of-lift and mass from pure trajectory information.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>coefficients</strong> : :class:np.array</p>
-<blockquote class="last">
-<div><p>the columns are LHS and RHS.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>coefficients</strong> <span class="classifier-delimiter">:</span> <span class="classifier">:class:np.array</span></dt>
+<dd><p class="first last">the columns are LHS and RHS.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -151,10 +153,10 @@ coefficient-of-lift and mass from pure trajectory information.</p>
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

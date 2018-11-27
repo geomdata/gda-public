@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
@@ -151,10 +152,10 @@
 <span class="sd">&gt;&gt;&gt; list(el.pers.forest[None])</span>
 <span class="sd">[0]</span>
 <span class="sd">&gt;&gt;&gt; el.vertices</span>
-<span class="sd">   time  value</span>
-<span class="sd">0   0.0    6.5</span>
-<span class="sd">1   1.0    0.0</span>
-<span class="sd">2   2.0    2.0</span>
+<span class="sd">   time  height</span>
+<span class="sd">0   0.0     6.5</span>
+<span class="sd">1   1.0     0.0</span>
+<span class="sd">2   2.0     2.0</span>
 <span class="sd">&gt;&gt;&gt; el.jagged() #el.pers.diagram,el.vertices.index,el.vertices.dtype)</span>
 <span class="sd">0    6.5</span>
 <span class="sd">1    0.0</span>
@@ -166,28 +167,28 @@
 <span class="sd">True</span>
 <span class="sd">&gt;&gt;&gt; el = Signal([6.5,7.0,2.0,4.5,3.9,9.0,8.3,8.7,5.5,9.9])</span>
 <span class="sd">&gt;&gt;&gt; el.vertices</span>
-<span class="sd">   time  value</span>
-<span class="sd">0   0.0    6.5</span>
-<span class="sd">1   1.0    7.0</span>
-<span class="sd">2   2.0    2.0</span>
-<span class="sd">3   3.0    4.5</span>
-<span class="sd">4   4.0    3.9</span>
-<span class="sd">5   5.0    9.0</span>
-<span class="sd">6   6.0    8.3</span>
-<span class="sd">7   7.0    8.7</span>
-<span class="sd">8   8.0    5.5</span>
-<span class="sd">9   9.0    9.9</span>
+<span class="sd">   time  height</span>
+<span class="sd">0   0.0     6.5</span>
+<span class="sd">1   1.0     7.0</span>
+<span class="sd">2   2.0     2.0</span>
+<span class="sd">3   3.0     4.5</span>
+<span class="sd">4   4.0     3.9</span>
+<span class="sd">5   5.0     9.0</span>
+<span class="sd">6   6.0     8.3</span>
+<span class="sd">7   7.0     8.7</span>
+<span class="sd">8   8.0     5.5</span>
+<span class="sd">9   9.0     9.9</span>
 <span class="sd">&gt;&gt;&gt; el.edges</span>
-<span class="sd">   src  dst  max  val</span>
-<span class="sd">2    2    3    3  4.5</span>
-<span class="sd">3    3    4    3  4.5</span>
-<span class="sd">0    0    1    1  7.0</span>
-<span class="sd">1    1    2    1  7.0</span>
-<span class="sd">6    6    7    7  8.7</span>
-<span class="sd">7    7    8    7  8.7</span>
-<span class="sd">4    4    5    5  9.0</span>
-<span class="sd">5    5    6    5  9.0</span>
-<span class="sd">8    8    9    9  9.9</span>
+<span class="sd">   src  dst  max  height</span>
+<span class="sd">2    2    3    3     4.5</span>
+<span class="sd">3    3    4    3     4.5</span>
+<span class="sd">0    0    1    1     7.0</span>
+<span class="sd">1    1    2    1     7.0</span>
+<span class="sd">6    6    7    7     8.7</span>
+<span class="sd">7    7    8    7     8.7</span>
+<span class="sd">4    4    5    5     9.0</span>
+<span class="sd">5    5    6    5     9.0</span>
+<span class="sd">8    8    9    9     9.9</span>
 <span class="sd">&gt;&gt;&gt; el.make_pers()</span>
 <span class="sd">&gt;&gt;&gt; el.pers.diagram</span>
 <span class="sd">   birth_index  death_index  birth  death  pers</span>
@@ -197,15 +198,15 @@
 <span class="sd">3            8            5    5.5    9.0   3.5</span>
 <span class="sd">4            2            9    2.0    9.9   7.9</span>
 <span class="sd">&gt;&gt;&gt; el.feature()</span>
-<span class="sd">   time  value</span>
-<span class="sd">2   2.0    2.0</span>
-<span class="sd">3   3.0    4.5</span>
-<span class="sd">4   4.0    3.9</span>
-<span class="sd">5   5.0    9.0</span>
-<span class="sd">6   6.0    8.3</span>
-<span class="sd">7   7.0    8.7</span>
-<span class="sd">8   8.0    5.5</span>
-<span class="sd">9   9.0    9.9</span>
+<span class="sd">   time  height</span>
+<span class="sd">2   2.0     2.0</span>
+<span class="sd">3   3.0     4.5</span>
+<span class="sd">4   4.0     3.9</span>
+<span class="sd">5   5.0     9.0</span>
+<span class="sd">6   6.0     8.3</span>
+<span class="sd">7   7.0     8.7</span>
+<span class="sd">8   8.0     5.5</span>
+<span class="sd">9   9.0     9.9</span>
 <span class="sd">&gt;&gt;&gt; el.pers.syzygy((0,0))</span>
 <span class="sd">2    0.4</span>
 <span class="sd">1    0.5</span>
@@ -222,7 +223,7 @@
 <span class="sd">dtype: float64</span>
 <span class="sd">&gt;&gt;&gt; el.pers.forest_parents == {0: 4, 1: None, 2: 3, 3: 4, 4: None}</span>
 <span class="sd">True</span>
-<span class="sd">&gt;&gt;&gt; el.vertices[&#39;value&#39;].sum()/len(el.vertices)</span>
+<span class="sd">&gt;&gt;&gt; el.vertices[&#39;height&#39;].sum()/len(el.vertices)</span>
 <span class="sd">6.5299999999999994</span>
 <span class="sd">&gt;&gt;&gt; el.normalize()</span>
 <span class="sd">&gt;&gt;&gt; el2 = Signal(el.vertices)</span>
@@ -232,18 +233,18 @@
 <span class="sd">&gt;&gt;&gt; el = Signal([0.0,3.0,1.5,2.2,0.001])</span>
 <span class="sd">&gt;&gt;&gt; el.make_pers()</span>
 <span class="sd">&gt;&gt;&gt; el.vertices</span>
-<span class="sd">   time  value</span>
-<span class="sd">0   0.0  0.000</span>
-<span class="sd">1   1.0  3.000</span>
-<span class="sd">2   2.0  1.500</span>
-<span class="sd">3   3.0  2.200</span>
-<span class="sd">4   4.0  0.001</span>
+<span class="sd">   time  height</span>
+<span class="sd">0   0.0   0.000</span>
+<span class="sd">1   1.0   3.000</span>
+<span class="sd">2   2.0   1.500</span>
+<span class="sd">3   3.0   2.200</span>
+<span class="sd">4   4.0   0.001</span>
 <span class="sd">&gt;&gt;&gt; el.edges</span>
-<span class="sd">   src  dst  max  val</span>
-<span class="sd">2    2    3    3  2.2</span>
-<span class="sd">3    3    4    3  2.2</span>
-<span class="sd">0    0    1    1  3.0</span>
-<span class="sd">1    1    2    1  3.0</span>
+<span class="sd">   src  dst  max  height</span>
+<span class="sd">2    2    3    3     2.2</span>
+<span class="sd">3    3    4    3     2.2</span>
+<span class="sd">0    0    1    1     3.0</span>
+<span class="sd">1    1    2    1     3.0</span>
 <span class="sd">&gt;&gt;&gt; el.pers.diagram</span>
 <span class="sd">   birth_index  death_index  birth  death   pers</span>
 <span class="sd">0            2            3  1.500    2.2  0.700</span>
@@ -252,20 +253,20 @@
 <span class="sd">&gt;&gt;&gt; el = Signal([0.0,0.7,0.45,0.55,0.3, 1.0],</span>
 <span class="sd">...             times=[0.1, 0.2, 0.3, 0.6, 0.8, 0.85])</span>
 <span class="sd">&gt;&gt;&gt; el.vertices</span>
-<span class="sd">   time  value</span>
-<span class="sd">0  0.10   0.00</span>
-<span class="sd">1  0.20   0.70</span>
-<span class="sd">2  0.30   0.45</span>
-<span class="sd">3  0.60   0.55</span>
-<span class="sd">4  0.80   0.30</span>
-<span class="sd">5  0.85   1.00</span>
+<span class="sd">   time  height</span>
+<span class="sd">0  0.10    0.00</span>
+<span class="sd">1  0.20    0.70</span>
+<span class="sd">2  0.30    0.45</span>
+<span class="sd">3  0.60    0.55</span>
+<span class="sd">4  0.80    0.30</span>
+<span class="sd">5  0.85    1.00</span>
 <span class="sd">&gt;&gt;&gt; el.edges</span>
-<span class="sd">   src  dst  max   val</span>
-<span class="sd">2    2    3    3  0.55</span>
-<span class="sd">3    3    4    3  0.55</span>
-<span class="sd">0    0    1    1  0.70</span>
-<span class="sd">1    1    2    1  0.70</span>
-<span class="sd">4    4    5    5  1.00</span>
+<span class="sd">   src  dst  max  height</span>
+<span class="sd">2    2    3    3    0.55</span>
+<span class="sd">3    3    4    3    0.55</span>
+<span class="sd">0    0    1    1    0.70</span>
+<span class="sd">1    1    2    1    0.70</span>
+<span class="sd">4    4    5    5    1.00</span>
 <span class="sd">&gt;&gt;&gt; el.make_pers()</span>
 <span class="sd">&gt;&gt;&gt; el.pers.diagram</span>
 <span class="sd">   birth_index  death_index  birth  death  pers</span>
@@ -280,16 +281,16 @@
 <span class="sd">1            4            3    0.1    0.9   0.8</span>
 <span class="sd">2            0            5    0.0    1.0   1.0</span>
 <span class="sd">&gt;&gt;&gt; for F in el.iter_features(min_pers=0.5): print(F)</span>
-<span class="sd">   time  value</span>
-<span class="sd">0   0.0    0.0</span>
-<span class="sd">1   1.0    0.5</span>
-<span class="sd">2   2.0    0.4</span>
-<span class="sd">3   3.0    0.9</span>
-<span class="sd">4   4.0    0.1</span>
-<span class="sd">5   5.0    1.0</span>
-<span class="sd">   time  value</span>
-<span class="sd">3   3.0    0.9</span>
-<span class="sd">4   4.0    0.1</span>
+<span class="sd">   time  height</span>
+<span class="sd">0   0.0     0.0</span>
+<span class="sd">1   1.0     0.5</span>
+<span class="sd">2   2.0     0.4</span>
+<span class="sd">3   3.0     0.9</span>
+<span class="sd">4   4.0     0.1</span>
+<span class="sd">5   5.0     1.0</span>
+<span class="sd">   time  height</span>
+<span class="sd">3   3.0     0.9</span>
+<span class="sd">4   4.0     0.1</span>
 <span class="sd">&gt;&gt;&gt; el = Signal(np.sin(np.arange(0,8*np.pi,0.1)))</span>
 <span class="sd">&gt;&gt;&gt; el.make_pers()</span>
 <span class="sd">&gt;&gt;&gt; el.pers.domains == {(110, 204): 4, (204, 236): 3, (0, 16): 2, (47, 79): 0, (141, 173): 1}</span>
@@ -350,6 +351,38 @@
     <span class="c1"># MUST ADD CIRCULAR INTERPOLATION!</span>
     <span class="k">return</span> <span class="n">V</span></div>
 
+<span class="k">def</span> <span class="nf">wavy</span><span class="p">(</span><span class="n">pasrdiad</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Produce a piecewise-sine function that matches the given persistence</span>
+<span class="sd">    diagram. This assumes that the index for the vertices is sequential and</span>
+<span class="sd">    linear, so that the mergetree can be ignored.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    persdiag : :class:`homology.PersDiag`</span>
+<span class="sd">        A 0-dimensional persistence diagram</span>
+<span class="sd">    index : list-like</span>
+<span class="sd">        The domain index for the function</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    function : `pandas.Series`</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :func:`timeseries.Signal.jagged` :func:`timeseries.Signal.makepers`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#V = pd.Series(index=index, dtype=np.float64)</span>
+    <span class="c1">#if len(persdiag) == 0:</span>
+    <span class="c1">#    V[:] = 0</span>
+    <span class="c1">#V[persdiag[&#39;birth_index&#39;]] = persdiag[&#39;birth&#39;]</span>
+    <span class="c1">#V[persdiag[&#39;death_index&#39;]] = persdiag[&#39;death&#39;]</span>
+    <span class="c1">## fill with linear interpolation</span>
+    <span class="c1">#V.interpolate(method=&#39;linear&#39;, inplace=True) </span>
+    <span class="c1">## make sure we don&#39;t lose domain</span>
+    <span class="c1">#V.fillna(method=&#39;ffill&#39;, inplace=True)  # the end</span>
+    <span class="c1">#V.fillna(method=&#39;bfill&#39;, inplace=True)  # the beginning</span>
+    <span class="c1"># MUST ADD CIRCULAR INTERPOLATION!</span>
+    <span class="c1">#return V</span>
 
 <div class="viewcode-block" id="Signal"><a class="viewcode-back" href="../generated/timeseries.Signal.html#timeseries.Signal">[docs]</a><span class="k">class</span> <span class="nc">Signal</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
@@ -360,16 +393,16 @@
 <span class="sd">            A Signal is a pair of pd DataFrames that act as indexed</span>
 <span class="sd">        lists of numerical values.  The vertices are stored as a pd Series,</span>
 <span class="sd">        Signal.index provides the vertex indices.</span>
-<span class="sd">            The edges are a DataFrame of dimension 2, giving triples labeled by</span>
-<span class="sd">        (&#39;src&#39;, &#39;dst&#39;, &#39;max&#39;, &#39;val&#39;), where src and dst are the *indices* (not</span>
+<span class="sd">            The edges are a DataFrame, giving triples labeled by</span>
+<span class="sd">        (&#39;src&#39;, &#39;dst&#39;, &#39;max&#39;, &#39;height&#39;), where src and dst are the *indices* (not</span>
 <span class="sd">        the *values*) of vertices.  Vertices should be considered fixed on</span>
 <span class="sd">        initialization.  Overloaded functions refer to edges, not vertices.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">==</span> <span class="n">pd</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
             <span class="k">assert</span> <span class="n">values</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span>
-            <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">columns</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">])</span>
-            <span class="k">assert</span> <span class="n">values</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span>
+            <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">columns</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;height&#39;</span><span class="p">])</span>
+            <span class="k">assert</span> <span class="n">values</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span>
             <span class="k">assert</span> <span class="n">values</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
@@ -386,8 +419,8 @@
 
             <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
                 <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="n">times</span><span class="p">,</span>
-                <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">values</span><span class="p">},</span>
-                <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="n">values</span><span class="p">},</span>
+                <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;height&#39;</span><span class="p">],</span>
                 <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
 
         <span class="c1"># if times is not None:</span>
@@ -401,18 +434,18 @@
 
         <span class="c1"># figure out whether the value is from the left (0) or right (1)</span>
         <span class="c1"># this is now done in homology.dim0.unionfind.</span>
-        <span class="n">leftright</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-                              <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]])</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">leftright</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]])</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">maxes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">index</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">leftright</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
         <span class="n">edges</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-                <span class="s1">&#39;src&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-                <span class="s1">&#39;dst&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span>
+                <span class="s1">&#39;src&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                <span class="s1">&#39;dst&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span>
                 <span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="n">maxes</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-                <span class="s1">&#39;val&#39;</span><span class="p">:</span>  <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">maxes</span><span class="p">]},</span>
-                <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">,</span> <span class="s1">&#39;dst&#39;</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">,</span> <span class="s1">&#39;val&#39;</span><span class="p">])</span>
+                <span class="s1">&#39;height&#39;</span><span class="p">:</span>  <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">maxes</span><span class="p">]},</span>
+                <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">,</span> <span class="s1">&#39;dst&#39;</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">,</span> <span class="s1">&#39;height&#39;</span><span class="p">])</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">edges</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">,</span> <span class="s1">&#39;src&#39;</span><span class="p">],</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">,</span> <span class="s1">&#39;src&#39;</span><span class="p">],</span>
                                <span class="n">ascending</span><span class="o">=</span><span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span>
                                <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
@@ -457,8 +490,8 @@
         <span class="sd">&quot;&quot;&quot; return a Signal object that is L2-near self in the normal</span>
 <span class="sd">        distribution. </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">+</span> <span class="n">sigma</span><span class="o">*</span><span class="n">diff</span><span class="p">)</span> </div>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">+</span> <span class="n">sigma</span><span class="o">*</span><span class="n">diff</span><span class="p">)</span> </div>
 
 <div class="viewcode-block" id="Signal.height_measure"><a class="viewcode-back" href="../generated/timeseries.Signal.height_measure.html#timeseries.Signal.height_measure">[docs]</a>    <span class="k">def</span> <span class="nf">height_measure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_pers</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Use a simulation to estimate the height-measure of an interval. &quot;&quot;&quot;</span>
@@ -534,6 +567,35 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_jagged</span><span class="p">[</span><span class="n">beta</span><span class="p">]</span> <span class="o">=</span> <span class="n">jagged</span><span class="p">(</span><span class="n">keepbc</span><span class="p">,</span>
                                     <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jagged</span><span class="p">[</span><span class="n">beta</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Signal.smoothen"><a class="viewcode-back" href="../generated/timeseries.Signal.smoothen.html#timeseries.Signal.smoothen">[docs]</a>    <span class="k">def</span> <span class="nf">smoothen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">F</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">pd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pers</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">beta</span><span class="p">)[</span><span class="s1">&#39;keepcode&#39;</span><span class="p">]</span>
+        <span class="n">cut_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">pd</span><span class="p">[[</span><span class="s1">&#39;birth_index&#39;</span><span class="p">,</span> <span class="s1">&#39;death_index&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+                                      <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int&#39;</span><span class="p">)])</span>
+        <span class="n">cut_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">cut_indices</span><span class="p">)</span>
+
+        <span class="n">times</span> <span class="o">=</span> <span class="p">[</span> <span class="p">]</span>
+        <span class="n">segments</span> <span class="o">=</span> <span class="p">[</span> <span class="p">]</span>
+    
+        <span class="k">for</span> <span class="n">j0</span><span class="p">,</span><span class="n">j1</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">cut_indices</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">cut_indices</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>        
+            <span class="n">times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">T</span><span class="p">[</span><span class="n">j0</span><span class="p">:</span><span class="n">j1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">F</span><span class="p">[</span><span class="n">j0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">F</span><span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="n">j1</span><span class="p">,</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)]:</span>
+                <span class="n">segments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="n">j0</span><span class="p">:</span><span class="n">j1</span><span class="p">])[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">F</span><span class="p">[</span><span class="n">j0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">F</span><span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="n">j1</span><span class="p">,</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)]:</span>
+                <span class="n">segments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="n">j0</span><span class="p">:</span><span class="n">j1</span><span class="p">]))</span>
+            <span class="c1">#else:</span>
+            <span class="c1">#    assert F[j0:j1].min() == F[j0:j1].max()</span>
+    
+        <span class="n">times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
+        <span class="n">segments</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">segments</span><span class="p">)</span>
+        
+        <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">segments</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">F</span><span class="p">))</span>
+        <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">times</span> <span class="o">==</span> <span class="n">T</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Signal</span><span class="p">(</span><span class="n">segments</span><span class="p">,</span> <span class="n">times</span><span class="o">=</span><span class="n">times</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="Signal.profile"><a class="viewcode-back" href="../generated/timeseries.Signal.profile.html#timeseries.Signal.profile">[docs]</a>    <span class="k">def</span> <span class="nf">profile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arch</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; produce profile by dragging an archetype across self, </span>
@@ -691,12 +753,12 @@
             <span class="n">canvas</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">canvas_type</span> <span class="o">==</span> <span class="s2">&quot;bokeh&quot;</span><span class="p">:</span>
-            <span class="n">canvas</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-            <span class="n">canvas</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
 
         <span class="k">elif</span> <span class="n">canvas_type</span> <span class="o">==</span> <span class="s2">&quot;pyplot&quot;</span><span class="p">:</span>
-            <span class="n">canvas</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-            <span class="n">canvas</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
         <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="Signal.from_pointcloud"><a class="viewcode-back" href="../generated/timeseries.Signal.from_pointcloud.html#timeseries.Signal.from_pointcloud">[docs]</a>    <span class="nd">@classmethod</span>
@@ -708,9 +770,9 @@
         <span class="sd">&quot;&quot;&quot; change this Signal object to have mean = 0 and max-min = 1 &quot;&quot;&quot;</span>
         <span class="n">bc</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pers</span><span class="o">.</span><span class="n">diagram</span>
         <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gap</span><span class="p">()[</span><span class="s1">&#39;pers&#39;</span><span class="p">]</span>
-        <span class="n">mean</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span><span class="o">/</span><span class="n">h</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span><span class="o">/</span><span class="n">h</span>
+        <span class="n">mean</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span><span class="o">/</span><span class="n">h</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span><span class="o">/</span><span class="n">h</span>
         <span class="n">bc</span><span class="p">[</span><span class="s1">&#39;birth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">bc</span><span class="p">[</span><span class="s1">&#39;birth&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span><span class="o">/</span><span class="n">h</span>
         <span class="n">bc</span><span class="p">[</span><span class="s1">&#39;death&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">bc</span><span class="p">[</span><span class="s1">&#39;death&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span><span class="o">/</span><span class="n">h</span>
         <span class="n">bc</span><span class="p">[</span><span class="s1">&#39;pers&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">bc</span><span class="p">[</span><span class="s1">&#39;pers&#39;</span><span class="p">])</span><span class="o">/</span><span class="n">h</span>
@@ -733,10 +795,6 @@
 <span class="sd">    py : list-like</span>
 <span class="sd">    pz : list-like</span>
 <span class="sd">        Positions in :class:`numpy.float64` meters</span>
-<span class="sd">    vx : list-like</span>
-<span class="sd">    vy : list-like</span>
-<span class="sd">    pz : list-like</span>
-<span class="sd">        Velocity components in :class:`numpy.float64` meters per second</span>
 <span class="sd">    quality : list-like</span>
 <span class="sd">        Quality/accuracy of a particular location</span>
 <span class="sd">    trackid : int</span>
@@ -763,7 +821,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tn</span><span class="p">,</span> <span class="n">px</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">py</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pz</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">vx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vz</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="c1">#             vx=None, vy=None, vz=None,</span>
                  <span class="n">quality</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">trackid</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">platform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">activity</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mollified</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="n">tn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tn</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
@@ -777,28 +835,28 @@
             <span class="n">py</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">tn</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">pz</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">pz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">tn</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">vx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">vx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">tn</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">vy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">vy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">tn</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">vz</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">vz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">tn</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="c1">#if vx is None:</span>
+        <span class="c1">#    vx = np.zeros(tn.shape, dtype=np.float64)</span>
+        <span class="c1">#if vy is None:</span>
+        <span class="c1">#    vy = np.zeros(tn.shape, dtype=np.float64)</span>
+        <span class="c1">#if vz is None:</span>
+        <span class="c1">#    vz = np.zeros(tn.shape, dtype=np.float64)</span>
         <span class="k">if</span> <span class="n">quality</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">quality</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">tn</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
         <span class="n">px</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">px</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
         <span class="n">py</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">py</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
         <span class="n">pz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pz</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-        <span class="n">vx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vx</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-        <span class="n">vy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vy</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-        <span class="n">vz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vz</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="c1">#vx = np.array(vx, dtype=np.float64)</span>
+        <span class="c1">#vy = np.array(vy, dtype=np.float64)</span>
+        <span class="c1">#vz = np.array(vz, dtype=np.float64)</span>
         <span class="n">quality</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">quality</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
 
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">tn</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">px</span><span class="p">)</span>
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">tn</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">py</span><span class="p">)</span>
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">tn</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">pz</span><span class="p">)</span>
-        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">tn</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">vx</span><span class="p">)</span>
-        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">tn</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">vy</span><span class="p">)</span>
-        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">tn</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">vz</span><span class="p">)</span>
+        <span class="c1">#assert len(tn) == len(vx)</span>
+        <span class="c1">#assert len(tn) == len(vy)</span>
+        <span class="c1">#assert len(tn) == len(vz)</span>
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">tn</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">quality</span><span class="p">)</span>
 
         <span class="n">sort_by_time</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">argsort</span><span class="p">()</span>
@@ -807,9 +865,9 @@
         <span class="n">px</span> <span class="o">=</span> <span class="n">px</span><span class="p">[</span><span class="n">sort_by_time</span><span class="p">]</span>
         <span class="n">py</span> <span class="o">=</span> <span class="n">py</span><span class="p">[</span><span class="n">sort_by_time</span><span class="p">]</span>
         <span class="n">pz</span> <span class="o">=</span> <span class="n">pz</span><span class="p">[</span><span class="n">sort_by_time</span><span class="p">]</span>
-        <span class="n">vx</span> <span class="o">=</span> <span class="n">vx</span><span class="p">[</span><span class="n">sort_by_time</span><span class="p">]</span>
-        <span class="n">vy</span> <span class="o">=</span> <span class="n">vy</span><span class="p">[</span><span class="n">sort_by_time</span><span class="p">]</span>
-        <span class="n">vz</span> <span class="o">=</span> <span class="n">vz</span><span class="p">[</span><span class="n">sort_by_time</span><span class="p">]</span>
+        <span class="c1">#vx = vx[sort_by_time]</span>
+        <span class="c1">#vy = vy[sort_by_time]</span>
+        <span class="c1">#vz = vz[sort_by_time]</span>
         <span class="n">quality</span> <span class="o">=</span> <span class="n">quality</span><span class="p">[</span><span class="n">sort_by_time</span><span class="p">]</span>
 
         <span class="n">ts</span> <span class="o">=</span> <span class="p">(</span><span class="n">tn</span> <span class="o">-</span> <span class="n">tn</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="mi">9</span><span class="p">)</span>
@@ -818,8 +876,13 @@
                                   <span class="s1">&#39;pos_x&#39;</span><span class="p">:</span> <span class="n">px</span><span class="p">,</span>
                                   <span class="s1">&#39;pos_y&#39;</span><span class="p">:</span> <span class="n">py</span><span class="p">,</span>
                                   <span class="s1">&#39;pos_z&#39;</span><span class="p">:</span> <span class="n">pz</span><span class="p">,</span>
+                                  <span class="c1">#&#39;vel_x&#39;: vx,</span>
+                                  <span class="c1">#&#39;vel_y&#39;: vy,</span>
+                                  <span class="c1">#&#39;vel_z&#39;: vz,</span>
                                   <span class="s1">&#39;quality&#39;</span><span class="p">:</span> <span class="n">quality</span><span class="p">},</span>
-                                 <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;pos_x&#39;</span><span class="p">,</span> <span class="s1">&#39;pos_y&#39;</span><span class="p">,</span> <span class="s1">&#39;pos_z&#39;</span><span class="p">,</span> <span class="s1">&#39;quality&#39;</span><span class="p">],</span>
+                                 <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;pos_x&#39;</span><span class="p">,</span> <span class="s1">&#39;pos_y&#39;</span><span class="p">,</span> <span class="s1">&#39;pos_z&#39;</span><span class="p">,</span> 
+                                                  <span class="c1">#&#39;vel_x&#39;, &#39;vel_y&#39;, &#39;vel_z&#39;,</span>
+                                                  <span class="s1">&#39;quality&#39;</span><span class="p">],</span>
                                  <span class="n">index</span><span class="o">=</span><span class="n">tn</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({},</span> <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
@@ -1181,10 +1244,10 @@
                     <span class="nb">type</span><span class="p">(</span><span class="n">canvas</span><span class="p">))</span>
             <span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">canvas_type</span> <span class="o">==</span> <span class="s2">&quot;bokeh&quot;</span><span class="p">:</span>
-            <span class="n">canvas</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
-        <span class="k">elif</span> <span class="n">canvas_type</span> <span class="o">==</span> <span class="s2">&quot;pyplot&quot;</span><span class="p">:</span>
-            <span class="n">canvas</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+        <span class="c1">#if canvas_type == &quot;bokeh&quot;:</span>
+        <span class="c1">#    canvas.title = title</span>
+        <span class="c1">#elif canvas_type == &quot;pyplot&quot;:</span>
+        <span class="c1">#    canvas.set_title(title)</span>
 
         <span class="c1"># transform to local ENU coordinates at every point, and start at 0.</span>
         <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[[</span><span class="s1">&#39;pos_x&#39;</span><span class="p">,</span> <span class="s1">&#39;pos_y&#39;</span><span class="p">,</span> <span class="s1">&#39;pos_z&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
@@ -1350,6 +1413,8 @@
         <span class="n">T</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
         <span class="n">P</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[[</span><span class="s1">&#39;pos_x&#39;</span><span class="p">,</span> <span class="s1">&#39;pos_y&#39;</span><span class="p">,</span> <span class="s1">&#39;pos_z&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
         <span class="n">V</span> <span class="o">=</span> <span class="n">curve_geometry</span><span class="o">.</span><span class="n">secant_derivative</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span>
+        <span class="c1">#V2 = self.data[[&#39;vel_x&#39;, &#39;vel_y&#39;, &#39;vel_z&#39;]].values</span>
+        <span class="c1">#assert not np.any(np.isnan(V2)), &quot;{} bad in {}&quot;.format(np.where(np.isnan(V2)), V2.shape)</span>
 
         <span class="c1"># all derivatives and integrals</span>
         <span class="n">A</span> <span class="o">=</span> <span class="n">curve_geometry</span><span class="o">.</span><span class="n">secant_derivative</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>
@@ -1357,13 +1422,15 @@
         <span class="n">arclengthS</span> <span class="o">=</span> <span class="n">curve_geometry</span><span class="o">.</span><span class="n">secant_arclength</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
 
         <span class="c1"># norms</span>
+        <span class="c1">#recspeed = np.linalg.norm(V2, axis=1).flatten()</span>
         <span class="n">speed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
         <span class="n">acc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
         <span class="n">jerk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">J</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
 
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">:</span>
         <span class="c1"># Use signature curve to make curv and tors</span>
-        <span class="n">kap</span><span class="p">,</span> <span class="n">kap_s</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">tau_s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">signature_curve</span><span class="p">()</span>
+            <span class="n">kap</span><span class="p">,</span> <span class="n">kap_s</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">tau_s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">signature_curve</span><span class="p">()</span>
        
         <span class="c1">#KT = np.ndarray(shape=(T.shape[0], 2), dtype=&#39;float&#39;)</span>
         <span class="c1">#KT[:2, :] = sc[0, :]</span>
@@ -1401,14 +1468,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;acc_z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;len&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">arclengthS</span>  <span class="c1"># This is the only thing we store in data</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;speed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">speed</span>
+        <span class="c1">#self.info[&#39;recspeed&#39;] = recspeed</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;acc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">acc</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;jerk&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">jerk</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;curv&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kap</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;curv_s&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kap_s</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;tors&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tau</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;curv&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kap</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;curv_s&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kap_s</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;tors&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tau</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;tors_s&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;tors_s&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="c1">#self.info[&#39;tors_s&#39;].values[3:-3] = tau_s</span>
         <span class="c1">#self.info[&#39;tors_s&#39;].values[:3] = tau_s[0]</span>
         <span class="c1">#self.info[&#39;tors_s&#39;].values[-3:] = tau_s[-1]</span>
@@ -1722,8 +1791,10 @@
 
         <span class="n">abc</span> <span class="o">=</span> <span class="n">a</span><span class="o">*</span><span class="n">b</span><span class="o">*</span><span class="n">c</span>
         <span class="c1"># Calabi,et al eqn (2.2)</span>
-        <span class="n">kappa</span> <span class="o">=</span> <span class="n">sign</span><span class="o">*</span><span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">s</span><span class="o">*</span><span class="n">s_minus_a</span><span class="o">*</span><span class="n">s_minus_b</span><span class="o">*</span><span class="n">s_minus_c</span><span class="p">)</span> <span class="o">/</span> <span class="n">abc</span>
-        <span class="n">kappa</span><span class="p">[</span><span class="n">abc</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span>
+        <span class="n">non_trivial</span> <span class="o">=</span> <span class="p">(</span><span class="n">abc</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">kappa</span> <span class="o">=</span> <span class="n">sign</span><span class="o">*</span><span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">s</span><span class="o">*</span><span class="n">s_minus_a</span><span class="o">*</span><span class="n">s_minus_b</span><span class="o">*</span><span class="n">s_minus_c</span><span class="p">)</span>
+        <span class="n">kappa</span><span class="p">[</span><span class="n">non_trivial</span><span class="p">]</span> <span class="o">=</span> <span class="n">kappa</span><span class="p">[</span><span class="n">non_trivial</span><span class="p">]</span> <span class="o">/</span> <span class="n">abc</span><span class="p">[</span><span class="n">non_trivial</span><span class="p">]</span>
+        <span class="n">kappa</span><span class="p">[</span><span class="o">~</span> <span class="n">non_trivial</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="k">assert</span> <span class="n">kappa</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">n</span><span class="o">-</span><span class="mi">2</span>
 
         <span class="c1"># Now, we follow Boutin&#39;s naming convention.</span>
@@ -1751,10 +1822,10 @@
         <span class="c1"># Note that the index of kappa goes 0..n-3.</span>
         <span class="c1"># and P[i] corresponds to a[i] and kappa[i+1]</span>
         <span class="n">denom_ks</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">a</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">b</span> <span class="o">+</span> <span class="n">d</span> <span class="o">+</span> <span class="n">g</span>
-        <span class="n">old_settings</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">seterr</span><span class="p">(</span><span class="n">divide</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
-        <span class="n">kappa_s</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="n">kappa</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span> <span class="o">-</span> <span class="n">kappa</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span><span class="o">/</span><span class="n">denom_ks</span>
-        <span class="n">kappa_s</span><span class="p">[</span><span class="n">denom_ks</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">seterr</span><span class="p">(</span><span class="o">**</span><span class="n">old_settings</span><span class="p">)</span>
+        <span class="n">non_trivial</span> <span class="o">=</span> <span class="p">(</span><span class="n">denom_ks</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">kappa_s</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="n">kappa</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span> <span class="o">-</span> <span class="n">kappa</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">kappa_s</span><span class="p">[</span><span class="n">non_trivial</span><span class="p">]</span> <span class="o">=</span> <span class="n">kappa_s</span><span class="p">[</span><span class="n">non_trivial</span><span class="p">]</span><span class="o">/</span><span class="n">denom_ks</span><span class="p">[</span><span class="n">non_trivial</span><span class="p">]</span>
+        <span class="n">kappa_s</span><span class="p">[</span><span class="o">~</span> <span class="n">non_trivial</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
         
       
         <span class="c1"># tau according to Boutin&#39;s \tilde{tau}_1, in the forward direction</span>
@@ -1769,7 +1840,7 @@
         <span class="c1"># don&#39;t want to divide by zero, which happens if points repeat.</span>
         <span class="n">tau_fwd</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">tetra_height</span>
         <span class="n">denom_t</span> <span class="o">=</span> <span class="n">d</span> <span class="o">*</span> <span class="n">e</span> <span class="o">*</span> <span class="n">f</span> <span class="o">*</span> <span class="n">kappa</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># sign is inherited!</span>
-        <span class="n">non_trivial</span> <span class="o">=</span> <span class="p">(</span><span class="n">tetra_height</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">non_trivial</span> <span class="o">=</span> <span class="p">(</span><span class="n">denom_t</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">tetra_height</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
         <span class="n">tau_fwd</span><span class="p">[</span><span class="n">non_trivial</span><span class="p">]</span> <span class="o">=</span> <span class="n">tau_fwd</span><span class="p">[</span><span class="n">non_trivial</span><span class="p">]</span> <span class="o">/</span> <span class="n">denom_t</span><span class="p">[</span><span class="n">non_trivial</span><span class="p">]</span>
         <span class="n">tau_fwd</span><span class="p">[</span><span class="o">~</span> <span class="n">non_trivial</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span> 
         
@@ -1785,7 +1856,7 @@
         <span class="c1"># don&#39;t want to divide by zero, which happens if points repeat.</span>
         <span class="n">tau_bwd</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">tetra_height</span>
         <span class="n">denom_t</span> <span class="o">=</span> <span class="n">d</span> <span class="o">*</span> <span class="n">e</span> <span class="o">*</span> <span class="n">f</span> <span class="o">*</span> <span class="n">kappa</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># sign is inherited!</span>
-        <span class="n">non_trivial</span> <span class="o">=</span> <span class="p">(</span><span class="n">tetra_height</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">non_trivial</span> <span class="o">=</span> <span class="p">(</span><span class="n">denom_t</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">tetra_height</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
         <span class="n">tau_bwd</span><span class="p">[</span><span class="n">non_trivial</span><span class="p">]</span> <span class="o">=</span> <span class="n">tau_bwd</span><span class="p">[</span><span class="n">non_trivial</span><span class="p">]</span> <span class="o">/</span> <span class="n">denom_t</span><span class="p">[</span><span class="n">non_trivial</span><span class="p">]</span>
         <span class="n">tau_bwd</span><span class="p">[</span><span class="o">~</span> <span class="n">non_trivial</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span> 
         
@@ -1873,10 +1944,10 @@
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

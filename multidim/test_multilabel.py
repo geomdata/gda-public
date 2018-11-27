@@ -18,15 +18,15 @@ Copyright
 >>> list_of_labels = [ "red", "blue", "red" ]
 >>> pc = multidim.PointCloud.from_multisample_multilabel(list_of_samples, list_of_labels)
 >>> print(pc.stratum[0])
-        val   pos  rep
-0  0.250000  True    0
-1  0.250000  True    1
-2  0.333333  True    2
-3  0.333333  True    3
-4  0.333333  True    4
-5  0.166667  True    5
-6  0.166667  True    6
-7  0.166667  True    7
+   height      mass   pos  rep
+0     0.0  0.250000  True    0
+1     0.0  0.250000  True    1
+2     0.0  0.333333  True    2
+3     0.0  0.333333  True    3
+4     0.0  0.333333  True    4
+5     0.0  0.166667  True    5
+6     0.0  0.166667  True    6
+7     0.0  0.166667  True    7
 >>> print(pc.label_info)
       clouds  points  weight  int_index
 blue       1       3     1.0          0
@@ -86,10 +86,10 @@ Level 1 using 8 adults at radius 0.585786437...
      clouds  points  weight  int_index
 red       1       3     1.0          0
 >>> print(pc.stratum[0])
-        val   pos  rep
-0  0.333333  True    0
-1  0.333333  True    1
-2  0.333333  True    2
+   height      mass   pos  rep
+0     0.0  0.333333  True    0
+1     0.0  0.333333  True    1
+2     0.0  0.333333  True    2
 >>> print(pc.labels)
 [0 0 0]
 >>> print(pc.source)
@@ -101,15 +101,15 @@ red       1       3     1.0          0
 2  0.0  2.0
 >>> # Here is the default behavior, when no label is given.
 >>> pc = multidim.PointCloud(numpy.array([[0.0, 0.0], [0.0, 1.0], [0.0, 2.0]]),
-...     weights = numpy.array([1.0, 1.0, 1.0]))
+...     masses = numpy.array([1.0, 1.0, 1.0]))
 >>> pc.label_info
-       clouds  points  weight  int_index
-black       1       3     3.0          0
+       clouds  points  tot_mass  int_index
+black       1       3       3.0          0
 >>> print(pc.stratum[0])
-   val   pos  rep
-0  1.0  True    0
-1  1.0  True    1
-2  1.0  True    2
+   height  mass   pos  rep
+0     0.0   1.0  True    0
+1     0.0   1.0  True    1
+2     0.0   1.0  True    2
 >>> print(pc.labels)
 [0 0 0]
 >>> print(pc.source)

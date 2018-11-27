@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
     <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="genindex.html" >
     <link rel="search" title="Search" href="search.html" >
@@ -91,54 +92,54 @@ offline/air-gapped environment, see below.</p>
 <h2>Online Setup and Testing with Anaconda on Linux/Mac<a class="headerlink" href="#online-setup-and-testing-with-anaconda-on-linux-mac" title="Permalink to this headline">¶</a></h2>
 <p>Download and install the 3.5 (or newer) version of Anaconda from <a class="reference external" href="https://www.continuum.io/downloads">https://www.continuum.io/downloads</a></p>
 <p>In the following code examples, suppose you have cloned this repository to</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">gda</span><span class="o">-</span><span class="n">public</span>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">gda</span><span class="o">-</span><span class="n">public</span>
 </pre></div>
 </div>
 <p>Find the GDA code</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span>bash$ cd /path/to/gda-public
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>bash$ cd /path/to/gda-public
 </pre></div>
 </div>
-<p>Download the packages for numerical computation to <code class="docutils literal"><span class="pre">/path/to/gda-public/downloads</span></code></p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span>bash$ python ./download.py
+<p>Download the packages for numerical computation to <code class="docutils literal notranslate"><span class="pre">/path/to/gda-public/downloads</span></code></p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>bash$ python ./download.py
 </pre></div>
 </div>
 <p>Download the packages for visualization (optional!)</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span>bash$ python ./download-viz.py
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>bash$ python ./download-viz.py
 </pre></div>
 </div>
 <p>Setup a basic conda environment (on linux or Mac OSX)</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span>bash$ conda create --name gda_env --offline --channel file:///path/to/gda-public/downloads --file requirements.txt python=3
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>bash$ conda create --name gda_env --offline --channel file:///path/to/gda-public/downloads --file requirements.txt python=3
 </pre></div>
 </div>
 <p>Enter the environment</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span>bash$ source activate gda_env
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>bash$ source activate gda_env
 </pre></div>
 </div>
 <p>To see what has been installed</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span>(gda_env) bash$ conda list
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>(gda_env) bash$ conda list
 </pre></div>
 </div>
 <p>Make sure you can compile the Cython code</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span>(gda_env) bash$ python setup.py build_ext --inplace --force
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>(gda_env) bash$ python setup.py build_ext --inplace --force
 </pre></div>
 </div>
 <p>Run doctests on all code</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span>(gda_env) bash$ py.test
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>(gda_env) bash$ py.test
 </pre></div>
 </div>
 <p><em>NOTE!</em>  If tests fails, maybe you compiled previously with another version of Python.  Remove the cached bytecode with</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span>(gda_env) bash$ python setup.py clean
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>(gda_env) bash$ python setup.py clean
 (gda_env) bash$ py3clean -v /path/to/gda-public
 </pre></div>
 </div>
 <p><em>NOTE!</em>  If tests fail, it might be because your PYTHONPATH is wrong.
 On Linux or MacOS, try:</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span>(gda_env) bash$ export PYTHONPATH=&quot;$PYTHONPATH:/path/to/gda-public&quot;
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>(gda_env) bash$ export PYTHONPATH=&quot;$PYTHONPATH:/path/to/gda-public&quot;
 </pre></div>
 </div>
-<p>Now, play around.  Look at the documentation and the <code class="docutils literal"><span class="pre">examples/</span></code>.  If you installed the visualization requirements, you can use jupyter to use the code in a graphical/interactive way.</p>
+<p>Now, play around.  Look at the documentation and the <code class="docutils literal notranslate"><span class="pre">examples/</span></code>.  If you installed the visualization requirements, you can use jupyter to use the code in a graphical/interactive way.</p>
 <p>Leave the environment when you are done working.</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span>(gda_env) bash$ source deactivate
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>(gda_env) bash$ source deactivate
 bash$
 </pre></div>
 </div>
@@ -153,50 +154,50 @@ Development Kit</em>.</p>
 <p>With those packages installed, you can proceed with the Anaconda setup, which is similar to the Linux/MacOS setup.</p>
 <p>Download and install the 3.5 (or newer) version of Anaconda from <a class="reference external" href="https://www.continuum.io/downloads">https://www.continuum.io/downloads</a></p>
 <p>In the following code examples, suppose you have cloned this repository to</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="nb">abs</span>\<span class="n">path</span>\<span class="n">to</span>\<span class="n">gda</span><span class="o">-</span><span class="n">public</span>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="nb">abs</span>\<span class="n">path</span>\<span class="n">to</span>\<span class="n">gda</span><span class="o">-</span><span class="n">public</span>
 </pre></div>
 </div>
 <p>Find the GDA code</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="o">&gt;</span> <span class="n">cd</span> \<span class="nb">abs</span>\<span class="n">path</span>\<span class="n">to</span>\<span class="n">gda</span><span class="o">-</span><span class="n">public</span>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="o">&gt;</span> <span class="n">cd</span> \<span class="nb">abs</span>\<span class="n">path</span>\<span class="n">to</span>\<span class="n">gda</span><span class="o">-</span><span class="n">public</span>
 </pre></div>
 </div>
-<p>Download the packages for numerical computation to <code class="docutils literal"><span class="pre">\abs\path\to\gda-public\downloads</span></code></p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="nb">abs</span>\<span class="n">path</span>\<span class="n">to</span>\<span class="n">gda</span><span class="o">-</span><span class="n">public</span><span class="o">&gt;</span> <span class="n">python</span> <span class="n">download</span><span class="o">.</span><span class="n">py</span>
+<p>Download the packages for numerical computation to <code class="docutils literal notranslate"><span class="pre">\abs\path\to\gda-public\downloads</span></code></p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="nb">abs</span>\<span class="n">path</span>\<span class="n">to</span>\<span class="n">gda</span><span class="o">-</span><span class="n">public</span><span class="o">&gt;</span> <span class="n">python</span> <span class="n">download</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
 </div>
 <p>Download the packages for visualization (optional!)</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="nb">abs</span>\<span class="n">path</span>\<span class="n">to</span>\<span class="n">gda</span><span class="o">-</span><span class="n">public</span><span class="o">&gt;</span> <span class="n">python</span> <span class="n">download</span><span class="o">-</span><span class="n">viz</span><span class="o">.</span><span class="n">py</span>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="nb">abs</span>\<span class="n">path</span>\<span class="n">to</span>\<span class="n">gda</span><span class="o">-</span><span class="n">public</span><span class="o">&gt;</span> <span class="n">python</span> <span class="n">download</span><span class="o">-</span><span class="n">viz</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
 </div>
 <p>Setup a basic conda environment</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="nb">abs</span>\<span class="n">path</span>\<span class="n">to</span>\<span class="n">gda</span><span class="o">-</span><span class="n">public</span><span class="o">&gt;</span> <span class="n">conda</span> <span class="n">create</span> <span class="o">--</span><span class="n">name</span> <span class="n">gda_env</span> <span class="o">--</span><span class="n">offline</span> <span class="o">--</span><span class="n">channel</span> <span class="n">file</span><span class="p">:</span><span class="o">///</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">gda</span><span class="o">-</span><span class="n">public</span><span class="o">/</span><span class="n">downloads</span> <span class="o">--</span><span class="n">file</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span> <span class="n">python</span><span class="o">=</span><span class="mi">3</span>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="nb">abs</span>\<span class="n">path</span>\<span class="n">to</span>\<span class="n">gda</span><span class="o">-</span><span class="n">public</span><span class="o">&gt;</span> <span class="n">conda</span> <span class="n">create</span> <span class="o">--</span><span class="n">name</span> <span class="n">gda_env</span> <span class="o">--</span><span class="n">offline</span> <span class="o">--</span><span class="n">channel</span> <span class="n">file</span><span class="p">:</span><span class="o">///</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">gda</span><span class="o">-</span><span class="n">public</span><span class="o">/</span><span class="n">downloads</span> <span class="o">--</span><span class="n">file</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span> <span class="n">python</span><span class="o">=</span><span class="mi">3</span>
 </pre></div>
 </div>
 <p>Enter the environment</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="nb">abs</span>\<span class="n">path</span>\<span class="n">to</span>\<span class="n">gda</span><span class="o">-</span><span class="n">public</span><span class="o">&gt;</span> <span class="n">activate</span> <span class="n">gda_env</span>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="nb">abs</span>\<span class="n">path</span>\<span class="n">to</span>\<span class="n">gda</span><span class="o">-</span><span class="n">public</span><span class="o">&gt;</span> <span class="n">activate</span> <span class="n">gda_env</span>
 </pre></div>
 </div>
 <p>To see what has been installed</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">gda_env</span><span class="p">]</span> <span class="n">C</span><span class="p">:</span>\<span class="nb">abs</span>\<span class="n">path</span>\<span class="n">to</span>\<span class="n">gda</span><span class="o">-</span><span class="n">public</span><span class="o">&gt;</span> <span class="n">conda</span> <span class="nb">list</span>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">gda_env</span><span class="p">]</span> <span class="n">C</span><span class="p">:</span>\<span class="nb">abs</span>\<span class="n">path</span>\<span class="n">to</span>\<span class="n">gda</span><span class="o">-</span><span class="n">public</span><span class="o">&gt;</span> <span class="n">conda</span> <span class="nb">list</span>
 </pre></div>
 </div>
 <p>Make sure you can compile the Cython code</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">gda_env</span><span class="p">]</span> <span class="n">C</span><span class="p">:</span>\<span class="nb">abs</span>\<span class="n">path</span>\<span class="n">to</span>\<span class="n">gda</span><span class="o">-</span><span class="n">public</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build_ext</span> <span class="o">--</span><span class="n">inplace</span>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">gda_env</span><span class="p">]</span> <span class="n">C</span><span class="p">:</span>\<span class="nb">abs</span>\<span class="n">path</span>\<span class="n">to</span>\<span class="n">gda</span><span class="o">-</span><span class="n">public</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build_ext</span> <span class="o">--</span><span class="n">inplace</span>
 </pre></div>
 </div>
-<p><strong>Note!</strong> If you get an error about <code class="docutils literal"><span class="pre">vcvarsall.bat</span></code> or <code class="docutils literal"><span class="pre">cl.exe</span></code>, it means the Visual Studio was not installed correctly, or that you have the wrong version of Visual Studio.  Go back and re-install Visual Studio 2015 (v14.0).</p>
+<p><strong>Note!</strong> If you get an error about <code class="docutils literal notranslate"><span class="pre">vcvarsall.bat</span></code> or <code class="docutils literal notranslate"><span class="pre">cl.exe</span></code>, it means the Visual Studio was not installed correctly, or that you have the wrong version of Visual Studio.  Go back and re-install Visual Studio 2015 (v14.0).</p>
 <p>Run doctests on all code</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">gda_env</span><span class="p">]</span> <span class="n">C</span><span class="p">:</span>\<span class="nb">abs</span>\<span class="n">path</span>\<span class="n">to</span>\<span class="n">gda</span><span class="o">-</span><span class="n">public</span><span class="o">&gt;</span> <span class="n">py</span><span class="o">.</span><span class="n">test</span>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">gda_env</span><span class="p">]</span> <span class="n">C</span><span class="p">:</span>\<span class="nb">abs</span>\<span class="n">path</span>\<span class="n">to</span>\<span class="n">gda</span><span class="o">-</span><span class="n">public</span><span class="o">&gt;</span> <span class="n">py</span><span class="o">.</span><span class="n">test</span>
 </pre></div>
 </div>
-<p><em>NOTE!</em>  If this fails, it might be because your <code class="docutils literal"><span class="pre">PYTHONPATH</span></code> is wrong.
+<p><em>NOTE!</em>  If this fails, it might be because your <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> is wrong.
 On Windows, try:</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">gda_env</span><span class="p">]</span> <span class="n">C</span><span class="p">:</span>\<span class="nb">abs</span>\<span class="n">path</span>\<span class="n">to</span>\<span class="n">gda</span><span class="o">-</span><span class="n">public</span><span class="o">&gt;</span> <span class="nb">set</span> <span class="n">PYTHONPATH</span><span class="o">=%</span><span class="n">PYTHONPATH</span><span class="o">%</span><span class="p">;</span><span class="n">C</span><span class="p">:</span>\<span class="nb">abs</span>\<span class="n">path</span>\<span class="n">to</span>\<span class="n">gda</span><span class="o">-</span><span class="n">public</span>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">gda_env</span><span class="p">]</span> <span class="n">C</span><span class="p">:</span>\<span class="nb">abs</span>\<span class="n">path</span>\<span class="n">to</span>\<span class="n">gda</span><span class="o">-</span><span class="n">public</span><span class="o">&gt;</span> <span class="nb">set</span> <span class="n">PYTHONPATH</span><span class="o">=%</span><span class="n">PYTHONPATH</span><span class="o">%</span><span class="p">;</span><span class="n">C</span><span class="p">:</span>\<span class="nb">abs</span>\<span class="n">path</span>\<span class="n">to</span>\<span class="n">gda</span><span class="o">-</span><span class="n">public</span>
 </pre></div>
 </div>
-<p>Now, play around.  Look at the contents of <code class="docutils literal"><span class="pre">examples/</span></code> and <code class="docutils literal"><span class="pre">scripts/</span></code> and <code class="docutils literal"><span class="pre">tests/</span></code>.  If you installed the visualization requirements, you can use jupyter to use the code in a graphical/interactive way.</p>
+<p>Now, play around.  Look at the contents of <code class="docutils literal notranslate"><span class="pre">examples/</span></code> and <code class="docutils literal notranslate"><span class="pre">scripts/</span></code> and <code class="docutils literal notranslate"><span class="pre">tests/</span></code>.  If you installed the visualization requirements, you can use jupyter to use the code in a graphical/interactive way.</p>
 <p>Leave the environment when you are done working.</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">gda_env</span><span class="p">]</span> <span class="n">C</span><span class="p">:</span>\<span class="nb">abs</span>\<span class="n">path</span>\<span class="n">to</span>\<span class="n">gda</span><span class="o">-</span><span class="n">public</span><span class="o">&gt;</span> <span class="n">deactivate</span>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">gda_env</span><span class="p">]</span> <span class="n">C</span><span class="p">:</span>\<span class="nb">abs</span>\<span class="n">path</span>\<span class="n">to</span>\<span class="n">gda</span><span class="o">-</span><span class="n">public</span><span class="o">&gt;</span> <span class="n">deactivate</span>
 <span class="n">C</span><span class="p">:</span>\<span class="nb">abs</span>\<span class="n">path</span>\<span class="n">to</span>\<span class="n">gda</span><span class="o">-</span><span class="n">public</span><span class="o">&gt;</span>
 </pre></div>
 </div>
@@ -204,8 +205,8 @@ On Windows, try:</p>
 <div class="section" id="offline-setup-and-testing-with-anaconda">
 <h2>Offline Setup and Testing with Anaconda<a class="headerlink" href="#offline-setup-and-testing-with-anaconda" title="Permalink to this headline">¶</a></h2>
 <p>To install the software on a computer without internet access, you will need the following saved to a disk:</p>
-<p>On Windows, you need Visual Studio Community 2015 (14.0).  The install file is usually called <code class="docutils literal"><span class="pre">vs_community__ENU.exe</span></code>.  You can pre-download all the packages for an offline install by running</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span>    vs_community_ENU.exe /layout
+<p>On Windows, you need Visual Studio Community 2015 (14.0).  The install file is usually called <code class="docutils literal notranslate"><span class="pre">vs_community__ENU.exe</span></code>.  You can pre-download all the packages for an offline install by running</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>    vs_community_ENU.exe /layout
 
 For more information on alternate installs of Visual Studio, see https://msdn.microsoft.com/en-us/library/e2h7fzkw(v=vs.140).aspx#bkmk_offline
 
@@ -216,7 +217,7 @@ For all platforms, you need:
 - The ``/path/to/gda-public/downloads`` folder, copied from an *online* machine after running the above procedure there.
 </pre></div>
 </div>
-<p>The total is about 600 MB. With all these files copied to the offline machine, follow the procedure for an online machine, but skip the <code class="docutils literal"><span class="pre">python</span> <span class="pre">./download.py</span></code> and <code class="docutils literal"><span class="pre">python</span> <span class="pre">./download-viz.py</span></code> steps.</p>
+<p>The total is about 600 MB. With all these files copied to the offline machine, follow the procedure for an online machine, but skip the <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">./download.py</span></code> and <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">./download-viz.py</span></code> steps.</p>
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
@@ -224,27 +225,27 @@ For all platforms, you need:
 and tinkering in the repository itself), you can install the packages to your
 environment in the following way.</p>
 <p>Enter the environment</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span># Using Anaconda
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span># Using Anaconda
 bash$ source activate gda_env
 </pre></div>
 </div>
 <p>Run the commands above in the appropriate section above first to make sure things work!</p>
 <p>Then, install the package to your environment.</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span>(gda_env) bash$ pip install file:///path/to/gda-public
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>(gda_env) bash$ pip install file:///path/to/gda-public
 </pre></div>
 </div>
 <p>Change directory to somewhere else, just to be sure import works globally</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span>(gda_env) bash$ cd /tmp
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>(gda_env) bash$ cd /tmp
 </pre></div>
 </div>
 <p>Then, run python or ipython/jupyter and import the modules you want:</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span>(gda_env) bash$ python
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>(gda_env) bash$ python
 &gt;&gt;&gt; import homology
 &gt;&gt;&gt; help(homology)
 </pre></div>
 </div>
 <p>When you are done doing work, you can leave the environment:</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span># Using Anaconda
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span># Using Anaconda
 (gda_env) bash$ source deactivate
 # Using Python.org
 (gda_env) bash$ deactivate
@@ -261,7 +262,7 @@ bash$
           </div>
       <div class="spc-rightsidebar span3">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">README for Advanced Installations</a><ul>
 <li><a class="reference internal" href="#online-setup-and-testing-with-anaconda-on-linux-mac">Online Setup and Testing with Anaconda on Linux/Mac</a></li>
@@ -297,10 +298,10 @@ bash$
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

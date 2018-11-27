@@ -26,6 +26,7 @@ timeseries.Signal
          Signal.profile
          Signal.sample_near
          Signal.self_similarity
+         Signal.smoothen
 
 
 

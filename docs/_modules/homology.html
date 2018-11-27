@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
@@ -205,9 +206,9 @@
         <span class="n">tree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forest</span>
         <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">killbc</span><span class="o">.</span><span class="n">index</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>  <span class="c1"># from long to short.</span>
             <span class="k">for</span> <span class="n">child_idx</span> <span class="ow">in</span> <span class="n">tree</span><span class="p">[</span><span class="n">idx</span><span class="p">]:</span>
-                <span class="n">ignore</span><span class="p">[</span><span class="n">child_idx</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">ignorebc</span> <span class="o">=</span> <span class="n">killbc</span><span class="p">[</span><span class="n">ignore</span><span class="p">]</span>
-        <span class="n">killbc</span> <span class="o">=</span> <span class="n">killbc</span><span class="p">[</span><span class="o">~</span><span class="n">ignore</span><span class="p">]</span>
+                <span class="n">ignore</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">child_idx</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">ignorebc</span> <span class="o">=</span> <span class="n">killbc</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">ignore</span><span class="p">]</span>
+        <span class="n">killbc</span> <span class="o">=</span> <span class="n">killbc</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">ignore</span><span class="p">]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_clip</span><span class="p">[</span><span class="n">beta</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;killcode&#39;</span><span class="p">:</span> <span class="n">killbc</span><span class="p">,</span>
                             <span class="s1">&#39;keepcode&#39;</span><span class="p">:</span> <span class="n">keepbc</span><span class="p">,</span>
@@ -428,10 +429,10 @@
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

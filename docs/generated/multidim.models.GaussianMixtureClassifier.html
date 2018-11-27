@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
@@ -93,38 +94,38 @@
 <dd><p>A scikit-learn classification estimator, for any sort of Gaussian
 mixture model.</p>
 <p>A Gaussian mixture module is a collection of labelled Gaussian functions</p>
-<p>This is provided mainly to provide a parent class for <a class="reference internal" href="multidim.models.CDER.html#multidim.models.CDER" title="multidim.models.CDER"><code class="xref py py-obj docutils literal"><span class="pre">CDER</span></code></a>.</p>
+<p>This is provided mainly to provide a parent class for <a class="reference internal" href="multidim.models.CDER.html#multidim.models.CDER" title="multidim.models.CDER"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CDER</span></code></a>.</p>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.evaluate.html#multidim.models.GaussianMixtureClassifier.evaluate" title="multidim.models.GaussianMixtureClassifier.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">GaussianMixtureClassifier.evaluate</span></code></a>(x)</td>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.evaluate.html#multidim.models.GaussianMixtureClassifier.evaluate" title="multidim.models.GaussianMixtureClassifier.evaluate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussianMixtureClassifier.evaluate</span></code></a>(x)</td>
 <td>Evaluate all gaussians against a pointcloud</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.fit.html#multidim.models.GaussianMixtureClassifier.fit" title="multidim.models.GaussianMixtureClassifier.fit"><code class="xref py py-obj docutils literal"><span class="pre">GaussianMixtureClassifier.fit</span></code></a>(*training)</td>
+<tr class="row-even"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.fit.html#multidim.models.GaussianMixtureClassifier.fit" title="multidim.models.GaussianMixtureClassifier.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussianMixtureClassifier.fit</span></code></a>(*training)</td>
 <td>Fit this estimator to training data.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.gausscoords.html#multidim.models.GaussianMixtureClassifier.gausscoords" title="multidim.models.GaussianMixtureClassifier.gausscoords"><code class="xref py py-obj docutils literal"><span class="pre">GaussianMixtureClassifier.gausscoords</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.gausscoords.html#multidim.models.GaussianMixtureClassifier.gausscoords" title="multidim.models.GaussianMixtureClassifier.gausscoords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussianMixtureClassifier.gausscoords</span></code></a>()</td>
 <td>This is the method to overwrite for specific models!</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.get_params.html#multidim.models.GaussianMixtureClassifier.get_params" title="multidim.models.GaussianMixtureClassifier.get_params"><code class="xref py py-obj docutils literal"><span class="pre">GaussianMixtureClassifier.get_params</span></code></a>([deep])</td>
+<tr class="row-even"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.get_params.html#multidim.models.GaussianMixtureClassifier.get_params" title="multidim.models.GaussianMixtureClassifier.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussianMixtureClassifier.get_params</span></code></a>([deep])</td>
 <td>Pass original kwargs internally.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.plot.html#multidim.models.GaussianMixtureClassifier.plot" title="multidim.models.GaussianMixtureClassifier.plot"><code class="xref py py-obj docutils literal"><span class="pre">GaussianMixtureClassifier.plot</span></code></a>(canvas[,&nbsp;style])</td>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.plot.html#multidim.models.GaussianMixtureClassifier.plot" title="multidim.models.GaussianMixtureClassifier.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussianMixtureClassifier.plot</span></code></a>(canvas[,&nbsp;style])</td>
 <td>Plot a CDER model, using matplotlib or bokeh</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.predict.html#multidim.models.GaussianMixtureClassifier.predict" title="multidim.models.GaussianMixtureClassifier.predict"><code class="xref py py-obj docutils literal"><span class="pre">GaussianMixtureClassifier.predict</span></code></a>(pointclouds)</td>
-<td>Predict labels of given pointclouds, based on previous training data  fed to <a class="reference internal" href="multidim.models.GaussianMixtureClassifier.fit.html#multidim.models.GaussianMixtureClassifier.fit" title="multidim.models.GaussianMixtureClassifier.fit"><code class="xref py py-func docutils literal"><span class="pre">fit()</span></code></a>.</td>
+<tr class="row-even"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.predict.html#multidim.models.GaussianMixtureClassifier.predict" title="multidim.models.GaussianMixtureClassifier.predict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussianMixtureClassifier.predict</span></code></a>(pointclouds)</td>
+<td>Predict labels of given pointclouds, based on previous training data  fed to <a class="reference internal" href="multidim.models.GaussianMixtureClassifier.fit.html#multidim.models.GaussianMixtureClassifier.fit" title="multidim.models.GaussianMixtureClassifier.fit"><code class="xref py py-func docutils literal notranslate"><span class="pre">fit()</span></code></a>.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.runit.html#multidim.models.GaussianMixtureClassifier.runit" title="multidim.models.GaussianMixtureClassifier.runit"><code class="xref py py-obj docutils literal"><span class="pre">GaussianMixtureClassifier.runit</span></code></a>(pointclouds)</td>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.runit.html#multidim.models.GaussianMixtureClassifier.runit" title="multidim.models.GaussianMixtureClassifier.runit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussianMixtureClassifier.runit</span></code></a>(pointclouds)</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.score.html#multidim.models.GaussianMixtureClassifier.score" title="multidim.models.GaussianMixtureClassifier.score"><code class="xref py py-obj docutils literal"><span class="pre">GaussianMixtureClassifier.score</span></code></a>(pointclouds,&nbsp;…)</td>
+<tr class="row-even"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.score.html#multidim.models.GaussianMixtureClassifier.score" title="multidim.models.GaussianMixtureClassifier.score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussianMixtureClassifier.score</span></code></a>(pointclouds,&nbsp;…)</td>
 <td>Score predicted labels against known labels.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.set_params.html#multidim.models.GaussianMixtureClassifier.set_params" title="multidim.models.GaussianMixtureClassifier.set_params"><code class="xref py py-obj docutils literal"><span class="pre">GaussianMixtureClassifier.set_params</span></code></a>(**params)</td>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.models.GaussianMixtureClassifier.set_params.html#multidim.models.GaussianMixtureClassifier.set_params" title="multidim.models.GaussianMixtureClassifier.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussianMixtureClassifier.set_params</span></code></a>(**params)</td>
 <td>Set the parameters of this estimator.</td>
 </tr>
 </tbody>
@@ -164,10 +165,10 @@ mixture model.</p>
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

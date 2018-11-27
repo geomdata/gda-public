@@ -1,6 +1,6 @@
 # coding=utf-8
 
-r""" 
+r"""
 The `multidim` class provides user-facing tools for topological data analysis
 of multi-dimensional data.
 
@@ -15,7 +15,7 @@ Included are:
 
 Copyright
 ---------
-- This file is part of https://github.com/geomdata/gda-public/ 
+- This file is part of https://github.com/geomdata/gda-public/
 - 2015, 2016, 2017 by Geometric Data Analytics, Inc. (http://geomdata.com)
 - AGPL license. See `LICENSE` or https://github.com/geomdata/gda-public/blob/master/LICENSE
 
@@ -28,28 +28,27 @@ Examples
 A SimplicialComplex with 1000 points, 499500 edges, and 0 faces.
 >>> np.all(pc.stratum[0]['pos'].values == True)
 True
->>> pc.stratum[0]['val'] = 0.0
 >>> pc.check()
 >>> pc.make_pers0(cutoff=0.15)
 >>> for v in pc.cells(0):
 ...     if v.positive:
 ...         print(v)
-0+ Simplex 0 of value 0.0
-0+ Simplex 74 of value 0.0
-0+ Simplex 183 of value 0.0
-0+ Simplex 195 of value 0.0
-0+ Simplex 197 of value 0.0
-0+ Simplex 231 of value 0.0
-0+ Simplex 354 of value 0.0
-0+ Simplex 397 of value 0.0
-0+ Simplex 489 of value 0.0
-0+ Simplex 530 of value 0.0
-0+ Simplex 607 of value 0.0
-0+ Simplex 757 of value 0.0
-0+ Simplex 781 of value 0.0
-0+ Simplex 800 of value 0.0
-0+ Simplex 903 of value 0.0
-0+ Simplex 980 of value 0.0
+0+ Simplex 0 of height 0.0 and mass 1.0
+0+ Simplex 74 of height 0.0 and mass 1.0
+0+ Simplex 183 of height 0.0 and mass 1.0
+0+ Simplex 195 of height 0.0 and mass 1.0
+0+ Simplex 197 of height 0.0 and mass 1.0
+0+ Simplex 231 of height 0.0 and mass 1.0
+0+ Simplex 354 of height 0.0 and mass 1.0
+0+ Simplex 397 of height 0.0 and mass 1.0
+0+ Simplex 489 of height 0.0 and mass 1.0
+0+ Simplex 530 of height 0.0 and mass 1.0
+0+ Simplex 607 of height 0.0 and mass 1.0
+0+ Simplex 757 of height 0.0 and mass 1.0
+0+ Simplex 781 of height 0.0 and mass 1.0
+0+ Simplex 800 of height 0.0 and mass 1.0
+0+ Simplex 903 of height 0.0 and mass 1.0
+0+ Simplex 980 of height 0.0 and mass 1.0
 >>> pc.pers0.grab(5)['keepcode']
      birth_index  death_index  birth     death      pers
 979          213          316    0.0  0.136923  0.136923
@@ -67,25 +66,25 @@ True
 200         1816         7688  0.071490  0.149336  0.077846
 >>> V=pc.stratum[0]
 >>> V.loc[:10]
-    val    pos  rep
-0   0.0   True    0
-1   0.0  False    0
-2   0.0  False    1
-3   0.0  False    0
-4   0.0  False    0
-5   0.0  False    4
-6   0.0  False    1
-7   0.0  False    0
-8   0.0  False    0
-9   0.0  False    0
-10  0.0  False    1
+    height  mass    pos  rep
+0      0.0   1.0   True    0
+1      0.0   1.0  False    0
+2      0.0   1.0  False    1
+3      0.0   1.0  False    0
+4      0.0   1.0  False    0
+5      0.0   1.0  False    4
+6      0.0   1.0  False    1
+7      0.0   1.0  False    0
+8      0.0   1.0  False    0
+9      0.0   1.0  False    0
+10     0.0   1.0  False    1
 >>> pc.cells(0)[0]
-0+ Simplex 0 of value 0.0
+0+ Simplex 0 of height 0.0 and mass 1.0
 >>> pc.cells(0)[2]
-0- Simplex 2 of value 0.0
+0- Simplex 2 of height 0.0 and mass 1.0
 >>> E=pc.stratum[1]
 >>> E.loc[:10]
-         val    pos  rep  bdy0  bdy1
+      height    pos  rep  bdy0  bdy1
 0   0.001142  False    0   858   866
 1   0.001997  False    1    98   187
 2   0.002471  False    2   251   313
@@ -98,7 +97,7 @@ True
 9   0.005914  False    9   648   744
 10  0.006056  False   10   612   640
 >>> pc.cells(1)[2]
-1- Simplex 2 of value 0.0024707293775457456
+1- Simplex 2 of height 0.0024707293775457456 and mass None
 """
 
 from __future__ import print_function
@@ -166,15 +165,29 @@ class Simplex(object):
         self.children = pd.Series(dtype=np.float64)
 
     @property
-    def value(self):
+    def height(self):
         r"""
-        :return: value (that is, weight) of this cell (np.float64)
+        :return: height (that is, filtered value) of this cell (np.float64)
         """
-        return self.cellcomplex.stratum[self.dim]['val'].loc[self.index]
+        return self.cellcomplex.stratum[self.dim]['height'].loc[self.index]
 
-    @value.setter
-    def value(self, v):
-        self.cellcomplex.stratum[self.dim]['val'].loc[self.index] = v
+    @height.setter
+    def height(self, v):
+        self.cellcomplex.stratum[self.dim]['height'].loc[self.index] = v
+
+    @property
+    def mass(self):
+        r"""
+        :return: mass of this cell (np.float64 or None)
+        """
+        if 'mass' in self.cellcomplex.stratum[self.dim]:
+            return self.cellcomplex.stratum[self.dim]['mass'].loc[self.index]
+        else:
+            return None
+
+    @mass.setter
+    def mass(self, v):
+        self.cellcomplex.stratum[self.dim]['mass'].loc[self.index] = v
 
     @property
     def positive(self):
@@ -253,15 +266,16 @@ class Simplex(object):
         sign = "+"
         if not self.positive:
             sign = "-"
-        return "{}{} Simplex {} of value {}".format(self.dim, sign, self.index,
-                                                    repr(self.value))
+        return "{}{} Simplex {} of height {} and mass {}".format(self.dim, sign, self.index,
+                                                    repr(self.height),
+                                                    repr(self.mass))
 
     def __lt__(self, other):
         if not (self.cellcomplex == other.cellcomplex):
             raise ValueError("These Cells are not in the same SimplicialComplex!")
         if not (self.dim == other.dim):
             raise ValueError("These Cells are not of the same dimension!")
-        return self.value() < other.value()
+        return self.height() < other.height()
 
 
 class SimplexStratum(object):
@@ -300,7 +314,7 @@ def stratum_maker(dim=0):
     r"""
     Make an empty stratum :class:`pandas.DataFrame` of the appropriate dimension.
     This is used to initialize a new dimension of a :class:`SimplicialComplex`.
-    
+
     Parameters
     ----------
     dim : int
@@ -320,7 +334,7 @@ def stratum_maker(dim=0):
     if dim > 0:
         bdy_size = dim + 1
     return pd.DataFrame({},
-                        columns=['val', 'pos', 'rep'] + ['bdy{}'.format(i)
+                        columns=['height', 'pos', 'rep'] + ['bdy{}'.format(i)
                                                          for i in
                                                          range(bdy_size)],
                         index=range(0))
@@ -354,14 +368,14 @@ def stratum_from_distances(dists, max_length=-1.0, points=None):
     if points is None:
         n = dists.shape[0]
         idx0 = np.arange(n, dtype=np.int64)
-        val0 = np.arange(n, dtype=np.float64)
+        hgt0 = np.arange(n, dtype=np.float64)
         pos0 = np.ones(shape=(n,), dtype='bool')
         points = pd.DataFrame({
-            'val': val0,
+            'height': hgt0,
             'pos': pos0,
             'rep': idx0,
         },
-                columns=['val', 'pos', 'rep'],
+                columns=['height', 'pos', 'rep'],
                 index=idx0)
 
     if max_length == 0:
@@ -369,29 +383,29 @@ def stratum_from_distances(dists, max_length=-1.0, points=None):
         # distances.
         edges = stratum_maker(1)
     else:
-        val1, pos1, bdys = fast_algorithms.edges_from_dists(points.index.values, dists,
+        hgt1, pos1, bdys = fast_algorithms.edges_from_dists(points.index.values, dists,
                                                             cutoff=np.float64(max_length))
-        num_edges = val1.shape[0]
+        num_edges = hgt1.shape[0]
         idx1 = np.arange(num_edges, dtype='int64')
         edges = pd.DataFrame({
-            'val': val1,
+            'hgt': hgt1,
             'pos': pos1,
             'rep': idx1,
             'bdy0': bdys[:, 0],
             'bdy1': bdys[:, 1],
         },
-                columns=['val', 'pos', 'rep', 'bdy0', 'bdy1'],
+                columns=['hgt', 'pos', 'rep', 'bdy0', 'bdy1'],
                 index=idx1)
     return {0: points, 1: edges}
 
 
-def lower_star_for_image(val_array):
+def lower_star_for_image(img_array):
     """
     Compute the lower star weighted simplicial complex from a 2d grid/image.
 
     Parameters
     ----------
-    val_array, a `numpy.ndarray` of dimension 2.
+    img_array, a `numpy.ndarray` of dimension 2.
 
     Returns
     -------
@@ -404,77 +418,77 @@ def lower_star_for_image(val_array):
     >>> lower_star_for_image(A)
     A SimplicialComplex with 12 points, 23 edges, and 12 faces.
     """
-    assert len(val_array.shape) == 2,\
+    assert len(img_array.shape) == 2,\
         "Lower-star filtration is currently for images (2d arrays) only."
 
-    m = val_array.shape[0]
-    n = val_array.shape[1]
+    m = img_array.shape[0]
+    n = img_array.shape[1]
 
     # make all vertices, by flattening val_array and indexing in the normal way
-    verts_val = val_array.flatten()
+    verts_hgt = img_array.flatten()
     verts_rep = np.arange(m*n)
     flat_index = verts_rep.reshape(m, n)
 
-    edges_val = []
+    edges_hgt = []
     edges_rep = []
     edges_bdy0 = []
     edges_bdy1 = []
     # Make all the horizontal edges.
     for i, j in itertools.product(range(m), range(n-1)):
-        # collect vertices' indices and values
+        # collect vertices' indices and heights
         # left=(i,j) -- right=(i,j+1)
         lf_idx = flat_index[i, j]
         rt_idx = flat_index[i, j+1]
         # There is no real reason for these asserts -- just clarification.
         # assert lf_idx == n*(i) + (j)
         # assert rt_idx == n*(i) + (j+1)
-        
-        lf_val = val_array[i, j]
-        rt_val = val_array[i, j+1]
+
+        lf_hgt = img_array[i, j]
+        rt_hgt = img_array[i, j+1]
         # There is no real reason for these asserts -- just clarification.
-        # assert lf_val == verts_val[lf_idx]
-        # assert rt_val == verts_val[rt_idx]
-        
-        edges_val.append(np.max([lf_val, rt_val]))
+        # assert lf_hgt == verts_hgt[lf_idx]
+        # assert rt_hgt == verts_hgt[rt_idx]
+
+        edges_hgt.append(np.max([lf_hgt, rt_hgt]))
         edges_rep.append(len(edges_rep))
         edges_bdy0.append(lf_idx)
         edges_bdy1.append(rt_idx)
 
         # This i,j horizontal edge should have index (n-1)*i + j
-        assert len(edges_val) - 1 == (n-1)*i + j 
-    
+        assert len(edges_hgt) - 1 == (n-1)*i + j
+
     # did we count all horizontal edges?
-    assert len(edges_val) == (n-1)*m 
+    assert len(edges_hgt) == (n-1)*m
 
     # Make all the vertical edges
     for i, j in itertools.product(range(m-1), range(n)):
-        # collect vertices' indices and values
+        # collect vertices' indices and heights
         # top=(i,j)
-        #     | 
+        #     |
         # bot=(i+1,j)
         tp_idx = flat_index[i, j]
         bt_idx = flat_index[i+1, j]
         # There is no real reason for these asserts -- just clarification.
         # assert tp_idx == n*(i) + (j)
         # assert bt_idx == n*(i+1) + (j)
-        tp_val = val_array[i, j]
-        bt_val = val_array[i+1, j]
+        tp_hgt = img_array[i, j]
+        bt_hgt = img_array[i+1, j]
         # There is no real reason for these asserts -- just clarification.
-        # assert tp_val == verts_val[tp_idx]
-        # assert bt_val == verts_val[bt_idx]
-        edges_val.append(np.max([tp_val, bt_val]))
+        # assert tp_hgt == verts_hgt[tp_idx]
+        # assert bt_hgt == verts_hgt[bt_idx]
+        edges_hgt.append(np.max([tp_hgt, bt_hgt]))
         edges_rep.append(len(edges_rep))
         edges_bdy0.append(tp_idx)
         edges_bdy1.append(bt_idx)
 
         # This i,j vertical edge should have index n*i + j
         # AFTER the (n-1)*m horizontal edges
-        assert len(edges_val) - 1 == (n-1)*m + n*i + j
+        assert len(edges_hgt) - 1 == (n-1)*m + n*i + j
 
     # did we cound all vertical AND horizontal edges?
-    assert len(edges_val) == (n-1)*m + n*(m-1)
+    assert len(edges_hgt) == (n-1)*m + n*(m-1)
 
-    faces_val = []
+    faces_hgt = []
     faces_rep = []
     faces_bdy0 = []
     faces_bdy1 = []
@@ -482,7 +496,7 @@ def lower_star_for_image(val_array):
 
     # Make the diagonal edges, and the faces, too.
     for i, j in itertools.product(range(m-1), range(n-1)):
-        # collect the vertices' indices and values
+        # collect the vertices' indices and heights
         #  nw=(i,j)        ne=(i, j+1)
         #          at (i,j)
         #  sw=(i+1, j)     se=(i+1, j+1)
@@ -495,30 +509,30 @@ def lower_star_for_image(val_array):
         # assert ne_idx == n*(i) + (j+1)
         # assert se_idx == n*(i+1) + (j+1)
         # assert sw_idx == n*(i+1) + (j)
- 
-        nw_val = val_array[i, j]
-        ne_val = val_array[i, j+1]
-        se_val = val_array[i+1, j+1]
-        sw_val = val_array[i+1, j]
+
+        nw_hgt = img_array[i, j]
+        ne_hgt = img_array[i, j+1]
+        se_hgt = img_array[i+1, j+1]
+        sw_hgt = img_array[i+1, j]
         # There is no real reason for these asserts -- just clarification.
-        # assert nw_val == verts_val[nw_idx]
-        # assert ne_val == verts_val[ne_idx]
-        # assert se_val == verts_val[se_idx]
-        # assert sw_val == verts_val[sw_idx]
+        # assert nw_hgt == verts_hgt[nw_idx]
+        # assert ne_hgt == verts_hgt[ne_idx]
+        # assert se_hgt == verts_hgt[se_idx]
+        # assert sw_hgt == verts_hgt[sw_idx]
 
         # determine diagonal
-        cell_max_loc = np.argmax([nw_val, ne_val, se_val, sw_val])
+        cell_max_loc = np.argmax([nw_hgt, ne_hgt, se_hgt, sw_hgt])
 
         if cell_max_loc % 2 == 0:
             # Max is either nw or se.
-            # Make edge (nw,se) 
-            edges_val.append(np.max([nw_val, se_val]))
+            # Make edge (nw,se)
+            edges_hgt.append(np.max([nw_hgt, se_hgt]))
             edges_rep.append(len(edges_rep))
             edges_bdy0.append(nw_idx)
             edges_bdy1.append(se_idx)
 
             # Make face (nw,ne,se).
-            faces_val.append(np.max([nw_val, ne_val, se_val]))
+            faces_hgt.append(np.max([nw_hgt, ne_hgt, se_hgt]))
             faces_rep.append(len(faces_rep))
             faces_bdy0.append((n-1)*i + j)  # horizontal nw-ne
             # assert edges_bdy0[ (n-1)*i + j ] == nw_idx
@@ -529,9 +543,9 @@ def lower_star_for_image(val_array):
             faces_bdy2.append(edges_rep[-1])  # most recent edge is nw\se
             # assert edges_bdy0[ edges_rep[-1] ] == nw_idx
             # assert edges_bdy1[ edges_rep[-1] ] == se_idx
-            
+
             # Make face (sw,se,nw).
-            faces_val.append(np.max([sw_val, se_val, nw_val]))
+            faces_hgt.append(np.max([sw_hgt, se_hgt, nw_hgt]))
             faces_rep.append(len(faces_rep))
             faces_bdy0.append((n-1)*(i+1) + j)  # horizontal sw-se
             # assert edges_bdy0[ (n-1)*(i+1) + j ] == sw_idx
@@ -545,14 +559,14 @@ def lower_star_for_image(val_array):
 
         else:
             # Max is either ne or sw.
-            # Make edge (ne,sw) 
-            edges_val.append(np.max([ne_val, sw_val]))
+            # Make edge (ne,sw)
+            edges_hgt.append(np.max([ne_hgt, sw_hgt]))
             edges_rep.append(len(edges_rep))
             edges_bdy0.append(ne_idx)
             edges_bdy1.append(sw_idx)
 
             # Make face (nw,ne,sw).
-            faces_val.append(np.max([nw_val, ne_val, sw_val]))
+            faces_hgt.append(np.max([nw_hgt, ne_hgt, sw_hgt]))
             faces_rep.append(len(faces_rep))
             faces_bdy0.append((n-1)*i + j)  # horizontal nw-ne
             # assert edges_bdy0[ (n-1)*i + j ] == nw_idx
@@ -563,9 +577,9 @@ def lower_star_for_image(val_array):
             faces_bdy2.append(edges_rep[-1])  # most recent edge is ne\sw
             # assert edges_bdy0[ edges_rep[-1] ] == ne_idx
             # assert edges_bdy1[ edges_rep[-1] ] == sw_idx
-            
+
             # Make face (sw,se,ne).
-            faces_val.append(np.max([sw_val, se_val, ne_val]))
+            faces_hgt.append(np.max([sw_hgt, se_hgt, ne_hgt]))
             faces_rep.append(len(faces_rep))
             faces_bdy0.append((n-1)*(i+1) + j)  # horizontal sw-se
             # assert edges_bdy0[ (n-1)*(i+1) + j ] == sw_idx
@@ -577,82 +591,91 @@ def lower_star_for_image(val_array):
             # assert edges_bdy0[ edges_rep[-1] ] == ne_idx
             # assert edges_bdy1[ edges_rep[-1] ] == sw_idx
 
-    verts_pos = np.ones_like(verts_val, dtype='bool')
+    verts_pos = np.ones_like(verts_hgt, dtype='bool')
     edges_pos = np.ones_like(edges_rep, dtype='bool')
     faces_pos = np.ones_like(faces_rep, dtype='bool')
 
-    verts = pd.DataFrame({'val': verts_val,
+    verts = pd.DataFrame({'height': verts_hgt,
                           'rep': verts_rep,
                           'pos': verts_pos},
-                         columns=['val', 'pos', 'rep'])
+                         columns=['height', 'pos', 'rep'])
 
-    edges = pd.DataFrame({'val': edges_val,
+    edges = pd.DataFrame({'height': edges_hgt,
                           'rep': edges_rep,
                           'pos': edges_pos,
                           'bdy0': edges_bdy0,
                           'bdy1': edges_bdy1},
-                         columns=['val', 'pos', 'rep', 'bdy0', 'bdy1'])
+                         columns=['height', 'pos', 'rep', 'bdy0', 'bdy1'])
 
-    faces = pd.DataFrame({'val': faces_val,
+    faces = pd.DataFrame({'height': faces_hgt,
                           'rep': faces_rep,
                           'pos': faces_pos,
                           'bdy0': faces_bdy0,
                           'bdy1': faces_bdy1,
                           'bdy2': faces_bdy2},
-                         columns=['val', 'pos', 'rep', 'bdy0', 'bdy1', 'bdy2'])
+                         columns=['height', 'pos', 'rep', 'bdy0', 'bdy1', 'bdy2'])
 
     return SimplicialComplex(stratum={0: verts, 1: edges, 2: faces})
 
 
 class SimplicialComplex(object):
     r"""
-    A class for abstract *weighted* simplicial complexes.  
-    A SimplicialComplex is built from 0-cells (vertices), 1-cells (edges), 
-    2-cells (faces), and so on.  
-    
-    Each cell knows its boundary.  A 0-cell has no boundary. A 1-cell has two 
-    0-cells as its boundary.  A 2-cell has three 1-cells as its boundary, and 
+    A class for abstract *weighted* simplicial complexes.
+    A SimplicialComplex is built from 0-cells (vertices), 1-cells (edges),
+    2-cells (faces), and so on.
+
+    Each cell knows its boundary.  A 0-cell has no boundary. A 1-cell has two
+    0-cells as its boundary.  A 2-cell has three 1-cells as its boundary, and
     so on.
 
-    Each cell has a weight value, called `val`.  These weights are used in 
-    several topological algorithms. 
+    Each cell *must* height value, called `height`.  These heights are used in
+    several topological algorithms that depend on filtering.
 
-    A SimplicialComplex has no notion of coordinates or embedding.  For that, use the
-    :class:`PointCloud` class, which inherits all methods from SimplicialComplex but 
-    also adds coordinate-dependent methods.
-    
+    Each cell *may* have a mass value, called `mass`.  These masses are used in
+    some data-analysis methods that involve weighted averaging or probability.
+
+    Each cell can
+    A SimplicialComplex has no notion of coordinates or embedding.  For that,
+    use the :class:`PointCloud` class, which inherits all methods from
+    SimplicialComplex but also adds coordinate-dependent methods.
+
     Parameters
     ----------
     stratum : dict
-        Dictionary of :class:`pandas.DataFrame` objects holding vertices, 
+        Dictionary of :class:`pandas.DataFrame` objects holding vertices,
         edges, faces, and so on.  See examples below.
 
     Notes
     -----
-    One can refernce the :class:`Simplex` objects that are separated by dimension
-    into :class:`SimplexStratum` objects.
-    Each :class:`Simplex` object has a value, so these are *weighted* simplicial
-    complexes.
+    One can reference the :class:`Simplex` objects that are separated by
+    dimension into :class:`SimplexStratum` objects.
 
-    The **rep** and **pos** attributes are used when computing various homologies,
-    such as the Rips or Cech complexes.
+    Each :class:`Simplex` object has a height, so these are *filtered*
+    simplicial complexes.
 
-    Whenever possible, computations are done on :class:`numpy.ndarray` arrays 
+    Each :class:`Simplex` object may have a mass, so these can be are *weighted*
+    simplicial complexes.
+
+    The **rep** and **pos** attributes are used when computing various
+    homologies, such as the Rips or Cech complexes.
+
+    Whenever possible, computations are done on :class:`numpy.ndarray` arrays
     in compiled code, so they are usually quite fast.
 
     Examples
     --------
     For example, a formal triangle could be built this way:
 
-    >>> vertices = pd.DataFrame({'val':[ 1.0, 1.0, 1.0],
+    >>> vertices = pd.DataFrame({'height':[ 0.0, 0.0, 0.0],
+    ...                          'mass': [1.0, 1.0, 1.0],
     ...                          'pos': [True, True, True],
     ...                          'rep' : [0, 1, 2]})
-    >>> edges = pd.DataFrame({'val':[ 1.0, 1.0, 1.0],
+    >>> edges = pd.DataFrame({'height':[ 0.0, 0.0, 0.0],
     ...                       'pos': [True, True, True],
     ...                       'rep' : [0, 1, 2],
     ...                       'bdy0': [0, 1, 2],
     ...                       'bdy1': [1, 2, 0]})
-    >>> faces = pd.DataFrame({'val': [1.0],
+    >>> faces = pd.DataFrame({'height': [0.0],
     ...                       'pos': [True],
     ...                       'rep': [0],
     ...                       'bdy0': [0],
@@ -680,7 +703,7 @@ class SimplicialComplex(object):
     def from_distances(cls, dists, max_length=-1.0, points=None):
         r"""
         Construct a `SimplicialComplex` from a symmetric matrix of distances.
-        
+
         Parameters
         ----------
         dists : `numpy.ndarray`
@@ -704,14 +727,14 @@ class SimplicialComplex(object):
         return cls(stratum=stratum)
 
     def check(self):
-        r"""Run consistency checks on all simplices in all dimensions. 
-        raises ValueError if anything is wrong. 
+        r"""Run consistency checks on all simplices in all dimensions.
+        raises ValueError if anything is wrong.
         """
         for dim in self.stratum.keys():
             if dim > 0:
-                valcheck = fast_algorithms.check_values(self, dim)
+                valcheck = fast_algorithms.check_heights(self, dim)
                 if not valcheck == -1:
-                    raise ValueError("Not a filtration! Check 'val' in {}.stratum[{}].iloc[{}]".format(self.__name__, dim, valcheck))
+                    raise ValueError("Not a filtration! Check 'height' in ({}).stratum[{}].iloc[{}]".format(self, dim, valcheck))
 
     def __repr__(self):
         return "A SimplicialComplex with {} points, {} edges, and {} faces.".format(
@@ -744,7 +767,7 @@ class SimplicialComplex(object):
     def make_pers0(self, cutoff=-1.0):
         r"""Run the UnionFind algorithm to mark connected components of the
         SimplicialComplex.  This marks points as positive/negative.
-        It also marks the reprensetatives of points. 
+        It also marks the reprensetatives of points.
         It makes a PersDiag object with unionfind, saved as :code:`self.pers0`
         """
 
@@ -753,36 +776,78 @@ class SimplicialComplex(object):
 
         try:
             if self.max_length >= 0.0 and cutoff > self.max_length:
-                raise ValueError("Persistence cutoff is greater than max_length of pre-computed edges.  This is meaningless.") 
+                raise ValueError("Persistence cutoff is greater than max_length of pre-computed edges.  This is meaningless.")
         except AttributeError:
             pass
 
         tbirth_index, tdeath_index, ybirth_index, ydeath_index, mergetree = homology.dim0.unionfind(self, np.float64(cutoff))
         self.pers0 = homology.PersDiag(tbirth_index, tdeath_index, ybirth_index, ydeath_index, mergetree)
         pass
-    
+
     def make_pers1_rca1(self, cutoff=-1.0):
-        r""" Run RCA1 and make a 1-dimensional `homology.PersDiag` for the 
-        edge-pairings for cycle generators. 
-  
-        This reruns self.make_pers0(cutoff) again.
+        r""" Run RCA1 and make a 1-dimensional `homology.PersDiag` for the
+        edge-pairings for cycle generators.
+
+        This reruns self.make_pers0(cutoff) again, to make sure components are
+        marked correctly.
 
         Parameters
         -----------
         cutoff: float
-            Maximum edge value to use for RCA1 algorithm. Longer edges ignored.
-            (Default: -1, meaning use no edges.)
-        
+            Maximum edge height to use for RCA1 algorithm. Higher edges ignored.
+            (Default: -1, meaning use all edges.)
+
         Returns
         -------
-        none.  Produces `self.pers1` 
+        none.  Produces `self.pers1`
 
         Table of edge pairs, similar to a persistence diagram.
-        """ 
+
+        BUGS
+        ----
+        data = np.array([[0.,0.],[1.,0.],[0.,1.],[1.,0.5]]) fails.
+
+
+
+        Examples
+        --------
+
+        >>> data = np.array([[0.,0.],[1.,0.],[0.,1.],[1.,1.]])
+        >>> pc = PointCloud(data, max_length=-1)
+        >>> print(pc.stratum[1])
+             height   pos  rep  bdy0  bdy1
+        0  1.000000  True    0     0     1
+        1  1.000000  True    1     0     2
+        2  1.000000  True    2     1     3
+        3  1.000000  True    3     2     3
+        4  1.414214  True    4     0     3
+        5  1.414214  True    5     1     2
+        >>> pc.make_pers1_rca1()
+        >>> print(pc.pers1.diagram)
+           birth_index  death_index  birth     death      pers
+        0            3            4    1.0  1.414214  0.414214
+
+        >>> data = np.array([[0.,0.],[1.,0.],[0.,1.],[1.,0.5]])
+        >>> pc = PointCloud(data, max_length=-1)
+        >>> print(pc.stratum[1])
+             height   pos  rep  bdy0  bdy1
+        0  0.500000  True    0     1     3
+        1  1.000000  True    1     0     1
+        2  1.000000  True    2     0     2
+        3  1.118034  True    3     0     3
+        4  1.118034  True    4     2     3
+        5  1.414214  True    5     1     2
+        >>> pc.make_pers1_rca1()
+        >>> print(pc.pers1.diagram)
+        Empty DataFrame
+        Columns: [birth_index, death_index, birth, death, pers]
+        Index: []
+
+        """
         # we need 0dim persistence first.
         self.reset()
         self.make_pers0(cutoff=cutoff)
-        
+
         column_list, column_edge_index, stop_edge = homology.dim1.rca1(self.stratum[1], cutoff=cutoff)
 
         assert len(column_list) == len(column_edge_index)
@@ -790,71 +855,84 @@ class SimplicialComplex(object):
         pers_list = [(c[-1], column_edge_index[i]) for i, c in
                      enumerate(column_list) if c]
         p = np.array(pers_list)
-        mergetree = dict([])
-        self.pers1 = homology.PersDiag(
-            p[:, 0],
-            p[:, 1],
-            self.stratum[1]['val'].loc[p[:, 0]].values,
-            self.stratum[1]['val'].loc[p[:, 1]].values,
-            mergetree)
+        if len(p)>0:
+            mergetree = dict([]) # we can't compute a mergetree yet
+            self.pers1 = homology.PersDiag(
+                p[:, 0],
+                p[:, 1],
+                self.stratum[1]['height'].loc[p[:, 0]].values,
+                self.stratum[1]['height'].loc[p[:, 1]].values,
+                mergetree)
+
+        else:
+            # no births or deaths recorded
+            self.pers1 = homology.PersDiag([], [], [], [], dict([]))
 
         pass
 
 
 class PointCloud(SimplicialComplex):
-    r""" PointCloud is a class for *embedded*, weighted simplicial complexes.  
+    r""" PointCloud is a class for *embedded*, weighted simplicial complexes.
     This is a subclass of :class:`SimplicialComplex`, with the additional property
     that every 0-cell (vertex) is actually a point in :math:`\mathbb{R}^k.`
-    
-    The most basic and most common example of a PointCloud is a set of
-    :math:`N` points in :math:`\mathbb{R}^k` with weights assigned as an
-    arbitrary index label.
-    
+
+    The most basic and most common example of a PointCloud is an indexed set of
+    :math:`N` points in :math:`\mathbb{R}^k` with heights assigned as 0, and
+    mass assigned as 1.
+
     Typically, a user starts with 0-cells only.  Then, any 1-cells, 2-cells,
     ..., are created later via some topological construction.
     """
 
-    def __init__(self, data_array, max_length=0.0, weights=None, dist='euclidean',
-                 idx0=None, cache_type=None):
+    def __init__(self, data_array, max_length=0.0, heights=None, masses=None,
+                 dist='euclidean', idx0=None, cache_type=None):
         r""" Construct a :class:`PointCloud` from a cloud of n points in
-        :math:`\mathbb{R}^k.` 
+        :math:`\mathbb{R}^k.`
 
         Parameters
         ----------
         data_array : :class:`numpy.ndarray`
-            A np array with shape=(n,k), to
-        
+            A np array with shape=(n,k), to use as the pointcloud.  The array
+            must have dtype=='float64'.
+
         max_length : float
             If max_length is positive, then find edges of length <= max_length.
             This uses the :class:`multidim.covertree.CoverTree` for efficiency.
             Default is 0.0, meaning compute no edges.
 
-        weights : :class:`numpy.ndarray`
-            If weights is given, it is used to assign graded values to the 
+        heights : :class:`numpy.ndarray`
+            If heights is given, it is used to assign graded values to the
             points in data_array. It must be a np array of dtype=='float64' and
             shape==(n,), like from np.apply_along_axis(my_func, 1, data_array)
-            Default: None (all have weight 0.0)
+            Default: None (all have height 0.0)
+
+        masses : :class:`numpy.ndarray`
+            If masses is given, it is used to assign mass values to the
+            points in data_array. It must be a np array of dtype=='float64' and
+            shape==(n,), like from np.apply_along_axis(my_func, 1, data_array)
+            Default: None (all have mass 1.0)
 
         idx0 : :class:`numpy.ndarray`
-            If idx0 is given, it is used to assign index values to the 
+            If idx0 is given, it is used to assign index values to the
             points in data_array. It must be a np array of dtype=='int64' and
             shape==(n,),
             Default: None (index by order given in data_array)
 
         cache_type : None or "np" or "dict"
-            What type of distance cache to use.  Often None is actualyl faster!
+            What type of distance cache to use.  Often None is actually faster!
             If you really care about speed, remember to use -O
 
         dist : function
-            If dist is given, it is used as the distance function for computing 
+            If dist is given, it is used as the distance function for computing
             edge lengths, via scipy.spatial.distance.pdist.  Not used with on-demand caching.
             Default: 'euclidean'
 
 
         """
+        assert data_array.dtype == np.float64, "Data must be float64."
         n, k = data_array.shape
         self.dimension = k
-        
+
         self.cache_type = cache_type
         self.dist_cache = None
         self.dist = dist
@@ -868,15 +946,25 @@ class PointCloud(SimplicialComplex):
         else:
             raise ValueError("cache_type can be None or 'dict' or 'np'")
 
-        if weights is None:
-            weights = np.zeros(n, dtype=np.float64)
+        if heights is None:
+            heights = np.zeros(n, dtype=np.float64)
         else:
-            assert type(weights) == np.ndarray \
-                   and weights.shape == (n,) \
-                   and weights.dtype == 'float64', \
-                   "Wrong type or size for weights data on pointcloud."
+            assert type(heights) == np.ndarray \
+                   and heights.shape == (n,) \
+                   and heights.dtype == 'float64', \
+                   "Wrong type or size for heights data on pointcloud."
 
-        val0 = weights
+        hgt0 = heights
+
+        if masses is None:
+            masses = np.ones(n, dtype=np.float64)
+        else:
+            assert type(masses) == np.ndarray \
+                   and masses.shape == (n,) \
+                   and masses.dtype == 'float64', \
+                   "Wrong type or size for heights data on pointcloud."
+
+        mas0 = masses
 
         pos0 = np.ones(shape=(n,), dtype='bool')
         if idx0 is None:
@@ -886,21 +974,18 @@ class PointCloud(SimplicialComplex):
                    and idx0.shape == (n,) \
                    and idx0.dtype == 'int64', \
                    "Wrong type or size for indexing data on pointcloud."
-        
+
         points = pd.DataFrame({
-            'val': val0,
+            'height': hgt0,
+            'mass': mas0,
             'pos': pos0,
             'rep': idx0,
         },
-                columns=['val', 'pos', 'rep'],
+                columns=['height', 'mass', 'pos', 'rep'],
                 index=idx0)
 
         self.coords = pd.DataFrame(data_array, index=idx0)
-        self.covertree = None 
-
-
-
-
+        self.covertree = None
 
         edges = stratum_maker(1)
         super(self.__class__, self).__init__(stratum={0: points, 1: edges})
@@ -910,7 +995,7 @@ class PointCloud(SimplicialComplex):
         self.label_info = pd.DataFrame(index=['black'])
         self.label_info['clouds'] = np.array([1], dtype=np.int64)
         self.label_info['points'] = np.array([n], dtype=np.int64)
-        self.label_info['weight'] = np.array([self.stratum[0]['val'].sum()])
+        self.label_info['tot_mass'] = np.array([self.stratum[0]['mass'].sum()])
         self.label_info['int_index'] = np.array([0], dtype=np.int64)
 
         self.max_length = max_length
@@ -920,26 +1005,26 @@ class PointCloud(SimplicialComplex):
             self.covertree = covertree.CoverTree(self)
             bdy0 = []
             bdy1 = []
-            vals = []
+            hgts = []
             for i, j, d in self.covertree.make_edges(max_distance=self.max_length):
                 bdy0.append(min(i,j))
                 bdy1.append(max(i,j))
-                vals.append(d)
+                hgts.append(d)
             bdy0 = np.array(bdy0, dtype=np.int64)
             bdy1 = np.array(bdy1, dtype=np.int64)
-            vals = np.array(vals)
-            sortby = vals.argsort()
+            hgts = np.array(hgts)
+            sortby = hgts.argsort()
             bdy0 = bdy0[sortby]
             bdy1 = bdy1[sortby]
-            vals = vals[sortby]
-            
-            edges = pd.DataFrame({'val': vals,
-                                  'pos': np.ones(shape=vals.shape, dtype='bool'),
-                                  'rep': np.arange(vals.shape[0], dtype=np.int64),
+            hgts = hgts[sortby]
+
+            edges = pd.DataFrame({'height': hgts,
+                                  'pos': np.ones(shape=hgts.shape, dtype='bool'),
+                                  'rep': np.arange(hgts.shape[0], dtype=np.int64),
                                   'bdy0': bdy0, 'bdy1': bdy1, },
-                                 columns=['val', 'pos', 'rep', 'bdy0', 'bdy1'],
-                                 index=np.arange(vals.shape[0], dtype=np.int64))
-            self.stratum[1] = edges 
+                                 columns=['height', 'pos', 'rep', 'bdy0', 'bdy1'],
+                                 index=np.arange(hgts.shape[0], dtype=np.int64))
+            self.stratum[1] = edges
 
     def plot(self, canvas, cutoff=-1, color='purple', pos_edges=False,
              edge_alpha=-1.0, size=1,
@@ -948,25 +1033,25 @@ class PointCloud(SimplicialComplex):
         Plot a PointCloud, decorated by various proeprties.
 
         Often slow!
-       
+
         Parameters
         ----------
         canvas : object
-            An instance of 
+            An instance of
             `bokeh.plotting.figure.Figure` as in
             :code:`canvas = bokeh.plotting.figure()`
-            or an instance of :class:`matplotlib.axes._subplots.AxesSubplot` as 
+            or an instance of :class:`matplotlib.axes._subplots.AxesSubplot` as
             in :code:`axes,canvas = matplotlib.pyplot.subplots()`
-       
+
         cutoff : float
             if cutoff>=0, only draw edges up to length <cutoff
-        
+
         twocells : boolean
             draw 2-cells (triangles)?
-        
+
         title : string
             title for plot
-        
+
         label : boolean
             label points in plot?
 
@@ -1000,18 +1085,18 @@ class PointCloud(SimplicialComplex):
         # find edges
         all_edges = self.stratum[1]
         if cutoff >= 0:
-            all_edges = all_edges[all_edges['val'] < cutoff]
-        
+            all_edges = all_edges[all_edges['height'] < cutoff]
+
         if len(all_edges) > 0:
-            minval = np.min(all_edges['val'].values)
-            maxval = np.max(all_edges['val'].values)
+            minhgt = np.min(all_edges['height'].values)
+            maxhgt = np.max(all_edges['height'].values)
         else:
             edge_alpha = 1.0
 
         # plot positive edges, need to build structure for multi_line
         if pos_edges:
             pos = all_edges[all_edges['pos'] == True]
-            val = pos['val'].values
+            val = pos['height'].values
             pt0 = self.coords.loc[pos['bdy0'].values].values
             pt1 = self.coords.loc[pos['bdy1'].values].values
             pts = np.hstack([pt0, pt1])
@@ -1034,7 +1119,7 @@ class PointCloud(SimplicialComplex):
 
         # plot negative edges, need to build structure for multi_line
         neg = all_edges[all_edges['pos'] == False]
-        val = neg['val'].values
+        val = neg['height'].values
 
         pt0 = self.coords.loc[neg['bdy0'].values].values
         pt1 = self.coords.loc[neg['bdy1'].values].values
@@ -1093,13 +1178,13 @@ class PointCloud(SimplicialComplex):
         pass
 
     def gaussian_fit(self, center=None):
-        r""" 
+        r"""
         Fit a normalized Gaussian to this cloud (using SVD).
 
 
         Parameters
         ----------
-        center 
+        center
             If center is None (default), we find the best Gaussian with free mean.
             If center is given as an integer, use the point with that integer as the
             mean of the Gaussian.
@@ -1129,12 +1214,12 @@ class PointCloud(SimplicialComplex):
             return (computed - n)/n_choose_2
 
     def sever(self):
-        r""" 
+        r"""
         Subdivide PointCloud into several smaller PointClouds, using the
         known 0-dimensional persistence diagram.  This is an
         iterator (it _yields_ the terms).
 
-        Two points end up in the same PointCloud if and only if they are 
+        Two points end up in the same PointCloud if and only if they are
         connected by a sequence of edges of length < cutoff.
 
         Yields
@@ -1151,7 +1236,7 @@ class PointCloud(SimplicialComplex):
 
         See Also
         --------
-        :func:`make_pers0` :func:`reset` 
+        :func:`make_pers0` :func:`reset`
 
 
         Examples
@@ -1177,7 +1262,7 @@ class PointCloud(SimplicialComplex):
         2  5.0 -0.6
 
         """
-        
+
         from homology.dim0 import all_roots
 
         roots = self.stratum[0]['rep'].values.copy()
@@ -1348,10 +1433,10 @@ class PointCloud(SimplicialComplex):
 #        return self._nn[k]
 
     def witnessed_barycenters(self, k):
-        r""" Build the PointCloud of k-witnessed barycenters, weighted by 
+        r""" Build the PointCloud of k-witnessed barycenters, weighted by
         distance-to-measure. This calls :func:`nearest_neighbors` with argument
-        :code:`(k-1)`, which can be slow. 
-        
+        :code:`(k-1)`, which can be slow.
+
         Parameters
         ----------
         k : int
@@ -1361,11 +1446,11 @@ class PointCloud(SimplicialComplex):
         Returns
         -------
         pc : :class:`PointCloud`
-            A pointcloud whose 0-cells are the witnessed barycenters, and 
-            whose 1-cells are the edges between 
+            A pointcloud whose 0-cells are the witnessed barycenters, and
+            whose 1-cells are the edges between
             those barycenters, all weighted by the notion of distance to a
             measure.
-        """ 
+        """
 
         n, d = self.coords.values.shape
 
@@ -1388,7 +1473,7 @@ class PointCloud(SimplicialComplex):
         assert polygons.shape == (k, p, d)
         barycenters = polygons.mean(axis=0)
         assert barycenters.shape == (p, d)
-      
+
         # compute weights
         diffs = polygons - barycenters
         assert diffs.shape == (k, p, d)
@@ -1397,12 +1482,12 @@ class PointCloud(SimplicialComplex):
         weights = -norms.sum(axis=0)/k
         assert weights.shape == (p,)
         pcbc = PointCloud(barycenters,
-                          weights=np.sqrt(-weights),
+                          heights=np.sqrt(-weights),
                           dist=self.dist)
         pcbc.dists = squareform(pdist(pcbc.coords.values, pcbc.dist))
-      
+
         # make edges
-        val = []
+        hgt = []
         pos = []
         idx = []
         bdy0 = []
@@ -1416,22 +1501,22 @@ class PointCloud(SimplicialComplex):
             wi = weights[i]
             wj = weights[j]
             r = np.sqrt(mu**2*(mu**2 - 2*wi - 2*wj) + (wi - wj)**2)/2/mu
-            val.append(r) 
-        
+            hgt.append(r)
+
         edges = pd.DataFrame({
-            'val': val,
+            'height': hgt,
             'pos': pos,
             'rep': idx,
             'bdy0': bdy0,
             'bdy1': bdy1,
             },
-                columns=['val', 'pos', 'rep', 'bdy0', 'bdy1'],
+                columns=['height', 'pos', 'rep', 'bdy0', 'bdy1'],
                 index=idx)
-        pcbc.stratum[1] = edges 
-        return pcbc 
+        pcbc.stratum[1] = edges
+        return pcbc
 
     def unique_with_multiplicity(self):
-        r""" 
+        r"""
         Look for duplicate points, and mark their multiplicity.
         This sets self.multiplicity
 
@@ -1470,7 +1555,7 @@ class PointCloud(SimplicialComplex):
         d = coords.shape[1]
         assert n % d == 0
         tmp_coords.shape = (n//d, d)
-        
+
         return tmp_coords, tmp_counts
 
     def dists(self, indices0, indices1):
@@ -1479,7 +1564,7 @@ class PointCloud(SimplicialComplex):
         so use not "5" but "np.array([5])"
 
         The return is a np array with shape == (len(indices0), len(indices1))
-        
+
         This uses the distance cache, depending on self.cache_type.
         You can query the size of the cache with :func:`cache_usage`.
 
@@ -1498,7 +1583,7 @@ class PointCloud(SimplicialComplex):
             N = self.coords.values.shape[0]
             if self.dist_cache is None or self.dist_cache.shape != (N, N):
                 self.dist_cache = np.eye(N, dtype=np.float64) - 1.0
-            return fast_algorithms.distance_cache_np(indices0,
+            return fast_algorithms.distance_cache_numpy(indices0,
                                                      indices1,
                                                      self.coords.values,
                                                      self.dist_cache)
@@ -1514,14 +1599,14 @@ class PointCloud(SimplicialComplex):
             raise ValueError("cache_type can be None or 'dict' or 'np'")
 
     def cover_ball(self, point_index=None):
-        r""" Find a ball that covers the entire PointCloud.  
-        
+        r""" Find a ball that covers the entire PointCloud.
+
         Parameters
         ----------
         point_index : int
             If point_index is given, we use that point as the center.
             If point_index is None (default), then we compute the point neareast
-            the center-of-mass, which requires an extra :func:`numpy.mean` and 
+            the center-of-mass, which requires an extra :func:`numpy.mean` and
             :func:`scipy.spatial.distance.cdist` call.
 
         Returns
@@ -1546,40 +1631,46 @@ class PointCloud(SimplicialComplex):
 
     @classmethod
     def from_multisample_multilabel(cls, list_of_samples, list_of_labels,
-                                    normalize=True):
+                                    equal_priors=True, normalize_domain=False):
         r""" Produce a single labeled and weighted pointcloud from a list of samples
         and labels of those samples.
-    
+
         Parameters
         ----------
         list_of_samples :
             A list (or np array) of np arrays.  Each such array is
             considered to be a sample of N points in R^d.  N can vary between
-            entries, but d cannot.  
-    
+            entries, but d cannot.
+
         list_of_labels :
             A list of labels.  Labels can be anything, but it is covenient to
             use strings like "red" and "blue".    list_of_labels[i] is the
             label for the points in list_of_samples[i].
-    
-        normalize:
+
+        equal_priors:
             Re-normalize weights so that each label is equally likely.
+            Default: True
+
+        normalize_domain:
+            Use SVD/PCA to re-shape the original data to be roughy spherical.
+            This should allow better learning via CDER.
+            Default: False
 
         """
         assert len(list_of_labels) == len(list_of_samples),\
             "list_of_labels must equal list_of arrays. {} != {}".format(
                 len(list_of_labels), len(list_of_samples))
-    
+
         ambient_dim = list_of_samples[0].shape[1]
         assert all([X.shape[1] == ambient_dim for X in list_of_samples]),\
             "Dimension mismatch among list_of_samples!"
-    
+
         label_info = pd.DataFrame(index=sorted(list(set(list(list_of_labels)))))
         # ['blue', 'green', 'red']
         # label_names = list(label_dict.keys())
         # label_index = np.array
         # num_labels = len(label_dict)
-    
+
         # count how many times each label occurs.
         label_info['clouds'] = np.zeros(shape = (len(label_info),), dtype=np.int64)
         label_info['points'] = np.zeros(shape = (len(label_info),), dtype=np.int64)
@@ -1588,33 +1679,39 @@ class PointCloud(SimplicialComplex):
             label_bool = np.array([l == label for l in list_of_labels])
             label_info.loc[label, 'clouds'] = np.count_nonzero(label_bool)
         label_info['int_index'] = label_info.index.get_indexer(label_info.index)
-    
+
         # merge the samples into one big dataset
         # expand the sample-wise labels to point-wise labels
         points = np.concatenate(list(list_of_samples))
+
+        if normalize_domain:
+            m,s,v = fast_algorithms.gaussian_fit(points)
+            points = np.dot((points - m), v.T)/s
+
         pointwise_labels = []  # keep track of labels, pointwise
         pointwise_source = []
         pointwise_weight = []
         for i, X in enumerate(list_of_samples):
             l = list_of_labels[i]
             num = X.shape[0]
+            assert num > 0, "bad? {}".format(X.shape)
             pointwise_labels.extend([label_info['int_index'].loc[l]]*num)
             pointwise_source.extend([i]*num)
-            if normalize:
+            if equal_priors:
                 wt = 1.0/num/label_info.loc[l, 'clouds']
             else:
                 wt = 1.0
             pointwise_weight.extend([wt]*num)
             label_info.loc[l, 'points'] = np.int64(label_info.loc[l, 'points']) + np.int64(num)
             label_info.loc[l, 'weight'] += wt*num
-    
+
         pointwise_labels = np.array(pointwise_labels)
         pointwise_source = np.array(pointwise_source)
         pointwise_weight = np.array(pointwise_weight)
-    
-        pc = cls(points, weights=pointwise_weight)
+
+        pc = cls(points, masses=pointwise_weight)
         pc.label_info = label_info
         pc.labels = pointwise_labels
         pc.source = pointwise_source
         return pc
-    
+

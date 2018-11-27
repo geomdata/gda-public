@@ -535,6 +535,11 @@ class CDER(GaussianMixtureClassifier):
     --------
     :class:`multidim.covertree.CoverTree`
 
+    References
+    ----------
+    .. [CDER1] Supervised Learning of Labeled Pointcloud Differences via Cover-Tree Entropy Reduction https://arxiv.org/abs/1702.07959
+    .. [CDER2] CDER, Learning with Friends https://www.ima.umn.edu/2016-2017/DSS9.6.16-5.30.17/26150
+
     """
 
     def build_gaussian(self, coverlevel, adult, label, dominant_index):
@@ -647,11 +652,17 @@ class CDER(GaussianMixtureClassifier):
                     prev_weights = np.concatenate([ prev_level.weights[e] for e in my_elders ])
                     
                     prev_entropy = entropy(prev_weights/prev_weights.sum(axis=0))
+                    assert not np.isnan(prev_entropy), "nan?  prev_weights = {}".format(prev_weights)
                     # union entropy of elders of adult at prev_level
                     this_entropy = this_level.find_entropy(adult)
+                    assert not np.isnan(this_entropy)
                     # entropy of this_level children of adult
                     next_entropy = next_level.find_entropy(adult)
+                    assert not np.isnan(next_entropy)
+
                     logging.debug("{}: {} {} {}:".format(adult, next_entropy, this_entropy, prev_entropy), end=": ")
+                    
+
                     # entropy of next_level children of adult
                     # We consider all orderings of these three quantities
                     if np.count_nonzero(next_level.children[adult]) <= this_level.covertree.pointcloud.multiplicity[adult]:
@@ -715,7 +726,7 @@ class CDER(GaussianMixtureClassifier):
                         pass # do nothing with this subtree.  That is, STOP.
                     
                     else:
-                        assert max([prev_entropy, this_entropy, next_entropy]) >= 1.0
+                        assert max([prev_entropy, this_entropy, next_entropy]) >= 1.0, "I see an strange entropy value {}".format([prev_entropy, this_entropy, next_entropy])
                         to_check = list(this_level.successors[adult])
                         next_level.adults_to_check.extend(to_check)
     

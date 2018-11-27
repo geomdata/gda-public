@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
@@ -97,18 +98,17 @@ It is always faster to access stratum[dim].loc[index] directly.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>cellcomplex</strong> : <a class="reference internal" href="multidim.SimplicialComplex.html#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-class docutils literal"><span class="pre">SimplicialComplex</span></code></a></p>
-<blockquote>
-<div><p>The SimplicialComplex to which this Simplex belongs.</p>
-</div></blockquote>
-<p><strong>dim</strong> : int</p>
-<blockquote>
-<div><p>The dimension in which this Simplex lives.</p>
-</div></blockquote>
-<p><strong>index</strong> : int</p>
-<blockquote class="last">
-<div><p>The abstract index of this Simplex.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>cellcomplex</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="multidim.SimplicialComplex.html#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimplicialComplex</span></code></a></span></dt>
+<dd><p class="first last">The SimplicialComplex to which this Simplex belongs.</p>
+</dd>
+<dt><strong>dim</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The dimension in which this Simplex lives.</p>
+</dd>
+<dt><strong>index</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The abstract index of this Simplex.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -116,44 +116,43 @@ It is always faster to access stratum[dim].loc[index] directly.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><a class="reference internal" href="multidim.SimplicialComplex.html#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-obj docutils literal"><span class="pre">SimplicialComplex</span></code></a></dt>
+<dt><a class="reference internal" href="multidim.SimplicialComplex.html#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimplicialComplex</span></code></a></dt>
 <dd>A class for abstract simpicial cell complexes.</dd>
 </dl>
 </div>
 <p class="rubric">Notes</p>
-<p>A finite (<em>abstract</em>) <em>simplicial complex</em> is a finite set <span class="math">\(A\)</span> together
-with collection <span class="math">\(\Delta\)</span> of subsets of <span class="math">\(A\)</span> such that if
-<span class="math">\(X \in \Delta\)</span> and <span class="math">\(Y \subset X\)</span> then
-<span class="math">\(Y \in \Delta\)</span>. <a class="reference internal" href="#r6" id="id1">[R6]</a></p>
+<p>A finite (<em>abstract</em>) <em>simplicial complex</em> is a finite set <span class="math notranslate nohighlight">\(A\)</span> together
+with collection <span class="math notranslate nohighlight">\(\Delta\)</span> of subsets of <span class="math notranslate nohighlight">\(A\)</span> such that if
+<span class="math notranslate nohighlight">\(X \in \Delta\)</span> and <span class="math notranslate nohighlight">\(Y \subset X\)</span> then
+<span class="math notranslate nohighlight">\(Y \in \Delta\)</span>. <a class="reference internal" href="#rce8881ff4c6e-1" id="id1">[1]</a></p>
 <p class="rubric">References</p>
-<table class="docutils citation" frame="void" id="r6" rules="none">
+<table class="docutils citation" frame="void" id="rce8881ff4c6e-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[R6]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>)</em> D. Feichtner-Kozlov, Combinatorial algebraic topology.
+<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>)</em> D. Feichtner-Kozlov, Combinatorial algebraic topology.
 Berlin: Springer, 2008.</td></tr>
 </tbody>
 </table>
-<p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="16%" />
-<col width="84%" />
-</colgroup>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
 <tbody valign="top">
-<tr class="row-odd"><td>cellcomplex</td>
-<td>(<a class="reference internal" href="multidim.SimplicialComplex.html#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-obj docutils literal"><span class="pre">SimplicialComplex</span></code></a>) The <a class="reference internal" href="multidim.SimplicialComplex.html#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-obj docutils literal"><span class="pre">SimplicialComplex</span></code></a> to which this Simplex belongs.</td>
-</tr>
-<tr class="row-even"><td>dim</td>
-<td>(int) The dimension in which this Simplex lives.</td>
-</tr>
-<tr class="row-odd"><td>index</td>
-<td>(int) The abstract index of this Simplex.</td>
-</tr>
-<tr class="row-even"><td>shadow_complex</td>
-<td>(<a class="reference internal" href="multidim.SimplicialComplex.html#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-obj docutils literal"><span class="pre">SimplicialComplex</span></code></a>)</td>
-</tr>
-<tr class="row-odd"><td>children</td>
-<td>(<a class="reference external" href="http://pandas-docs.github.io/pandas-docs-travis/generated/pandas.Series.html#pandas.Series" title="(in pandas v0.21.0.dev+346.g556effc.dirty)"><code class="xref py py-class docutils literal"><span class="pre">pandas.Series</span></code></a>)</td>
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>cellcomplex</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="multidim.SimplicialComplex.html#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimplicialComplex</span></code></a></span></dt>
+<dd><p class="first last">The <a class="reference internal" href="multidim.SimplicialComplex.html#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimplicialComplex</span></code></a> to which this Simplex belongs.</p>
+</dd>
+<dt><strong>dim</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The dimension in which this Simplex lives.</p>
+</dd>
+<dt><strong>index</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The abstract index of this Simplex.</p>
+</dd>
+<dt><strong>shadow_complex</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="multidim.SimplicialComplex.html#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimplicialComplex</span></code></a></span></dt>
+<dd></dd>
+<dt><strong>children</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference external" href="http://pandas-docs.github.io/pandas-docs-travis/generated/pandas.Series.html#pandas.Series" title="(in pandas v0.24.0.dev0+1133.gee283fae)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.Series</span></code></a></span></dt>
+<dd></dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -171,7 +170,7 @@ Berlin: Springer, 2008.</td></tr>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="multidim.Simplex.boundary.html#multidim.Simplex.boundary" title="multidim.Simplex.boundary"><code class="xref py py-obj docutils literal"><span class="pre">Simplex.boundary</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.Simplex.boundary.html#multidim.Simplex.boundary" title="multidim.Simplex.boundary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Simplex.boundary</span></code></a></td>
 <td><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -182,7 +181,29 @@ Berlin: Springer, 2008.</td></tr>
 </table>
 </td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="multidim.Simplex.positive.html#multidim.Simplex.positive" title="multidim.Simplex.positive"><code class="xref py py-obj docutils literal"><span class="pre">Simplex.positive</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="multidim.Simplex.height.html#multidim.Simplex.height" title="multidim.Simplex.height"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Simplex.height</span></code></a></td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">height (that is, filtered value) of this cell (np.float64)</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.Simplex.mass.html#multidim.Simplex.mass" title="multidim.Simplex.mass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Simplex.mass</span></code></a></td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">mass of this cell (np.float64 or None)</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="multidim.Simplex.positive.html#multidim.Simplex.positive" title="multidim.Simplex.positive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Simplex.positive</span></code></a></td>
 <td><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -193,23 +214,12 @@ Berlin: Springer, 2008.</td></tr>
 </table>
 </td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="multidim.Simplex.representative.html#multidim.Simplex.representative" title="multidim.Simplex.representative"><code class="xref py py-obj docutils literal"><span class="pre">Simplex.representative</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.Simplex.representative.html#multidim.Simplex.representative" title="multidim.Simplex.representative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Simplex.representative</span></code></a></td>
 <td><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">return:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="multidim.Simplex.value.html#multidim.Simplex.value" title="multidim.Simplex.value"><code class="xref py py-obj docutils literal"><span class="pre">Simplex.value</span></code></a></td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">value (that is, weight) of this cell (np.float64)</td>
 </tr>
 </tbody>
 </table>
@@ -252,10 +262,10 @@ Berlin: Springer, 2008.</td></tr>
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

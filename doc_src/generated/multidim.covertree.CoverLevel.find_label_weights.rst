@@ -1,5 +1,5 @@
-multidim.covertree.CoverLevel.find_label_weights
-================================================
+multidim.covertree.CoverLevel.find\_label\_weights
+==================================================
 
 .. currentmodule:: multidim.covertree
 

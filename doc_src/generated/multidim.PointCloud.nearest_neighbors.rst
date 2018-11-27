@@ -1,5 +1,5 @@
-multidim.PointCloud.nearest_neighbors
-=====================================
+multidim.PointCloud.nearest\_neighbors
+======================================
 
 .. currentmodule:: multidim
 

@@ -21,6 +21,7 @@ multidim.PointCloud
          PointCloud.make_pers0
          PointCloud.make_pers1_rca1
          PointCloud.nearest_neighbors
+         PointCloud.nearest_neighbors_slow
          PointCloud.plot
          PointCloud.reset
          PointCloud.sever

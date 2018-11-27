@@ -1,5 +1,5 @@
-timeseries.SpaceCurve.arclength_param
-=====================================
+timeseries.SpaceCurve.arclength\_param
+======================================
 
 .. currentmodule:: timeseries
 

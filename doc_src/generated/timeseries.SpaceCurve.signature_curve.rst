@@ -1,5 +1,5 @@
-timeseries.SpaceCurve.signature_curve
-=====================================
+timeseries.SpaceCurve.signature\_curve
+======================================
 
 .. currentmodule:: timeseries
 

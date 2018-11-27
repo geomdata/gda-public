@@ -1,5 +1,5 @@
-timeseries.test_mollifier
-=========================
+timeseries.test\_mollifier
+==========================
 
 .. automodule:: timeseries.test_mollifier
 

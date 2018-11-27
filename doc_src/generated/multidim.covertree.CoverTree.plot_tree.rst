@@ -1,5 +1,5 @@
-multidim.covertree.CoverTree.plot_tree
-======================================
+multidim.covertree.CoverTree.plot\_tree
+=======================================
 
 .. currentmodule:: multidim.covertree
 

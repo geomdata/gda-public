@@ -10,6 +10,7 @@ multidim.covertree.CoverTree
       .. autosummary::
          :toctree:
       
+         CoverTree.make_edges
          CoverTree.next
          CoverTree.plot
          CoverTree.plot_tree

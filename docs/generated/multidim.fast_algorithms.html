@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
@@ -97,22 +98,22 @@ code in Cython.</p>
 <dl class="docutils">
 <dt>This module is compiled by either of these commands</dt>
 <dd><ul class="first last simple">
-<li><code class="code docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code>  (as called by <code class="code docutils literal"><span class="pre">pip</span></code> for standard installation and use)</li>
-<li><code class="code docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">build_ext</span> <span class="pre">--inplace</span></code> (as run by developers for code testing)</li>
+<li><code class="code docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code>  (as called by <code class="code docutils literal notranslate"><span class="pre">pip</span></code> for standard installation and use)</li>
+<li><code class="code docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">build_ext</span> <span class="pre">--inplace</span></code> (as run by developers for code testing)</li>
 </ul>
 </dd>
 </dl>
 <div class="section" id="notes">
 <h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h2>
 <p>Automatically-generated online documentation will never see the C-only functions that
-are defined with <code class="code docutils literal"><span class="pre">cdef</span></code> in Cython, as shown in 
+are defined with <code class="code docutils literal notranslate"><span class="pre">cdef</span></code> in Cython, as shown in 
 <a class="reference external" href="http://cython.readthedocs.io/en/latest/src/reference/extension_types.html">http://cython.readthedocs.io/en/latest/src/reference/extension_types.html</a>
 Because of the limitations of Sphinx, you’ll have to simply view the sourcecode
 for further information. For this module, these C-only functions include</p>
 <blockquote>
 <div><ul class="simple">
-<li><code class="xref py py-func docutils literal"><span class="pre">is_partition_bool()</span></code></li>
-<li><code class="xref py py-func docutils literal"><span class="pre">is_partition_list()</span></code></li>
+<li><code class="xref py py-func docutils literal notranslate"><span class="pre">is_partition_bool()</span></code></li>
+<li><code class="xref py py-func docutils literal notranslate"><span class="pre">is_partition_list()</span></code></li>
 </ul>
 </div></blockquote>
 </div>
@@ -130,58 +131,55 @@ for further information. For this module, these C-only functions include</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">cdist</span></code>(XA,&nbsp;XB[,&nbsp;metric,&nbsp;p,&nbsp;V,&nbsp;VI,&nbsp;w])</td>
-<td>Computes distance between each pair of the two collections of inputs.</td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">check_values</span></code></td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_heights</span></code></td>
 <td>Verify that cells of dimension <em class="xref py py-obj">dim</em> have weight greater than their boundaries of dimension <em class="xref py py-obj">dim - 1</em>.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">covertree_adopt_or_liberate</span></code></td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">covertree_adopt_or_liberate</span></code></td>
 <td>adopt an orphan using type-1 friends.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">covertree_befriend321</span></code></td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">covertree_befriend321</span></code></td>
 <td>Set friends3 using inheritance filter</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">covertree_exchange_teens</span></code></td>
-<td>For a given center of a CoverTree, determine which of its children are   actually closer to another center.</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">covertree_exchange_teens</span></code></td>
+<td>For a given center of a CoverTree, determine which of its children are</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">distance_cache_None</span></code></td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">distance_cache_None</span></code></td>
 <td>Get bulk distances, using no storage cache.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">distance_cache_dict</span></code></td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">distance_cache_dict</span></code></td>
 <td>Get bulk distances, using dictionary storage cache.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">distance_cache_dok</span></code></td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">distance_cache_dok</span></code></td>
 <td>Get bulk distances, using dictionary storage cache.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">distance_cache_numpy</span></code></td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">distance_cache_numpy</span></code></td>
 <td>Get bulk distances, using NumPy storage cache.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">edges_from_dists</span></code></td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">edges_from_dists</span></code></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">entropy</span></code></td>
-<td>Compute the base-N entropy of normalized bins</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">entropy</span></code></td>
+<td>Compute the base-N entropy of normalized bins [bin0, bin1, …, bin(N-1)]</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">euclidean</span></code>(u,&nbsp;v)</td>
-<td>Computes the Euclidean distance between two 1-D arrays.</td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">gaussian</span></code></td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">gaussian</span></code></td>
 <td>Generate value for a multivariate Gaussian PDF.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">gaussian_fit</span></code></td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">gaussian_fit</span></code></td>
 <td>Fit a normalized Gaussian to this cloud using singular value decomposition.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">is_partition_bool</span></code></td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">gaussian_fit_wt</span></code></td>
+<td>Fit a normalized Gaussian to this cloud using singular value decomposition, with weights on the points.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_partition_bool</span></code></td>
 <td>Check that bigblock is partitioned by list_of_small_blocks</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">is_partition_list</span></code></td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_partition_list</span></code></td>
 <td>You have a big list and a list of small lists.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">label_means</span></code></td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">label_means</span></code></td>
 <td>Given a list of points, a list of labels, and a list of weights, compute the weighted mean for each label.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">label_weights</span></code></td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">label_weights</span></code></td>
 <td>Weights-per-label of a subset with labels and weights.</td>
 </tr>
 </tbody>
@@ -195,7 +193,7 @@ for further information. For this module, these C-only functions include</p>
           </div>
       <div class="spc-rightsidebar span3">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <h3><a href="../index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">multidim.fast_algorithms</a><ul>
 <li><a class="reference internal" href="#notes">Notes</a></li>
@@ -229,10 +227,10 @@ for further information. For this module, these C-only functions include</p>
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

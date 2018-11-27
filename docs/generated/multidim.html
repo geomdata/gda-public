@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
@@ -87,16 +88,16 @@
             
   <div class="section" id="module-multidim">
 <span id="multidim"></span><h1>multidim<a class="headerlink" href="#module-multidim" title="Permalink to this headline">¶</a></h1>
-<p>The <a class="reference internal" href="#module-multidim" title="multidim"><code class="xref py py-obj docutils literal"><span class="pre">multidim</span></code></a> class provides user-facing tools for topological data analysis
+<p>The <a class="reference internal" href="#module-multidim" title="multidim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multidim</span></code></a> class provides user-facing tools for topological data analysis
 of multi-dimensional data.</p>
 <p>The goal is to be honest about topology while also using speed/cleverness with
 a minimal amount of user headache.</p>
 <dl class="docutils">
 <dt>Included are:</dt>
 <dd><ul class="first last simple">
-<li><a class="reference internal" href="multidim.PointCloud.html#multidim.PointCloud" title="multidim.PointCloud"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud</span></code></a>, for data points in Euclidean space.</li>
-<li><a class="reference internal" href="multidim.SimplicialComplex.html#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-obj docutils literal"><span class="pre">SimplicialComplex</span></code></a>, for abstract simplicial complexes, built
-from <a class="reference internal" href="multidim.Simplex.html#multidim.Simplex" title="multidim.Simplex"><code class="xref py py-obj docutils literal"><span class="pre">Simplex</span></code></a> objects sorted by dimension into <a class="reference internal" href="multidim.SimplexStratum.html#multidim.SimplexStratum" title="multidim.SimplexStratum"><code class="xref py py-obj docutils literal"><span class="pre">SimplexStratum</span></code></a> objects.</li>
+<li><a class="reference internal" href="multidim.PointCloud.html#multidim.PointCloud" title="multidim.PointCloud"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointCloud</span></code></a>, for data points in Euclidean space.</li>
+<li><a class="reference internal" href="multidim.SimplicialComplex.html#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimplicialComplex</span></code></a>, for abstract simplicial complexes, built
+from <a class="reference internal" href="multidim.Simplex.html#multidim.Simplex" title="multidim.Simplex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Simplex</span></code></a> objects sorted by dimension into <a class="reference internal" href="multidim.SimplexStratum.html#multidim.SimplexStratum" title="multidim.SimplexStratum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimplexStratum</span></code></a> objects.</li>
 </ul>
 </dd>
 </dl>
@@ -110,34 +111,33 @@ from <a class="reference internal" href="multidim.Simplex.html#multidim.Simplex"
 </div>
 <div class="section" id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;tests/circle.npy&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;tests/circle.npy&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pc</span> <span class="o">=</span> <span class="n">PointCloud</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pc</span>
 <span class="go">A SimplicialComplex with 1000 points, 499500 edges, and 0 faces.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">pc</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;pos&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">==</span> <span class="kc">True</span><span class="p">)</span>
 <span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pc</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;val&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pc</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pc</span><span class="o">.</span><span class="n">make_pers0</span><span class="p">(</span><span class="n">cutoff</span><span class="o">=</span><span class="mf">0.15</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">pc</span><span class="o">.</span><span class="n">cells</span><span class="p">(</span><span class="mi">0</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">positive</span><span class="p">:</span>
 <span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-<span class="go">0+ Simplex 0 of value 0.0</span>
-<span class="go">0+ Simplex 74 of value 0.0</span>
-<span class="go">0+ Simplex 183 of value 0.0</span>
-<span class="go">0+ Simplex 195 of value 0.0</span>
-<span class="go">0+ Simplex 197 of value 0.0</span>
-<span class="go">0+ Simplex 231 of value 0.0</span>
-<span class="go">0+ Simplex 354 of value 0.0</span>
-<span class="go">0+ Simplex 397 of value 0.0</span>
-<span class="go">0+ Simplex 489 of value 0.0</span>
-<span class="go">0+ Simplex 530 of value 0.0</span>
-<span class="go">0+ Simplex 607 of value 0.0</span>
-<span class="go">0+ Simplex 757 of value 0.0</span>
-<span class="go">0+ Simplex 781 of value 0.0</span>
-<span class="go">0+ Simplex 800 of value 0.0</span>
-<span class="go">0+ Simplex 903 of value 0.0</span>
-<span class="go">0+ Simplex 980 of value 0.0</span>
+<span class="go">0+ Simplex 0 of height 0.0 and mass 1.0</span>
+<span class="go">0+ Simplex 74 of height 0.0 and mass 1.0</span>
+<span class="go">0+ Simplex 183 of height 0.0 and mass 1.0</span>
+<span class="go">0+ Simplex 195 of height 0.0 and mass 1.0</span>
+<span class="go">0+ Simplex 197 of height 0.0 and mass 1.0</span>
+<span class="go">0+ Simplex 231 of height 0.0 and mass 1.0</span>
+<span class="go">0+ Simplex 354 of height 0.0 and mass 1.0</span>
+<span class="go">0+ Simplex 397 of height 0.0 and mass 1.0</span>
+<span class="go">0+ Simplex 489 of height 0.0 and mass 1.0</span>
+<span class="go">0+ Simplex 530 of height 0.0 and mass 1.0</span>
+<span class="go">0+ Simplex 607 of height 0.0 and mass 1.0</span>
+<span class="go">0+ Simplex 757 of height 0.0 and mass 1.0</span>
+<span class="go">0+ Simplex 781 of height 0.0 and mass 1.0</span>
+<span class="go">0+ Simplex 800 of height 0.0 and mass 1.0</span>
+<span class="go">0+ Simplex 903 of height 0.0 and mass 1.0</span>
+<span class="go">0+ Simplex 980 of height 0.0 and mass 1.0</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pc</span><span class="o">.</span><span class="n">pers0</span><span class="o">.</span><span class="n">grab</span><span class="p">(</span><span class="mi">5</span><span class="p">)[</span><span class="s1">&#39;keepcode&#39;</span><span class="p">]</span>
 <span class="go">     birth_index  death_index  birth     death      pers</span>
 <span class="go">979          213          316    0.0  0.136923  0.136923</span>
@@ -155,25 +155,25 @@ from <a class="reference internal" href="multidim.Simplex.html#multidim.Simplex"
 <span class="go">200         1816         7688  0.071490  0.149336  0.077846</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">V</span><span class="o">=</span><span class="n">pc</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">V</span><span class="o">.</span><span class="n">loc</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
-<span class="go">    val    pos  rep</span>
-<span class="go">0   0.0   True    0</span>
-<span class="go">1   0.0  False    0</span>
-<span class="go">2   0.0  False    1</span>
-<span class="go">3   0.0  False    0</span>
-<span class="go">4   0.0  False    0</span>
-<span class="go">5   0.0  False    4</span>
-<span class="go">6   0.0  False    1</span>
-<span class="go">7   0.0  False    0</span>
-<span class="go">8   0.0  False    0</span>
-<span class="go">9   0.0  False    0</span>
-<span class="go">10  0.0  False    1</span>
+<span class="go">    height  mass    pos  rep</span>
+<span class="go">0      0.0   1.0   True    0</span>
+<span class="go">1      0.0   1.0  False    0</span>
+<span class="go">2      0.0   1.0  False    1</span>
+<span class="go">3      0.0   1.0  False    0</span>
+<span class="go">4      0.0   1.0  False    0</span>
+<span class="go">5      0.0   1.0  False    4</span>
+<span class="go">6      0.0   1.0  False    1</span>
+<span class="go">7      0.0   1.0  False    0</span>
+<span class="go">8      0.0   1.0  False    0</span>
+<span class="go">9      0.0   1.0  False    0</span>
+<span class="go">10     0.0   1.0  False    1</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pc</span><span class="o">.</span><span class="n">cells</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-<span class="go">0+ Simplex 0 of value 0.0</span>
+<span class="go">0+ Simplex 0 of height 0.0 and mass 1.0</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pc</span><span class="o">.</span><span class="n">cells</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
-<span class="go">0- Simplex 2 of value 0.0</span>
+<span class="go">0- Simplex 2 of height 0.0 and mass 1.0</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">E</span><span class="o">=</span><span class="n">pc</span><span class="o">.</span><span class="n">stratum</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">E</span><span class="o">.</span><span class="n">loc</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
-<span class="go">         val    pos  rep  bdy0  bdy1</span>
+<span class="go">      height    pos  rep  bdy0  bdy1</span>
 <span class="go">0   0.001142  False    0   858   866</span>
 <span class="go">1   0.001997  False    1    98   187</span>
 <span class="go">2   0.002471  False    2   251   313</span>
@@ -186,7 +186,7 @@ from <a class="reference internal" href="multidim.Simplex.html#multidim.Simplex"
 <span class="go">9   0.005914  False    9   648   744</span>
 <span class="go">10  0.006056  False   10   612   640</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pc</span><span class="o">.</span><span class="n">cells</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
-<span class="go">1- Simplex 2 of value 0.0024707293775457456</span>
+<span class="go">1- Simplex 2 of height 0.0024707293775457456 and mass None</span>
 </pre></div>
 </div>
 <p class="rubric">Functions</p>
@@ -196,26 +196,14 @@ from <a class="reference internal" href="multidim.Simplex.html#multidim.Simplex"
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">cdist</span></code>(XA,&nbsp;XB[,&nbsp;metric,&nbsp;p,&nbsp;V,&nbsp;VI,&nbsp;w])</td>
-<td>Computes distance between each pair of the two collections of inputs.</td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">is_valid_dm</span></code>(D[,&nbsp;tol,&nbsp;throw,&nbsp;name,&nbsp;warning])</td>
-<td>Returns True if input array is a valid distance matrix.</td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">lower_star_for_image</span></code>(val_array)</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">lower_star_for_image</span></code>(img_array)</td>
 <td>Compute the lower star weighted simplicial complex from a 2d grid/image.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">pdist</span></code>(X[,&nbsp;metric,&nbsp;p,&nbsp;w,&nbsp;V,&nbsp;VI])</td>
-<td>Pairwise distances between observations in n-dimensional space.</td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">squareform</span></code>(X[,&nbsp;force,&nbsp;checks])</td>
-<td>Converts a vector-form distance vector to a square-form distance matrix, and vice-versa.</td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">stratum_from_distances</span></code>(dists[,&nbsp;max_length,&nbsp;…])</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">stratum_from_distances</span></code>(dists[,&nbsp;max_length,&nbsp;…])</td>
 <td>Construct a stratum dictionary from a symmetric matrix of distances.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">stratum_maker</span></code>([dim])</td>
-<td>Make an empty stratum <a class="reference external" href="http://pandas-docs.github.io/pandas-docs-travis/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.21.0.dev+346.g556effc.dirty)"><code class="xref py py-class docutils literal"><span class="pre">pandas.DataFrame</span></code></a> of the appropriate dimension.</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">stratum_maker</span></code>([dim])</td>
+<td>Make an empty stratum <a class="reference external" href="http://pandas-docs.github.io/pandas-docs-travis/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0.dev0+1133.gee283fae)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> of the appropriate dimension.</td>
 </tr>
 </tbody>
 </table>
@@ -226,20 +214,17 @@ from <a class="reference internal" href="multidim.Simplex.html#multidim.Simplex"
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.html#multidim.PointCloud" title="multidim.PointCloud"><code class="xref py py-obj docutils literal"><span class="pre">PointCloud</span></code></a>(data_array[,&nbsp;max_length,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.PointCloud.html#multidim.PointCloud" title="multidim.PointCloud"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointCloud</span></code></a>(data_array[,&nbsp;max_length,&nbsp;…])</td>
 <td>PointCloud is a class for <em>embedded</em>, weighted simplicial complexes.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="multidim.Simplex.html#multidim.Simplex" title="multidim.Simplex"><code class="xref py py-obj docutils literal"><span class="pre">Simplex</span></code></a>(cellcomplex,&nbsp;dim,&nbsp;index)</td>
+<tr class="row-even"><td><a class="reference internal" href="multidim.Simplex.html#multidim.Simplex" title="multidim.Simplex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Simplex</span></code></a>(cellcomplex,&nbsp;dim,&nbsp;index)</td>
 <td>This class is a convenient container to access the data in the pd DataFrame stratum[dim] of a SimplicialComplex.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="multidim.SimplexStratum.html#multidim.SimplexStratum" title="multidim.SimplexStratum"><code class="xref py py-obj docutils literal"><span class="pre">SimplexStratum</span></code></a>(cell_complex,&nbsp;dim)</td>
-<td>SimplexStratum is a thin class for calling <a class="reference internal" href="multidim.Simplex.html#multidim.Simplex" title="multidim.Simplex"><code class="xref py py-class docutils literal"><span class="pre">Simplex</span></code></a> objects of a certain dimension from a <a class="reference internal" href="multidim.SimplicialComplex.html#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-obj docutils literal"><span class="pre">SimplicialComplex</span></code></a>.</td>
+<tr class="row-odd"><td><a class="reference internal" href="multidim.SimplexStratum.html#multidim.SimplexStratum" title="multidim.SimplexStratum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimplexStratum</span></code></a>(cell_complex,&nbsp;dim)</td>
+<td>SimplexStratum is a thin class for calling <a class="reference internal" href="multidim.Simplex.html#multidim.Simplex" title="multidim.Simplex"><code class="xref py py-class docutils literal notranslate"><span class="pre">Simplex</span></code></a> objects of a certain dimension from a <a class="reference internal" href="multidim.SimplicialComplex.html#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimplicialComplex</span></code></a>.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="multidim.SimplicialComplex.html#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-obj docutils literal"><span class="pre">SimplicialComplex</span></code></a>([stratum])</td>
+<tr class="row-even"><td><a class="reference internal" href="multidim.SimplicialComplex.html#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimplicialComplex</span></code></a>([stratum])</td>
 <td>A class for abstract <em>weighted</em> simplicial complexes.</td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">defaultdict</span></code></td>
-<td>defaultdict(default_factory[, …]) –&gt; dict with default factory</td>
 </tr>
 </tbody>
 </table>
@@ -252,7 +237,7 @@ from <a class="reference internal" href="multidim.Simplex.html#multidim.Simplex"
           </div>
       <div class="spc-rightsidebar span3">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <h3><a href="../index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">multidim</a><ul>
 <li><a class="reference internal" href="#copyright">Copyright</a></li>
@@ -286,10 +271,10 @@ from <a class="reference internal" href="multidim.Simplex.html#multidim.Simplex"
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>

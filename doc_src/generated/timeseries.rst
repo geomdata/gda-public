@@ -10,6 +10,7 @@ timeseries
    .. autosummary::
    
       jagged
+      wavy
    
    
 

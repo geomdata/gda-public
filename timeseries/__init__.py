@@ -73,10 +73,10 @@ dtype: float64
 >>> list(el.pers.forest[None])
 [0]
 >>> el.vertices
-   time  value
-0   0.0    6.5
-1   1.0    0.0
-2   2.0    2.0
+   time  height
+0   0.0     6.5
+1   1.0     0.0
+2   2.0     2.0
 >>> el.jagged() #el.pers.diagram,el.vertices.index,el.vertices.dtype)
 0    6.5
 1    0.0
@@ -88,28 +88,28 @@ dtype: float64
 True
 >>> el = Signal([6.5,7.0,2.0,4.5,3.9,9.0,8.3,8.7,5.5,9.9])
 >>> el.vertices
-   time  value
-0   0.0    6.5
-1   1.0    7.0
-2   2.0    2.0
-3   3.0    4.5
-4   4.0    3.9
-5   5.0    9.0
-6   6.0    8.3
-7   7.0    8.7
-8   8.0    5.5
-9   9.0    9.9
+   time  height
+0   0.0     6.5
+1   1.0     7.0
+2   2.0     2.0
+3   3.0     4.5
+4   4.0     3.9
+5   5.0     9.0
+6   6.0     8.3
+7   7.0     8.7
+8   8.0     5.5
+9   9.0     9.9
 >>> el.edges
-   src  dst  max  val
-2    2    3    3  4.5
-3    3    4    3  4.5
-0    0    1    1  7.0
-1    1    2    1  7.0
-6    6    7    7  8.7
-7    7    8    7  8.7
-4    4    5    5  9.0
-5    5    6    5  9.0
-8    8    9    9  9.9
+   src  dst  max  height
+2    2    3    3     4.5
+3    3    4    3     4.5
+0    0    1    1     7.0
+1    1    2    1     7.0
+6    6    7    7     8.7
+7    7    8    7     8.7
+4    4    5    5     9.0
+5    5    6    5     9.0
+8    8    9    9     9.9
 >>> el.make_pers()
 >>> el.pers.diagram
    birth_index  death_index  birth  death  pers
@@ -119,15 +119,15 @@ True
 3            8            5    5.5    9.0   3.5
 4            2            9    2.0    9.9   7.9
 >>> el.feature()
-   time  value
-2   2.0    2.0
-3   3.0    4.5
-4   4.0    3.9
-5   5.0    9.0
-6   6.0    8.3
-7   7.0    8.7
-8   8.0    5.5
-9   9.0    9.9
+   time  height
+2   2.0     2.0
+3   3.0     4.5
+4   4.0     3.9
+5   5.0     9.0
+6   6.0     8.3
+7   7.0     8.7
+8   8.0     5.5
+9   9.0     9.9
 >>> el.pers.syzygy((0,0))
 2    0.4
 1    0.5
@@ -144,7 +144,7 @@ dtype: float64
 dtype: float64
 >>> el.pers.forest_parents == {0: 4, 1: None, 2: 3, 3: 4, 4: None}
 True
->>> el.vertices['value'].sum()/len(el.vertices)
+>>> el.vertices['height'].sum()/len(el.vertices)
 6.5299999999999994
 >>> el.normalize()
 >>> el2 = Signal(el.vertices)
@@ -154,18 +154,18 @@ True
 >>> el = Signal([0.0,3.0,1.5,2.2,0.001])
 >>> el.make_pers()
 >>> el.vertices
-   time  value
-0   0.0  0.000
-1   1.0  3.000
-2   2.0  1.500
-3   3.0  2.200
-4   4.0  0.001
+   time  height
+0   0.0   0.000
+1   1.0   3.000
+2   2.0   1.500
+3   3.0   2.200
+4   4.0   0.001
 >>> el.edges
-   src  dst  max  val
-2    2    3    3  2.2
-3    3    4    3  2.2
-0    0    1    1  3.0
-1    1    2    1  3.0
+   src  dst  max  height
+2    2    3    3     2.2
+3    3    4    3     2.2
+0    0    1    1     3.0
+1    1    2    1     3.0
 >>> el.pers.diagram
    birth_index  death_index  birth  death   pers
 0            2            3  1.500    2.2  0.700
@@ -174,20 +174,20 @@ True
 >>> el = Signal([0.0,0.7,0.45,0.55,0.3, 1.0],
 ...             times=[0.1, 0.2, 0.3, 0.6, 0.8, 0.85])
 >>> el.vertices
-   time  value
-0  0.10   0.00
-1  0.20   0.70
-2  0.30   0.45
-3  0.60   0.55
-4  0.80   0.30
-5  0.85   1.00
+   time  height
+0  0.10    0.00
+1  0.20    0.70
+2  0.30    0.45
+3  0.60    0.55
+4  0.80    0.30
+5  0.85    1.00
 >>> el.edges
-   src  dst  max   val
-2    2    3    3  0.55
-3    3    4    3  0.55
-0    0    1    1  0.70
-1    1    2    1  0.70
-4    4    5    5  1.00
+   src  dst  max  height
+2    2    3    3    0.55
+3    3    4    3    0.55
+0    0    1    1    0.70
+1    1    2    1    0.70
+4    4    5    5    1.00
 >>> el.make_pers()
 >>> el.pers.diagram
    birth_index  death_index  birth  death  pers
@@ -202,16 +202,16 @@ True
 1            4            3    0.1    0.9   0.8
 2            0            5    0.0    1.0   1.0
 >>> for F in el.iter_features(min_pers=0.5): print(F)
-   time  value
-0   0.0    0.0
-1   1.0    0.5
-2   2.0    0.4
-3   3.0    0.9
-4   4.0    0.1
-5   5.0    1.0
-   time  value
-3   3.0    0.9
-4   4.0    0.1
+   time  height
+0   0.0     0.0
+1   1.0     0.5
+2   2.0     0.4
+3   3.0     0.9
+4   4.0     0.1
+5   5.0     1.0
+   time  height
+3   3.0     0.9
+4   4.0     0.1
 >>> el = Signal(np.sin(np.arange(0,8*np.pi,0.1)))
 >>> el.make_pers()
 >>> el.pers.domains == {(110, 204): 4, (204, 236): 3, (0, 16): 2, (47, 79): 0, (141, 173): 1}
@@ -272,6 +272,38 @@ def jagged(persdiag, index):
     # MUST ADD CIRCULAR INTERPOLATION!
     return V
 
+def wavy(pasrdiad, index):
+    r""" Produce a piecewise-sine function that matches the given persistence
+    diagram. This assumes that the index for the vertices is sequential and
+    linear, so that the mergetree can be ignored.
+
+    Parameters
+    ----------
+    persdiag : :class:`homology.PersDiag`
+        A 0-dimensional persistence diagram
+    index : list-like
+        The domain index for the function
+
+    Returns
+    -------
+    function : `pandas.Series`
+
+    See Also
+    --------
+    :func:`timeseries.Signal.jagged` :func:`timeseries.Signal.makepers`
+    """
+    #V = pd.Series(index=index, dtype=np.float64)
+    #if len(persdiag) == 0:
+    #    V[:] = 0
+    #V[persdiag['birth_index']] = persdiag['birth']
+    #V[persdiag['death_index']] = persdiag['death']
+    ## fill with linear interpolation
+    #V.interpolate(method='linear', inplace=True) 
+    ## make sure we don't lose domain
+    #V.fillna(method='ffill', inplace=True)  # the end
+    #V.fillna(method='bfill', inplace=True)  # the beginning
+    # MUST ADD CIRCULAR INTERPOLATION!
+    #return V
 
 class Signal(object):
 
@@ -282,16 +314,16 @@ class Signal(object):
             A Signal is a pair of pd DataFrames that act as indexed
         lists of numerical values.  The vertices are stored as a pd Series,
         Signal.index provides the vertex indices.
-            The edges are a DataFrame of dimension 2, giving triples labeled by
-        ('src', 'dst', 'max', 'val'), where src and dst are the *indices* (not
+            The edges are a DataFrame, giving triples labeled by
+        ('src', 'dst', 'max', 'height'), where src and dst are the *indices* (not
         the *values*) of vertices.  Vertices should be considered fixed on
         initialization.  Overloaded functions refer to edges, not vertices.
         """
 
         if type(values) == pd.core.frame.DataFrame:
             assert values.index.dtype == np.int64
-            assert all(values.columns == ['time', 'value'])
-            assert values['value'].dtype == np.float64
+            assert all(values.columns == ['time', 'height'])
+            assert values['height'].dtype == np.float64
             assert values['time'].dtype == np.float64
             self.vertices = values.copy()
         else:
@@ -308,8 +340,8 @@ class Signal(object):
 
             self.vertices = pd.DataFrame({
                 'time': times,
-                'value': values},
-                columns=['time', 'value'],
+                'height': values},
+                columns=['time', 'height'],
                 index=index)
 
         # if times is not None:
@@ -323,18 +355,18 @@ class Signal(object):
 
         # figure out whether the value is from the left (0) or right (1)
         # this is now done in homology.dim0.unionfind.
-        leftright = np.array([self.vertices['value'].values[:-1],
-                              self.vertices['value'].values[1:]]).argmax(axis=0)
+        leftright = np.array([self.vertices['height'].values[:-1],
+                              self.vertices['height'].values[1:]]).argmax(axis=0)
         maxes = pd.Series(self.vertices.index[:-1] + leftright, dtype=np.int64)
         edges = pd.DataFrame({
-                'src': self.vertices['value'].index[:-1],
-                'dst': self.vertices['value'].index[1:],
+                'src': self.vertices['height'].index[:-1],
+                'dst': self.vertices['height'].index[1:],
                 'max': maxes.values,
-                'val':  self.vertices['value'].values[maxes]},
-                columns=['src', 'dst', 'max', 'val'])
+                'height':  self.vertices['height'].values[maxes]},
+                columns=['src', 'dst', 'max', 'height'])
         
         self.edges = pd.DataFrame(edges)
-        self.edges.sort_values(by=['val', 'src'],
+        self.edges.sort_values(by=['height', 'src'],
                                ascending=[True, True],
                                inplace=True)
 
@@ -379,8 +411,8 @@ class Signal(object):
         """ return a Signal object that is L2-near self in the normal
         distribution. 
         """
-        diff = np.random.randn(self.vertices['value'].values.shape[0])
-        return self.__class__(self.vertices['value'].values + sigma*diff) 
+        diff = np.random.randn(self.vertices['height'].values.shape[0])
+        return self.__class__(self.vertices['height'].values + sigma*diff) 
 
     def height_measure(self, sigma=1.0, num_samples=1000, parallel=True, min_pers=0):
         """ Use a simulation to estimate the height-measure of an interval. """
@@ -456,6 +488,35 @@ class Signal(object):
         self._jagged[beta] = jagged(keepbc,
                                     self.vertices.index)
         return self._jagged[beta]
+
+    def smoothen(self, beta):
+        T = self.vertices['time'].values
+        F = self.vertices['height'].values
+        N = T.shape[0]
+        pd = self.pers.clip(beta)['keepcode']
+        cut_indices = np.concatenate([pd[['birth_index', 'death_index']].values.flatten(),
+                                      np.array([0, N], dtype='int')])
+        cut_indices = np.unique(cut_indices)
+
+        times = [ ]
+        segments = [ ]
+    
+        for j0,j1 in zip(cut_indices[:-1], cut_indices[1:]):        
+            times.append(T[j0:j1])
+            if F[j0] > F[min(j1,N-1)]:
+                segments.append(np.sort(F[j0:j1])[::-1])
+            elif F[j0] <= F[min(j1,N-1)]:
+                segments.append(np.sort(F[j0:j1]))
+            #else:
+            #    assert F[j0:j1].min() == F[j0:j1].max()
+    
+        times = np.concatenate(times)
+        segments = np.concatenate(segments)
+        
+        assert np.all(np.sort(segments) == np.sort(F))
+        assert np.all(times == T)
+        return Signal(segments, times=times)
+
 
     def profile(self, arch, normalize=False, norm=np.linalg.norm):
         """ produce profile by dragging an archetype across self, 
@@ -613,12 +674,12 @@ class Signal(object):
             canvas.set_title(title)
 
         if canvas_type == "bokeh":
-            canvas.circle(self.vertices['time'].values, self.vertices['value'].values)
-            canvas.line(self.vertices['time'].values, self.vertices['value'].values)
+            canvas.circle(self.vertices['time'].values, self.vertices['height'].values)
+            canvas.line(self.vertices['time'].values, self.vertices['height'].values)
 
         elif canvas_type == "pyplot":
-            canvas.scatter(self.vertices['value'].index.values, self.vertices['value'].values)
-            canvas.plot(self.vertices['value'].index.values, self.vertices['value'].values)
+            canvas.scatter(self.vertices['height'].index.values, self.vertices['height'].values)
+            canvas.plot(self.vertices['height'].index.values, self.vertices['height'].values)
         pass
 
     @classmethod
@@ -630,9 +691,9 @@ class Signal(object):
         """ change this Signal object to have mean = 0 and max-min = 1 """
         bc=self.pers.diagram
         h = self.gap()['pers']
-        mean = self.vertices['value'].mean()
-        self.vertices['value'] = (self.vertices['value'] - mean)/h
-        self.edges['val'] = (self.edges['val'] - mean)/h
+        mean = self.vertices['height'].mean()
+        self.vertices['height'] = (self.vertices['height'] - mean)/h
+        self.edges['height'] = (self.edges['height'] - mean)/h
         bc['birth'] = (bc['birth'] - mean)/h
         bc['death'] = (bc['death'] - mean)/h
         bc['pers'] = (bc['pers'])/h
@@ -655,10 +716,6 @@ class SpaceCurve(object):
     py : list-like
     pz : list-like
         Positions in :class:`numpy.float64` meters
-    vx : list-like
-    vy : list-like
-    pz : list-like
-        Velocity components in :class:`numpy.float64` meters per second
     quality : list-like
         Quality/accuracy of a particular location
     trackid : int
@@ -685,7 +742,7 @@ class SpaceCurve(object):
     """
 
     def __init__(self, tn, px=None, py=None, pz=None,
-                 vx=None, vy=None, vz=None,
+    #             vx=None, vy=None, vz=None,
                  quality=None,
                  trackid=-1, platform=None, activity=None, mollified=False):
         tn = np.array(tn, dtype=np.int64)
@@ -699,28 +756,28 @@ class SpaceCurve(object):
             py = np.zeros(tn.shape, dtype=np.float64)
         if pz is None:
             pz = np.zeros(tn.shape, dtype=np.float64)
-        if vx is None:
-            vx = np.zeros(tn.shape, dtype=np.float64)
-        if vy is None:
-            vy = np.zeros(tn.shape, dtype=np.float64)
-        if vz is None:
-            vz = np.zeros(tn.shape, dtype=np.float64)
+        #if vx is None:
+        #    vx = np.zeros(tn.shape, dtype=np.float64)
+        #if vy is None:
+        #    vy = np.zeros(tn.shape, dtype=np.float64)
+        #if vz is None:
+        #    vz = np.zeros(tn.shape, dtype=np.float64)
         if quality is None:
             quality = -np.ones(tn.shape, dtype=np.int64)
         px = np.array(px, dtype=np.float64)
         py = np.array(py, dtype=np.float64)
         pz = np.array(pz, dtype=np.float64)
-        vx = np.array(vx, dtype=np.float64)
-        vy = np.array(vy, dtype=np.float64)
-        vz = np.array(vz, dtype=np.float64)
+        #vx = np.array(vx, dtype=np.float64)
+        #vy = np.array(vy, dtype=np.float64)
+        #vz = np.array(vz, dtype=np.float64)
         quality = np.array(quality, dtype=np.int64)
 
         assert len(tn) == len(px)
         assert len(tn) == len(py)
         assert len(tn) == len(pz)
-        assert len(tn) == len(vx)
-        assert len(tn) == len(vy)
-        assert len(tn) == len(vz)
+        #assert len(tn) == len(vx)
+        #assert len(tn) == len(vy)
+        #assert len(tn) == len(vz)
         assert len(tn) == len(quality)
 
         sort_by_time = tn.argsort()
@@ -729,9 +786,9 @@ class SpaceCurve(object):
         px = px[sort_by_time]
         py = py[sort_by_time]
         pz = pz[sort_by_time]
-        vx = vx[sort_by_time]
-        vy = vy[sort_by_time]
-        vz = vz[sort_by_time]
+        #vx = vx[sort_by_time]
+        #vy = vy[sort_by_time]
+        #vz = vz[sort_by_time]
         quality = quality[sort_by_time]
 
         ts = (tn - tn[0]).astype(np.float64) / (10 ** 9)
@@ -740,8 +797,13 @@ class SpaceCurve(object):
                                   'pos_x': px,
                                   'pos_y': py,
                                   'pos_z': pz,
+                                  #'vel_x': vx,
+                                  #'vel_y': vy,
+                                  #'vel_z': vz,
                                   'quality': quality},
-                                 columns=['time', 'pos_x', 'pos_y', 'pos_z', 'quality'],
+                                 columns=['time', 'pos_x', 'pos_y', 'pos_z', 
+                                                  #'vel_x', 'vel_y', 'vel_z',
+                                                  'quality'],
                                  index=tn)
 
         self.info = pd.DataFrame({}, index=self.data.index)
@@ -1103,10 +1165,10 @@ class SpaceCurve(object):
                     type(canvas))
             )
 
-        if canvas_type == "bokeh":
-            canvas.title = title
-        elif canvas_type == "pyplot":
-            canvas.set_title(title)
+        #if canvas_type == "bokeh":
+        #    canvas.title = title
+        #elif canvas_type == "pyplot":
+        #    canvas.set_title(title)
 
         # transform to local ENU coordinates at every point, and start at 0.
         pos = self.data[['pos_x', 'pos_y', 'pos_z']].values
@@ -1272,6 +1334,8 @@ class SpaceCurve(object):
         T = self.data['time'].values
         P = self.data[['pos_x', 'pos_y', 'pos_z']].values
         V = curve_geometry.secant_derivative(T, P)
+        #V2 = self.data[['vel_x', 'vel_y', 'vel_z']].values
+        #assert not np.any(np.isnan(V2)), "{} bad in {}".format(np.where(np.isnan(V2)), V2.shape)
 
         # all derivatives and integrals
         A = curve_geometry.secant_derivative(T, V)
@@ -1279,13 +1343,15 @@ class SpaceCurve(object):
         arclengthS = curve_geometry.secant_arclength(P)
 
         # norms
+        #recspeed = np.linalg.norm(V2, axis=1).flatten()
         speed = np.linalg.norm(V, axis=1).flatten()
         acc = np.linalg.norm(A, axis=1).flatten()
         jerk = np.linalg.norm(J, axis=1).flatten()
 
 
+        if len(self) > 4:
         # Use signature curve to make curv and tors
-        kap, kap_s, tau, tau_s = self.signature_curve()
+            kap, kap_s, tau, tau_s = self.signature_curve()
        
         #KT = np.ndarray(shape=(T.shape[0], 2), dtype='float')
         #KT[:2, :] = sc[0, :]
@@ -1323,14 +1389,16 @@ class SpaceCurve(object):
         self.info['acc_z'] = A[:, 2]
         self.info['len'] = arclengthS  # This is the only thing we store in data
         self.info['speed'] = speed
+        #self.info['recspeed'] = recspeed
         self.info['acc'] = acc
         self.info['jerk'] = jerk
 
-        self.info['curv'] = kap
-        self.info['curv_s'] = kap_s
-        self.info['tors'] = tau
+        if len(self) > 4:
+            self.info['curv'] = kap
+            self.info['curv_s'] = kap_s
+            self.info['tors'] = tau
         
-        self.info['tors_s'] = 0.0
+            self.info['tors_s'] = 0.0
         #self.info['tors_s'].values[3:-3] = tau_s
         #self.info['tors_s'].values[:3] = tau_s[0]
         #self.info['tors_s'].values[-3:] = tau_s[-1]
@@ -1644,8 +1712,10 @@ class SpaceCurve(object):
 
         abc = a*b*c
         # Calabi,et al eqn (2.2)
-        kappa = sign*4*np.sqrt(s*s_minus_a*s_minus_b*s_minus_c) / abc
-        kappa[abc == 0] = 0.
+        non_trivial = (abc != 0)
+        kappa = sign*4*np.sqrt(s*s_minus_a*s_minus_b*s_minus_c)
+        kappa[non_trivial] = kappa[non_trivial] / abc[non_trivial]
+        kappa[~ non_trivial] = 0.0
         assert kappa.shape[0] == n-2
 
         # Now, we follow Boutin's naming convention.
@@ -1673,10 +1743,10 @@ class SpaceCurve(object):
         # Note that the index of kappa goes 0..n-3.
         # and P[i] corresponds to a[i] and kappa[i+1]
         denom_ks = 2*a + 2*b + d + g
-        old_settings = np.seterr(divide='ignore')
-        kappa_s = 3*(kappa[2:] - kappa[:-2])/denom_ks
-        kappa_s[denom_ks == 0] = 0
-        np.seterr(**old_settings)
+        non_trivial = (denom_ks != 0)
+        kappa_s = 3*(kappa[2:] - kappa[:-2])
+        kappa_s[non_trivial] = kappa_s[non_trivial]/denom_ks[non_trivial]
+        kappa_s[~ non_trivial] = 0.0
         
       
         # tau according to Boutin's \tilde{tau}_1, in the forward direction
@@ -1691,7 +1761,7 @@ class SpaceCurve(object):
         # don't want to divide by zero, which happens if points repeat.
         tau_fwd = 6 * tetra_height
         denom_t = d * e * f * kappa[1:-1] # sign is inherited!
-        non_trivial = (tetra_height != 0)
+        non_trivial = (denom_t != 0) & (tetra_height != 0)
         tau_fwd[non_trivial] = tau_fwd[non_trivial] / denom_t[non_trivial]
         tau_fwd[~ non_trivial] = 0.0 
         
@@ -1707,7 +1777,7 @@ class SpaceCurve(object):
         # don't want to divide by zero, which happens if points repeat.
         tau_bwd = 6 * tetra_height
         denom_t = d * e * f * kappa[1:-1] # sign is inherited!
-        non_trivial = (tetra_height != 0)
+        non_trivial = (denom_t != 0) & (tetra_height != 0)
         tau_bwd[non_trivial] = tau_bwd[non_trivial] / denom_t[non_trivial]
         tau_bwd[~ non_trivial] = 0.0 
         

@@ -1,5 +1,5 @@
-homology.dim0.all_roots
-=======================
+homology.dim0.all\_roots
+========================
 
 .. currentmodule:: homology.dim0
 

@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
     <link rel="stylesheet" href="../_static/scipy.css" type="text/css" >
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" >
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/copybutton.js"></script>
     <link rel="index" title="Index" href="../genindex.html" >
     <link rel="search" title="Search" href="../search.html" >
@@ -90,29 +91,34 @@
 <h1>multidim.PointCloud.from_multisample_multilabel<a class="headerlink" href="#multidim-pointcloud-from-multisample-multilabel" title="Permalink to this headline">¶</a></h1>
 <dl class="classmethod">
 <dt id="multidim.PointCloud.from_multisample_multilabel">
-<em class="property">classmethod </em><code class="descclassname">PointCloud.</code><code class="descname">from_multisample_multilabel</code><span class="sig-paren">(</span><em>list_of_samples</em>, <em>list_of_labels</em>, <em>normalize=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/multidim.html#PointCloud.from_multisample_multilabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multidim.PointCloud.from_multisample_multilabel" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descclassname">PointCloud.</code><code class="descname">from_multisample_multilabel</code><span class="sig-paren">(</span><em>list_of_samples</em>, <em>list_of_labels</em>, <em>equal_priors=True</em>, <em>normalize_domain=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/multidim.html#PointCloud.from_multisample_multilabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multidim.PointCloud.from_multisample_multilabel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Produce a single labeled and weighted pointcloud from a list of samples
 and labels of those samples.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>list_of_samples :</strong></p>
-<blockquote>
-<div><p>A list (or np array) of np arrays.  Each such array is
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>list_of_samples :</strong></dt>
+<dd><p class="first last">A list (or np array) of np arrays.  Each such array is
 considered to be a sample of N points in R^d.  N can vary between
 entries, but d cannot.</p>
-</div></blockquote>
-<p><strong>list_of_labels :</strong></p>
-<blockquote>
-<div><p>A list of labels.  Labels can be anything, but it is covenient to
+</dd>
+<dt><strong>list_of_labels :</strong></dt>
+<dd><p class="first last">A list of labels.  Labels can be anything, but it is covenient to
 use strings like “red” and “blue”.    list_of_labels[i] is the
 label for the points in list_of_samples[i].</p>
-</div></blockquote>
-<p><strong>normalize:</strong></p>
-<blockquote class="last">
-<div><p>Re-normalize weights so that each label is equally likely.</p>
-</div></blockquote>
+</dd>
+<dt><strong>equal_priors:</strong></dt>
+<dd><p class="first last">Re-normalize weights so that each label is equally likely.
+Default: True</p>
+</dd>
+<dt><strong>normalize_domain:</strong></dt>
+<dd><p class="first last">Use SVD/PCA to re-shape the original data to be roughy spherical.
+This should allow better learning via CDER.
+Default: False</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -152,10 +158,10 @@ label for the points in list_of_samples[i].</p>
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Aug 09, 2017.
+      Last updated on Nov 27, 2018.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
       </li>
     </ul>
     </div>
