@@ -259,12 +259,16 @@ bash$
 <p>Suppose you have your own copy of this repo, and you want to copy in changes
 in-bulk, but a merge request is not possible because they are on different
 platforms.</p>
-<p>repo_old&gt; git format-patch –root  # produce all changes from history
-repo_new&gt; go to head, update, and remove <em>all</em> working files
-repo_new&gt; ls /path/to/repo_old/*.patch | while read r; do git apply “$a”; done
-repo_new&gt; run your tests
-repo_new&gt; git add -A
-repo_new&gt; git commit -m “imported to version XXXXXXX from internal repo.” -a</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">repo_old</span><span class="o">&gt;</span> <span class="n">git</span> <span class="nb">format</span><span class="o">-</span><span class="n">patch</span> <span class="o">--</span><span class="n">root</span>  <span class="c1"># produce all changes from history</span>
+</pre></div>
+</div>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">repo_new</span><span class="o">&gt;</span> <span class="n">go</span> <span class="n">to</span> <span class="n">head</span><span class="p">,</span> <span class="n">update</span><span class="p">,</span> <span class="ow">and</span> <span class="n">remove</span> <span class="o">*</span><span class="nb">all</span><span class="o">*</span> <span class="n">working</span> <span class="n">files</span>
+<span class="n">repo_new</span><span class="o">&gt;</span> <span class="n">ls</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">repo_old</span><span class="o">/</span>\<span class="o">*.</span><span class="n">patch</span> <span class="o">|</span> <span class="k">while</span> <span class="n">read</span> <span class="n">r</span><span class="p">;</span> <span class="n">do</span> <span class="n">git</span> <span class="n">apply</span> <span class="s2">&quot;$a&quot;</span><span class="p">;</span> <span class="n">done</span>
+<span class="n">repo_new</span><span class="o">&gt;</span> <span class="n">run</span> <span class="n">your</span> <span class="n">tests</span>
+<span class="n">repo_new</span><span class="o">&gt;</span> <span class="n">git</span> <span class="n">add</span> <span class="o">-</span><span class="n">A</span>
+<span class="n">repo_new</span><span class="o">&gt;</span> <span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;imported to version XXXXXXX from internal repo.&quot;</span> <span class="o">-</span><span class="n">a</span>
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -311,7 +315,7 @@ repo_new&gt; git commit -m “imported to version XXXXXXX from internal repo.”
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Nov 27, 2018.
+      Last updated on Jan 07, 2019.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.

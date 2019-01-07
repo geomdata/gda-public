@@ -91,37 +91,10 @@
 <h1>multidim.PointCloud.from_distances<a class="headerlink" href="#multidim-pointcloud-from-distances" title="Permalink to this headline">¶</a></h1>
 <dl class="classmethod">
 <dt id="multidim.PointCloud.from_distances">
-<em class="property">classmethod </em><code class="descclassname">PointCloud.</code><code class="descname">from_distances</code><span class="sig-paren">(</span><em>dists</em>, <em>max_length=-1.0</em>, <em>points=None</em><span class="sig-paren">)</span><a class="headerlink" href="#multidim.PointCloud.from_distances" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct a <a class="reference internal" href="multidim.SimplicialComplex.html#multidim.SimplicialComplex" title="multidim.SimplicialComplex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimplicialComplex</span></code></a> from a symmetric matrix of distances.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>dists</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt>
-<dd><p class="first last">An N-by-N symmetric array, with 0s on the diagonal,
-as obtained from <code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.spatial.distances.squareform()</span></code></p>
-</dd>
-<dt><strong>max_length</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd><p class="first last">If <code class="code docutils literal notranslate"><span class="pre">max_length</span> <span class="pre">&gt;=</span> <span class="pre">0</span></code>, store only those edges of length less
-than <code class="code docutils literal notranslate"><span class="pre">max_length</span></code>.  Default: -1, store all edges.</p>
-</dd>
-<dt><strong>points</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference external" href="http://pandas-docs.github.io/pandas-docs-travis/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0.dev0+1133.gee283fae)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt>
-<dd><p class="first last">A fully-formed DataFrame of point information for
-stratum[0]. But, if you have that info, you probably want to use
-<a class="reference internal" href="multidim.PointCloud.html#multidim.PointCloud" title="multidim.PointCloud"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointCloud</span></code></a> instead.</p>
-</dd>
-</dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>`SimplicialComplex`</strong></dt>
-<dd></dd>
-</dl>
-</td>
-</tr>
-</tbody>
-</table>
+<em class="property">classmethod </em><code class="descclassname">PointCloud.</code><code class="descname">from_distances</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/multidim.html#PointCloud.from_distances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multidim.PointCloud.from_distances" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is not available for <a class="reference internal" href="multidim.PointCloud.html#multidim.PointCloud" title="multidim.PointCloud"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointCloud</span></code></a>, because actual
+coordinates are needed.   Perhaps you want to use
+<a class="reference internal" href="multidim.SimplicialComplex.from_distances.html#multidim.SimplicialComplex.from_distances" title="multidim.SimplicialComplex.from_distances"><code class="xref py py-func docutils literal notranslate"><span class="pre">SimplicialComplex.from_distances()</span></code></a> instead?</p>
 </dd></dl>
 
 </div>
@@ -157,7 +130,7 @@ stratum[0]. But, if you have that info, you probably want to use
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Nov 27, 2018.
+      Last updated on Jan 07, 2019.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.

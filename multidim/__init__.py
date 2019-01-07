@@ -368,7 +368,7 @@ def stratum_from_distances(dists, max_length=-1.0, points=None):
     if points is None:
         n = dists.shape[0]
         idx0 = np.arange(n, dtype=np.int64)
-        hgt0 = np.arange(n, dtype=np.float64)
+        hgt0 = np.zeros(n, dtype=np.float64)
         pos0 = np.ones(shape=(n,), dtype='bool')
         points = pd.DataFrame({
             'height': hgt0,
@@ -388,13 +388,13 @@ def stratum_from_distances(dists, max_length=-1.0, points=None):
         num_edges = hgt1.shape[0]
         idx1 = np.arange(num_edges, dtype='int64')
         edges = pd.DataFrame({
-            'hgt': hgt1,
+            'height': hgt1,
             'pos': pos1,
             'rep': idx1,
             'bdy0': bdys[:, 0],
             'bdy1': bdys[:, 1],
         },
-                columns=['hgt', 'pos', 'rep', 'bdy0', 'bdy1'],
+                columns=['height', 'pos', 'rep', 'bdy0', 'bdy1'],
                 index=idx1)
     return {0: points, 1: edges}
 
@@ -784,6 +784,65 @@ class SimplicialComplex(object):
         self.pers0 = homology.PersDiag(tbirth_index, tdeath_index, ybirth_index, ydeath_index, mergetree)
         pass
 
+    def sever(self):
+        r"""
+        Subdivide a SimplicialComplex or PointCloud into several smaller
+        partitions, using the known 0-dimensional persistence diagram.  This is
+        an iterator (it _yields_ the terms).
+
+        Two points end up in the same partition if and only if they are
+        connected by a sequence of edges of length < cutoff.
+
+        Yields
+        ------
+        pairs (indices, subpointcloud) of persistently connected
+        SimplicialComplexes/PointClouds.
+        The first term gives indices of the these points from the original `PointCloud`
+        The second term gives a new `PointCloud` with its own sequential index.
+
+        Notes
+        -----
+        This uses the 0-dimensional Persistence Diagram; therefore, you should
+        run `self.reset()` and `self.make_pers0(cutoff)` first.
+
+        See Also
+        --------
+        :func:`make_pers0` :func:`reset`
+
+
+        Examples
+        --------
+
+        >>> pc = PointCloud(np.array([[0.,0.],[0.,0.5],[1.,0.],[5.,0.],[6.,0.],[5.,-0.6]]), max_length=-1.0)
+        >>> pc.make_pers0(cutoff=1.9)
+        >>> for indices,sub_pc in pc.sever():
+        ...     print(indices)
+        ...     print(sub_pc)
+        ...     print(sub_pc.coords)
+        [0 1 2]
+        A SimplicialComplex with 3 points, 0 edges, and 0 faces.
+             0    1
+        0  0.0  0.0
+        1  0.0  0.5
+        2  1.0  0.0
+        [3 4 5]
+        A SimplicialComplex with 3 points, 0 edges, and 0 faces.
+             0    1
+        0  5.0  0.0
+        1  6.0  0.0
+        2  5.0 -0.6
+
+        """
+
+        from homology.dim0 import all_roots
+
+        roots = self.stratum[0]['rep'].values.copy()
+        all_roots(roots)
+
+        for i in np.where(self.stratum[0]['pos'].values == True)[0]:
+            yield np.where(roots == i)[0], PointCloud(self.coords.values[roots == i, :])
+
+
     def make_pers1_rca1(self, cutoff=-1.0):
         r""" Run RCA1 and make a 1-dimensional `homology.PersDiag` for the
         edge-pairings for cycle generators.
@@ -1026,6 +1085,15 @@ class PointCloud(SimplicialComplex):
                                  index=np.arange(hgts.shape[0], dtype=np.int64))
             self.stratum[1] = edges
 
+    @classmethod
+    def from_distances(cls, *args, **kwargs):
+        r"""
+        This method is not available for `PointCloud`, because actual
+        coordinates are needed.   Perhaps you want to use
+        :func:`SimplicialComplex.from_distances` instead?
+        """
+        raise NotImplementedError("This method does not inherit to PointCloud.  Use the version from the parent class, SimplicialComplex.")
+
     def plot(self, canvas, cutoff=-1, color='purple', pos_edges=False,
              edge_alpha=-1.0, size=1,
              twocells=False, title="SimplicialComplex", label=False):
@@ -1212,64 +1280,6 @@ class PointCloud(SimplicialComplex):
         elif self.cache_type == "dict":
             computed = len(self.dist_cache)
             return (computed - n)/n_choose_2
-
-    def sever(self):
-        r"""
-        Subdivide PointCloud into several smaller PointClouds, using the
-        known 0-dimensional persistence diagram.  This is an
-        iterator (it _yields_ the terms).
-
-        Two points end up in the same PointCloud if and only if they are
-        connected by a sequence of edges of length < cutoff.
-
-        Yields
-        ------
-        pairs (indices, subpointcloud) of persistently connected PointClouds.
-        first term gives indices of the these points from the original `PointCloud`
-        the second term gives a new `PointCloud` with its own sequential index.
-
-        Notes
-        -----
-        This uses the 0-dimensional Persistence Diagram of the `PointCloud`;
-        therefore, you should run `self.reset()` and `self.make_pers0(cutoff)`
-        first.
-
-        See Also
-        --------
-        :func:`make_pers0` :func:`reset`
-
-
-        Examples
-        --------
-
-        >>> pc = PointCloud(np.array([[0.,0.],[0.,0.5],[1.,0.],[5.,0.],[6.,0.],[5.,-0.6]]), max_length=-1.0)
-        >>> pc.make_pers0(cutoff=1.9)
-        >>> for indices,sub_pc in pc.sever():
-        ...     print(indices)
-        ...     print(sub_pc)
-        ...     print(sub_pc.coords)
-        [0 1 2]
-        A SimplicialComplex with 3 points, 0 edges, and 0 faces.
-             0    1
-        0  0.0  0.0
-        1  0.0  0.5
-        2  1.0  0.0
-        [3 4 5]
-        A SimplicialComplex with 3 points, 0 edges, and 0 faces.
-             0    1
-        0  5.0  0.0
-        1  6.0  0.0
-        2  5.0 -0.6
-
-        """
-
-        from homology.dim0 import all_roots
-
-        roots = self.stratum[0]['rep'].values.copy()
-        all_roots(roots)
-
-        for i in np.where(self.stratum[0]['pos'].values == True)[0]:
-            yield np.where(roots == i)[0], PointCloud(self.coords.values[roots == i, :])
 
     def nearest_neighbors_slow(self, k):
         r""" Compute k nearest-neighbors of the PointCloud, by brute-force.

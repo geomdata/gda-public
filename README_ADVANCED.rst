@@ -251,10 +251,15 @@ Suppose you have your own copy of this repo, and you want to copy in changes
 in-bulk, but a merge request is not possible because they are on different
 platforms.
 
-repo_old> git format-patch --root  # produce all changes from history
-repo_new> go to head, update, and remove *all* working files
-repo_new> ls /path/to/repo_old/\*.patch | while read r; do git apply "$a"; done
-repo_new> run your tests
-repo_new> git add -A
-repo_new> git commit -m "imported to version XXXXXXX from internal repo." -a
+.. code::
+
+    repo_old> git format-patch --root  # produce all changes from history
+
+.. code::
+
+    repo_new> go to head, update, and remove *all* working files
+    repo_new> ls /path/to/repo_old/\*.patch | while read r; do git apply "$a"; done
+    repo_new> run your tests
+    repo_new> git add -A
+    repo_new> git commit -m "imported to version XXXXXXX from internal repo." -a
 

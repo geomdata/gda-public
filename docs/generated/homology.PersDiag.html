@@ -93,7 +93,7 @@
 <em class="property">class </em><code class="descclassname">homology.</code><code class="descname">PersDiag</code><span class="sig-paren">(</span><em>birth_index</em>, <em>death_index</em>, <em>birth_value</em>, <em>death_value</em>, <em>mergetree</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/homology.html#PersDiag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#homology.PersDiag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Persistence Diagrams and related merge-tree information.  Sometimes
 known as barcodes.</p>
-<p>A <a class="reference internal" href="#homology.PersDiag" title="homology.PersDiag"><code class="xref py py-class docutils literal notranslate"><span class="pre">PersDiag</span></code></a> consists of a <a class="reference external" href="http://pandas-docs.github.io/pandas-docs-travis/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0.dev0+1133.gee283fae)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> of birth and
+<p>A <a class="reference internal" href="#homology.PersDiag" title="homology.PersDiag"><code class="xref py py-class docutils literal notranslate"><span class="pre">PersDiag</span></code></a> consists of a <a class="reference external" href="http://pandas-docs.github.io/pandas-docs-travis/api/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0.dev0+1541.gca842cc4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> of birth and
 death values (sorted by length), along with the tree and forest for range and domain inclusion.</p>
 <p>You should not call this directly — instead use the constructor on your
 <em class="xref py py-obj">homology.SimplicialComplex</em> or ‘timeseries.Signal` object.</p>
@@ -131,14 +131,14 @@ death values (sorted by length), along with the tree and forest for range and do
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>diagram</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference external" href="http://pandas-docs.github.io/pandas-docs-travis/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0.dev0+1133.gee283fae)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt>
+<dt><strong>diagram</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference external" href="http://pandas-docs.github.io/pandas-docs-travis/api/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0.dev0+1541.gca842cc4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt>
 <dd><p class="first last">A DataFrame showing all of the birth/death information.
 It has columns <code class="code docutils literal notranslate"><span class="pre">birth_index</span></code>, <code class="code docutils literal notranslate"><span class="pre">death_index</span></code>, <code class="code docutils literal notranslate"><span class="pre">birth</span></code>,
 <code class="code docutils literal notranslate"><span class="pre">death</span></code>, and <code class="code docutils literal notranslate"><span class="pre">pers</span></code></p>
 </dd>
-<dt><strong>lefts</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference external" href="http://pandas-docs.github.io/pandas-docs-travis/generated/pandas.Series.html#pandas.Series" title="(in pandas v0.24.0.dev0+1133.gee283fae)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.Series</span></code></a></span></dt>
+<dt><strong>lefts</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference external" href="http://pandas-docs.github.io/pandas-docs-travis/api/generated/pandas.Series.html#pandas.Series" title="(in pandas v0.24.0.dev0+1541.gca842cc4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.Series</span></code></a></span></dt>
 <dd></dd>
-<dt><strong>rights</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference external" href="http://pandas-docs.github.io/pandas-docs-travis/generated/pandas.Series.html#pandas.Series" title="(in pandas v0.24.0.dev0+1133.gee283fae)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.Series</span></code></a></span></dt>
+<dt><strong>rights</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference external" href="http://pandas-docs.github.io/pandas-docs-travis/api/generated/pandas.Series.html#pandas.Series" title="(in pandas v0.24.0.dev0+1541.gca842cc4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.Series</span></code></a></span></dt>
 <dd></dd>
 <dt><strong>domains</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
 <dd></dd>
@@ -230,7 +230,7 @@ It has columns <code class="code docutils literal notranslate"><span class="pre"
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Nov 27, 2018.
+      Last updated on Jan 07, 2019.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.

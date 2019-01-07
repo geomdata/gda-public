@@ -91,22 +91,24 @@
 <h1>multidim.PointCloud.sever<a class="headerlink" href="#multidim-pointcloud-sever" title="Permalink to this headline">¶</a></h1>
 <dl class="method">
 <dt id="multidim.PointCloud.sever">
-<code class="descclassname">PointCloud.</code><code class="descname">sever</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/multidim.html#PointCloud.sever"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multidim.PointCloud.sever" title="Permalink to this definition">¶</a></dt>
-<dd><p>Subdivide PointCloud into several smaller PointClouds, using the
-known 0-dimensional persistence diagram.  This is an
-iterator (it _yields_ the terms).</p>
-<p>Two points end up in the same PointCloud if and only if they are
+<code class="descclassname">PointCloud.</code><code class="descname">sever</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#multidim.PointCloud.sever" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subdivide a SimplicialComplex or PointCloud into several smaller
+partitions, using the known 0-dimensional persistence diagram.  This is
+an iterator (it _yields_ the terms).</p>
+<p>Two points end up in the same partition if and only if they are
 connected by a sequence of edges of length &lt; cutoff.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Yields:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>pairs (indices, subpointcloud) of persistently connected PointClouds.</strong></dt>
+<dt><strong>pairs (indices, subpointcloud) of persistently connected</strong></dt>
 <dd></dd>
-<dt><strong>first term gives indices of the these points from the original `PointCloud`</strong></dt>
+<dt><strong>SimplicialComplexes/PointClouds.</strong></dt>
 <dd></dd>
-<dt><strong>the second term gives a new `PointCloud` with its own sequential index.</strong></dt>
+<dt><strong>The first term gives indices of the these points from the original `PointCloud`</strong></dt>
+<dd></dd>
+<dt><strong>The second term gives a new `PointCloud` with its own sequential index.</strong></dt>
 <dd></dd>
 </dl>
 </td>
@@ -121,9 +123,8 @@ connected by a sequence of edges of length &lt; cutoff.</p>
 </dl>
 </div>
 <p class="rubric">Notes</p>
-<p>This uses the 0-dimensional Persistence Diagram of the <a class="reference internal" href="multidim.PointCloud.html#multidim.PointCloud" title="multidim.PointCloud"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointCloud</span></code></a>;
-therefore, you should run <em class="xref py py-obj">self.reset()</em> and <em class="xref py py-obj">self.make_pers0(cutoff)</em>
-first.</p>
+<p>This uses the 0-dimensional Persistence Diagram; therefore, you should
+run <em class="xref py py-obj">self.reset()</em> and <em class="xref py py-obj">self.make_pers0(cutoff)</em> first.</p>
 <p class="rubric">Examples</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pc</span> <span class="o">=</span> <span class="n">PointCloud</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">],[</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.5</span><span class="p">],[</span><span class="mf">1.</span><span class="p">,</span><span class="mf">0.</span><span class="p">],[</span><span class="mf">5.</span><span class="p">,</span><span class="mf">0.</span><span class="p">],[</span><span class="mf">6.</span><span class="p">,</span><span class="mf">0.</span><span class="p">],[</span><span class="mf">5.</span><span class="p">,</span><span class="o">-</span><span class="mf">0.6</span><span class="p">]]),</span> <span class="n">max_length</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pc</span><span class="o">.</span><span class="n">make_pers0</span><span class="p">(</span><span class="n">cutoff</span><span class="o">=</span><span class="mf">1.9</span><span class="p">)</span>
@@ -180,7 +181,7 @@ first.</p>
         &copy; Copyright 2015-2017, Geometric Data Analytics, Inc.
       </li>
       <li>
-      Last updated on Nov 27, 2018.
+      Last updated on Jan 07, 2019.
       </li>
       <li>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.2.
