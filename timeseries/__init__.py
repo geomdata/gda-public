@@ -377,8 +377,8 @@ class Signal(object):
         # assert pos.size == len(self.edges.index)
         # self.edges['pos'] = pos
 
-    def make_pers(self):
-        tbirth_index, tdeath_index, ybirth_index, ydeath_index, mergetree = homology.dim0.unionfind(self, -1.0)
+    def make_pers(self, show_diagonal=False):
+        tbirth_index, tdeath_index, ybirth_index, ydeath_index, mergetree = homology.dim0.unionfind(self, -1.0, np.int64(show_diagonal),np.int64(0),np.int64(0))
         self.pers = homology.PersDiag(tbirth_index, tdeath_index, ybirth_index, ydeath_index, mergetree)
 
 

@@ -165,8 +165,8 @@
 <tr class="row-even"><td><a class="reference internal" href="generated/multidim.PointCloud.dists.html#multidim.PointCloud.dists" title="multidim.PointCloud.dists"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multidim.PointCloud.dists</span></code></a>(indices0,&nbsp;indices1)</td>
 <td>Compute distances points indices0 and indices1.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/multidim.PointCloud.from_distances.html#multidim.PointCloud.from_distances" title="multidim.PointCloud.from_distances"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multidim.PointCloud.from_distances</span></code></a>(*args,&nbsp;…)</td>
-<td>This method is not available for <em class="xref py py-obj">PointCloud</em>, because actual coordinates are needed.</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/multidim.PointCloud.from_distances.html#multidim.PointCloud.from_distances" title="multidim.PointCloud.from_distances"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multidim.PointCloud.from_distances</span></code></a>(dists[,&nbsp;…])</td>
+<td>Construct a <em class="xref py py-obj">SimplicialComplex</em> from a symmetric matrix of distances.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/multidim.PointCloud.from_multisample_multilabel.html#multidim.PointCloud.from_multisample_multilabel" title="multidim.PointCloud.from_multisample_multilabel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multidim.PointCloud.from_multisample_multilabel</span></code></a>(…)</td>
 <td>Produce a single labeled and weighted pointcloud from a list of samples and labels of those samples.</td>
@@ -190,7 +190,7 @@
 <td>delete persistence diagrams, and forget all representative and positivity information.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="generated/multidim.PointCloud.sever.html#multidim.PointCloud.sever" title="multidim.PointCloud.sever"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multidim.PointCloud.sever</span></code></a>()</td>
-<td>Subdivide a SimplicialComplex or PointCloud into several smaller partitions, using the known 0-dimensional persistence diagram.</td>
+<td>Subdivide PointCloud into several smaller PointClouds, using the known 0-dimensional persistence diagram.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/multidim.PointCloud.unique_with_multiplicity.html#multidim.PointCloud.unique_with_multiplicity" title="multidim.PointCloud.unique_with_multiplicity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multidim.PointCloud.unique_with_multiplicity</span></code></a>()</td>
 <td>Look for duplicate points, and mark their multiplicity.</td>

@@ -117,9 +117,9 @@ class PersDiag(object):
 
         bc = self.diagram
         killbc = bc[bc['pers'] <= beta]  # boolean selector
-       
+
         keepbc = bc.loc[~bc.index.isin(killbc.index)]
-     
+
         # trim the tree to find the roots of those we will kill. 
         # Not sure if this is really faster?
         ignore = pd.Series(index=killbc.index, dtype='bool')

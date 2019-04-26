@@ -1,4 +1,4 @@
-# cython: boundscheck=True, linetrace=True, embedsignature=True
+# cython: language_level=3, boundscheck=True, linetrace=True, embedsignature=True
 # distutils: define_macros=CYTHON_TRACE_NOGIL=1
 r""" 
 This Cython module contains the core algorithms for the geometry of curves.

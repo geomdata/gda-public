@@ -1,4 +1,4 @@
-# cython: boundscheck=True, linetrace=True
+# cython: language_level=3, boundscheck=True, linetrace=True
 # distutils: define_macros=CYTHON_TRACE_NOGIL=1
 
 r""" 
@@ -95,7 +95,7 @@ cdef NINT_t root(np.ndarray[NINT_t] components, NINT_t i):
         i = components[i]
     return i
 
-cdef int connected(np.ndarray[NINT_t] components, NINT_t i, NINT_t j):
+cpdef int connected(np.ndarray[NINT_t] components, NINT_t i, NINT_t j):
     r""" Determine whether two vertices are in the same connected component.
     This simply calls :func:`root` on each vertex. 
     
@@ -124,7 +124,7 @@ cdef int merge(np.ndarray[NINT_t] components, NINT_t i, NINT_t j):
     components[q] = p
     pass
 
-cpdef unionfind(object myobject, NDBL_t cutoff):
+cpdef unionfind(object myobject, NDBL_t cutoff, NINT_t diagonal, NINT_t index0, NINT_t index1):
     r""" Apply the UnionFind algorithm to compute zero-dimensional persistence
     diagram.
     Connected components are born at the height of a vertex.
@@ -137,6 +137,9 @@ cpdef unionfind(object myobject, NDBL_t cutoff):
         The algorithm requires *heights* on the vertices and heights on the edges.
     cutoff : :class:`numpy.float64`
         Stop computing persistence at height :code:`cutoff`.
+    diagonal: whether to return the entries with persistence 0 (diagonal)
+    index0: stop when index0 and index1 are connected.  If equal, skip.
+    index1: stop when index0 and index1 are connected.  If equal, skip.
 
     Returns
     -------
@@ -241,7 +244,10 @@ cpdef unionfind(object myobject, NDBL_t cutoff):
 
     for idx in range(n):
         if ncomps <= 1: break
-        
+        if index0 != index1:
+            if connected(components, index0, index1):
+                break
+
         e_hgt = edges_hgt[idx]
         if 0 <= cutoff <= e_hgt: break
 
@@ -258,8 +264,8 @@ cpdef unionfind(object myobject, NDBL_t cutoff):
             merge(components, a, b)  # point b to a (so a is the representative)
             verts_pos[b] = False
             edges_pos[idx] = False ## for RCA1
-            # don't record the diagonal instant-death case.
-            if b_hgt != e_hgt:
+            # Unless we want to see the diagonal, don't save the instant-death case.
+            if diagonal == 1 or b_hgt != e_hgt:
                 birth_i.append(b)
                 death_i.append(e_max)
                 birth.append(b_hgt)
@@ -355,12 +361,12 @@ cpdef mkforestDBL(np.ndarray[NINT_t, ndim=1] idents,
         
         Parameters
         ----------
+        idents : :class:`np.ndarray` 
+            The index of a Pandas DataFrame, for identifying locations
         begins : :class:`np.ndarray` 
             The lower heights of a persistence bar.
         closes : :class:`np.ndarray` 
             The upper heights of a persistence bar.
-        idents : :class:`np.ndarray` 
-            The index of a Pandas DataFrame, for identifying locations
 
         Returns
         -------

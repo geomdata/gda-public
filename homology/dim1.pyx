@@ -1,5 +1,5 @@
 # coding=utf-8
-# cython: boundscheck=True, linetrace=True
+# cython: language_level=3, boundscheck=True, linetrace=True
 # distutils: define_macros=CYTHON_TRACE_NOGIL=1
 
 r""" 

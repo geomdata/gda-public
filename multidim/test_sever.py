@@ -38,7 +38,7 @@ Copyright
 >>> for sub_index, sub_pc in pc.sever():
 ...     print(sub_pc)
 ...     print(sub_pc.coords)
-A SimplicialComplex with 13 points, 0 edges, and 0 faces.
+A SimplicialComplex with 13 points, 78 edges, and 0 faces.
         0      1
 0   179.0  695.0
 1   181.0  693.0
@@ -53,18 +53,18 @@ A SimplicialComplex with 13 points, 0 edges, and 0 faces.
 10  197.0  702.0
 11  197.0  711.0
 12  199.0  706.0
-A SimplicialComplex with 12 points, 0 edges, and 0 faces.
+A SimplicialComplex with 12 points, 66 edges, and 0 faces.
         0      1
-0   662.0  542.0
-1   663.0  545.0
-2   663.0  548.0
-3   665.0  542.0
-4   667.0  549.0
-5   667.0  551.0
-6   667.0  563.0
-7   669.0  543.0
-8   669.0  551.0
-9   670.0  546.0
-10  670.0  560.0
-11  671.0  557.0
+13  662.0  542.0
+14  663.0  545.0
+15  663.0  548.0
+16  665.0  542.0
+17  667.0  549.0
+18  667.0  551.0
+19  667.0  563.0
+20  669.0  543.0
+21  669.0  551.0
+22  670.0  546.0
+23  670.0  560.0
+24  671.0  557.0
 """

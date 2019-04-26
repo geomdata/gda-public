@@ -102,7 +102,6 @@ True
 
 from __future__ import print_function
 
-from collections import defaultdict
 import itertools
 import numpy as np
 import pandas as pd
@@ -399,7 +398,7 @@ def stratum_from_distances(dists, max_length=-1.0, points=None):
     return {0: points, 1: edges}
 
 
-def lower_star_for_image(img_array):
+def lower_star_for_image(img_array, diagonals_and_faces=True):
     """
     Compute the lower star weighted simplicial complex from a 2d grid/image.
 
@@ -494,106 +493,106 @@ def lower_star_for_image(img_array):
     faces_bdy1 = []
     faces_bdy2 = []
 
-    # Make the diagonal edges, and the faces, too.
-    for i, j in itertools.product(range(m-1), range(n-1)):
-        # collect the vertices' indices and heights
-        #  nw=(i,j)        ne=(i, j+1)
-        #          at (i,j)
-        #  sw=(i+1, j)     se=(i+1, j+1)
-        nw_idx = flat_index[i, j]
-        ne_idx = flat_index[i, j+1]
-        se_idx = flat_index[i+1, j+1]
-        sw_idx = flat_index[i+1, j]
-        # There is no real reason for these asserts -- just clarification.
-        # assert nw_idx == n*(i) + (j)
-        # assert ne_idx == n*(i) + (j+1)
-        # assert se_idx == n*(i+1) + (j+1)
-        # assert sw_idx == n*(i+1) + (j)
-
-        nw_hgt = img_array[i, j]
-        ne_hgt = img_array[i, j+1]
-        se_hgt = img_array[i+1, j+1]
-        sw_hgt = img_array[i+1, j]
-        # There is no real reason for these asserts -- just clarification.
-        # assert nw_hgt == verts_hgt[nw_idx]
-        # assert ne_hgt == verts_hgt[ne_idx]
-        # assert se_hgt == verts_hgt[se_idx]
-        # assert sw_hgt == verts_hgt[sw_idx]
-
-        # determine diagonal
-        cell_max_loc = np.argmax([nw_hgt, ne_hgt, se_hgt, sw_hgt])
-
-        if cell_max_loc % 2 == 0:
-            # Max is either nw or se.
-            # Make edge (nw,se)
-            edges_hgt.append(np.max([nw_hgt, se_hgt]))
-            edges_rep.append(len(edges_rep))
-            edges_bdy0.append(nw_idx)
-            edges_bdy1.append(se_idx)
-
-            # Make face (nw,ne,se).
-            faces_hgt.append(np.max([nw_hgt, ne_hgt, se_hgt]))
-            faces_rep.append(len(faces_rep))
-            faces_bdy0.append((n-1)*i + j)  # horizontal nw-ne
-            # assert edges_bdy0[ (n-1)*i + j ] == nw_idx
-            # assert edges_bdy1[ (n-1)*i + j ] == ne_idx
-            faces_bdy1.append((n-1)*m + n*i + j+1)  # vertical ne|se
-            # assert edges_bdy0[ (n-1)*m + n*i + j+1 ] == ne_idx
-            # assert edges_bdy1[ (n-1)*m + n*i + j+1 ] == se_idx
-            faces_bdy2.append(edges_rep[-1])  # most recent edge is nw\se
-            # assert edges_bdy0[ edges_rep[-1] ] == nw_idx
-            # assert edges_bdy1[ edges_rep[-1] ] == se_idx
-
-            # Make face (sw,se,nw).
-            faces_hgt.append(np.max([sw_hgt, se_hgt, nw_hgt]))
-            faces_rep.append(len(faces_rep))
-            faces_bdy0.append((n-1)*(i+1) + j)  # horizontal sw-se
-            # assert edges_bdy0[ (n-1)*(i+1) + j ] == sw_idx
-            # assert edges_bdy1[ (n-1)*(i+1) + j ] == se_idx
-            faces_bdy1.append((n-1)*m + n*i + j)  # vertical nw|sw
-            # assert edges_bdy0[ (n-1)*m + n*i + j ] == nw_idx
-            # assert edges_bdy1[ (n-1)*m + n*i + j ] == sw_idx
-            faces_bdy2.append(edges_rep[-1])  # most recent edge is nw\se
-            # assert edges_bdy0[ edges_rep[-1] ] == nw_idx
-            # assert edges_bdy1[ edges_rep[-1] ] == se_idx
-
-        else:
-            # Max is either ne or sw.
-            # Make edge (ne,sw)
-            edges_hgt.append(np.max([ne_hgt, sw_hgt]))
-            edges_rep.append(len(edges_rep))
-            edges_bdy0.append(ne_idx)
-            edges_bdy1.append(sw_idx)
-
-            # Make face (nw,ne,sw).
-            faces_hgt.append(np.max([nw_hgt, ne_hgt, sw_hgt]))
-            faces_rep.append(len(faces_rep))
-            faces_bdy0.append((n-1)*i + j)  # horizontal nw-ne
-            # assert edges_bdy0[ (n-1)*i + j ] == nw_idx
-            # assert edges_bdy1[ (n-1)*i + j ] == ne_idx
-            faces_bdy1.append((n-1)*m + n*i + j)  # vertical nw|sw
-            # assert edges_bdy0[ (n-1)*m + n*i + j ] == nw_idx
-            # assert edges_bdy1[ (n-1)*m + n*i + j ] == sw_idx
-            faces_bdy2.append(edges_rep[-1])  # most recent edge is ne\sw
-            # assert edges_bdy0[ edges_rep[-1] ] == ne_idx
-            # assert edges_bdy1[ edges_rep[-1] ] == sw_idx
-
-            # Make face (sw,se,ne).
-            faces_hgt.append(np.max([sw_hgt, se_hgt, ne_hgt]))
-            faces_rep.append(len(faces_rep))
-            faces_bdy0.append((n-1)*(i+1) + j)  # horizontal sw-se
-            # assert edges_bdy0[ (n-1)*(i+1) + j ] == sw_idx
-            # assert edges_bdy1[ (n-1)*(i+1) + j ] == se_idx
-            faces_bdy1.append((n-1)*m + n*i + j+1)  # vertical ne|se
-            # assert edges_bdy0[ (n-1)*m + n*i + j+1 ] == ne_idx
-            # assert edges_bdy1[ (n-1)*m + n*i + j+1 ] == se_idx
-            faces_bdy2.append(edges_rep[-1])  # most recent edge is ne\sw
-            # assert edges_bdy0[ edges_rep[-1] ] == ne_idx
-            # assert edges_bdy1[ edges_rep[-1] ] == sw_idx
-
+    if diagonals_and_faces:
+        # Make the diagonal edges, and the faces, too.
+        for i, j in itertools.product(range(m-1), range(n-1)):
+            # collect the vertices' indices and heights
+            #  nw=(i,j)        ne=(i, j+1)
+            #          at (i,j)
+            #  sw=(i+1, j)     se=(i+1, j+1)
+            nw_idx = flat_index[i, j]
+            ne_idx = flat_index[i, j+1]
+            se_idx = flat_index[i+1, j+1]
+            sw_idx = flat_index[i+1, j]
+            # There is no real reason for these asserts -- just clarification.
+            # assert nw_idx == n*(i) + (j)
+            # assert ne_idx == n*(i) + (j+1)
+            # assert se_idx == n*(i+1) + (j+1)
+            # assert sw_idx == n*(i+1) + (j)
+    
+            nw_hgt = img_array[i, j]
+            ne_hgt = img_array[i, j+1]
+            se_hgt = img_array[i+1, j+1]
+            sw_hgt = img_array[i+1, j]
+            # There is no real reason for these asserts -- just clarification.
+            # assert nw_hgt == verts_hgt[nw_idx]
+            # assert ne_hgt == verts_hgt[ne_idx]
+            # assert se_hgt == verts_hgt[se_idx]
+            # assert sw_hgt == verts_hgt[sw_idx]
+    
+            # determine diagonal
+            cell_max_loc = np.argmax([nw_hgt, ne_hgt, se_hgt, sw_hgt])
+    
+            if cell_max_loc % 2 == 0:
+                # Max is either nw or se.
+                # Make edge (nw,se)
+                edges_hgt.append(np.max([nw_hgt, se_hgt]))
+                edges_rep.append(len(edges_rep))
+                edges_bdy0.append(nw_idx)
+                edges_bdy1.append(se_idx)
+    
+                # Make face (nw,ne,se).
+                faces_hgt.append(np.max([nw_hgt, ne_hgt, se_hgt]))
+                faces_rep.append(len(faces_rep))
+                faces_bdy0.append((n-1)*i + j)  # horizontal nw-ne
+                # assert edges_bdy0[ (n-1)*i + j ] == nw_idx
+                # assert edges_bdy1[ (n-1)*i + j ] == ne_idx
+                faces_bdy1.append((n-1)*m + n*i + j+1)  # vertical ne|se
+                # assert edges_bdy0[ (n-1)*m + n*i + j+1 ] == ne_idx
+                # assert edges_bdy1[ (n-1)*m + n*i + j+1 ] == se_idx
+                faces_bdy2.append(edges_rep[-1])  # most recent edge is nw\se
+                # assert edges_bdy0[ edges_rep[-1] ] == nw_idx
+                # assert edges_bdy1[ edges_rep[-1] ] == se_idx
+    
+                # Make face (sw,se,nw).
+                faces_hgt.append(np.max([sw_hgt, se_hgt, nw_hgt]))
+                faces_rep.append(len(faces_rep))
+                faces_bdy0.append((n-1)*(i+1) + j)  # horizontal sw-se
+                # assert edges_bdy0[ (n-1)*(i+1) + j ] == sw_idx
+                # assert edges_bdy1[ (n-1)*(i+1) + j ] == se_idx
+                faces_bdy1.append((n-1)*m + n*i + j)  # vertical nw|sw
+                # assert edges_bdy0[ (n-1)*m + n*i + j ] == nw_idx
+                # assert edges_bdy1[ (n-1)*m + n*i + j ] == sw_idx
+                faces_bdy2.append(edges_rep[-1])  # most recent edge is nw\se
+                # assert edges_bdy0[ edges_rep[-1] ] == nw_idx
+                # assert edges_bdy1[ edges_rep[-1] ] == se_idx
+    
+            else:
+                # Max is either ne or sw.
+                # Make edge (ne,sw)
+                edges_hgt.append(np.max([ne_hgt, sw_hgt]))
+                edges_rep.append(len(edges_rep))
+                edges_bdy0.append(ne_idx)
+                edges_bdy1.append(sw_idx)
+    
+                # Make face (nw,ne,sw).
+                faces_hgt.append(np.max([nw_hgt, ne_hgt, sw_hgt]))
+                faces_rep.append(len(faces_rep))
+                faces_bdy0.append((n-1)*i + j)  # horizontal nw-ne
+                # assert edges_bdy0[ (n-1)*i + j ] == nw_idx
+                # assert edges_bdy1[ (n-1)*i + j ] == ne_idx
+                faces_bdy1.append((n-1)*m + n*i + j)  # vertical nw|sw
+                # assert edges_bdy0[ (n-1)*m + n*i + j ] == nw_idx
+                # assert edges_bdy1[ (n-1)*m + n*i + j ] == sw_idx
+                faces_bdy2.append(edges_rep[-1])  # most recent edge is ne\sw
+                # assert edges_bdy0[ edges_rep[-1] ] == ne_idx
+                # assert edges_bdy1[ edges_rep[-1] ] == sw_idx
+    
+                # Make face (sw,se,ne).
+                faces_hgt.append(np.max([sw_hgt, se_hgt, ne_hgt]))
+                faces_rep.append(len(faces_rep))
+                faces_bdy0.append((n-1)*(i+1) + j)  # horizontal sw-se
+                # assert edges_bdy0[ (n-1)*(i+1) + j ] == sw_idx
+                # assert edges_bdy1[ (n-1)*(i+1) + j ] == se_idx
+                faces_bdy1.append((n-1)*m + n*i + j+1)  # vertical ne|se
+                # assert edges_bdy0[ (n-1)*m + n*i + j+1 ] == ne_idx
+                # assert edges_bdy1[ (n-1)*m + n*i + j+1 ] == se_idx
+                faces_bdy2.append(edges_rep[-1])  # most recent edge is ne\sw
+                # assert edges_bdy0[ edges_rep[-1] ] == ne_idx
+                # assert edges_bdy1[ edges_rep[-1] ] == sw_idx
+    
     verts_pos = np.ones_like(verts_hgt, dtype='bool')
     edges_pos = np.ones_like(edges_rep, dtype='bool')
-    faces_pos = np.ones_like(faces_rep, dtype='bool')
 
     verts = pd.DataFrame({'height': verts_hgt,
                           'rep': verts_rep,
@@ -607,15 +606,19 @@ def lower_star_for_image(img_array):
                           'bdy1': edges_bdy1},
                          columns=['height', 'pos', 'rep', 'bdy0', 'bdy1'])
 
-    faces = pd.DataFrame({'height': faces_hgt,
-                          'rep': faces_rep,
-                          'pos': faces_pos,
-                          'bdy0': faces_bdy0,
-                          'bdy1': faces_bdy1,
-                          'bdy2': faces_bdy2},
-                         columns=['height', 'pos', 'rep', 'bdy0', 'bdy1', 'bdy2'])
+    stratum = {0: verts, 1:edges}
+    if diagonals_and_faces:
+        faces_pos = np.ones_like(faces_rep, dtype='bool')
+        faces = pd.DataFrame({'height': faces_hgt,
+                              'rep': faces_rep,
+                              'pos': faces_pos,
+                              'bdy0': faces_bdy0,
+                              'bdy1': faces_bdy1,
+                              'bdy2': faces_bdy2},
+                             columns=['height', 'pos', 'rep', 'bdy0', 'bdy1', 'bdy2'])
+        stratum[2] = faces
 
-    return SimplicialComplex(stratum={0: verts, 1: edges, 2: faces})
+    return SimplicialComplex(stratum=stratum)
 
 
 class SimplicialComplex(object):
@@ -690,9 +693,9 @@ class SimplicialComplex(object):
         if stratum is not None:
             assert all(type(k) == int and k >= 0 for k in stratum.keys()), \
                 "The strata of a SimplicialComplex must be indexed by non-negative integers."
-            self.stratum = defaultdict(stratum_maker, stratum)
+            self.stratum = stratum
         else:
-            self.stratum = defaultdict(stratum_maker)
+            self.stratum = {0: stratum_maker(0), 1: stratum_maker(1)}
 
         self._nn = dict()
         self._cellstratum = dict()
@@ -737,9 +740,10 @@ class SimplicialComplex(object):
                     raise ValueError("Not a filtration! Check 'height' in ({}).stratum[{}].iloc[{}]".format(self, dim, valcheck))
 
     def __repr__(self):
-        return "A SimplicialComplex with {} points, {} edges, and {} faces.".format(
-                len(self.stratum[0]), len(self.stratum[1]),
-                len(self.stratum[2]))
+        f = 0
+        if 2 in self.stratum:
+            f = len(self.stratum[2])
+        return f"A SimplicialComplex with {len(self.stratum[0])} points, {len(self.stratum[1])} edges, and {f} faces."
 
     def cells(self, dim):
         r""" iterate over all :class:`Simplex` objects of dimension dim.
@@ -764,7 +768,7 @@ class SimplicialComplex(object):
             self.stratum[dim]['pos'].values[:] = True
         pass
 
-    def make_pers0(self, cutoff=-1.0):
+    def make_pers0(self, cutoff=-1.0, show_diagonal=False, until_connected=(0,0)):
         r"""Run the UnionFind algorithm to mark connected components of the
         SimplicialComplex.  This marks points as positive/negative.
         It also marks the reprensetatives of points.
@@ -780,7 +784,17 @@ class SimplicialComplex(object):
         except AttributeError:
             pass
 
-        tbirth_index, tdeath_index, ybirth_index, ydeath_index, mergetree = homology.dim0.unionfind(self, np.float64(cutoff))
+        
+        if not np.all(np.diff(self.stratum[1]['height'].values) >= 0):
+            print("Edges must be sorted by length!  Re-sorting.")
+            self.stratum[1].sort_values(by=['height', 'bdy0', 'bdy1'],
+                                        ascending=[True, True, True],
+                                        inplace=True)
+            print("sorted") 
+
+        tbirth_index, tdeath_index, ybirth_index, ydeath_index, mergetree = homology.dim0.unionfind(self, 
+            np.float64(cutoff), np.int64(show_diagonal),
+            np.int64(until_connected[0]), np.int64(until_connected[1]))
         self.pers0 = homology.PersDiag(tbirth_index, tdeath_index, ybirth_index, ydeath_index, mergetree)
         pass
 
@@ -815,32 +829,83 @@ class SimplicialComplex(object):
 
         >>> pc = PointCloud(np.array([[0.,0.],[0.,0.5],[1.,0.],[5.,0.],[6.,0.],[5.,-0.6]]), max_length=-1.0)
         >>> pc.make_pers0(cutoff=1.9)
+        >>> pc.stratum[0]
+           height  mass    pos  rep
+        0     0.0   1.0   True    0
+        1     0.0   1.0  False    0
+        2     0.0   1.0  False    0
+        3     0.0   1.0   True    3
+        4     0.0   1.0  False    3
+        5     0.0   1.0  False    3
+        >>> pc.stratum[1]
+              height    pos  rep  bdy0  bdy1
+        0   0.500000  False    0     0     1
+        1   0.600000  False    1     3     5
+        2   1.000000  False    2     0     2
+        3   1.000000  False    3     3     4
+        4   1.118034   True    4     1     2
+        5   1.166190   True    5     4     5
+        6   4.000000   True    6     2     3
+        7   4.044750   True    7     2     5
+        8   5.000000   True    8     0     3
+        9   5.000000   True    9     2     4
+        10  5.024938   True   10     1     3
+        11  5.035871   True   11     0     5
+        12  5.119570   True   12     1     5
+        13  6.000000   True   13     0     4
+        14  6.020797   True   14     1     4
         >>> for indices,sub_pc in pc.sever():
         ...     print(indices)
         ...     print(sub_pc)
-        ...     print(sub_pc.coords)
+        ...     print(sub_pc.stratum[0])
+        ...     print(sub_pc.stratum[1])
         [0 1 2]
-        A SimplicialComplex with 3 points, 0 edges, and 0 faces.
-             0    1
-        0  0.0  0.0
-        1  0.0  0.5
-        2  1.0  0.0
+        A SimplicialComplex with 3 points, 3 edges, and 0 faces.
+           height  mass    pos  rep
+        0     0.0   1.0   True    0
+        1     0.0   1.0  False    0
+        2     0.0   1.0  False    0
+             height    pos  rep  bdy0  bdy1
+        0  0.500000  False    0     0     1
+        2  1.000000  False    2     0     2
+        4  1.118034   True    4     1     2
         [3 4 5]
-        A SimplicialComplex with 3 points, 0 edges, and 0 faces.
-             0    1
-        0  5.0  0.0
-        1  6.0  0.0
-        2  5.0 -0.6
+        A SimplicialComplex with 3 points, 3 edges, and 0 faces.
+           height  mass    pos  rep
+        3     0.0   1.0   True    3
+        4     0.0   1.0  False    3
+        5     0.0   1.0  False    3
+            height    pos  rep  bdy0  bdy1
+        1  0.60000  False    1     3     5
+        3  1.00000  False    3     3     4
+        5  1.16619   True    5     4     5
 
         """
 
         from homology.dim0 import all_roots
 
+        assert np.all(self.stratum[0].index.values ==
+        np.arange(len(self.stratum[0].index))), "Indexing was inconsistent. Watch out for re-indexing within sub-clusters of sever!"
         roots = self.stratum[0]['rep'].values.copy()
         all_roots(roots)
-
-        for i in np.where(self.stratum[0]['pos'].values == True)[0]:
-            yield np.where(roots == i)[0], PointCloud(self.coords.values[roots == i, :])
+        # we rebuild the strata by filtering the vertices and then propagating
+        # the filter up dimension-by-dimension
+        for this_root in np.where(self.stratum[0]['pos'].values == True)[0]:
+            new_strata = dict()
+            
+            this_condition = (roots == this_root)
+            this_point_indices = np.where(this_condition)[0]
+            new_strata[0] = self.stratum[0].loc[this_point_indices]
+            # CHECK INDEX HERE between bool and index 
+            for d, stratum_d in self.stratum.items():
+                    if d > 0:
+                        boundaries = stratum_d[[f'bdy{i}' for i in range(d+1)]].values
+                        matches = np.ndarray(boundaries.shape, dtype='bool')
+                        matches[:,:] = this_condition[boundaries[:,:]] 
+                        this_condition = np.all(matches, axis=1) # this is now indexed against this dimension's simplices!
+                        this_simplex_indices = np.where(this_condition)[0]
+                        new_strata[d] = self.stratum[d].loc[this_simplex_indices]
+            yield this_point_indices, SimplicialComplex(new_strata)
 
 
     def make_pers1_rca1(self, cutoff=-1.0):
@@ -1094,6 +1159,18 @@ class PointCloud(SimplicialComplex):
         """
         raise NotImplementedError("This method does not inherit to PointCloud.  Use the version from the parent class, SimplicialComplex.")
 
+
+    def sever(self):
+        r""" This calls the sever() command of the parent class,
+        :class:SimplicialComplex, but also reproduces the PointCloud as
+        appropriate. """
+        for idx, cx in super(PointCloud, self).sever():
+            subcoords = self.coords.loc[idx].values
+            subpc = PointCloud(subcoords, idx0 = idx)
+            subpc.stratum = cx.stratum
+            subpc.labels = self.labels[idx]  # warning!  indexing my get off!
+            yield idx, subpc
+
     def plot(self, canvas, cutoff=-1, color='purple', pos_edges=False,
              edge_alpha=-1.0, size=1,
              twocells=False, title="SimplicialComplex", label=False):
@@ -1180,7 +1257,7 @@ class PointCloud(SimplicialComplex):
                     if edge_alpha >= 0.0:
                         this_edge_alpha = edge_alpha
                     else:
-                        this_edge_alpha = 0.5 + 0.5*(val[i] - minval)/(maxval - minval)
+                        this_edge_alpha = 0.5 + 0.5*(val[i] - minhgt)/(maxhgt - minhgt)
                     # should use Collections instead.
                     canvas.plot(xs[i, :], ys[i, :],
                         alpha=this_edge_alpha, color='orange')
@@ -1205,7 +1282,7 @@ class PointCloud(SimplicialComplex):
                 if edge_alpha >= 0.0:
                     this_edge_alpha = edge_alpha
                 else:
-                    this_edge_alpha = 0.5 + 0.5*(val[i] - minval)/(maxval - minval)
+                    this_edge_alpha = 0.5 + 0.5*(val[i] - minhgt)/(maxhgt - minhgt)
                     # should use Collections instead.
                 canvas.plot(xs[i, :], ys[i, :],
                     alpha=this_edge_alpha, color='blue')
@@ -1223,7 +1300,7 @@ class PointCloud(SimplicialComplex):
         pos = all_verts[all_verts['pos'] == True]
         xs = self.coords.loc[pos.index, 0]
         ys = self.coords.loc[pos.index, 1]
-        cs = list(self.label_info.index[self.labels[pos.index]])
+        cs = list(self.label_info.index[self.labels[np.where(all_verts['pos'] == True)[0]]])
         if canvas_type == "bokeh":
             # fix the aspect ratio!
             xmid = (xs.max() + xs.min())/2.0

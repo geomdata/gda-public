@@ -6,21 +6,6 @@ stages:
  - deploy
 
 
-python2_cythonize_pytest_sphinx:
- stage: test
- script:
- - export PATH="$HOME/miniconda/bin:$PATH" 
- - git clone https://github.com/scipy/scipy-sphinx-theme
- - cd doc_src
- - ln -sf ../scipy-sphinx-theme/_theme ./
- - cd -
- - ls -lahrt doc_src/_theme/
- - source activate gda_env2
- - python setup.py build_ext --inplace
- - py.test 
- - python setup.py build_doc_html -EW
- - source deactivate
-
 python3_cythonize_pytest_sphinx:
  stage: test
  script:

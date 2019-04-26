@@ -1,5 +1,5 @@
 # coding=utf-8
-# cython: boundscheck=True, linetrace=True
+# cython: language_level=3, boundscheck=True, linetrace=True
 # distutils: define_macros=CYTHON_TRACE_NOGIL=1
 
 r""" 
@@ -277,7 +277,7 @@ cpdef np.ndarray[NDBL_t, ndim=1] gaussian(
 
 cpdef edges_from_dists(np.ndarray[NINT_t] idx, np.ndarray[NDBL_t, ndim=2] dists, NDBL_t cutoff):
     cdef NINT_t n = idx.shape[0]
-    cdef NINT_t n2 = n*(n-1)/2
+    cdef NINT_t n2 = n*(n-1)//2
     cdef np.ndarray[NINT_t, ndim=2] bdy = np.ndarray(shape=(n2,2), dtype=np.int64)
     cdef np.ndarray[NDBL_t] val = np.ndarray(shape=(n2,), dtype=np.float64)
     cdef np.ndarray[NBIT_t, cast=True] pos = np.ndarray(shape=(n2,), dtype=np.uint8)
