@@ -258,8 +258,8 @@ platforms.
 .. code::
 
     repo_new> go to head, update, and remove *all* working files
-    repo_new> ls /path/to/repo_old/\*.patch | while read a; do git apply "$a"; done
-    repo_new> run your tests
+    repo_new> ls /path/to/repo_old/\*.patch | sort -n  | while read r; do echo $r; [ $(ls -s $r | cut -d\  -f1) -gt 0 ] && git apply --whitespace=nowarn $r; done
+    repo_new> build your code and run your tests
     repo_new> git add -A
     repo_new> git commit -m "imported to version XXXXXXX from internal repo." -a
 
