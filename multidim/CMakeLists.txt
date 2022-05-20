@@ -1,0 +1,4 @@
+add_cython_target(multidim_fast_algorithms CXX)
+add_library(multidim_fast_algorithms MODULE ${multidim_fast_algorithms})
+python_extension_module(multidim_fast_algorithms)
+install(TARGETS multidim_fast_algorithms LIBRARY DESTINATION multidim)

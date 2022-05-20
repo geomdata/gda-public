@@ -235,7 +235,7 @@ import numpy as np
 import pandas as pd
 
 import scipy.spatial.distance as ssd
-from . import fast_algorithms, curve_geometry
+from . import timeseries_fast_algorithms, curve_geometry
 import homology.dim0
 
 

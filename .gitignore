@@ -1,3 +1,5 @@
+_dist
+_skbuild
 pytest-out.xml
 downloads
 .ipynb_checkpoints
@@ -18,3 +20,4 @@ timeseries/curve_geometry.c
 multidim/fast_algorithms.c
 doc_build
 doc_src/_theme
+gda_public.egg-info/

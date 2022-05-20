@@ -10,13 +10,20 @@ Copyright
 - AGPL license. See `LICENSE` or https://github.com/geomdata/gda-public/blob/master/LICENSE
 """
 
-
+#__import__('pkg_resources').declare_namespace(__name__)
+#from .persdiag import PersDiag
 
 
 import numpy as np
 import pandas as pd
 
-from . import dim0
+from .dim0 import mkforestDBL
+#mkforestDBL 
+
+__all__ = ("mkforestDBL") #, "PersDiag")
+#from . import dim0
+#import .dim0
+#from . import dim0
 
 class PersDiag(object):
     """ Persistence Diagrams and related merge-tree information.  Sometimes
@@ -84,12 +91,12 @@ class PersDiag(object):
         
         self.domains = dict([((self.lefts[i], self.rights[i]), i) for i in self.lefts.index])
          
-        self.bartree, self.bartree_parents = dim0.mkforestDBL(
+        self.bartree, self.bartree_parents = mkforestDBL(
             self.diagram.index.values.astype(np.int64), 
             self.diagram['birth'].values.astype(np.float64), 
             self.diagram['death'].values.astype(np.float64))
 
-        self.forest, self.forest_parents = dim0.mkforestDBL(
+        self.forest, self.forest_parents = mkforestDBL(
             self.lefts.index.values.astype(np.int64),
             self.lefts.values.astype(np.float64),
             self.rights.values.astype(np.float64))

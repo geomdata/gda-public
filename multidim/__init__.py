@@ -107,7 +107,7 @@ import numpy as np
 import pandas as pd
 # Don't roll our own L2 norms
 from scipy.spatial.distance import squareform, cdist, pdist, is_valid_dm
-from . import fast_algorithms
+from . import multidim_fast_algorithms
 import homology.dim0
 import homology.dim1
 

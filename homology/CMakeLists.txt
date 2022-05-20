@@ -1,0 +1,8 @@
+add_cython_target(dim0 CXX)
+add_cython_target(dim1 CXX)
+add_library(dim0 MODULE ${dim0})
+add_library(dim1 MODULE ${dim1})
+python_extension_module(dim0)
+python_extension_module(dim1)
+install(TARGETS dim0 LIBRARY DESTINATION homology)
+install(TARGETS dim1 LIBRARY DESTINATION homology)

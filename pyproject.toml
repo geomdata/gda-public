@@ -1,0 +1,65 @@
+[build-system]
+# for cython compiling, replace setuptools with scikit-build!
+# see 
+requires = [
+    "setuptools>=42",
+    "wheel",
+    "scikit-build",
+    "cmake",
+	"cython",
+  	"ninja;platform_system!='Windows'",
+    "sphinx",
+    "numpydoc"
+    ]
+
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gda-public"
+version = "1.0"
+authors = [{name="Geometric Data Analytics, Inc.", email="abraham.smith@geomdata.com"}]
+description = "Several fundamental TDA tools by Geometric Data Analytics Inc. "
+readme = "README.md"
+license = {text = "GNU AGPL"}
+
+dependencies = [
+    "numpy",
+    "pandas",
+    "scipy",
+    "scikit-learn"
+]
+
+[project.optional-dependencies]
+#building = [
+#    'cython',
+#    'sphinx',
+#    'numpydoc'
+#]
+
+extras = [
+    "matplotlib",
+    "bokeh",
+    "jupyter"
+]
+
+testing = [
+    "pytest",
+    "pytest-cov",
+    "pytest-html",
+    "pytest-timeout",
+    "pytest-xdist"
+]
+
+[tool.setuptools]
+packages = ["homology", "multidim", "timeseries"] # path to the actual code
+
+[build_doc_html]
+source-dir = "doc_src"
+build-dir  = "doc_build"
+builder = "html"
+
+[build_doc_latex]
+source-dir = "doc_src"
+build-dir  = "doc_build"
+builder = "latex"
+

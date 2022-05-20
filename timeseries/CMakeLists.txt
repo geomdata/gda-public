@@ -1,0 +1,8 @@
+add_cython_target(timeseries_fast_algorithms CXX)
+add_cython_target(curve_geometry CXX)
+add_library(timeseries_fast_algorithms MODULE ${timeseries_fast_algorithms})
+add_library(curve_geometry MODULE ${curve_geometry})
+python_extension_module(timeseries_fast_algorithms)
+python_extension_module(curve_geometry)
+install(TARGETS timeseries_fast_algorithms LIBRARY DESTINATION timeseries)
+install(TARGETS curve_geometry LIBRARY DESTINATION timeseries)
