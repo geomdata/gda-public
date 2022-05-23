@@ -1,3 +1,4 @@
+MANIFEST.in
 _dist
 _skbuild
 pytest-out.xml

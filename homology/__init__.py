@@ -18,12 +18,6 @@ import numpy as np
 import pandas as pd
 
 from .dim0 import mkforestDBL
-#mkforestDBL 
-
-__all__ = ("mkforestDBL") #, "PersDiag")
-#from . import dim0
-#import .dim0
-#from . import dim0
 
 class PersDiag(object):
     """ Persistence Diagrams and related merge-tree information.  Sometimes
