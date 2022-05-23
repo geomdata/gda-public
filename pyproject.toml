@@ -5,9 +5,10 @@ requires = [
     "setuptools>=42",
     "wheel",
     "scikit-build",
+    "numpy",
     "cmake",
-	"cython",
-  	"ninja;platform_system!='Windows'",
+    "cython",
+    "ninja;platform_system!='Windows'",
     "sphinx",
     "numpydoc"
     ]
@@ -16,7 +17,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gda-public"
-version = "1.0"
+version = "1.0-post0"
 authors = [{name="Geometric Data Analytics, Inc.", email="abraham.smith@geomdata.com"}]
 description = "Several fundamental TDA tools by Geometric Data Analytics Inc. "
 readme = "README.md"
