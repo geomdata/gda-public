@@ -1,8 +1,13 @@
+rm -rfv dist/ gda_public.egg-info/ _skbuild/
+
 # set up the source, to allow users to build from pip
 python -m build --sdist
 # Build the wheel.  NOTE! `manylinux`_x86_64` is necessary.  linux and manylinux are NOT OK.
 # https://peps.python.org/pep-0513/#platform-detection-for-installers
 #python setup.py bdist_wheel --plat-name manylinux1_x86_64
+
+#python -m twine upload --user __token__ --password  pypi-XXX  dist/gda-public-1.0.tar.gz --verbose
+
 
 
 # this is how I was testing it
