@@ -17,7 +17,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gda-public"
-version = "1.0-post2"
+version = "1.0-post3"
 authors = [{name="Geometric Data Analytics, Inc.", email="abraham.smith@geomdata.com"}]
 description = "Several fundamental TDA tools by Geometric Data Analytics Inc. "
 readme = "README.md"

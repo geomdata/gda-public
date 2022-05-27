@@ -1,0 +1,7 @@
+name: gda_env38
+dependencies:
+    - python=3.8
+    - pip
+    - pip:
+        - build
+        - setuptools
