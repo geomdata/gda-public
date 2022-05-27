@@ -22,7 +22,7 @@ from copy import deepcopy
 import numpy as np
 import pandas as pd
 from . import PointCloud
-from . import fast_algorithms
+from . import multidim_fast_algorithms
 
 from scipy.spatial.distance import cdist, pdist, squareform
 
@@ -423,7 +423,7 @@ level\tadults\n""".format(
         for ci in level.adults:
             center_a = np.array([ci], dtype=np.int64)
             #children_ids = np.where(level.children[ci])[0]
-            children_dists = fast_algorithms.distance_cache_None(center_a, level.children[ci], self.coords).flatten()
+            children_dists = multidim_fast_algorithms.distance_cache_None(center_a, level.children[ci], self.coords).flatten()
             # since we have computed children_dists, let's take a moment to count
             # duplicate points of new adults.
             if self.cohort[ci] == prev_level.exponent:
@@ -439,7 +439,7 @@ level\tadults\n""".format(
                 child_coords = self.coords[level.children[ci], :]
                 child_labels = self.pointcloud.labels[level.children[ci]]
                 child_weight = self.pointcloud.stratum[0]['mass'].values[level.children[ci]]
-                label_means, label_weights = fast_algorithms.label_means(
+                label_means, label_weights = multidim_fast_algorithms.label_means(
                                                 child_coords,
                                                 child_labels,
                                                 child_weight,
@@ -472,7 +472,7 @@ level\tadults\n""".format(
         for orphan_index in orphans:
             assert orphan_index not in level.adults
             assert orphan_index in level.children[level.guardians[orphan_index]], "{} not in {}".format(orphan_index, level.children[level.guardians[orphan_index]])
-            old_parent, new_parent = fast_algorithms.covertree_adopt_or_liberate(
+            old_parent, new_parent = multidim_fast_algorithms.covertree_adopt_or_liberate(
                                     level, prev_level, orphan_index)
             if new_parent == orphan_index:
                 prev_level.successors[old_parent] = np.append(prev_level.successors[old_parent], orphan_index)
@@ -493,12 +493,12 @@ level\tadults\n""".format(
         # re-assign "teen" children to nearest adult using type-2 friends
         if self.exchange_teens:
             for ci in level.adults:
-                fast_algorithms.covertree_exchange_teens(level, prev_level, ci)
+                multidim_fast_algorithms.covertree_exchange_teens(level, prev_level, ci)
         
         # STEP N:  Update friends from old friends
         prev_level = self._levels[level.exponent - 1]
         for pre_i in prev_level.adults:
-            fast_algorithms.covertree_befriend321(level, prev_level, pre_i,
+            multidim_fast_algorithms.covertree_befriend321(level, prev_level, pre_i,
                                                   np.array(prev_level.friends3[pre_i], dtype=np.int64))
         
         level.cleanup()
@@ -634,7 +634,7 @@ level\tadults\n""".format(
                     kids_i = level.children[ci]
                     kids_j = level.children[cj]
                     total += len(kids_i)*len(kids_j)
-                    dists = fast_algorithms.distance_cache_None(kids_i,
+                    dists = multidim_fast_algorithms.distance_cache_None(kids_i,
                                                                 kids_j,
                                                                 self.coords)
                     good_pairs = (min_distance < dists) & (dists <= max_distance)
@@ -955,7 +955,7 @@ class CoverLevel(object):
             pc = self.covertree.pointcloud
             children_set = np.zeros(shape=(pc.coords.shape[0],), dtype='bool')
             children_set[self.children[adult]] = True
-            self.weights[adult] = fast_algorithms.label_weights(
+            self.weights[adult] = multidim_fast_algorithms.label_weights(
                 children_set,
                 pc.labels,
                 pc.stratum[0]['mass'].values,
@@ -983,7 +983,7 @@ class CoverLevel(object):
         else:
             totweight = self.weights[adult].sum()
             assert totweight > 0
-            self.entropy[adult] = fast_algorithms.entropy(self.weights[adult]/totweight)
+            self.entropy[adult] = multidim_fast_algorithms.entropy(self.weights[adult]/totweight)
         return self.entropy[adult]
 
 

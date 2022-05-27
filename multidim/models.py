@@ -19,7 +19,7 @@ import numpy as np
 import sklearn
 import multidim
 import multidim.covertree 
-from .fast_algorithms import gaussian, gaussian_fit, entropy, distance_cache_None
+from .multidim_fast_algorithms import gaussian, gaussian_fit, entropy, distance_cache_None
 
 
 class GaussianMixtureClassifier(sklearn.base.BaseEstimator, sklearn.base.ClassifierMixin):

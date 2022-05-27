@@ -422,9 +422,9 @@ class Signal(object):
         if parallel:
             from concurrent.futures import ProcessPoolExecutor
             pool = ProcessPoolExecutor(max_workers=None) 
-            all_heights = list(pool.map(fast_algorithms.sample_height, all_data))
+            all_heights = list(pool.map(timeseries_fast_algorithms.sample_height, all_data))
         else:
-            all_heights = [fast_algorithms.sample_height(x) for x in all_data]
+            all_heights = [timeseries_fast_algorithms.sample_height(x) for x in all_data]
         all_heights = np.stack(all_heights)
         if min_pers > 0:
             all_heights[all_heights < min_pers] = 0

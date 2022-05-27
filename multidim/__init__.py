@@ -360,7 +360,7 @@ def stratum_from_distances(dists, max_length=-1.0, points=None):
 
     See Also
     --------
-    :func:`fast_algorithms.edges_from_dists`
+    :func:`multidim_fast_algorithms.edges_from_dists`
     """
     is_valid_dm(dists, throw=True)
 
@@ -382,7 +382,7 @@ def stratum_from_distances(dists, max_length=-1.0, points=None):
         # distances.
         edges = stratum_maker(1)
     else:
-        hgt1, pos1, bdys = fast_algorithms.edges_from_dists(points.index.values, dists,
+        hgt1, pos1, bdys = multidim_fast_algorithms.edges_from_dists(points.index.values, dists,
                                                             cutoff=np.float64(max_length))
         num_edges = hgt1.shape[0]
         idx1 = np.arange(num_edges, dtype='int64')
@@ -735,7 +735,7 @@ class SimplicialComplex(object):
         """
         for dim in self.stratum.keys():
             if dim > 0:
-                valcheck = fast_algorithms.check_heights(self, dim)
+                valcheck = multidim_fast_algorithms.check_heights(self, dim)
                 if not valcheck == -1:
                     raise ValueError("Not a filtration! Check 'height' in ({}).stratum[{}].iloc[{}]".format(self, dim, valcheck))
 
@@ -1341,7 +1341,7 @@ class PointCloud(SimplicialComplex):
             (mean, sigma, rotation) for the Gaussian, suitable for `gaussian`
 
         """
-        return fast_algorithms.gaussian_fit(self.coords.values, center)
+        return multidim.fast_algorithms.gaussian_fit(self.coords.values, center)
 
     def cache_usage(self):
         r""" Compute the size of the distance cache.  That is, what
@@ -1505,7 +1505,7 @@ class PointCloud(SimplicialComplex):
                         # learn
                         if num_found >= to_find:
 
-                            dists = fast_algorithms.distance_cache_None(
+                            dists = multidim_fast_algorithms.distance_cache_None(
                                         np.array([x]), candidates,
                                         self.coords.values).flatten()
                             order = dists.argsort()
@@ -1663,14 +1663,14 @@ class PointCloud(SimplicialComplex):
             indices1 = np.where(indices1)[0]
 
         if self.cache_type is None:
-            return fast_algorithms.distance_cache_None(indices0,
+            return multidim_fast_algorithms.distance_cache_None(indices0,
                                                        indices1,
                                                        self.coords.values)
         elif self.cache_type == "np":
             N = self.coords.values.shape[0]
             if self.dist_cache is None or self.dist_cache.shape != (N, N):
                 self.dist_cache = np.eye(N, dtype=np.float64) - 1.0
-            return fast_algorithms.distance_cache_numpy(indices0,
+            return multidim_fast_algorithms.distance_cache_numpy(indices0,
                                                      indices1,
                                                      self.coords.values,
                                                      self.dist_cache)
@@ -1678,7 +1678,7 @@ class PointCloud(SimplicialComplex):
             N = self.coords.values.shape[0]
             if self.dist_cache is None:
                 self.dist_cache = dict(((i, i), np.float64(0.0)) for i in range(N))
-            return fast_algorithms.distance_cache_dict(indices0,
+            return multidim_fast_algorithms.distance_cache_dict(indices0,
                                                        indices1,
                                                        self.coords.values,
                                                        self.dist_cache)
@@ -1772,7 +1772,7 @@ class PointCloud(SimplicialComplex):
         points = np.concatenate(list(list_of_samples))
 
         if normalize_domain:
-            m,s,v = fast_algorithms.gaussian_fit(points)
+            m,s,v = multidim_fast_algorithms.gaussian_fit(points)
             points = np.dot((points - m), v.T)/s
 
         pointwise_labels = []  # keep track of labels, pointwise
