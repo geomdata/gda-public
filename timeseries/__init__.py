@@ -235,7 +235,8 @@ import numpy as np
 import pandas as pd
 
 import scipy.spatial.distance as ssd
-from . import timeseries_fast_algorithms, curve_geometry
+from .timeseries_fast_algorithms import sample_height
+from .curve_geometry import mollifier, secant_derivative, secant_arclength
 import homology.dim0
 
 
@@ -422,9 +423,9 @@ class Signal(object):
         if parallel:
             from concurrent.futures import ProcessPoolExecutor
             pool = ProcessPoolExecutor(max_workers=None) 
-            all_heights = list(pool.map(timeseries_fast_algorithms.sample_height, all_data))
+            all_heights = list(pool.map(sample_height, all_data))
         else:
-            all_heights = [timeseries_fast_algorithms.sample_height(x) for x in all_data]
+            all_heights = [sample_height(x) for x in all_data]
         all_heights = np.stack(all_heights)
         if min_pers > 0:
             all_heights[all_heights < min_pers] = 0
@@ -1259,7 +1260,7 @@ class SpaceCurve(object):
                             overlap_ends=overlap_ends):
             yield F
 
-    def clean_copy(self, cleanup_func=curve_geometry.mollifier, **kwargs):
+    def clean_copy(self, cleanup_func=mollifier, **kwargs):
         r""" Make copy in which a cleanup function performed
         on the data.
 
@@ -1334,14 +1335,14 @@ class SpaceCurve(object):
         # raw data in ECEF frame.
         T = self.data['time'].values
         P = self.data[['pos_x', 'pos_y', 'pos_z']].values
-        V = curve_geometry.secant_derivative(T, P)
+        V = secant_derivative(T, P)
         #V2 = self.data[['vel_x', 'vel_y', 'vel_z']].values
         #assert not np.any(np.isnan(V2)), "{} bad in {}".format(np.where(np.isnan(V2)), V2.shape)
 
         # all derivatives and integrals
-        A = curve_geometry.secant_derivative(T, V)
-        J = curve_geometry.secant_derivative(T, A)
-        arclengthS = curve_geometry.secant_arclength(P)
+        A = secant_derivative(T, V)
+        J = secant_derivative(T, A)
+        arclengthS = secant_arclength(P)
 
         # norms
         #recspeed = np.linalg.norm(V2, axis=1).flatten()
