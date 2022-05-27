@@ -1,8 +1,7 @@
 name: gda_env
 dependencies:
     - python>=3.8
-    - cython
     - pip
     - pip:
         - build
-        - toml
+        - setuptools
